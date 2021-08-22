@@ -259,9 +259,9 @@ onPickupSelect = (city) => {
   render() {
     const { visible } = this.state;
     return (
-      <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}}  colors={['#2BBAD8', '#407BFF']} style={styles.body}>
+      <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}}  colors={['#0B277F', '#407BFF']} style={styles.body}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+          <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
           <TouchableOpacity style = {styles.menuImageView}onPress={() => this.props.navigation.goBack()} >
           <Icon name="arrow-back" size={18} color="#fff"  style = {styles.backImage}/>
           </TouchableOpacity>
@@ -361,7 +361,7 @@ onPickupSelect = (city) => {
                     />
                               */}
               <TouchableOpacity style = {styles.forgotView}  >
-                <Text style = {styles.forgotText}>By tapping continue, you agree to Rickreen's <Text style = {styles.forgotText1}>Terms of Service</Text></Text>
+                <Text style = {styles.forgotText}>By tapping continue, you agree to Enviable's <Text style = {styles.forgotText1}>Terms of Service</Text></Text>
               </TouchableOpacity>
               <TouchableOpacity  onPress={() => this.register()} style={styles.submitButton}>
                 <Text style={styles.submitButtonText}>Continue</Text>
@@ -475,7 +475,7 @@ const styles = StyleSheet.create ({
   forgotText1: {
     textAlign: 'center',
     //marginRight: 30,
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
   },
   createText1: {
@@ -516,7 +516,7 @@ submitButton1: {
   paddingBottom: 13,
 },
 submitButtonText: {
-  color: '#2BBAD8',
+  color: '#0B277F',
   textAlign: 'center'
 },
 loaderImage: {

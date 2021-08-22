@@ -304,7 +304,7 @@ export class EatOrderSummary extends Component {
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         <View style={styles.header}>
           <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
             <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
@@ -377,7 +377,7 @@ export class EatOrderSummary extends Component {
               </View>
             </View>
               <TouchableWithoutFeedback style={styles.addView} onPress={() => this.placeOrder()}>
-                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
                   <Text style={styles.addText}>Confirm order</Text>
                 </LinearGradient>
               </TouchableWithoutFeedback>
@@ -540,7 +540,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   itemVendorText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     width: '75%',
   },
@@ -661,7 +661,7 @@ const styles = StyleSheet.create ({
     paddingTop: 7,
   },
   locationText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingTop: 2,
     marginRight: 10,

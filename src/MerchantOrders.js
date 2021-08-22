@@ -146,7 +146,7 @@ displayStatus(order_status, payment_status){
   }
   else if(payment_status == "Pending"){
     return(
-      <Text style={{color: '#2BBAD8', width: 90, borderRadius: 10, alignSelf: 'flex-end', textAlign: 'center', paddingTop: 5, paddingBottom: 5,}}>Pay now</Text>
+      <Text style={{color: '#0B277F', width: 90, borderRadius: 10, alignSelf: 'flex-end', textAlign: 'center', paddingTop: 5, paddingBottom: 5,}}>Pay now</Text>
       
     )
   } else 
@@ -214,7 +214,7 @@ gotoOrderDetails(order){
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         <View style={styles.header}>
         <TouchableOpacity  onPress={() => this.props.navigation.navigate('Home')}>
         <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
@@ -390,7 +390,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   itemVendorText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     width: '75%',
   },
@@ -511,7 +511,7 @@ const styles = StyleSheet.create ({
     paddingTop: 7,
   },
   locationText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingTop: 2,
     marginRight: 10,

@@ -1,5 +1,5 @@
 import React, { Component  } from 'react';
-import { AppState, View, Text, CheckBox, Alert, Picker, Image, Button, TextInput, StyleSheet, ScrollView,BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity, AsyncStorage } from 'react-native';
+import { AppState, View, Text, Alert, Picker, Image, Button, TextInput, StyleSheet, ScrollView,BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity, AsyncStorage } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
@@ -9,6 +9,7 @@ import { SERVER_URL } from '../config/server';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 navigator.geolocation = require('@react-native-community/geolocation');
 import RNPickerSelect from 'react-native-picker-select';
+import CheckBox from '@react-native-community/checkbox';
 
 //import { getDistance } from 'geolib';
 
@@ -48,6 +49,7 @@ export class DispatchAddress extends Component {
       useAddress: false,
       useAddress1: false,
       vehicleTypeId: 4,
+      quantity: 1,
       type: false,
       vs: false,
       vs: false,
@@ -340,6 +342,10 @@ export class DispatchAddress extends Component {
   }
 
   placeOrder(dispatchCart, distance){
+    if(this.state.quantity < 1){
+      this.showAlert("Error", "Kindly provide quantity");
+      return;
+    }
     this.showLoader();
     
     fetch(`${SERVER_URL}/mobile/place_dispatch_order`, {
@@ -357,7 +363,7 @@ export class DispatchAddress extends Component {
           pickup_state_id: this.state.pickupStateId,
           sender_name: this.state.senderName,
           sender_phone: this.state.senderPhone,
-
+          quantity: this.state.quantity,
           delivery_address: this.state.deliveryAddress,
           delivery_longitude: this.state.deliveryLongitude,
           delivery_latitude: this.state.deliveryLatitude,
@@ -382,10 +388,10 @@ export class DispatchAddress extends Component {
               AsyncStorage.removeItem('dispatchCart');
               //this.gotoDispatchSummary(res.order_id)
               this.showAlert("Success", res.success)
-              this.props.navigation.navigate('DispatchOrderDetails', {
-                orderId: res.order_id,
-              });
-              //this.props.navigation.navigate('DispatchOrders'); 
+              // this.props.navigation.navigate('DispatchOrders', {
+              //   orderId: res.order_id,
+              // });
+              this.props.navigation.navigate('DispatchOrders'); 
             })
           }else{
             console.log(res.error, 'req')
@@ -507,7 +513,7 @@ export class DispatchAddress extends Component {
     return (
       <View style = {styles.body}>
         <ScrollView keyboardShouldPersistTaps={'always'} showsVerticalScrollIndicator={false}>
-          <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+          <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
           <View style={styles.header}>
             <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
               <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
@@ -541,6 +547,16 @@ export class DispatchAddress extends Component {
                 */}
               </TouchableOpacity>
             </View>
+            <Text style = {styles.label}>How many trucks do you need?</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Quantity"
+                onChangeText={(text) => this.setState({quantity: text})}
+                underlineColorAndroid="transparent"
+                placeholderTextColor="#ccc" 
+                value={this.state.quantity}
+                keyboardType={'numeric'}
+              />
             <View style = {styles.bottomView}>
             <Text style = {styles.subHead}>Pickup informatin</Text>
             <View  style={styles.mySwitchView}>
@@ -792,7 +808,7 @@ export class DispatchAddress extends Component {
             </View>
 
             <TouchableOpacity style={styles.addView}  onPress={() => this.submit()}>
-                  <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+                  <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
                     <Text style={styles.addText}>Next</Text>
                   </LinearGradient>
                 </TouchableOpacity>
@@ -997,7 +1013,7 @@ const styles = StyleSheet.create ({
   forgotText1: {
     textAlign: 'center',
     //marginRight: 30,
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
   },
   createText1: {
@@ -1011,7 +1027,7 @@ const styles = StyleSheet.create ({
   },
   createText: {
     textAlign: 'center',
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 13,
     fontWeight: '600',
     marginTop: 10,
@@ -1025,7 +1041,7 @@ const styles = StyleSheet.create ({
   
 submitButton: {elevation: 2,
   marginTop: 20,
-  backgroundColor: '#2BBAD8',
+  backgroundColor: '#0B277F',
   borderRadius: 10,
   width: '80%',
   alignSelf: 'center',
@@ -1099,10 +1115,10 @@ const pickerSelectStyles = StyleSheet.create({
   inputAndroid: {
     width: '100%',
     height: 40,
-    backgroundColor: '#EFF0F3',
+    borderColor: '#EFF0F3',
     //borderWidth: 1,
     borderRadius: 8,
-    marginTop: -5,
+    marginTop: -1,
     color: '#aaa',
   },
   inputIOS: {
@@ -1111,7 +1127,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: '#777',
     //borderWidth: 1,
     borderRadius: 8,
-    marginTop: -5,
+    marginTop: -1,
     color: '#aaa',
   },
 })

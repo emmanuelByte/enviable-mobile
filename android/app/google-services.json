@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "639533620742",
+    "project_id": "enviable-9f815",
+    "storage_bucket": "enviable-9f815.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639533620742:android:5a3d0efda2a3075a95ed87",
+        "android_client_info": {
+          "package_name": "com.enviable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639533620742-br5seql1pot1f0nansffiqgao7r4p7g7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy6imJa1_jCcaP3z-HHuLVQOom7ORZ9ls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639533620742-br5seql1pot1f0nansffiqgao7r4p7g7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

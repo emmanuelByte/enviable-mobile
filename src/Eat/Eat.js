@@ -475,7 +475,7 @@ const styles = StyleSheet.create ({
     top: 80
   },
   linkHighlight: {
-    color: '#2BBAD8',
+    color: '#0B277F',
   },
   itemView: {
     flexDirection: 'row',
@@ -533,7 +533,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   itemVendorText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     width: '75%',
   },
@@ -651,7 +651,7 @@ const styles = StyleSheet.create ({
     zIndex: 0,
   },
   locationText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingTop: 2,
     marginRight: 10,

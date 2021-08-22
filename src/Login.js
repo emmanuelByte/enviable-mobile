@@ -182,14 +182,12 @@ export class Login extends Component {
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.headerView}>
-          <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
-          <Text style = {styles.headerText}>Welcome To Rickreen</Text>
+        <ImageBackground resizeMode={'cover'} source = {require('./imgs/login-bg1.png')} imageStyle={styles.bg1} style={styles.headerView}>
+          <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
+          <Text style = {styles.headerText}>Welcome To Enviable</Text>
           <Text style = {styles.headerText1}>Log in to your account</Text>
-          {/*
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')} ><Text style = {styles.headerText2}>Back to home</Text></TouchableOpacity>
-          */}
-        </LinearGradient>
+          
+        </ImageBackground>
         <View style = {styles.bottomView}>
         <Text style = {styles.label}>Email</Text>
         <TextInput
@@ -274,8 +272,14 @@ const styles = StyleSheet.create ({
   headerView: {
     width: '100%',
     height: '40%',
-    borderBottomLeftRadius: 32,
+    //marginTop: 100,
+    //borderBottomLeftRadius: 32,
     zIndex: 1
+  },
+  bg1: {
+    resizeMode: "cover",
+    justifyContent: "center",
+    height: '100%',
   },
   loaderImage: {
     width: 19,
@@ -353,14 +357,14 @@ const styles = StyleSheet.create ({
   forgotText: {
     textAlign: 'right',
     marginRight: 30,
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     marginTop: 10,
     fontWeight: '700',
   },
   createText: {
     textAlign: 'center',
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 13,
     fontWeight: '700',
     marginTop: 10,
@@ -368,7 +372,7 @@ const styles = StyleSheet.create ({
   
 submitButton: {
   marginTop: 20,
-  backgroundColor: '#2BBAD8',
+  backgroundColor: '#0B277F',
   //opacity: 0.7,
   borderRadius: 7,
   width: '85%',
@@ -378,7 +382,7 @@ submitButton: {
 },
 submitButton1: {
   marginTop: 20,
-  backgroundColor: '#2BBAD8',
+  backgroundColor: '#0B277F',
   borderRadius: 2,
   width: '90%',
   alignSelf: 'center',

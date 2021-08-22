@@ -220,14 +220,14 @@ export class Welcome extends Component {
     ];
     return (
       <View style = {styles.body}>
-          <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+          <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
           <ImageSlider
             //loopBothSides
             //autoPlayWithInterval={3000}
             images={images}
             customSlide={({ index, item, style, width }) => (
               // It's important to put style here because it's got offset inside
-              <LinearGradient start={{x: 0, y: 0}} end={{x:0, y: 1}}  colors={['#2BBAD8', '#407BFF']} key={index} style={[style, styles.customSlide]}>
+              <LinearGradient start={{x: 0, y: 0}} end={{x:0, y: 1}}  colors={['#0B277F', '#407BFF']} key={index} style={[style, styles.customSlide]}>
                 <Image source = {item} style={styles.customImage} />
               </LinearGradient>
             )}

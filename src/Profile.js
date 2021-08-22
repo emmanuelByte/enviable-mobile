@@ -277,7 +277,7 @@ updatePassword(){
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         <View style={styles.header}>
           <View style={styles.sheader}>
             <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
@@ -456,7 +456,7 @@ const styles = StyleSheet.create ({
     width: '100%',
     zIndex: 0,
     height: 245,
-    backgroundColor: '#2BBAD8',
+    backgroundColor: '#0B277F',
   },
   sheader: {
     width: '100%',
@@ -652,7 +652,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   itemVendorText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     width: '75%',
   },
@@ -795,7 +795,7 @@ const styles = StyleSheet.create ({
     paddingTop: 7,
   },
   locationText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingTop: 2,
     marginRight: 10,
@@ -904,7 +904,9 @@ const styles = StyleSheet.create ({
     },
     submitButton: {elevation: 2,
       marginTop: 20,
-      backgroundColor: '#2BBAD8',
+      backgroundColor: '#0B277F',
+      borderWidth: 1,
+      borderColor: '#0B277F',
       borderRadius: 10,
       width: '90%',
       //elevation: 2,
@@ -914,7 +916,7 @@ const styles = StyleSheet.create ({
     },
 submitButton1: {
   marginTop: 20,
-      borderColor: '#2BBAD8',
+      borderColor: '#0B277F',
       borderRadius: 10,
       borderWidth: 1,
       width: '90%',
@@ -928,7 +930,7 @@ submitButtonText: {
   textAlign: 'center'
 },
 submitButtonText1: {
-  color: '#2BBAD8',
+  color: '#0B277F',
   textAlign: 'center'
 },
 loaderImage: {

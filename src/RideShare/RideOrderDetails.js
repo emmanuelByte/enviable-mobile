@@ -259,7 +259,7 @@ export class RideOrderDetails extends Component {
       return (
         <View style={{flexDirection: 'row', width: '90%', alignSelf: 'center'}}>
           <TouchableOpacity style={styles.addView7} onPress={() => this.setState({forgotVisible: true})}>
-            <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+            <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
               <Text style={styles.addText}>Rate rider </Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -352,54 +352,57 @@ export class RideOrderDetails extends Component {
           <TouchableOpacity  onPress={() => this.props.navigation.navigate('Home')}>
             <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
           </TouchableOpacity>
-          <View style= {styles.infoView}>
-            {this.state.order &&
-            <View>
-              <TouchableOpacity  onPress={() => this.use()}>
-                < Text style = {styles.use}>Use google map </Text>
-              </TouchableOpacity>
-              {this.state.rider &&
-              <View style= {styles.row}>
-                <View style= {styles.col1}>
-                  <Image source = {{uri: SERVER_URL+this.state.rider.photo}} style = {styles.carImage} />
+          
+            <View style= {styles.infoView}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {this.state.order &&
+              <View>
+                <TouchableOpacity  onPress={() => this.use()}>
+                  < Text style = {styles.use}>Use google map </Text>
+                </TouchableOpacity>
+                {this.state.rider &&
+                <View style= {styles.row}>
+                  <View style= {styles.col1}>
+                    <Image source = {{uri: SERVER_URL+this.state.rider.photo}} style = {styles.carImage} />
+                  </View>
+                  <View style= {styles.col2}>
+                  < Text style = {styles.price}>{this.state.rider.first_name} {this.state.rider.last_name}</Text>
+                  < Text style = {styles.plate}>{this.state.rider.plate_no} </Text>
+                  </View>
                 </View>
-                <View style= {styles.col2}>
-                < Text style = {styles.price}>{this.state.rider.first_name} {this.state.rider.last_name}</Text>
-                < Text style = {styles.plate}>{this.state.rider.plate_no} </Text>
+                }
+                {!this.state.rider &&
+                <View style= {styles.row}>
+                  <View style= {styles.col1}>
+                  <Image source = {require('../imgs/round-profile.png')} style = {styles.carImage} />
+                  </View>
+                  <View style= {styles.col2}>
+                  < Text style = {styles.price}>XXXXX XXXXX</Text>
+                  < Text style = {styles.plate}>XXXXX</Text>
+                  </View>
                 </View>
-              </View>
-              }
-              {!this.state.rider &&
-              <View style= {styles.row}>
-                <View style= {styles.col1}>
-                <Image source = {require('../imgs/round-profile.png')} style = {styles.carImage} />
-                </View>
-                <View style= {styles.col2}>
-                < Text style = {styles.price}>XXXXX XXXXX</Text>
-                < Text style = {styles.plate}>XXXXX</Text>
-                </View>
-              </View>
-              }
+                }
 
-              <TouchableOpacity onPress={()=> Linking.openURL('tel:'+this.state.rider.phone1)} style= {styles.row1}>
-              <View style= {styles.col11}>
-                <Image source = {require('../imgs/pho.png')} style = {styles.cardImage} />
+                <TouchableOpacity onPress={()=> Linking.openURL('tel:'+this.state.rider.phone1)} style= {styles.row1}>
+                <View style= {styles.col11}>
+                  <Image source = {require('../imgs/pho.png')} style = {styles.cardImage} />
+                </View>
+                <View  style= {styles.col21}>
+                  < Text style = {styles.price1}>Call driver </Text>
+                </View>
+                <View style= {styles.col22}>
+                {this.state.order.price && < Text style = {styles.price2}>Price: ₦{parseFloat(this.state.order.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</Text>}
+                </View>
+                </TouchableOpacity>
+                <View style= {styles.statusView}>
+                  < Text style = {styles.statusText}>{this.state.order.status}</Text>
+                </View>
+                  <Text style = {styles.est}>Estimated journey duration is {Math.ceil(this.state.order.estimated_time/60)} minutes, based on current traffic info. {this.state.time && "Arrival of ride will take "+this.state.time}</Text>
+                {this.displayButton()}
               </View>
-              <View  style= {styles.col21}>
-                < Text style = {styles.price1}>Call driver </Text>
-              </View>
-              <View style= {styles.col22}>
-              {this.state.order.price && < Text style = {styles.price2}>Price: ₦{parseFloat(this.state.order.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</Text>}
-              </View>
-              </TouchableOpacity>
-              <View style= {styles.statusView}>
-                < Text style = {styles.statusText}>{this.state.order.status}</Text>
-              </View>
-                <Text style = {styles.est}>Estimated journey duration is {Math.ceil(this.state.order.estimated_time/60)} minutes, based on current traffic info. {this.state.time && "Arrival of ride will take "+this.state.time}</Text>
-              {this.displayButton()}
+              }
+              </ScrollView>
             </View>
-            }
-          </View>
           <Modal
             isVisible={this.state.forgotVisible}
             onBackdropPress={() => {
@@ -456,7 +459,7 @@ export class RideOrderDetails extends Component {
               />
               
               <TouchableOpacity style={styles.addView3} onPress={() => this.rateRider()}>
-                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient4}>
+                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient4}>
                   <Text style={styles.addText}>Rate rider </Text>
                 </LinearGradient>
               </TouchableOpacity>
@@ -564,13 +567,13 @@ const styles = StyleSheet.create ({
     //textAlign: 'center',
   },
   use: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingRight: 20,
   },
   submitButton: {elevation: 2,
     marginTop: 20,
-    backgroundColor: '#2BBAD8',
+    backgroundColor: '#0B277F',
     borderRadius: 10,
     width: '90%',
     alignSelf: 'center',

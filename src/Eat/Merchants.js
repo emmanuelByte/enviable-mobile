@@ -315,7 +315,7 @@ export class Merchants extends Component {
     //const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
         <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
         </TouchableOpacity>
@@ -439,7 +439,7 @@ const styles = StyleSheet.create ({
     marginTop: 71,
   },
   linkHighlight: {
-    color: '#2BBAD8',
+    color: '#0B277F',
   },
   itemView: {
     flexDirection: 'row',
@@ -457,7 +457,7 @@ const styles = StyleSheet.create ({
     fontSize: 10,
     textAlign: 'right',
     alignSelf: 'flex-end',
-    color: '#2BBAD8',
+    color: '#0B277F',
   },
   i: {
     width: '100%',
@@ -496,7 +496,7 @@ const styles = StyleSheet.create ({
   itemRatingText: {
     width: '25%',
     fontSize: 12,
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingRight: 10,
   },
@@ -599,7 +599,7 @@ const styles = StyleSheet.create ({
     zIndex: 0,
   },
   locationText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingTop: 2,
     marginRight: 10,

@@ -232,7 +232,7 @@ displayRatingButton(){
     return (
       <View style={{flexDirection: 'row', width: '90%', alignSelf: 'center'}}>
         <TouchableOpacity style={styles.addView7} onPress={() => this.setState({forgotVisible: true})}>
-          <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+          <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
             <Text style={styles.addText}>Rate rider </Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -263,7 +263,7 @@ displayReceipt(){
       return (
         <View style={{flexDirection: 'row', width: '90%', alignSelf: 'center'}}>
         <TouchableOpacity style={styles.addView} onPress={() => this.payWithWallet()}>
-          <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+          <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
             <Text style={styles.addText}>Pay with wallet </Text>
           </LinearGradient>
       </TouchableOpacity>
@@ -378,7 +378,7 @@ displayReceipt(){
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         <View style={styles.header}>
         <TouchableOpacity  onPress={() => this.props.navigation.navigate('Home') }>
         <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
@@ -484,7 +484,7 @@ displayReceipt(){
             {this.state.orderParam && this.displayButton()}
             {/*
               <TouchableOpacity style={styles.addView} onPress={() => {Alert.alert("info", "Coming soon")}}>
-                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
                   <Text style={styles.addText}>Reorder</Text>
                 </LinearGradient>
               </TouchableOpacity>
@@ -547,7 +547,7 @@ displayReceipt(){
               />
               
               <TouchableOpacity style={styles.addView3} onPress={() => this.rateRider()}>
-                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient4}>
+                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient4}>
                   <Text style={styles.addText}>Rate rider </Text>
                 </LinearGradient>
               </TouchableOpacity>
@@ -650,7 +650,7 @@ const styles = StyleSheet.create ({
   addText1: {
     textAlign: 'center',
     fontSize: 16,
-    color: '#2BBAD8',
+    color: '#0B277F',
   },
   addView: {
     width: '49%',
@@ -699,7 +699,7 @@ const styles = StyleSheet.create ({
     width: '100%',
     height: 40,
     borderWidth: 1,
-    borderColor: '#2BBAD8',
+    borderColor: '#0B277F',
     borderRadius: 8,
     //backgroundColor: 'green',
     paddingTop: 7,
@@ -784,7 +784,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   itemVendorText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     width: '75%',
   },
@@ -905,7 +905,7 @@ const styles = StyleSheet.create ({
     paddingTop: 7,
   },
   locationText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingTop: 2,
     marginRight: 10,

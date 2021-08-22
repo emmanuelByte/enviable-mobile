@@ -294,7 +294,7 @@ export class EatDeliveryAddress extends Component {
     return (
       <View style = {styles.body}>
         <ScrollView keyboardShouldPersistTaps={'always'} showsVerticalScrollIndicator={false}>
-          <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+          <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
           <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
             <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
           </TouchableOpacity>
@@ -453,7 +453,7 @@ export class EatDeliveryAddress extends Component {
               </TouchableOpacity>
               */}
               <TouchableOpacity style={styles.addView}  onPress={() => this.submit()}>
-                  <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+                  <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
                     <Text style={styles.addText}>Next</Text>
                   </LinearGradient>
                 </TouchableOpacity>
@@ -635,7 +635,7 @@ const styles = StyleSheet.create ({
   forgotText1: {
     textAlign: 'center',
     //marginRight: 30,
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
   },
   createText1: {
@@ -648,7 +648,7 @@ const styles = StyleSheet.create ({
   },
   createText: {
     textAlign: 'center',
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 13,
     fontWeight: '600',
     marginTop: 10,
@@ -659,7 +659,7 @@ const styles = StyleSheet.create ({
   
 submitButton: {elevation: 2,
   marginTop: 20,
-  backgroundColor: '#2BBAD8',
+  backgroundColor: '#0B277F',
   borderRadius: 10,
   width: '80%',
   alignSelf: 'center',

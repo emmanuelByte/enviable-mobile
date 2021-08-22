@@ -234,8 +234,8 @@ getOrders(){
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
-        <LinearGradient start={{x: 0, y: 0}} end={{x:0, y: 1}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.header}>
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
+        <LinearGradient start={{x: 0, y: 0}} end={{x:0, y: 1}}  colors={['#0B277F', '#0B277F']} style={styles.header}>
         <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
         <Icon name="arrow-back" size={18} color="#fff"  style = {styles.menuImage}/>
         </TouchableOpacity>
@@ -259,7 +259,7 @@ getOrders(){
                       </View>
                     </View>
                     <TouchableWithoutFeedback style={styles.addView} onPress={() => this.gotoOrderDetails(displayOrder) }>
-                      <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+                      <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
                         <Text style={styles.addText}>See details</Text>
                       </LinearGradient>
                     </TouchableWithoutFeedback>
@@ -295,7 +295,7 @@ const styles = StyleSheet.create ({
   header: {
     width: '100%',
     height: 110,
-    backgroundColor: '#2BBAD8',
+    backgroundColor: '#0B277F',
     flexDirection: 'row',
   },
   cartImage: {
@@ -429,7 +429,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   itemVendorText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     width: '75%',
   },
@@ -576,7 +576,7 @@ const styles = StyleSheet.create ({
   },
   
   locationText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingTop: 2,
     marginRight: 10,
@@ -600,7 +600,7 @@ const styles = StyleSheet.create ({
     color: '#000',
   },
   linkHighlight: {
-    color: '#2BBAD8',
+    color: '#0B277F',
   },
   contentText: {
     fontWeight: 'bold',

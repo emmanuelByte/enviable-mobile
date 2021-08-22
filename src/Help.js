@@ -159,7 +159,7 @@ export class Help extends Component {
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         
         <ImageBackground resizeMode={'cover'} source = {require('./imgs/custo.png')} style = {styles.bImage} imageStyle = {styles.bImage1} >
         <TouchableOpacity  onPress={() => this.props.navigation.goBack()} style={{flexDirection: 'row', width: '100%'}}>
@@ -291,7 +291,7 @@ const styles = StyleSheet.create ({
   },
   chatView: {
   marginTop: 60,
-  borderColor: '#2BBAD8',
+  borderColor: '#0B277F',
   borderWidth: 1,
   //opacity: 0.7,
   borderRadius: 27,
@@ -302,7 +302,7 @@ const styles = StyleSheet.create ({
   paddingBottom: 13,
   },
   chatText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'center',
   },
   bImage: {

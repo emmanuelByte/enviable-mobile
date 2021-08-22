@@ -233,12 +233,12 @@ export class EatDetails extends Component {
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
           <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
-            <Icon name="arrow-back" size={18} color="#2BBAD8"  style = {styles.menuImage}/>
+            <Icon name="arrow-back" size={18} color="#0B277F"  style = {styles.menuImage}/>
           </TouchableOpacity>
           <TouchableOpacity style = {styles.cartFabView} onPress={() => this.props.navigation.navigate('Cart')} >
-          <FAB style = {styles.cartFab} size={12} buttonColor="#2BBAD8" iconTextColor="#FFFFFF" onClickAction={() => {this.props.navigation.navigate('Cart')}} visible={true} iconTextComponent={<Icon  name="shopping-cart"/>} />
+          <FAB style = {styles.cartFab} size={12} buttonColor="#0B277F" iconTextColor="#FFFFFF" onClickAction={() => {this.props.navigation.navigate('Cart')}} visible={true} iconTextComponent={<Icon  name="shopping-cart"/>} />
             {/*<Image source = {require('../imgs/cart.png')} style = {styles.cartImage} /> */} 
           </TouchableOpacity>
         <View style = {styles.bottomView}>
@@ -277,7 +277,7 @@ export class EatDetails extends Component {
                   </TouchableOpacity>
                 </View>
                 <TouchableWithoutFeedback style={styles.addView} onPress={() => this.addToCart()}>
-                  <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+                  <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
                     <Text style={styles.addText}>Add to cart</Text>
                   </LinearGradient>
                 </TouchableWithoutFeedback>
@@ -340,7 +340,7 @@ export class EatDetails extends Component {
               />
               
               <TouchableOpacity style={styles.addView3} onPress={() => this.rateProduct()}>
-                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient4}>
+                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient4}>
                   <Text style={styles.addText}>Rate product </Text>
                 </LinearGradient>
               </TouchableOpacity>
@@ -579,7 +579,7 @@ const styles = StyleSheet.create ({
     paddingRight: 15,
   },
   itemVendorText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     width: '75%',
   },

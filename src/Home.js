@@ -5,6 +5,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import { SERVER_URL } from './config/server';
+import ShadowView from 'react-native-simple-shadow-view'
+
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 export class Home extends Component {
   constructor(props) {
@@ -23,6 +28,7 @@ export class Home extends Component {
       customer_id: '',
       sideMenuModalVisible: false,
       balance: false,
+      top: 40,
     }
     //AsyncStorage.clear();
   }
@@ -54,6 +60,36 @@ export class Home extends Component {
   }
 
   componentDidMount() {
+    if(height < 750){
+      this.setState({
+        top: '2%'
+      }) 
+    }
+    // else if(height < 700 && height > 600){
+    //   this.setState({
+    //     top: '20%'
+    //   }) 
+    // }
+    else if(height < 750 && height > 650){
+      this.setState({
+        top: '2%'
+      }) 
+    }
+    // else if(height < 750 && height > 700){
+    //   this.setState({
+    //     top: '10%'
+    //   }) 
+    // }
+    else if(height > 750){
+      this.setState({
+        top: '3%'
+      }) 
+    }
+    // else if( height > 800){
+    //   this.setState({
+    //     top: '10%'
+    //   }) 
+    // }
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
@@ -177,18 +213,18 @@ export class Home extends Component {
     });
   }
   displaySignin(){
-    if(!this.state.customer){
+    //if(!this.state.customer){
       return(
         <View style = {styles.row1}>
-          <TouchableOpacity style = {styles.bCol1} onPress={() => this.props.navigation.navigate('Login')} >
-              <Text style = {styles.lText1}>Sign In</Text>
+          <TouchableOpacity style = {styles.bCol1} onPress={() => this.logout()} >
+              <Text style = {styles.lText1}>Logout</Text>
           </TouchableOpacity>
-          <TouchableOpacity style = {styles.bCol2} onPress={() => this.props.navigation.navigate('Register')} >
-              <Text style = {styles.lText2}>Create Account</Text>
+          <TouchableOpacity style = {styles.bCol2} onPress={() => this.props.navigation.navigate('Profile')} >
+              <Text style = {styles.lText2}>Profile</Text>
           </TouchableOpacity>
         </View>
       )
-    }
+    //}
   }
   gotoNewDispatch(type){
     this.props.navigation.navigate('NewDispatch', {
@@ -211,11 +247,12 @@ export class Home extends Component {
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
-          <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}}  colors={['#2BBAD8', '#407BFF']} style={styles.bImage1}>
-            <TouchableOpacity style = {styles.menuImageView} onPress={() => this.showSideMenu()} >
+        <StatusBar barStyle={'dark-content'} backgroundColor={'transparent'}  />
+          <View style={[ styles.bImage1]}>
+            <TouchableOpacity style = {[{marginTop: this.state.top}, styles.menuImageView]} onPress={() => this.showSideMenu()} >
               <Image source = {require('./imgs/home-menu.png')} style = {styles.menuImage} />
               </TouchableOpacity>
+              <Image source = {require('./imgs/logoo.png')} style = {styles.logoImage} />
               {/* this.state.customer && 
               <Text style = {styles.headerText}>Hello {this.state.customer.first_name}! </Text>
               */}
@@ -226,64 +263,56 @@ export class Home extends Component {
               <View style = {styles.top}>
                 <View style = {styles.row}>
                   <TouchableWithoutFeedback onPress={() => this.gotoNewDispatch("Haulage")}>
-                    <View style = {styles.card}>
+                    <ShadowView style = {styles.card}>
                       <View style = {styles.colImage}>
                         <Image source = {require('./imgs/ha.png')} style = {styles.cImage} />
                       </View>
                       <View style = {styles.colContent}>
                         <Text style = {styles.contentText1}>Haulage service</Text>
                       </View>
-                    </View>
+                    </ShadowView>
                   </TouchableWithoutFeedback>
                   
-                  <TouchableWithoutFeedback  onPress={() => this.gotoNewDispatch("Courier")}>
-                    <View style = {styles.card1}>
+                  <TouchableWithoutFeedback   onPress={() => this.props.navigation.navigate('RideShareHome')}>
+                    <ShadowView style = {styles.card1}>
                       <View style = {styles.colImage}>
                         <Image source = {require('./imgs/hb.png')} style = {styles.cImage1} />
                       </View>
                       <View style = {styles.colContent}>
-                        <Text style = {styles.contentText2}>Courier service</Text>
+                        <Text style = {styles.contentText2}>Book a ride</Text>
                       </View>
-                    </View>
+                    </ShadowView>
                   </TouchableWithoutFeedback>
                 </View>
                 <View style = {styles.row}>
-                  <TouchableWithoutFeedback  onPress={() => this.props.navigation.navigate('RideShareHome')} >
-                    <View style = {styles.card}>
+                  <TouchableWithoutFeedback  onPress={() => Alert.alert("Info", "This feature is coming soon...")} >
+                    <ShadowView style = {styles.card8}>
                       <View style = {styles.colImage}>
                         <Image source = {require('./imgs/hc.png')} style = {styles.cImage2} />
                       </View>
                       <View style = {styles.colContent}>
-                        <Text style = {styles.contentText3}>Ride share</Text>
+                        <Text style = {styles.contentText3}>Special movement</Text>
                       </View>
-                    </View>
+                    </ShadowView> 
                   </TouchableWithoutFeedback>
-                  
-                  <TouchableWithoutFeedback  onPress={() => this.props.navigation.navigate('EatMerchants')} >
-                    <View style = {styles.card1}>
+                
+                  <TouchableWithoutFeedback  onPress={() => Alert.alert("Info", "This feature is coming soon...")} >
+                    <ShadowView style = {styles.card1}>
                       <View style = {styles.colImage}>
                         <Image source = {require('./imgs/hd.png')} style = {styles.cImage3} />
                       </View>
                       <View style = {styles.colContent}>
-                        <Text style = {styles.contentText4}>Food delivery</Text>
+                        <Text style = {styles.contentText4}>Hire a driver</Text>
                       </View>
-                    </View>
+                    </ShadowView>
                   </TouchableWithoutFeedback>
                 </View>
               </View>
-              {this.state.customer &&
-              <TouchableOpacity  onPress={() => this.onShare()} style = {styles.inviteView}>
-                  <Text style={styles.inviteText}>Get 10 friends to register with your refferal code & get your wallet credited with N1,000. Your code is {this.state.customer.referral_code}. Tap here to share now</Text>
-                  <View  style = {styles.inviteImageView}>
-                      <Image source = {require('./imgs/invite.png')} style = {styles.inviteImage} />
-                  </View>
-              </TouchableOpacity>
-            }
+              
             </View>
-            {!this.state.customer && this.displaySignin()}
-          </LinearGradient>
-        
-
+            
+          </View>
+          {this.displaySignin()}
         
         <Modal
           isVisible={this.state.sideMenuModalVisible}
@@ -298,7 +327,7 @@ export class Home extends Component {
           swipeDirection={'left'}
           onSwipeComplete={(left)=> {this.setState({ sideMenuModalVisible: false });}}
         >
-        <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}}  colors={['#2BBAD8', '#407BFF']} style = {styles.modalContainer} >
+        <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}}  colors={['#0B277F', '#0B277F']} style = {styles.modalContainer} >
           <ScrollView>
         
           < TouchableOpacity onPress={this.navigateToScreen('Profile')} style={styles.topRow}>
@@ -356,21 +385,14 @@ export class Home extends Component {
                 </View>
               </TouchableOpacity>
               */}
-              <TouchableOpacity onPress={this.navigateToScreen('MerchantOrders')} style = {styles.linkItem}>
-                <View style = {styles.iconView}>
-                <Image source = {require('./imgs/courier.png')} style = {styles.dash} /> 
-                </View>
-                <View style = {styles.textView}>
-                  <Text style = {styles.textLink} >Food deliveries</Text>
-                </View>
-              </TouchableOpacity>
+              
               
               <TouchableOpacity onPress={this.navigateToScreen('DispatchOrders')} style = {styles.linkItem}>
                 <View style = {styles.iconView}>
                 <Image source = {require('./imgs/haulage.png')} style = {styles.dash1} /> 
                 </View>
                 <View style = {styles.textView}>
-                  <Text style = {styles.textLink} >Dispatch history</Text>
+                  <Text style = {styles.textLink} >Your haulages</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={this.navigateToScreen('RideOrders')} style = {styles.linkItem}>
@@ -378,7 +400,23 @@ export class Home extends Component {
                   <Image source = {require('./imgs/haulage.png')} style = {styles.dash1} /> 
                 </View>
                 <View style = {styles.textView}>
-                  <Text style = {styles.textLink} >Ride share history</Text>
+                  <Text style = {styles.textLink} >Your rides</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {this.setState({ sideMenuModalVisible: false });Alert.alert("Info", "This feature is coming soon...")}} style = {styles.linkItem}>
+                <View style = {styles.iconView}>
+                  <Image source = {require('./imgs/hire.png')} style = {styles.dashk} /> 
+                </View>
+                <View style = {styles.textView}>
+                  <Text style = {styles.textLink} >Hire a driver</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {this.setState({ sideMenuModalVisible: false });Alert.alert("Info", "This feature is coming soon...")}} style = {styles.linkItem}>
+                <View style = {styles.iconView}>
+                  <Image source = {require('./imgs/ride-icon.png')} style = {styles.dashl} /> 
+                </View>
+                <View style = {styles.textView}>
+                  <Text style = {styles.textLink} >Speacial movement</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={this.navigateToScreen('Transactions')} style = {styles.linkItem}>
@@ -445,7 +483,7 @@ const styles = StyleSheet.create ({
   },
   body: {
     minHeight: '100%',
-    backgroundColor: "#fff",
+    //backgroundColor: "#ebf7fe",
   },
   bImage: {
     width: '100%',
@@ -491,16 +529,16 @@ const styles = StyleSheet.create ({
     overflow: 'hidden',
   },
   logoImage: {
-    marginTop: 60,
+    marginTop: -25,
     alignSelf: 'center',
-    width: 75,
-    height: 78,
+    width: 100,
+    height: 100,
   },
   menuImage: {
     //marginLeft: 20,
     //marginTop: 69,
-    width: 30,
-    height: 19,
+    width: 22,
+    height: 22,
   },
   dash: {
     width: 18,
@@ -515,6 +553,19 @@ const styles = StyleSheet.create ({
     marginBottom: 10,
   },
 
+  dashl: {
+    width: 20,
+    height: 19,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  dashk: {
+    width: 16,
+    height: 20,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
   menuImageView: {
     zIndex: 999999999999999,
     width: '100%',
@@ -524,7 +575,7 @@ const styles = StyleSheet.create ({
     paddingRight: 40,
     paddingBottom: 20,
     //marginLeft: 20,
-    paddingTop: 80,
+    paddingTop: 40,
     //elevation: 2,
   },
   bottomView: {
@@ -532,7 +583,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     //position: 'absolute',
     //bottom: 0,
-    marginTop: 30,
+    marginTop: 10,
     //paddingLeft: 20,
     //paddingRight: 20,
   },
@@ -578,8 +629,19 @@ const styles = StyleSheet.create ({
     marginBottom: 13,
     marginRight: '10%',
     backgroundColor: '#fff',
+    
     borderRadius: 20,
     padding: 15,
+  },
+  card8: {
+    //flexDirection: 'row',
+    width: '45%',
+    height: 150,
+    marginBottom: 13,
+    marginRight: '10%',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    //padding: 15,
   },
   card1: {
     //flexDirection: 'row',
@@ -597,58 +659,58 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
   },
   colContent: {
-    width: '95%',
+    //width: '95%',
     flexDirection: 'column',
   },
   cImage: {
     alignSelf: 'center',
-    marginTop: 50,
+    marginTop: 30,
     width: 60,
-    height: 30,
+    height: 60,
   },
   cImage1: {
     alignSelf: 'center',
-    marginTop: 50,
+    marginTop: 30,
     width: 60,
-    height: 48,
+    height: 60,
   },
   cImage2: {
     alignSelf: 'center',
-    marginTop: 10,
-    width: 100,
-    height: 90,
+    marginTop: 45,
+    width: 60,
+    height: 60,
   },
   cImage3: {
     alignSelf: 'center',
-    marginTop: 35,
-    width: 50,
-    height: 45,
+    marginTop: 30,
+    width: 60,
+    height: 60,
   },
   contentText: {
     fontWeight: 'bold',
   },
   contentText1: {
     color: '#000',
-    marginTop: 20,
-    fontSize: 13,
+    marginTop: 10,
+    fontSize: 11,
     textAlign: 'center',
   },
   contentText2: {
     color: '#000',
-    marginTop: 5,
-    fontSize: 13,
+    marginTop: 10,
+    fontSize: 11,
     textAlign: 'center',
   },
   contentText3: {
     color: '#000',
-    //marginTop: 20,
-    fontSize: 13,
+    marginTop: 10,
+    fontSize: 11,
     textAlign: 'center',
   },
   contentText4: {
     color: '#000',
-    marginTop: 20,
-    fontSize: 13,
+    marginTop: 10,
+    fontSize: 11,
     textAlign: 'center',
   },
 
@@ -778,15 +840,17 @@ row1: {
   width: '100%',
   position: 'absolute',
   bottom: 0,
+  zIndex: 9999,
   
 },
 bCol1: {
   width: '50%',
   paddingBottom: 15,
   paddingTop: 15,
+  
 }, 
 lText1: {
-  color: '#fff',
+  color: '#0B277F',
   //width: '50%',
   fontSize: 16,
   textAlign: 'center',
@@ -794,13 +858,13 @@ lText1: {
 },
 bCol2: {
   width: '50%',
-  backgroundColor: '#fff',
+  backgroundColor: '#0B277F',
   borderTopLeftRadius: 15,
   paddingTop: 15,
   paddingBottom: 15,
 }, 
 lText2: {
-  color: '#2BBAD8',
+  color: '#fff',
   //width: '50%',
   fontSize: 16,
   textAlign: 'center',
@@ -814,8 +878,8 @@ topRow: {
   paddingTop: 50,
 },
 topImageView: {
-  paddingLeft: 30,
-  width: '35%',
+  paddingLeft: 15,
+  width: '25%',
 },
 userImage: {
   width: 60,
@@ -827,7 +891,7 @@ userImage: {
 topTextView: {
   paddingLeft: 20,
   paddingTop: 15,
-  width: '60%',
+  width: '75%',
 },
 linkItem: {
   width: '100%',

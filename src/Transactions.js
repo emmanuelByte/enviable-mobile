@@ -39,7 +39,7 @@ export class Transactions extends Component {
       visible: false,loaderVisible: false,
       background1: '#fff',
       background2: 'transparent',
-      color1: '#2BBAD8',
+      color1: '#0B277F',
       color2: '#fff',
     }
     this.getLoggedInUser();
@@ -121,7 +121,7 @@ export class Transactions extends Component {
       this.setState({
         transactions1: this.state.creditTransactions,
         background1: '#fff',
-        color1: '#2BBAD8',
+        color1: '#0B277F',
         color2: '#fff',
         background2: 'transparent',
       })
@@ -131,7 +131,7 @@ export class Transactions extends Component {
         transactions1: this.state.debitTransactions,
         background1: 'transparent',
         color1: '#fff',
-        color2: '#2BBAD8',
+        color2: '#0B277F',
         background2: '#fff',
       })
     }
@@ -265,7 +265,7 @@ displayNoTrans(){
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         <View style={styles.header}>
           <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
           <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
@@ -273,7 +273,7 @@ displayNoTrans(){
             <Text style = {styles.headerText}>Transactions</Text>
         </View> 
         <ImageBackground source = {require('./imgs/eclipse.png')} style = {styles.bImage} >
-          <LinearGradient start={{x: 0, y: 0}} end={{x:0, y: 1}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.bImage1}>
+          <LinearGradient start={{x: 0, y: 0}} end={{x:0, y: 1}}  colors={['#0B277F', '#0B277F']} style={styles.bImage1}>
           
             <Text style = {styles.headerText0}>Current Balance </Text>
             <Text style = {styles.headerText1}>₦ {this.state.balance && parseFloat(this.state.balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</Text>
@@ -288,10 +288,11 @@ displayNoTrans(){
               </View>
           </LinearGradient>
         </ImageBackground>
+        {/*
         <TouchableOpacity  onPress={() => this.setState({forgotVisible: true})} style={styles.submitButton1}>
           <Text style={styles.submitButtonText}>Fund wallet</Text>
           </TouchableOpacity>
-          
+        */}
         <Text style = {styles.headerText5}>Transactions</Text>
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
           <View style={styles.cView}>
@@ -400,7 +401,7 @@ const styles = StyleSheet.create ({
   header: {
     width: '100%',
     //height: 110,
-    //backgroundColor: '#2BBAD8',
+    //backgroundColor: '#0B277F',
     flexDirection: 'row',
   },
   cartImage: {
@@ -423,7 +424,7 @@ const styles = StyleSheet.create ({
     marginTop: 20,
   },
   segmentText: {
-    //color: '#2BBAD8',
+    //color: '#0B277F',
     fontSize: 12,
     paddingTop: 6,
     paddingBottom: 7,
@@ -566,7 +567,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   itemVendorText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     width: '75%',
   },
@@ -582,7 +583,7 @@ const styles = StyleSheet.create ({
     zIndex:1,
     marginTop: 20,
     alignSelf: 'center',
-    backgroundColor: '#2BBAD8',
+    backgroundColor: '#0B277F',
     borderRadius: 20, 
     borderRadius: 20, 
   },
@@ -708,7 +709,7 @@ const styles = StyleSheet.create ({
     paddingTop: 7,
   },
   locationText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingTop: 2,
     marginRight: 10,
@@ -823,7 +824,7 @@ submitButton: {elevation: 2,
 },
 submitButton1: {
   marginTop: 20,
-  backgroundColor: '#2BBAD8',
+  backgroundColor: '#0B277F',
   borderRadius: 2,
   width: '90%',
   alignSelf: 'center',
@@ -847,7 +848,7 @@ addGradient1: {
 addText1: {
   textAlign: 'center',
   fontSize: 16,
-  color: '#2BBAD8',
+  color: '#0B277F',
 },
 addGradient6: {
   borderRadius: 10,
@@ -855,7 +856,7 @@ addGradient6: {
   alignSelf: 'center',
   height: 40,
   borderWidth: 1,
-  borderColor: '#2BBAD8',
+  borderColor: '#0B277F',
   borderRadius: 8,
   //backgroundColor: 'green',
   paddingTop: 7,

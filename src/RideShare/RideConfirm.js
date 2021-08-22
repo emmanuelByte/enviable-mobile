@@ -369,7 +369,7 @@ const styles = StyleSheet.create ({
   },
   submitButton: {elevation: 2,
     marginTop: 20,
-    backgroundColor: '#2BBAD8',
+    backgroundColor: '#0B277F',
     borderRadius: 10,
     width: '90%',
     alignSelf: 'center',

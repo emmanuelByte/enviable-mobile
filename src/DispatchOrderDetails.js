@@ -186,7 +186,7 @@ export class DispatchOrderDetails extends Component {
       return (
         <View style={{flexDirection: 'row', width: '90%', alignSelf: 'center'}}>
           <TouchableOpacity style={styles.addView7} onPress={() => this.setState({forgotVisible: true})}>
-            <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
+            <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
               <Text style={styles.addText}>Rate rider </Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -249,6 +249,40 @@ export class DispatchOrderDetails extends Component {
             this.showAlert("Error", res.error)
           }
   }).done();
+}
+payWithCash(){
+  this.showLoader();
+  
+  fetch(`${SERVER_URL}/mobile/pay_dispatch_cash`, {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: this.state.customer.id,
+        order_number: this.state.orderParam.order_number,
+        amount: this.state.orderParam.delivery_fee,
+        payment_method: "Pay with cash",
+    })
+  }).then((response) => response.json())
+      .then((res) => {
+        console.log(res);
+        this.hideLoader();
+        if(res.success){
+          this.showAlert("success", res.success);
+          // this.setState(prevState => ({
+          //   orderParam: {
+          //     ...prevState.orderParam,           // copy all other key-value pairs of food object
+          //     payment_status: "Completed",
+          //     payment_method: "Pay with wallet",
+          //   }
+          // }))
+          this.getOrderDetails(this.state.orderParam.id)
+        }else{
+          this.showAlert("Error", res.error)
+        }
+}).done();
 }
 
 payWithCard(){
@@ -322,24 +356,24 @@ rateRider(){
 
   
   displayButton(){
-    if(this.state.orderParam && this.state.orderParam.payment_status == "Pending" && this.state.orderParam.status == "Rider accepted"){
+    if(this.state.orderParam && this.state.orderParam.payment_status == "Pending" /*&& this.state.orderParam.status == "Rider accepted"*/){
       return (
         <View style={{flexDirection: 'row', width: '90%', alignSelf: 'center'}}>
         <TouchableOpacity style={styles.addView} onPress={() => this.payWithWallet()}>
-          <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient}>
-            <Text style={styles.addText}>Pay with wallet </Text>
+          <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
+            <Text style={styles.addText}>Pay offline </Text>
           </LinearGradient>
       </TouchableOpacity>
         {this.state.customer && this.state.trn_ref &&
         <View style={styles.addGradient1}>
         <PaystackWebView
-          buttonText="Pay with card"
+          buttonText="Pay online"
           textStyles={styles.addText1}
           btnStyles={styles.addGradient6}
           showPayButton={true}
            paystackKey="pk_test_9b06080a0fde87971069a48fcb91e958720cede4"
            amount={Math.floor(this.state.orderParam.delivery_fee)}
-           billingEmail="paystackwebview@something.com"
+           billingEmail={this.state.customer.email}
            billingMobile={this.state.customer.phone1}
            billingName={this.state.customer.first_name}
            refNumber={this.state.trn_ref}
@@ -384,7 +418,7 @@ rateRider(){
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#2BBAD8'}  />
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         <View style={styles.header}>
           <TouchableOpacity  onPress={() => this.props.navigation.navigate('Home') }>
           <Icon name="arrow-back" size={18} color="000"  style = {styles.menuImage}/>
@@ -396,11 +430,11 @@ rateRider(){
           <View style={styles.cView}>
             <View style={styles.itemView4}>
                 
-              {this.state.orderParam && this.state.orderParam.payment_status == "Pending" && this.state.orderParam.status == "Pending" &&
+              {/*this.state.orderParam && this.state.orderParam.payment_status == "Pending" && this.state.orderParam.status == "Pending" &&
                 
                 <Text style = {styles.wait}>Wait while a rider accepts your request... </Text>
               
-              }
+              */}
               <View style={styles.item31}>
                 <Text style = {styles.label60}>Tracking No</Text>
                 <Text style = {styles.txt60}>#{this.state.orderParam && this.state.orderParam.order_number}</Text>
@@ -498,7 +532,7 @@ rateRider(){
             </View>
             {this.displayButton()}
             {this.state.orderParam && this.displayRatingButton()}
-            {this.state.orderParam && this.displayReceipt()}
+            {/*this.state.orderParam && this.displayReceipt()*/}
             
           </View>
           <Modal
@@ -557,7 +591,7 @@ rateRider(){
               />
               
               <TouchableOpacity style={styles.addView3} onPress={() => this.rateRider()}>
-                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#2BBAD8', '#2BBAD8']} style={styles.addGradient4}>
+                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient4}>
                   <Text style={styles.addText}>Rate rider </Text>
                 </LinearGradient>
               </TouchableOpacity>
@@ -713,33 +747,33 @@ const styles = StyleSheet.create ({
   addText1: {
     textAlign: 'center',
     fontSize: 16,
-    color: '#2BBAD8',
+    color: '#0B277F',
   },
   addView: {
     width: '49%',
     height: 40,
     alignSelf: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   addView3: {
     width: '90%',
     height: 40,
     alignSelf: 'center',
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 40,
   },
   addView7: {
     width: '100%',
     height: 40,
     alignSelf: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   addGradient4: {
     borderRadius: 10,
     width: '100%',
     height: 40,
     paddingTop: 7,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   addGradient: {
     borderRadius: 10,
@@ -756,11 +790,11 @@ const styles = StyleSheet.create ({
     width: '100%',
     height: 40,
     borderWidth: 1,
-    borderColor: '#2BBAD8',
+    borderColor: '#0B277F',
     borderRadius: 8,
     //backgroundColor: 'green',
     paddingTop: 7,
-    marginTop: 40,
+    marginTop: 20,
   },
   item: {
     width: '100%',
@@ -791,7 +825,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   itemVendorText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     fontSize: 12,
     width: '75%',
   },
@@ -912,7 +946,7 @@ const styles = StyleSheet.create ({
     paddingTop: 7,
   },
   locationText: {
-    color: '#2BBAD8',
+    color: '#0B277F',
     textAlign: 'right',
     paddingTop: 2,
     marginRight: 10,

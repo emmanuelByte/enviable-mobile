@@ -514,7 +514,7 @@ const styles = StyleSheet.create ({
     //position: 'absolute',
     paddingTop: 0,
     left: 20,
-    color: "#2BBAD8",
+    color: "#0B277F",
     zIndex: 9999999999,
   },
   map: {

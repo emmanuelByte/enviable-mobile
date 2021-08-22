@@ -315,7 +315,7 @@ export class RidePaymentMethod extends Component {
               showPayButton={true}
               paystackKey="pk_test_9b06080a0fde87971069a48fcb91e958720cede4"
               amount={10}
-              billingEmail="paystackwebview@something.com"
+              billingEmail={this.state.customer.email}
               billingMobile={this.state.customer.phone1}
               billingName={this.state.customer.first_name}
               refNumber={this.state.trn_ref}
@@ -454,7 +454,7 @@ const styles = StyleSheet.create ({
     //width: 21,
     //height: 15,
     marginLeft: 20,
-    marginTop: 69,
+    marginTop: 49,
   },
   map: {
     height: '65%',
@@ -499,11 +499,11 @@ const styles = StyleSheet.create ({
     width: '15%',
   },
   ccImage: {
-    width: 160,
-    height: 150,
+    width: 200,
+    height: 121,
     alignSelf: 'center',
-    marginTop: '10%',
-    marginBottom: 15,
+    marginTop: '15%',
+    marginBottom: '20%',
   },
   price: {
     fontSize: 14,
@@ -526,7 +526,7 @@ const styles = StyleSheet.create ({
   },
   submitButton: {elevation: 2,
     marginTop: 20,
-    backgroundColor: '#2BBAD8',
+    backgroundColor: '#0B277F',
     borderRadius: 10,
     width: '90%',
     alignSelf: 'center',
@@ -594,7 +594,7 @@ const styles = StyleSheet.create ({
   },
   submitButton1: {
     marginTop: 20,
-    backgroundColor: '#2BBAD8',
+    backgroundColor: '#0B277F',
     borderRadius: 2,
     width: '50%',
     alignSelf: 'center',
