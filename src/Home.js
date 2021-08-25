@@ -264,6 +264,7 @@ export class Home extends Component {
                 <View style = {styles.row}>
                   <TouchableWithoutFeedback onPress={() => this.gotoNewDispatch("Haulage")}>
                     <ShadowView style = {styles.card}>
+                      <Image source = {require('./imgs/t1.png')} style = {styles.tImage1} />
                       <View style = {styles.colImage}>
                         <Image source = {require('./imgs/ha.png')} style = {styles.cImage} />
                       </View>
@@ -275,6 +276,7 @@ export class Home extends Component {
                   
                   <TouchableWithoutFeedback   onPress={() => this.props.navigation.navigate('RideShareHome')}>
                     <ShadowView style = {styles.card1}>
+                    <Image source = {require('./imgs/t2.png')} style = {styles.tImage2} />
                       <View style = {styles.colImage}>
                         <Image source = {require('./imgs/hb.png')} style = {styles.cImage1} />
                       </View>
@@ -287,6 +289,7 @@ export class Home extends Component {
                 <View style = {styles.row}>
                   <TouchableWithoutFeedback  onPress={() => Alert.alert("Info", "This feature is coming soon...")} >
                     <ShadowView style = {styles.card8}>
+                    <Image source = {require('./imgs/t3.png')} style = {styles.tImage3} />
                       <View style = {styles.colImage}>
                         <Image source = {require('./imgs/hc.png')} style = {styles.cImage2} />
                       </View>
@@ -298,6 +301,7 @@ export class Home extends Component {
                 
                   <TouchableWithoutFeedback  onPress={() => Alert.alert("Info", "This feature is coming soon...")} >
                     <ShadowView style = {styles.card1}>
+                    <Image source = {require('./imgs/t3.png')} style = {styles.tImage4} />
                       <View style = {styles.colImage}>
                         <Image source = {require('./imgs/hd.png')} style = {styles.cImage3} />
                       </View>
@@ -625,7 +629,7 @@ const styles = StyleSheet.create ({
   card: {
     //flexDirection: 'row',
     width: '45%',
-    height: 150,
+    height: 180,
     marginBottom: 13,
     marginRight: '10%',
     backgroundColor: '#fff',
@@ -636,17 +640,17 @@ const styles = StyleSheet.create ({
   card8: {
     //flexDirection: 'row',
     width: '45%',
-    height: 150,
+    height: 180,
     marginBottom: 13,
     marginRight: '10%',
     backgroundColor: '#fff',
     borderRadius: 20,
-    //padding: 15,
+    padding: 15,
   },
   card1: {
     //flexDirection: 'row',
     //alignSelf: 'flex-end',
-    height: 150,
+    height: 180,
     width: '45%',
     marginBottom: 13,
     
@@ -662,6 +666,27 @@ const styles = StyleSheet.create ({
     //width: '95%',
     flexDirection: 'column',
   },
+  tImage1: {
+    width: 24,
+    height: 30,
+    alignSelf: 'flex-end',
+  },
+  tImage2: {
+    width: 35,
+    height: 30,
+    alignSelf: 'flex-end',
+  },
+  tImage3: {
+    //marginTop: 10,
+    width: 37,
+    height: 30,
+    alignSelf: 'flex-end',
+  },
+  tImage4: {
+    width: 37,
+    height: 30,
+    alignSelf: 'flex-end',
+  },
   cImage: {
     alignSelf: 'center',
     marginTop: 30,
@@ -676,7 +701,7 @@ const styles = StyleSheet.create ({
   },
   cImage2: {
     alignSelf: 'center',
-    marginTop: 45,
+    marginTop: 30,
     width: 60,
     height: 60,
   },

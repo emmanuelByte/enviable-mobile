@@ -359,7 +359,7 @@ rateRider(){
     if(this.state.orderParam && this.state.orderParam.payment_status == "Pending" /*&& this.state.orderParam.status == "Rider accepted"*/){
       return (
         <View style={{flexDirection: 'row', width: '90%', alignSelf: 'center'}}>
-        <TouchableOpacity style={styles.addView} onPress={() => this.payWithWallet()}>
+        <TouchableOpacity style={styles.addView} onPress={() => this.payWithCash()}>
           <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
             <Text style={styles.addText}>Pay offline </Text>
           </LinearGradient>

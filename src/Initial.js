@@ -13,7 +13,6 @@ export class Initial extends Component {
       user: false,
     }
     this.init();
-    console.log(Platform.OS, 'poiuhjkiuhgkihgv')
     
     //this.getLoggedInUser();
   }
@@ -76,14 +75,11 @@ export class Initial extends Component {
         },
         
         onRegistrationError: (err) => {
-          console.error(err.message, 'kkjjjh');
           Alert.alert(err.message)
-          // AsyncStorage.setItem('pushToken', "sksjsjdjkdkdkkd", () => {
-          //   this.getLoggedInUser('sksjsjdjkdkdkkd'); 
-          // })
+          
         },
     
-        senderID: "497415970575",
+        senderID: "639533620742",
     
         permissions: {
             alert: true,

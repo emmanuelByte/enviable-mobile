@@ -152,9 +152,11 @@ export class DispatchCartSummary extends Component {
               </TouchableOpacity>
             </View>
           ))}
+          {/*
            <TouchableOpacity style={styles.addView1}  onPress={() => this.props.navigation.navigate('NewDispatch')}>
               <Icon name="add" size={24} color="#000"  style = {styles.addIcon}/>
           </TouchableOpacity>
+          */}
           {this.state.cartItems &&
             <TouchableOpacity style={styles.addView}  onPress={() => this.props.navigation.navigate('DispatchAddress', {
               type: this.state.cartItems[0].type,
