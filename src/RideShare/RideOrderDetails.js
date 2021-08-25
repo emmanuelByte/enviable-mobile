@@ -358,7 +358,7 @@ export class RideOrderDetails extends Component {
               {this.state.order &&
               <View>
                 <TouchableOpacity  onPress={() => this.use()}>
-                  < Text style = {styles.use}>Use google map </Text>
+                  < Text style = {styles.use}>Use google map </Text>  
                 </TouchableOpacity>
                 {this.state.rider &&
                 <View style= {styles.row}>
@@ -371,7 +371,7 @@ export class RideOrderDetails extends Component {
                   </View>
                 </View>
                 }
-                {!this.state.rider &&
+                 {!this.state.rider &&
                 <View style= {styles.row}>
                   <View style= {styles.col1}>
                   <Image source = {require('../imgs/round-profile.png')} style = {styles.carImage} />
