@@ -138,7 +138,7 @@ export class EatDeliveryAddress extends Component {
    .then((response) => response.json())
    .then((res) => {
      this.hideLoader(); 
-       console.log(res, "cities");
+       
        //this.hideLoader();
        if(res.success){
           this.setState({

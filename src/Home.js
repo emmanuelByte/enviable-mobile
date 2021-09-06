@@ -34,10 +34,11 @@ export class Home extends Component {
   }
 
   async componentWillMount() {
-    this.getLoggedInUser();
+    
   }
 
   componentWillUnmount() {
+    this.subs.forEach(sub => sub.remove());
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
   }
 
@@ -59,7 +60,14 @@ export class Home extends Component {
     return true
   }
 
+  async componentDidFocus(){
+    await this.getLoggedInUser();
+  }
+
   componentDidMount() {
+    this.subs = [
+      this.props.navigation.addListener('didFocus', (payload) => this.componentDidFocus(payload)),
+    ];
     if(height < 750){
       this.setState({
         top: '2%'
@@ -115,6 +123,7 @@ export class Home extends Component {
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
         //this.props.navigation.navigate('Home')
+        console.log(JSON.parse(value), 'lllJSON.parse(value)')
         this.setState({
           customer: JSON.parse(value)
         }, () => {
@@ -125,7 +134,7 @@ export class Home extends Component {
         });
           
       }else{
-        this.props.navigation.navigate('Login')
+        //this.props.navigation.navigate('Login')
       }
     });
   }
@@ -203,9 +212,14 @@ export class Home extends Component {
   }
 
   showSideMenu(){
-    this.setState({
-      sideMenuModalVisible: true
-    });
+    console.log(this.state.customer.first_name, 'this.state.customer.first_name')
+    if(this.state.customer.first_name != null){
+      this.setState({
+        sideMenuModalVisible: true
+      });
+    }else{
+      Alert.alert("Info", "Kindly log in to your account or creat an account if you haven't done so!")
+    }
   }
   hideSideMenu(){
     this.setState({
@@ -213,7 +227,18 @@ export class Home extends Component {
     });
   }
   displaySignin(){
-    //if(!this.state.customer){
+    if(this.state.customer.first_name == null){
+      return(
+        <View style = {styles.row1}>
+          <TouchableOpacity style = {styles.bCol1} onPress={() => this.props.navigation.navigate('Register')} >
+              <Text style = {styles.lText1}>Register</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style = {styles.bCol2} onPress={() => this.props.navigation.navigate('Login')} >
+              <Text style = {styles.lText2}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }else{
       return(
         <View style = {styles.row1}>
           <TouchableOpacity style = {styles.bCol1} onPress={() => this.logout()} >
@@ -224,12 +249,28 @@ export class Home extends Component {
           </TouchableOpacity>
         </View>
       )
-    //}
+    }
+  }
+  logout(){
+    AsyncStorage.removeItem('customer');
+    this.props.navigation.navigate('Login')
   }
   gotoNewDispatch(type){
-    this.props.navigation.navigate('NewDispatch', {
-      type: type,
-    });
+    if(this.state.customer.first_name == null){
+      Alert.alert("Info", "Kindly log in to your account or creat an account if you haven't done so!")
+      
+    }else{
+      this.props.navigation.navigate('NewDispatch', {
+        type: type,
+      });
+    }
+  }
+  gotoPage(page){
+    if(this.state.customer.first_name == null){
+      Alert.alert("Info", "Kindly log in to your account or creat an account if you haven't done so!")
+    }else{
+      this.props.navigation.navigate(page)
+    }
   }
   
   navigateToScreen = (route) => () => {
@@ -259,62 +300,66 @@ export class Home extends Component {
               {/*
             <Image source = {require('./imgs/rickreen-logo.png')} style = {styles.logo} />
               */}
+              <ScrollView  showsVerticalScrollIndicator={false}>
             <View style = {styles.bottomView}>
-              <View style = {styles.top}>
-                <View style = {styles.row}>
-                  <TouchableWithoutFeedback onPress={() => this.gotoNewDispatch("Haulage")}>
-                    <ShadowView style = {styles.card}>
-                      <Image source = {require('./imgs/t1.png')} style = {styles.tImage1} />
-                      <View style = {styles.colImage}>
-                        <Image source = {require('./imgs/ha.png')} style = {styles.cImage} />
-                      </View>
-                      <View style = {styles.colContent}>
-                        <Text style = {styles.contentText1}>Haulage service</Text>
-                      </View>
-                    </ShadowView>
-                  </TouchableWithoutFeedback>
-                  
-                  <TouchableWithoutFeedback   onPress={() => this.props.navigation.navigate('RideShareHome')}>
-                    <ShadowView style = {styles.card1}>
-                    <Image source = {require('./imgs/t2.png')} style = {styles.tImage2} />
-                      <View style = {styles.colImage}>
-                        <Image source = {require('./imgs/hb.png')} style = {styles.cImage1} />
-                      </View>
-                      <View style = {styles.colContent}>
-                        <Text style = {styles.contentText2}>Book a ride</Text>
-                      </View>
-                    </ShadowView>
-                  </TouchableWithoutFeedback>
-                </View>
-                <View style = {styles.row}>
-                  <TouchableWithoutFeedback  onPress={() => Alert.alert("Info", "This feature is coming soon...")} >
-                    <ShadowView style = {styles.card8}>
-                    <Image source = {require('./imgs/t3.png')} style = {styles.tImage3} />
-                      <View style = {styles.colImage}>
-                        <Image source = {require('./imgs/hc.png')} style = {styles.cImage2} />
-                      </View>
-                      <View style = {styles.colContent}>
-                        <Text style = {styles.contentText3}>Special movement</Text>
-                      </View>
-                    </ShadowView> 
-                  </TouchableWithoutFeedback>
-                
-                  <TouchableWithoutFeedback  onPress={() => Alert.alert("Info", "This feature is coming soon...")} >
-                    <ShadowView style = {styles.card1}>
-                    <Image source = {require('./imgs/t3.png')} style = {styles.tImage4} />
-                      <View style = {styles.colImage}>
-                        <Image source = {require('./imgs/hd.png')} style = {styles.cImage3} />
-                      </View>
-                      <View style = {styles.colContent}>
-                        <Text style = {styles.contentText4}>Hire a driver</Text>
-                      </View>
-                    </ShadowView>
-                  </TouchableWithoutFeedback>
-                </View>
-              </View>
               
+                <View style = {styles.top}>
+                  <View style = {styles.row}>
+                  <TouchableWithoutFeedback   onPress={() => this.gotoPage('RideShareHome')}>
+                      <ShadowView style = {styles.card1}>
+                      <Image source = {require('./imgs/t2.png')} style = {styles.tImage2} />
+                        <View style = {styles.colImage}>
+                          <Image source = {require('./imgs/hb.png')} style = {styles.cImage1} />
+                        </View>
+                        <View style = {styles.colContent}>
+                          <Text style = {styles.contentText2}>Book a ride</Text>
+                        </View>
+                      </ShadowView>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={() => this.gotoPage('SpecialMovement')} >
+                      <ShadowView style = {styles.card8}>
+                      <Image source = {require('./imgs/t3.png')} style = {styles.tImage3} />
+                        <View style = {styles.colImage}>
+                          <Image source = {require('./imgs/hc.png')} style = {styles.cImage2} />
+                        </View>
+                        <View style = {styles.colContent}>
+                          <Text style = {styles.contentText3}>Special movement</Text>
+                        </View>
+                      </ShadowView> 
+                    </TouchableWithoutFeedback>
+                    
+                    
+                    
+                  </View>
+                  <View style = {styles.row}>
+                    
+                  
+                    <TouchableWithoutFeedback  onPress={() => this.gotoPage('Hires')} >
+                      <ShadowView style = {styles.card1}>
+                      <Image source = {require('./imgs/t3.png')} style = {styles.tImage4} />
+                        <View style = {styles.colImage}>
+                          <Image source = {require('./imgs/hd.png')} style = {styles.cImage3} />
+                        </View>
+                        <View style = {styles.colContent}>
+                          <Text style = {styles.contentText4}>Hire a driver</Text>
+                        </View>
+                      </ShadowView>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={() => this.gotoNewDispatch("Haulage")}>
+                      <ShadowView style = {styles.card}>
+                        <Image source = {require('./imgs/t1.png')} style = {styles.tImage1} />
+                        <View style = {styles.colImage}>
+                          <Image source = {require('./imgs/ha.png')} style = {styles.cImage} />
+                        </View>
+                        <View style = {styles.colContent}>
+                          <Text style = {styles.contentText1}>Haulage service</Text>
+                        </View>
+                      </ShadowView>
+                    </TouchableWithoutFeedback>
+                  </View>
+                </View>
             </View>
-            
+            </ScrollView>
           </View>
           {this.displaySignin()}
         
@@ -339,9 +384,9 @@ export class Home extends Component {
                 <Image source = {require('./imgs/round-profile.png')} style = {styles.userImage} />
               </View>
               <View style = {styles.topTextView}>
-                <Text style = {styles.topTextName}>
-                {this.state.customer && this.state.customer.first_name} {this.state.customer && this.state.customer.last_name}
-                </Text>
+              {this.state.customer && <Text style = {styles.topTextName}>
+                {this.state.customer.first_name} { this.state.customer.last_name}
+                </Text>}
                 <Text style = {styles.topLocation}> 
                   VIEW PROFILE
                 </Text>
@@ -401,13 +446,13 @@ export class Home extends Component {
               </TouchableOpacity>
               <TouchableOpacity onPress={this.navigateToScreen('RideOrders')} style = {styles.linkItem}>
                 <View style = {styles.iconView}>
-                  <Image source = {require('./imgs/haulage.png')} style = {styles.dash1} /> 
+                  <Image source = {require('./imgs/history-1.png')} style = {styles.dash9} /> 
                 </View>
                 <View style = {styles.textView}>
                   <Text style = {styles.textLink} >Your rides</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {this.setState({ sideMenuModalVisible: false });Alert.alert("Info", "This feature is coming soon...")}} style = {styles.linkItem}>
+              <TouchableOpacity onPress={() => {this.setState({ sideMenuModalVisible: false });this.gotoPage('Hires')}} style = {styles.linkItem}>
                 <View style = {styles.iconView}>
                   <Image source = {require('./imgs/hire.png')} style = {styles.dashk} /> 
                 </View>
@@ -415,12 +460,12 @@ export class Home extends Component {
                   <Text style = {styles.textLink} >Hire a driver</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {this.setState({ sideMenuModalVisible: false });Alert.alert("Info", "This feature is coming soon...")}} style = {styles.linkItem}>
+              <TouchableOpacity onPress={() => {this.setState({ sideMenuModalVisible: false }); this.gotoPage('SpecialMovement')}} style = {styles.linkItem}>
                 <View style = {styles.iconView}>
                   <Image source = {require('./imgs/ride-icon.png')} style = {styles.dashl} /> 
                 </View>
                 <View style = {styles.textView}>
-                  <Text style = {styles.textLink} >Speacial movement</Text>
+                  <Text style = {styles.textLink} >Special movement</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={this.navigateToScreen('Transactions')} style = {styles.linkItem}>
@@ -556,6 +601,12 @@ const styles = StyleSheet.create ({
     marginTop: 15,
     marginBottom: 10,
   },
+  dash9: {
+    width: 16,
+    height: 16,
+    marginTop: 15,
+    marginBottom: 10,
+  },
 
   dashl: {
     width: 20,
@@ -588,6 +639,7 @@ const styles = StyleSheet.create ({
     //position: 'absolute',
     //bottom: 0,
     marginTop: 10,
+    marginBottom: 100,
     //paddingLeft: 20,
     //paddingRight: 20,
   },
@@ -631,7 +683,7 @@ const styles = StyleSheet.create ({
     width: '45%',
     height: 180,
     marginBottom: 13,
-    marginRight: '10%',
+    marginLeft: '10%',
     backgroundColor: '#fff',
     
     borderRadius: 20,
@@ -642,7 +694,7 @@ const styles = StyleSheet.create ({
     width: '45%',
     height: 180,
     marginBottom: 13,
-    marginRight: '10%',
+    marginLeft: '10%',
     backgroundColor: '#fff',
     borderRadius: 20,
     padding: 15,

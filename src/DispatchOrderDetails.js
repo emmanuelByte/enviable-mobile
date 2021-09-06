@@ -59,20 +59,7 @@ export class DispatchOrderDetails extends Component {
   }
 
   handleBackPress = () => {
-    Alert.alert(
-      "Confirm exit",
-      "Are you sure you want to exit this app?",
-      [
-        {
-          text: "Stay here",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
-      ],
-      //{ cancelable: false }
-    );
+    this.props.navigation.navigate('Home')
     return true
   }
 
@@ -1128,6 +1115,7 @@ const styles = StyleSheet.create ({
     width: 10,
     paddingRight: 4,
     },
+    
 submitButton: {elevation: 2,
   marginTop: 20,
   backgroundColor: '#ED6315',

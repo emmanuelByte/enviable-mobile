@@ -134,8 +134,8 @@ android {
         applicationId "com.enviable"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1.1"
     }
     splits {
         abi {
@@ -151,6 +151,12 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+        release {
+            storeFile file('op-release-key-live.keystore')
+            storePassword '@Ughonu@234'
+            keyAlias 'optisoft_ng_android_key'
+            keyPassword '@Ughonu@234'
         }
     }
     buildTypes {
@@ -211,6 +217,8 @@ dependencies {
         implementation jscFlavor
     }
     implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 }
 
 // Run this once to be able to run the application with BUCK

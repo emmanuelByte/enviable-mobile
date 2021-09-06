@@ -62,20 +62,7 @@ export class DispatchAddress extends Component {
   }
 
   handleBackPress = () => {
-    Alert.alert(
-      "Confirm exit",
-      "Are you sure you want to exit this app?",
-      [
-        {
-          text: "Stay here",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
-      ],
-      //{ cancelable: false }
-    );
+    this.props.navigation.goBack()
     return true
   }
 
@@ -219,7 +206,7 @@ export class DispatchAddress extends Component {
    .then((response) => response.json())
    .then((res) => {
      
-       console.log(res, "cities");
+       
        //this.hideLoader();
        if(res.success){
           this.setState({

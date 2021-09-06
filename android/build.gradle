@@ -11,10 +11,12 @@ buildscript {
         playServicesVersion = "17.0.0" // or find latest version
         androidMapsUtilsVersion = "2.0.4"
         firebaseMessagingVersion = "21.1.0"
+        googlePlayServicesAuthVersion = "16.0.1"
     }
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.1.0")

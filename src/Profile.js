@@ -27,31 +27,22 @@ export class Profile extends Component {
       cities: null,
       visible1: false,
     }
-    this.getLoggedInUser();
-    this.getCities();
+    
   }
 
   
 
   componentWillUnmount() {
+    this.subs.forEach(sub => sub.remove());
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
+  async componentDidFocus(){
+    this.getLoggedInUser();
+    this.getCities();
   }
 
   handleBackPress = () => {
-    Alert.alert(
-      "Confirm exit",
-      "Are you sure you want to exit this app?",
-      [
-        {
-          text: "Stay here",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
-      ],
-      //{ cancelable: false }
-    );
+    this.props.navigation.goBack()
     return true
   }
 
@@ -59,6 +50,9 @@ export class Profile extends Component {
     
   }
   componentDidMount() {
+    this.subs = [
+      this.props.navigation.addListener('didFocus', (payload) => this.componentDidFocus(payload)),
+    ];
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
   toggleUpdate(){
@@ -206,8 +200,8 @@ updatePassword(){
    .then((response) => response.json())
    .then((res) => {
      this.hideLoader();
-       console.log(res, "cities");
-       //this.hideLoader();
+       
+       this.hideLoader();
        if(res.success){
           this.setState({
             cities:  res.cities
@@ -241,7 +235,7 @@ updatePassword(){
     });
   }
 
-  onPickupCancel = () => {
+  onCancel = () => {
     this.setState({
       visible1: false
     });
@@ -255,13 +249,7 @@ updatePassword(){
     }, ()=> {  })
     
   }
-  onCancel = () => {
-    this.setState({
-      visible: false
-    });
-  }
-  
-  
+
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route
@@ -381,7 +369,7 @@ updatePassword(){
             } 
             {this.state.passwordView &&
             <View>
-              <Text style = {styles.headerText5}>Update profile</Text>
+              <Text style = {styles.headerText5}>Update password</Text>
                 <Text style = {styles.label}>Password</Text>
                 <TextInput
                                   style={styles.input}

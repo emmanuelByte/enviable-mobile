@@ -7,6 +7,12 @@ import {name as appName} from './app.json';
 
 import Initial from './src/Initial';
 import Login from './src/Login';
+import PhoneRegistration from './src/PhoneRegistration';
+import Hires from './src/Hires';
+import SpecialMovement from './src/SpecialMovement';
+import HireDetails from './src/HireDetails';
+import SpecialMovementDetails from './src/SpecialMovementDetails';
+import VerifyPhone from './src/VerifyPhone';
 import Register from './src/Register';
 import Home from './src/Home';
 import Eat from './src/Eat/Eat';
@@ -40,6 +46,12 @@ console.disableYellowBox = true;
 
 const MainNavigator = createStackNavigator({
   Initial: {screen: Initial},
+  PhoneRegistration: {screen: PhoneRegistration},
+  VerifyPhone: {screen: VerifyPhone},
+  Hires: {screen: Hires},
+  SpecialMovement: {screen: SpecialMovement},
+  SpecialMovementDetails: {screen: SpecialMovementDetails},
+  HireDetails: {screen: HireDetails},
   Welcome: {screen: Welcome},
   EatOrderSummary: {screen: EatOrderSummary},
   EatDeliveryAddress: {screen: EatDeliveryAddress},

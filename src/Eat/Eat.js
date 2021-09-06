@@ -134,7 +134,7 @@ export class Eat extends Component {
    .then((response) => response.json())
    .then((res) => {
      
-       console.log(res, "cities");
+       
        //this.hideLoader();
        if(res.success){
           this.setState({

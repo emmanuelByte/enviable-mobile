@@ -10,12 +10,14 @@ import MapViewDirections from 'react-native-maps-directions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { showLocation } from 'react-native-map-link';
 import RNPickerSelect from 'react-native-picker-select';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 import { SERVER_URL } from '../config/server';
 
 export class RideOrderDetails extends Component {
   constructor(props) {
     super();
+    this.ratingCompleted = this.ratingCompleted.bind(this);
     this.handleBackPress = this.handleBackPress.bind(this);
     this.state = {
       visible: false,loaderVisible: false,
@@ -28,7 +30,7 @@ export class RideOrderDetails extends Component {
       rating: 5,
       rating: '',
       vs: false,
-      
+      rateVisible: false
     }
     this.getLoggedInUser();
   }
@@ -39,20 +41,7 @@ export class RideOrderDetails extends Component {
   }
 
   handleBackPress = () => {
-    Alert.alert(
-      "Confirm exit",
-      "Are you sure you want to exit this app?",
-      [
-        {
-          text: "Stay here",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
-      ],
-      //{ cancelable: false }
-    );
+    this.props.navigation.navigate('Home')
     return true
   }
 
@@ -144,6 +133,7 @@ export class RideOrderDetails extends Component {
          latitudeDelta: 0.009922,
           longitudeDelta: 0.009421,
        }
+       console.log(res.rider,'res.rider')
           this.setState({
             order:  res.order,
             rider: res.rider,
@@ -190,6 +180,13 @@ export class RideOrderDetails extends Component {
       }
     });
   }
+  ratingCompleted(rating) {
+    this.setState({
+      rating: rating
+    })
+    console.log("Rating is: " + rating)
+  }
+
   showLoader(){
     this.setState({
       loaderVisible: true
@@ -255,21 +252,29 @@ export class RideOrderDetails extends Component {
   }
 
   displayRatingButton(){
-    if(this.state.orderParam && this.state.orderParam.status == "Delivered" && this.state.orderParam.rated == "No"){
+    console.log(this.state.order, 'this.state.orderParam')
+    if(this.state.order&& this.state.order.status == "Ride completed" && this.state.order.rated == "No"){
       return (
-        <View style={{flexDirection: 'row', width: '90%', alignSelf: 'center'}}>
-          <TouchableOpacity style={styles.addView7} onPress={() => this.setState({forgotVisible: true})}>
-            <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
-              <Text style={styles.addText}>Rate rider </Text>
-            </LinearGradient>
+        <View >
+          <TouchableOpacity style={styles.addView7} onPress={() => this.setState({rateVisible: true})}>
+              <Text style={styles.est1}>Rate this driver? </Text>
           </TouchableOpacity>
         </View>
+      )
+    }
+    else if(this.state.order&& this.state.order.status == "Ride completed"){
+      
+    }
+    
+    else{
+      return(
+        <Text style = {styles.est}>Estimated journey duration is {Math.ceil(this.state.order.estimated_time/60)} minutes, based on current traffic info. {this.state.time && "Arrival of ride will take "+this.state.time}</Text>
       )
     }
   }
   rateRider(){
     this.setState({
-      forgotVisible: false,
+      rateVisible: false,
     })
     this.showLoader();
     fetch(`${SERVER_URL}/mobile/rateRider`, {
@@ -364,9 +369,13 @@ export class RideOrderDetails extends Component {
                 <View style= {styles.row}>
                   <View style= {styles.col1}>
                     <Image source = {{uri: SERVER_URL+this.state.rider.photo}} style = {styles.carImage} />
+                    <View style = {styles.rView}>
+                      < Text style = {styles.rText}>{this.state.rider.rating} < Text style = {styles.sText}>* </Text></Text>    
+                    </View>
                   </View>
                   <View style= {styles.col2}>
                   < Text style = {styles.price}>{this.state.rider.first_name} {this.state.rider.last_name}</Text>
+                  < Text style = {styles.plate}>{this.state.rider.car_description} </Text>
                   < Text style = {styles.plate}>{this.state.rider.plate_no} </Text>
                   </View>
                 </View>
@@ -397,71 +406,50 @@ export class RideOrderDetails extends Component {
                 <View style= {styles.statusView}>
                   < Text style = {styles.statusText}>{this.state.order.status}</Text>
                 </View>
-                  <Text style = {styles.est}>Estimated journey duration is {Math.ceil(this.state.order.estimated_time/60)} minutes, based on current traffic info. {this.state.time && "Arrival of ride will take "+this.state.time}</Text>
+                  {this.displayRatingButton()}
+                  
                 {this.displayButton()}
+                
               </View>
               }
               </ScrollView>
             </View>
           <Modal
-            isVisible={this.state.forgotVisible}
+            isVisible={this.state.rateVisible}
             onBackdropPress={() => {
-              this.setState({ forgotVisible: false });
+              this.setState({ rateVisible: false });
             }}
             height= {'100%'}
             width= {'100%'}
             style={styles.modal}
           >
-            <View style={styles.forgotModalView}>
-            <Text style = {styles.headerText7}>Rate Rider</Text>
-            <Text style = {styles.headerText8}>Kindly rate this rider</Text>
+            <View style={styles.rateModalView}>
+            {/*<Text style = {styles.headerText7}>Rate Rider</Text>*/}
+            {this.state.rider && <Image source = {{uri: SERVER_URL+this.state.rider.photo}} style = {styles.rImage} />}
 
-              <Text style = {styles.label1}>Rating</Text>
-              <TouchableOpacity style={[styles.input]}>
-              <RNPickerSelect
-                    placeholder=''
-                    style={pickerSelectStyles}
-                    selectedValue={this.state.rating}  
-                    onValueChange={(itemValue, itemIndex) => this.setState({rating: itemValue})}
-                    items={[
-                      { label: '5*', value: '5' },
-                      { label: '4*', value: '4' },
-                      { label: '3*', value: '3' },
-                      { label: '2*', value: '2' },
-                      { label: '1*', value: '1' },
-                    ]}
-                    returnKeyType={ 'done' }
-                    />
-                {/*
-              <Picker
-                //selectedValue={selectedValue}
-                selectedValue={this.state.rating}  
-                //style={{ height: 100, width: 200 }}
-                style={styles.input}
-                onValueChange={(itemValue, itemIndex) => this.setState({rating: itemValue})}
-              >
-                <Picker.Item color="#444" label={"5*"} value={"5"} />
-                <Picker.Item color="#444" label={"4*"} value={"4"} />
-                <Picker.Item color="#444" label={"3*"} value={"3"} />
-                <Picker.Item color="#444" label={"2*"} value={"2"} />
-                <Picker.Item color="#444" label={"1*"} value={"1"} />
-              </Picker>
-                */}
-              </TouchableOpacity>
-              <Text style = {styles.label1}>Review</Text>
+            {this.state.rider &&  <Text style = {styles.headerText7}>{this.state.rider.first_name} {this.state.rider.last_name}</Text>}
+              <Rating
+                startingValue={0}
+                ratingColor={'#0B277F'}
+                ratingBackgroundColor={'#0B277F'}
+                imageSize={20}
+                showRating={false}
+                onFinishRating={this.ratingCompleted}
+                style={{ paddingVertical: 10 }}
+              />
               <TextInput
                 style={styles.input}
                 onChangeText={(text) => {this.setState({review: text}) }}
                 underlineColorAndroid="transparent"
+                placeholder={'Leave a review'}
                 //keyboardType={'numeric'}
                 //min={1}
+                multiline={true}
                 value={this.state.review}
               />
               
               <TouchableOpacity style={styles.addView3} onPress={() => this.rateRider()}>
-                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient4}>
                   <Text style={styles.addText}>Rate rider </Text>
-                </LinearGradient>
               </TouchableOpacity>
             </View>
           </Modal>
@@ -507,6 +495,19 @@ const styles = StyleSheet.create ({
     height: '45%',
     width: '100%',
   },
+  input: {
+    width: '90%', 
+    
+    height: 80,
+    backgroundColor: 'rgba(126,83,191, 0.1)',
+    borderRadius: 7,
+    //borderColor: '#ABA7A7',
+    //borderWidth: 1,
+    alignSelf: 'center',
+    marginTop: 5,
+    paddingLeft: 15,
+    color: '#444'
+  },
   infoView: {
     position: 'absolute', 
     bottom: 0,
@@ -544,7 +545,7 @@ const styles = StyleSheet.create ({
   price: {
     fontSize: 14,
     fontWeight: 'bold',
-    marginTop: 20,
+    marginTop: 13,
   },
   price2: {
     fontSize: 14,
@@ -566,10 +567,39 @@ const styles = StyleSheet.create ({
     marginTop: 15,
     //textAlign: 'center',
   },
+  est1: {
+    width: '100%',
+    alignSelf: 'flex-end',
+    marginTop: 15,
+    marginLeft: 20,
+    color: '#282828',
+    //marginRight: 20,
+    textAlign: 'right',
+  },
   use: {
     color: '#0B277F',
     textAlign: 'right',
     paddingRight: 20,
+  },
+  rView: {
+    backgroundColor: '#0B277F',
+    width: 35,
+    borderRadius: 15,
+    alignSelf: 'center',
+    marginTop: 4,
+  },
+  rText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 9,
+    paddingLeft: 6,
+  },
+  sText: {
+    // color: '#fff',
+    // textAlign: 'center',
+    //fontSize: 12,
+    paddingTop: 10,
+    // paddingLeft: 6,
   },
   submitButton: {elevation: 2,
     marginTop: 20,
@@ -634,25 +664,35 @@ const styles = StyleSheet.create ({
 label1: {
   color: '#333',
   marginTop: 15,
-  paddingLeft: 20,
+  //paddingLeft: 20,
+  textAlign: 'center'
 },
-forgotModalView: {
+rateModalView: {
   // width: '100%',
   // height: '100%',
   // opacity: 0.9,
   alignSelf: 'center',
   height: 340,
   width: '90%',
+  marginRight: '10%',
   backgroundColor: '#FFF',
   paddingTop: 18,
   paddingBottom: 38,
 },
 headerText7: {
   color: '#333',
-  paddingLeft: 20,
+  //paddingLeft: 20,
   fontWeight: '700',
   marginTop: 5,
-  fontSize: 15
+  fontSize: 12,
+  textAlign: 'center'
+},
+rImage: {
+  width: 50,
+  height: 50,
+  borderRadius: 25,
+  alignSelf: 'center',
+  marginTop: 15,
 },
 headerText8: {
   color: '#333',
@@ -660,11 +700,19 @@ headerText8: {
   fontSize: 12
 },
 addView3: {
-  width: '90%',
-  height: 40,
-  alignSelf: 'center',
-  marginTop: 40,
-  marginBottom: 40,
+  elevation: 2,
+    marginTop: 20,
+    backgroundColor: '#0B277F',
+    borderRadius: 10,
+    width: '90%',
+    alignSelf: 'center',
+    paddingTop: 12,
+    paddingBottom: 13,
+  
+},
+addText: {
+  color: '#fff',
+  textAlign: 'center'
 },
 loading: {
   position: 'absolute',

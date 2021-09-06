@@ -48,20 +48,7 @@ export class RidePaymentMethod extends Component {
   }
 
   handleBackPress = () => {
-    Alert.alert(
-      "Confirm exit",
-      "Are you sure you want to exit this app?",
-      [
-        {
-          text: "Stay here",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
-      ],
-      //{ cancelable: false }
-    );
+    this.props.navigation.goBack()
     return true
   }
 
@@ -96,6 +83,7 @@ export class RidePaymentMethod extends Component {
       destination: this.props.navigation.state.params.destination,
       distance: this.props.navigation.state.params.distance,
       time: this.props.navigation.state.params.time,
+      vehicleTypeId: this.props.navigation.state.params.vehicleTypeId
     }, ()=>{
       
     })
@@ -184,7 +172,7 @@ export class RidePaymentMethod extends Component {
           pickup_address: this.state.origin.address,
           pickup_longitude: this.state.origin.longitude,
           pickup_latitude: this.state.origin.latitude,
-          
+          vehicleTypeId: this.state.vehicleTypeId,
           delivery_address: this.state.destination.address,
           delivery_longitude: this.state.destination.longitude,
           delivery_latitude: this.state.destination.latitude,

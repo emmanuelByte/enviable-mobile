@@ -78,7 +78,10 @@ export class Login extends Component {
       })
     });
     await AsyncStorage.getItem('customer').then((value) => {
-      if(value){
+      this.setState({
+        phone: JSON.parse(value).phone1
+      })
+      if(value.first_name != null){
         AsyncStorage.getItem('loginvalue').then((value) => {
           if(value){
             this.setState({

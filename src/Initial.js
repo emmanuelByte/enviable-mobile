@@ -5,6 +5,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 var PushNotification = require('react-native-push-notification');
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { SERVER_URL } from './config/server';
+import SplashScreen from 'react-native-splash-screen';
+import Geocoder from 'react-native-geocoding';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export class Initial extends Component {
   constructor(props) {
@@ -12,9 +15,13 @@ export class Initial extends Component {
     this.state = {
       user: false,
     }
+    SplashScreen.hide();
     this.init();
-    
+    Geocoder.init("AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co");
+    GoogleSignin.configure();
+    //AsyncStorage.clear();
     //this.getLoggedInUser();
+    //base64 signing for facebook  a9Szg9e01lAQYewaL8KLDGRTAgQ=
   }
 
   async componentWillMount() {
@@ -22,34 +29,41 @@ export class Initial extends Component {
   }
   
   async getLoggedInUser(token){
-    await AsyncStorage.getItem('customer').then((value) => {
-      if(value){
-        this.setState({
-          user: JSON.parse(value)
-
-        }, ()=>{
-          this.savePush(token);
-          this.props.navigation.navigate('Home')
-        })
-        
-        // this.setState({
-        //   customer: JSON.parse(value)
-        // }, () => {
-        //   this.setState({
-        //     customer_id: this.state.customer.id
-        //   })
-        // });
-          
-      }else{
-        AsyncStorage.getItem('loginvalue').then((value) => {
-          if(value){
-            this.props.navigation.navigate('Login');
-          }  else{
-            this.props.navigation.navigate('Welcome');
-          } 
-        });
+    await AsyncStorage.getItem('enviable').then((value) => {
+      
+      console.log(value, 'val')
+      if(value == null){
+        this.props.navigation.navigate('PhoneRegistration')
+        return;
       }
-    });
+      var phone = JSON.parse(value).phone1;
+      AsyncStorage.getItem('customer').then((value) => {
+        console.log(value, 'valwww')
+        if(value){
+          this.setState({
+            user: JSON.parse(value)
+
+          }, ()=>{
+            this.savePush(token);
+            
+              this.props.navigation.navigate('Home')
+          
+          })
+        }else{
+          this.props.navigation.navigate('VerifyPhone', {
+            phone: phone
+          })
+          //this.props.navigation.navigate('Home')
+          // AsyncStorage.getItem('loginvalue').then((value) => {
+          //   if(value){
+          //     this.props.navigation.navigate('Login');
+          //   }  else{
+          //     this.props.navigation.navigate('Welcome');
+          //   } 
+          // });
+        }
+      });
+    })
   }
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({

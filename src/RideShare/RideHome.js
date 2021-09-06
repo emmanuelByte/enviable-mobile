@@ -4,9 +4,11 @@ import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; 
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 navigator.geolocation = require('@react-native-community/geolocation');
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { SERVER_URL } from '../config/server';
+import Geocoder from 'react-native-geocoding';
 
 export class RideHome extends Component {
   constructor(props) {
@@ -33,6 +35,23 @@ export class RideHome extends Component {
       // },
     }
     this.getLoggedInUser();
+    
+  }
+  getAddress(){
+    Geocoder.from({
+      latitude : this.state.latitude, longitude: this.state.longitude})
+		.then(json => {
+      console.log(json.results, 'json.results');
+        		var formatted_address = json.results[0].formatted_address;
+            this.setState({
+              address: formatted_address,
+              fromText: formatted_address,
+              fromLatitude: this.state.latitude,
+              fromLongitude: this.state.longitude
+            })
+			console.log(json.results[0].formatted_address, 'json.results[0].formatted_address');
+		})
+		.catch(error => console.warn(error));
   }
 
   componentWillUnmount() {
@@ -41,20 +60,7 @@ export class RideHome extends Component {
   }
 
   handleBackPress = () => {
-    Alert.alert(
-      "Confirm exit",
-      "Are you sure you want to exit this app?",
-      [
-        {
-          text: "Stay here",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
-      ],
-      //{ cancelable: false }
-    );
+    this.props.navigation.goBack()
     return true
   }
 
@@ -151,6 +157,7 @@ export class RideHome extends Component {
 
     componentDidFocus = () => {
       this.getLocation();
+      this.getRiders()
     }
     callLocation(that){
     //alert("callLocation Called");
@@ -170,6 +177,8 @@ export class RideHome extends Component {
               latitude:currentLatitude,
               longitude:currentLongitude,
               initialRegion: origin
+            }, ()=>{
+              this.getAddress()
             });
             
          },
@@ -250,6 +259,42 @@ export class RideHome extends Component {
       header: null
   }
 
+  getRiders(){
+    this.showLoader();
+    fetch(`${SERVER_URL}/mobile/get_riders`, {
+      method: 'GET'
+   })
+   .then((response) => response.json())
+   .then((res) => {
+     
+       console.log(res, "riders");
+       this.hideLoader();
+       if(res.success){
+          this.setState({
+            riders:  res.coordinates
+          });
+       }else{
+         Alert.alert('Error', res.error);
+       }
+   })
+   .catch((error) => {
+      console.error(error);
+      Alert.alert(
+       "Communictaion error",
+       "Ensure you have an active internet connection",
+       [
+         {
+           text: "Ok",
+           onPress: () => console.log("Cancel Pressed"),
+           style: "cancel"
+         },
+         { text: "Refresh", onPress: () => this.getRiders() }
+       ],
+       //{ cancelable: false }
+     );
+    });
+  }
+
 
   render() {
     const { visible } = this.state;
@@ -268,7 +313,13 @@ export class RideHome extends Component {
             //onMapReady={this.goToInitialRegion.bind(this)}
             //initialRegion={this.state.initialRegion}
           >
-            
+            {this.state.riders && this.state.riders.map((rider, index) => (
+                  <Marker  
+                      coordinate={rider}
+                    >
+                      <Image source = {require('../imgs/car-ico.png')} style={styles.carIco}/>
+                  </Marker>
+            ))}
           </MapView>
           }
           
@@ -347,8 +398,9 @@ export class RideHome extends Component {
                 language: 'en',
               }}
               getDefaultValue={() => ''}
-              placeholder='From'
-              minLength={2} // minimum length of text to search
+              setAddressText={()=> this.state.address}
+              placeholder={this.state.address}
+              minLength={5} // minimum length of text to search
               autoFocus={false}
               fetchDetails={true}
               listViewDisplayed={'auto'}
@@ -447,9 +499,9 @@ export class RideHome extends Component {
                 key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
                 language: 'en',
               }}
-              getDefaultValue={() => ''}
+              //getDefaultValue={() => {this.state.address && this.state.address}}
               placeholder='To'
-              minLength={2} // minimum length of text to search
+              minLength={5} // minimum length of text to search
               autoFocus={false}
               fetchDetails={true}
               listViewDisplayed={'auto'}
@@ -516,6 +568,10 @@ const styles = StyleSheet.create ({
     left: 20,
     color: "#0B277F",
     zIndex: 9999999999,
+  },
+  carIco: {
+    width: 30,
+    height: 15
   },
   map: {
     height: '100%',
