@@ -1,427 +1,521 @@
-import React, { Component  } from 'react';
-import { AppState, View, Text, Alert, Image,TouchableWithoutFeedback, Button, TextInput, StyleSheet, Dimensions, ScrollView,BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity, AsyncStorage } from 'react-native';
+import React, {Component} from 'react';
+import {
+  AppState,
+  View,
+  Text,
+  Alert,
+  Image,
+  TouchableWithoutFeedback,
+  Button,
+  TextInput,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  BackHandler,
+  ActivityIndicator,
+  ImageBackground,
+  StatusBar,
+  TouchableOpacity,
+  AsyncStorage,
+} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import TimeAgo from 'react-native-timeago';
-import { SERVER_URL } from './config/server';
+import {SERVER_URL} from './config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 export class Profile extends Component {
   constructor(props) {
     super();
     this.handleBackPress = this.handleBackPress.bind(this);
+    this.handlePhotoSelection = this.handlePhotoSelection.bind(this);
     this.state = {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
       toggleUpdate: false,
-      visible: false,loaderVisible: false,
+      visible: false,
+      loaderVisible: false,
       forgotVisible: false,
       email: '',
       password: '',
       cpassword: '',
-      visible: false,loaderVisible: false,
+      visible: false,
+      loaderVisible: false,
       passwordView: false,
       profileView: true,
       cities: null,
       visible1: false,
-    }
-    
+      dp: null,
+    };
   }
-
-  
 
   componentWillUnmount() {
     this.subs.forEach(sub => sub.remove());
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
   }
-  async componentDidFocus(){
+
+  async componentDidFocus() {
     this.getLoggedInUser();
     this.getCities();
   }
 
   handleBackPress = () => {
-    this.props.navigation.goBack()
-    return true
-  }
+    this.props.navigation.goBack();
+    return true;
+  };
 
-  componentWillMount(){
-    
-  }
+  componentWillMount() {}
+
   componentDidMount() {
     this.subs = [
-      this.props.navigation.addListener('didFocus', (payload) => this.componentDidFocus(payload)),
+      this.props.navigation.addListener('didFocus', payload =>
+        this.componentDidFocus(payload),
+      ),
     ];
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
-  toggleUpdate(){
-    if(this.state.toggleUpdate == true){
+
+  toggleUpdate() {
+    if (this.state.toggleUpdate == true) {
       this.setState({
-        toggleUpdate: false
-      })
-    }else{
+        toggleUpdate: false,
+      });
+    } else {
       this.setState({
-        toggleUpdate: true
-      })
+        toggleUpdate: true,
+      });
     }
   }
-  showAlert(type, message){
-    Alert.alert(
-      type,
-      message,
-    );
+
+  showAlert(type, message) {
+    Alert.alert(type, message);
   }
 
-  async getLoggedInUser(){
-    await AsyncStorage.getItem('customer').then((value) => {
-      if(value){
-        this.setState({
-          customer: JSON.parse(value)
-        }, () => {
-          console.log(this.state.customer);
-          this.setState({
-            firstName: this.state.customer.first_name,
-            lastName: this.state.customer.last_name,
-            email: this.state.customer.email,
-            phone: this.state.customer.phone1,
-            customer_id: this.state.customer.id
-          })
-        });
-          
-      }else{
-        this.props.navigation.navigate('Login')
+  async getLoggedInUser() {
+    await AsyncStorage.getItem('customer').then(value => {
+      if (value) {
+        this.setState(
+          {
+            customer: JSON.parse(value),
+          },
+          () => {
+            console.log(this.state.customer);
+            this.setState({
+              firstName: this.state.customer.first_name,
+              lastName: this.state.customer.last_name,
+              email: this.state.customer.email,
+              phone: this.state.customer.phone1,
+              customer_id: this.state.customer.id,
+            });
+          },
+        );
+      } else {
+        this.props.navigation.navigate('Login');
       }
     });
   }
 
-  updateProfile(){
+  updateProfile() {
     this.showLoader();
-    
+
     fetch(`${SERVER_URL}/mobile/update_profile`, {
       method: 'POST',
       headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-          id: this.state.customer.id,
-          email: this.state.email,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          phone: this.state.phone,
-          password: this.state.password,
-          cityId: this.state.cityId
-      })
-    }).then((response) => response.json())
-        .then((res) => {
-          console.log(res);
-          this.hideLoader();
-          if(res.success){
-            this.showAlert("success", res.success);
-            this.setState({
-              customer:  res.customer
-            }, ()=> {
-              AsyncStorage.setItem('customer', JSON.stringify(res.customer)).then(() => {
-                AsyncStorage.setItem('loginvalue', this.state.email).then(() => {
-                  this.showAlert("Success", res.success)
-                });
-              });
-            });
-          }else{
-            this.showAlert("Error", res.error)
-          }
-  }).done();
-  
-}
-updatePassword(){
-  if(this.state.password != this.state.cpassword){
-    this.showAlert("Info", "Provided passwords do not match");
-    return;
-  }
-  if(this.state.password.length < 6){
-    this.showAlert("Info", "Provided passwords must have at least 6 characters");
-    return;
-  }
-  this.showLoader();
-  
-  fetch(`${SERVER_URL}/mobile/update_password`, {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        user_id: this.state.customer.id,
+        id: this.state.customer.id,
+        email: this.state.email,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        phone: this.state.phone,
         password: this.state.password,
+        cityId: this.state.cityId,
+      }),
     })
-  }).then((response) => response.json())
-      .then((res) => {
+      .then(response => response.json())
+      .then(res => {
         console.log(res);
         this.hideLoader();
-        if(res.success){
-          this.showAlert("success", res.success);
-        
-        }else{
-          this.showAlert("Error", res.error)
+        if (res.success) {
+          this.showAlert('success', res.success);
+          this.setState(
+            {
+              customer: res.customer,
+            },
+            () => {
+              AsyncStorage.setItem(
+                'customer',
+                JSON.stringify(res.customer),
+              ).then(() => {
+                AsyncStorage.setItem('loginvalue', this.state.email).then(
+                  () => {
+                    this.showAlert('Success', res.success);
+                  },
+                );
+              });
+            },
+          );
+        } else {
+          this.showAlert('Error', res.error);
         }
-}).done();
+      })
+      .done();
+  }
 
-}
+  updatePassword() {
+    if (this.state.password != this.state.cpassword) {
+      this.showAlert('Info', 'Provided passwords do not match');
+      return;
+    }
+    if (this.state.password.length < 6) {
+      this.showAlert(
+        'Info',
+        'Provided passwords must have at least 6 characters',
+      );
+      return;
+    }
+    this.showLoader();
 
-  showLoader(){
+    fetch(`${SERVER_URL}/mobile/update_password`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_id: this.state.customer.id,
+        password: this.state.password,
+      }),
+    })
+      .then(response => response.json())
+      .then(res => {
+        console.log(res);
+        this.hideLoader();
+        if (res.success) {
+          this.showAlert('success', res.success);
+        } else {
+          this.showAlert('Error', res.error);
+        }
+      })
+      .done();
+  }
+
+  showLoader() {
     this.setState({
-      loaderVisible: true
+      loaderVisible: true,
     });
   }
-  hideLoader(){
+
+  hideLoader() {
     this.setState({
-      loaderVisible: false
+      loaderVisible: false,
     });
   }
-  showPassword(){
+
+  showPassword() {
     this.setState({
       passwordView: true,
-      profileView: false
-    });
-  }
-  showProfile(){
-    this.setState({
-      passwordView: false,
-      profileView: true
+      profileView: false,
     });
   }
 
-  getCities(){
+  showProfile() {
+    this.setState({
+      passwordView: false,
+      profileView: true,
+    });
+  }
+
+  getCities() {
     this.showLoader();
     fetch(`${SERVER_URL}/mobile/get_cities`, {
-      method: 'GET'
-   })
-   .then((response) => response.json())
-   .then((res) => {
-     this.hideLoader();
-       
-       this.hideLoader();
-       if(res.success){
-          this.setState({
-            cities:  res.cities
-          }, ()=>{
-            var city = this.state.cities.find(_item => _item.id == this.state.customer.city_id);
-            console.log(city, 'city');
-            this.setState({
-              locationPlaceholder: city.city_name,
-              cityId: city.id
-            })
-          });
-       }else{
-         Alert.alert('Error', res.error);
-       }
-   })
-   .catch((error) => {
-      console.error(error);
-      Alert.alert(
-       "Communictaion error",
-       "Ensure you have an active internet connection",
-       [
-         {
-           text: "Ok",
-           onPress: () => console.log("Cancel Pressed"),
-           style: "cancel"
-         },
-         { text: "Refresh", onPress: () => this.getCities() }
-       ],
-       //{ cancelable: false }
-     );
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.hideLoader();
+
+        this.hideLoader();
+        if (res.success) {
+          this.setState(
+            {
+              cities: res.cities,
+            },
+            () => {
+              var city = this.state.cities.find(
+                _item => _item.id == this.state.customer.city_id,
+              );
+              console.log(city, 'city');
+              this.setState({
+                locationPlaceholder: city.city_name,
+                cityId: city.id,
+              });
+            },
+          );
+        } else {
+          Alert.alert('Error', res.error);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        Alert.alert(
+          'Communictaion error',
+          'Ensure you have an active internet connection',
+          [
+            {
+              text: 'Ok',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Refresh', onPress: () => this.getCities()},
+          ],
+          //{ cancelable: false }
+        );
+      });
+  }
+
+  handlePhotoSelection() {
+    launchImageLibrary({noData: true}, response => {
+      console.log(response);
+      if (response) {
+        this.setState({dp: response.assets[0].uri});
+      }
     });
   }
 
   onCancel = () => {
     this.setState({
-      visible1: false
+      visible1: false,
     });
-  }
-  onPickupSelect = (city) => {
-    
-    this.setState({
-      cityId: city.id,
-      locationPlaceholder: city.label,
-      visible1: false 
-    }, ()=> {  })
-    
-  }
+  };
 
-  navigateToScreen = (route) => () => {
+  onPickupSelect = city => {
+    this.setState(
+      {
+        cityId: city.id,
+        locationPlaceholder: city.label,
+        visible1: false,
+      },
+      () => {},
+    );
+  };
+
+  navigateToScreen = route => () => {
     const navigateAction = NavigationActions.navigate({
-      routeName: route
+      routeName: route,
     });
     this.props.navigation.dispatch(navigateAction);
-  }
+  };
+
   static navigationOptions = {
-      header: null
-  }
-  
+    header: null,
+  };
 
   render() {
-    const { visible } = this.state;
+    const {visible} = this.state;
+
     return (
-      <View style = {styles.body}>
-        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
+      <View style={styles.body}>
+        <StatusBar translucent={true} backgroundColor={'#0B277F'} />
         <View style={styles.header}>
           <View style={styles.sheader}>
-            <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
-            <Icon name="arrow-back" size={18} color="#fff"  style = {styles.menuImage}/>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Icon
+                name="arrow-back"
+                size={18}
+                color="#fff"
+                style={styles.menuImage}
+              />
             </TouchableOpacity>
-            <Text style = {styles.headerText}>Profile</Text>
+            <Text style={styles.headerText}>Profile</Text>
           </View>
-          
-        </View> 
-        
-       
+        </View>
+
         {/*<Text style = {styles.headerText5}>Update profile</Text>*/}
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
           <View style={styles.cView}>
-          <View style = {styles.topImageView}>
-            <Image source = {require('./imgs/round-profile.png')} style = {styles.userImage} />
-          </View>
-          <View style = {styles.topTextView}>
-              <Text style = {styles.topTextName}>
-              {this.state.customer && this.state.customer.first_name} {this.state.customer && this.state.customer.last_name}
+            <View style={styles.topImageView}>
+              <TouchableOpacity onPress={this.handlePhotoSelection}>
+                {this.state.dp === null ? (
+                  <Image
+                    source={require('./imgs/round-profile.png')}
+                    style={styles.userImage}
+                  />
+                ) : (
+                  <Image
+                    source={{
+                      uri: this.state.dp,
+                    }}
+                    style={styles.userImage}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.topTextView}>
+              <Text style={styles.topTextName}>
+                {this.state.customer && this.state.customer.first_name}
+                {this.state.customer && this.state.customer.last_name}
               </Text>
-              <Text style = {styles.topLocation}> 
-              {this.state.customer && this.state.customer.email} 
+
+              <Text style={styles.topLocation}>
+                {this.state.customer && this.state.customer.email}
               </Text>
             </View>
-            {this.state.profileView &&
-            <View>
-              <View style= {styles.row}>
-                <View style= {styles.col50}>
-                  <Text style = {styles.label1}>First name</Text>
-                  <TextInput
-                                    style={styles.input}
-                                    placeholder="First name"
-                                    onChangeText={(text) => this.setState({firstName: text})}
-                                    underlineColorAndroid="transparent"
-                                    placeholderTextColor="#ccc" 
-                                    value={this.state.firstName}
-                                    //keyboardType={'email-address'}
-                                  />
+
+            {this.state.profileView && (
+              <View>
+                <View style={styles.row}>
+                  <View style={styles.col50}>
+                    <Text style={styles.label1}>First name</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="First name"
+                      onChangeText={text => this.setState({firstName: text})}
+                      underlineColorAndroid="transparent"
+                      placeholderTextColor="#ccc"
+                      value={this.state.firstName}
+                      //keyboardType={'email-address'}
+                    />
+                  </View>
+                  <View style={styles.col50}>
+                    <Text style={styles.label1}>Last name</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Last name"
+                      onChangeText={text => this.setState({lastName: text})}
+                      underlineColorAndroid="transparent"
+                      placeholderTextColor="#ccc"
+                      value={this.state.lastName}
+                      //keyboardType={'email-address'}
+                    />
+                  </View>
                 </View>
-                <View style= {styles.col50}>
-                  <Text style = {styles.label1}>Last name</Text>
-                  <TextInput
-                                    style={styles.input}
-                                    placeholder="Last name"
-                                    onChangeText={(text) => this.setState({lastName: text})}
-                                    underlineColorAndroid="transparent"
-                                    placeholderTextColor="#ccc" 
-                                    value={this.state.lastName}
-                                    //keyboardType={'email-address'}
-                                  />
-                </View>
-              </View>
-              <Text style = {styles.label}>City</Text>
-              {this.state.visible1 &&
-                <ModalFilterPicker
+                <Text style={styles.label}>City</Text>
+                {this.state.visible1 && (
+                  <ModalFilterPicker
+                    style={styles.input}
+                    onSelect={this.onPickupSelect}
+                    onCancel={this.onCancel}
+                    options={this.state.cities}
+                  />
+                )}
+                <TouchableOpacity
+                  onPress={() => this.setState({visible1: true})}>
+                  <Text style={styles.locSelect}>
+                    {this.state.locationPlaceholder}
+                  </Text>
+                </TouchableOpacity>
+                <Text style={styles.label}>Email</Text>
+                <TextInput
                   style={styles.input}
-                  onSelect={this.onPickupSelect}
-                  onCancel={this.onCancel}
-                  options={this.state.cities}
+                  placeholder="Email"
+                  onChangeText={text => this.setState({email: text})}
+                  underlineColorAndroid="transparent"
+                  placeholderTextColor="#ccc"
+                  value={this.state.email}
+                  keyboardType={'email-address'}
+                  autoCapitalize="none"
                 />
-              }
-            <TouchableOpacity onPress={() => this.setState({visible1: true})}  >
-              <Text style={styles.locSelect}>{this.state.locationPlaceholder}</Text>
-            </TouchableOpacity>
-              <Text style = {styles.label}>Email</Text>
-              <TextInput
-                                style={styles.input}
-                                placeholder="Email"
-                                onChangeText={(text) => this.setState({email: text})}
-                                underlineColorAndroid="transparent"
-                                placeholderTextColor="#ccc" 
-                                value={this.state.email}
-                                keyboardType={'email-address'}
-                                autoCapitalize = "none"
-                              />
-              <Text style = {styles.label}>Phone</Text>
-              <TextInput
-                            style={styles.input}
-                            placeholder="Phone"
-                            onChangeText={(text) => this.setState({phone: text})}
-                            underlineColorAndroid="transparent"
-                            minLength={11}
-                            maxLength={11}
-                            value={this.state.phone}
-                            keyboardType={'phone-pad'}
-                          />
-              <View style= {styles.row}>
-                <View style= {styles.col50}>
-                  <TouchableOpacity  onPress={() => this.updateProfile()} style={styles.submitButton}>
-                    <Text style={styles.submitButtonText}>Update profile</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style= {styles.col50}>
-                  <TouchableOpacity  onPress={() => this.showPassword()} style={styles.submitButton1}>
-                    <Text style={styles.submitButtonText1}>Update password</Text>
-                  </TouchableOpacity>
+                <Text style={styles.label}>Phone</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Phone"
+                  onChangeText={text => this.setState({phone: text})}
+                  underlineColorAndroid="transparent"
+                  minLength={11}
+                  maxLength={11}
+                  value={this.state.phone}
+                  keyboardType={'phone-pad'}
+                />
+                <View style={styles.row}>
+                  <View style={styles.col50}>
+                    <TouchableOpacity
+                      onPress={() => this.updateProfile()}
+                      style={styles.submitButton}>
+                      <Text style={styles.submitButtonText}>
+                        Update profile
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.col50}>
+                    <TouchableOpacity
+                      onPress={() => this.showPassword()}
+                      style={styles.submitButton1}>
+                      <Text style={styles.submitButtonText1}>
+                        Update password
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-            } 
-            {this.state.passwordView &&
-            <View>
-              <Text style = {styles.headerText5}>Update password</Text>
-                <Text style = {styles.label}>Password</Text>
+            )}
+            {this.state.passwordView && (
+              <View>
+                <Text style={styles.headerText5}>Update password</Text>
+                <Text style={styles.label}>Password</Text>
                 <TextInput
-                                  style={styles.input}
-                                  placeholder="Password"
-                                  onChangeText={(text) => this.setState({password: text})}
-                                  underlineColorAndroid="transparent"
-                                  placeholderTextColor="#ccc" 
-                                  autoCapitalize = "none"
-                                  value={this.state.password}
-                                  secureTextEntry={true} 
-                                />
-                <Text style = {styles.label}>Confirm Password</Text>
+                  style={styles.input}
+                  placeholder="Password"
+                  onChangeText={text => this.setState({password: text})}
+                  underlineColorAndroid="transparent"
+                  placeholderTextColor="#ccc"
+                  autoCapitalize="none"
+                  value={this.state.password}
+                  secureTextEntry={true}
+                />
+                <Text style={styles.label}>Confirm Password</Text>
                 <TextInput
-                                  style={styles.input}
-                                  placeholder="Password"
-                                  onChangeText={(text) => this.setState({cpassword: text})}
-                                  underlineColorAndroid="transparent"
-                                  placeholderTextColor="#ccc" 
-                                  autoCapitalize = "none"
-                                  value={this.state.cpassword}
-                                  secureTextEntry={true} 
-                                />
-                <View style= {styles.row}>
-                  <View style= {styles.col50}>
-                    <TouchableOpacity  onPress={() => this.updatePassword()} style={styles.submitButton}>
-                      <Text style={styles.submitButtonText}>Update password</Text>
+                  style={styles.input}
+                  placeholder="Password"
+                  onChangeText={text => this.setState({cpassword: text})}
+                  underlineColorAndroid="transparent"
+                  placeholderTextColor="#ccc"
+                  autoCapitalize="none"
+                  value={this.state.cpassword}
+                  secureTextEntry={true}
+                />
+                <View style={styles.row}>
+                  <View style={styles.col50}>
+                    <TouchableOpacity
+                      onPress={() => this.updatePassword()}
+                      style={styles.submitButton}>
+                      <Text style={styles.submitButtonText}>
+                        Update password
+                      </Text>
                     </TouchableOpacity>
                   </View>
-                  <View style= {styles.col50}>
-                    <TouchableOpacity  onPress={() => this.showProfile()} style={styles.submitButton1}>
-                      <Text style={styles.submitButtonText1}>Update profile</Text>
+                  <View style={styles.col50}>
+                    <TouchableOpacity
+                      onPress={() => this.showProfile()}
+                      style={styles.submitButton1}>
+                      <Text style={styles.submitButtonText1}>
+                        Update profile
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
-            </View>
-            }
+              </View>
+            )}
           </View>
-          
         </ScrollView>
 
-        {this.state.loaderVisible &&
-              <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
-            }
-        
+        {this.state.loaderVisible && (
+          <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
+        )}
       </View>
-    )
+    );
   }
 }
 
-export default Profile
+export default Profile;
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
     width: '100%',
   },
@@ -438,7 +532,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     paddingBottom: 50,
     marginBottom: 250,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   header: {
     width: '100%',
@@ -483,15 +577,14 @@ const styles = StyleSheet.create ({
     fontSize: 12,
     paddingTop: 6,
     paddingBottom: 7,
-    textAlign: 'center'
-  
+    textAlign: 'center',
   },
   userImage: {
     width: 60,
     height: 60,
     borderRadius: 30,
-    //borderColor: '#9c77b1',
-    //borderWidth: 6,
+    borderColor: '#9c77b1',
+    borderWidth: 6,
   },
   colk: {
     width: '50%',
@@ -502,7 +595,6 @@ const styles = StyleSheet.create ({
     width: '50%',
     borderTopRightRadius: 18,
     borderBottomRightRadius: 18,
-  
   },
   col3: {
     width: '33%',
@@ -511,10 +603,10 @@ const styles = StyleSheet.create ({
   col50: {
     width: '50%',
   },
-  
+
   index1: {
     width: '100%',
-    marginTop: 20.
+    marginTop: 20,
   },
   itemView: {
     width: '95%',
@@ -545,7 +637,7 @@ const styles = StyleSheet.create ({
     //flexDirection: 'row',
   },
   orderNumber: {
-    color: '#000'
+    color: '#000',
   },
   date: {
     color: '#999',
@@ -571,7 +663,7 @@ const styles = StyleSheet.create ({
   },
   item11: {
     width: '100%',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   item22: {
     flexDirection: 'row',
@@ -580,7 +672,7 @@ const styles = StyleSheet.create ({
     width: '40%',
   },
   item3: {
-    width: '100%'
+    width: '100%',
   },
 
   addText: {
@@ -653,23 +745,23 @@ const styles = StyleSheet.create ({
   bImage: {
     width: '90%',
     height: 160,
-    zIndex:1,
+    zIndex: 1,
     marginTop: 20,
     alignSelf: 'center',
     backgroundColor: 'rgb(126,83,191)',
-    borderRadius: 20, 
-    borderRadius: 20, 
+    borderRadius: 20,
+    borderRadius: 20,
   },
   bImage1: {
     width: '100%',
     height: 160,
-    zIndex:0,
+    zIndex: 0,
     //opacity: 0.6,
     overflow: 'hidden',
-    borderRadius: 20, 
-    borderRadius: 20, 
+    borderRadius: 20,
+    borderRadius: 20,
   },
-  
+
   col1: {
     //width: '20%',
     borderRadius: 18,
@@ -679,7 +771,6 @@ const styles = StyleSheet.create ({
     //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
-  
   },
   col3: {
     //width: '20%',
@@ -691,11 +782,11 @@ const styles = StyleSheet.create ({
     borderRadius: 18,
     textAlign: 'center',
   },
-  sView:{
+  sView: {
     marginTop: -120,
     zIndex: 9999999999999,
   },
-  
+
   logoImage: {
     marginTop: 60,
     alignSelf: 'center',
@@ -721,7 +812,6 @@ const styles = StyleSheet.create ({
     textAlign: 'center',
     width: '33%',
     fontSize: 13,
-    
   },
   counterText: {
     textAlign: 'center',
@@ -766,14 +856,13 @@ const styles = StyleSheet.create ({
     color: '#fff',
     marginTop: 5,
     textAlign: 'center',
-    fontWeight: "bold",
-
+    fontWeight: 'bold',
   },
   card: {
     //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
-    
+
     borderWidth: 1,
     borderRadius: 9,
     elevation: 1,
@@ -790,7 +879,7 @@ const styles = StyleSheet.create ({
     fontSize: 12,
   },
   colImage: {
-    width: '35%'
+    width: '35%',
   },
   colContent: {
     width: '65%',
@@ -800,7 +889,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     marginTop: 5,
   },
-  
+
   contentText: {
     fontWeight: 'bold',
   },
@@ -808,18 +897,17 @@ const styles = StyleSheet.create ({
     color: '#5D626A',
   },
 
-
-  label:{
+  label: {
     color: '#555',
     paddingLeft: 15,
     marginTop: 10,
   },
-  label1:{
+  label1: {
     color: '#555',
     paddingLeft: 10,
     marginTop: 10,
   },
-  labelZ:{
+  labelZ: {
     color: '#454A65',
     fontWeight: 'bold',
     marginTop: 1,
@@ -859,7 +947,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     marginTop: 10,
     paddingLeft: 25,
-    color: '#222'
+    color: '#222',
   },
   forgotText: {
     textAlign: 'right',
@@ -872,7 +960,7 @@ const styles = StyleSheet.create ({
     textAlign: 'center',
     marginTop: 13,
   },
-  
+
   createText: {
     textAlign: 'center',
     color: '#fff',
@@ -889,83 +977,81 @@ const styles = StyleSheet.create ({
     height: 10,
     width: 10,
     paddingRight: 4,
-    },
-    submitButton: {elevation: 2,
-      marginTop: 20,
-      backgroundColor: '#0B277F',
-      borderWidth: 1,
-      borderColor: '#0B277F',
-      borderRadius: 10,
-      width: '90%',
-      //elevation: 2,
-      alignSelf: 'center',
-      paddingTop: 12,
-      paddingBottom: 13,
-    },
-submitButton1: {
-  marginTop: 20,
-      borderColor: '#0B277F',
-      borderRadius: 10,
-      borderWidth: 1,
-      width: '90%',
-      //elevation: 2,
-      alignSelf: 'center',
-      paddingTop: 12,
-      paddingBottom: 13,
-},
-submitButtonText: {
-  color: '#fff',
-  textAlign: 'center'
-},
-submitButtonText1: {
-  color: '#0B277F',
-  textAlign: 'center'
-},
-loaderImage: {
-  width: 80,
-  height: 80,
-  alignSelf: 'center',
-  zIndex: 99999999999999,
-  
-},
-modal: {
-  margin: 0,
-  padding: 0
-},
-modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
-  alignSelf: 'center',
-  height: 50,
-  width: 100,
-  backgroundColor: '#FFF',
-  paddingTop: 18,
-},
+  },
+  submitButton: {
+    elevation: 2,
+    marginTop: 20,
+    backgroundColor: '#0B277F',
+    borderWidth: 1,
+    borderColor: '#0B277F',
+    borderRadius: 10,
+    width: '90%',
+    //elevation: 2,
+    alignSelf: 'center',
+    paddingTop: 12,
+    paddingBottom: 13,
+  },
+  submitButton1: {
+    marginTop: 20,
+    borderColor: '#0B277F',
+    borderRadius: 10,
+    borderWidth: 1,
+    width: '90%',
+    //elevation: 2,
+    alignSelf: 'center',
+    paddingTop: 12,
+    paddingBottom: 13,
+  },
+  submitButtonText: {
+    color: '#fff',
+    textAlign: 'center',
+  },
+  submitButtonText1: {
+    color: '#0B277F',
+    textAlign: 'center',
+  },
+  loaderImage: {
+    width: 80,
+    height: 80,
+    alignSelf: 'center',
+    zIndex: 99999999999999,
+  },
+  modal: {
+    margin: 0,
+    padding: 0,
+  },
+  modalView: {
+    // width: '100%',
+    // height: '100%',
+    // opacity: 0.9,
+    alignSelf: 'center',
+    height: 50,
+    width: 100,
+    backgroundColor: '#FFF',
+    paddingTop: 18,
+  },
 
-
-forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
-  alignSelf: 'center',
-  height: 280,
-  width: '90%',
-  backgroundColor: '#FFF',
-  paddingTop: 18,
-},
-loading: {
-  position: 'absolute',
-  elevation: 2, 
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0,
-  zIndex: 9999999999999999999999999,
-  //height: '100vh',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'rgba(0,0,0,0.5)'
-}
-  
-})
+  forgotModalView: {
+    // width: '100%',
+    // height: '100%',
+    // opacity: 0.9,
+    alignSelf: 'center',
+    height: 280,
+    width: '90%',
+    backgroundColor: '#FFF',
+    paddingTop: 18,
+  },
+  loading: {
+    position: 'absolute',
+    elevation: 2,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    zIndex: 9999999999999999999999999,
+    //height: '100vh',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+});
