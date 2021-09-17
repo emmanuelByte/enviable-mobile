@@ -1,12 +1,34 @@
-import React, { Component  } from 'react';
-import { AppState, View, Platform, Text, Alert, Image, Button, TextInput, StyleSheet, ScrollView,BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity, AsyncStorage } from 'react-native';
+import React, {Component} from 'react';
+import {
+  AppState,
+  View,
+  Platform,
+  Text,
+  Alert,
+  Image,
+  Button,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+  BackHandler,
+  ActivityIndicator,
+  ImageBackground,
+  StatusBar,
+  TouchableOpacity,
+  AsyncStorage,
+} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
-import { SERVER_URL } from './config/server';
+import {SERVER_URL} from './config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
-import { Settings, LoginManager, LoginButton, AccessToken } from 'react-native-fbsdk-next';
+import {
+  Settings,
+  LoginManager,
+  LoginButton,
+  AccessToken,
+} from 'react-native-fbsdk-next';
 
 import {
   GoogleSignin,
@@ -24,7 +46,8 @@ export class Register extends Component {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
       toggleUpdate: false,
-      visible: false,loaderVisible: false,
+      visible: false,
+      loaderVisible: false,
       forgotVisible: false,
       cityId: '',
       email: '',
@@ -38,25 +61,24 @@ export class Register extends Component {
       referralCode: '',
       pickupLocationPlaceholder: '',
       visible1: false,
-    }
+    };
     GoogleSignin.configure();
     this.signOut();
   }
   signOut = async () => {
     try {
       await GoogleSignin.signOut();
-      this.setState({ user: null }); // Remember to remove the user from your app's state as well
+      this.setState({user: null}); // Remember to remove the user from your app's state as well
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   componentWillUnmount() {
     this.subs.forEach(sub => sub.remove());
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
   }
-  async componentDidFocus(){
+  async componentDidFocus() {
     Settings.initializeSDK();
     this.getLoggedInUser();
     this.getCities();
@@ -64,63 +86,62 @@ export class Register extends Component {
 
   handleBackPress = () => {
     Alert.alert(
-      "Confirm exit",
-      "Are you sure you want to exit this app?",
+      'Confirm exit',
+      'Are you sure you want to exit this app?',
       [
         {
-          text: "Stay here",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          text: 'Stay here',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
         },
         //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
+        {text: 'Leave', onPress: () => BackHandler.exitApp()},
       ],
       //{ cancelable: false }
     );
-    return true
-  }
+    return true;
+  };
 
   componentDidMount() {
     this.subs = [
-      this.props.navigation.addListener('didFocus', (payload) => this.componentDidFocus(payload)),
+      this.props.navigation.addListener('didFocus', payload =>
+        this.componentDidFocus(payload),
+      ),
     ];
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
-  toggleUpdate(){
-    if(this.state.toggleUpdate == true){
+  toggleUpdate() {
+    if (this.state.toggleUpdate == true) {
       this.setState({
-        toggleUpdate: false
-      })
-    }else{
+        toggleUpdate: false,
+      });
+    } else {
       this.setState({
-        toggleUpdate: true
-      })
+        toggleUpdate: true,
+      });
     }
   }
-  showAlert(type, message){
-    Alert.alert(
-      type,
-      message,
-    );
+  showAlert(type, message) {
+    Alert.alert(type, message);
   }
 
-  async getLoggedInUser(){
-    await AsyncStorage.getItem('enviable').then((val) => {
-      if(val != null){
+  async getLoggedInUser() {
+    await AsyncStorage.getItem('enviable').then(val => {
+      if (val != null) {
         this.setState({
-          phone: JSON.parse(val).phone1
-        })
+          phone: JSON.parse(val).phone1,
+        });
       }
-    });  
-    await AsyncStorage.getItem('customer').then((value) => {
-      console.log(value, 'lval')
+    });
+    await AsyncStorage.getItem('customer').then(value => {
+      console.log(value, 'lval');
       this.setState({
         customer: JSON.parse(value),
-        phone: JSON.parse(value).phone1
-      })
-      if(value.first_name != null){
-        this.props.navigation.navigate('Home')
+        phone: JSON.parse(value).phone1,
+      });
+      if (value.first_name != null) {
+        this.props.navigation.navigate('Home');
         // this.setState({
         //   customer: JSON.parse(value)
         // }, () => {
@@ -128,84 +149,81 @@ export class Register extends Component {
         //     customer_id: this.state.customer.id
         //   })
         // });
-          
-      }else{
-        AsyncStorage.getItem('pushToken').then((value) => {
+      } else {
+        AsyncStorage.getItem('pushToken').then(value => {
           this.setState({
             token: value,
-            
-          })
+          });
         });
-        AsyncStorage.getItem('loginvalue').then((value) => {
-          if(value){
+        AsyncStorage.getItem('loginvalue').then(value => {
+          if (value) {
             this.setState({
-              email: value
-            })
-          }   
+              email: value,
+            });
+          }
         });
       }
     });
   }
-  showLoader(){
+  showLoader() {
     this.setState({
-      visible: true
+      visible: true,
     });
   }
-  hideLoader(){
+  hideLoader() {
     this.setState({
-      visible: false
+      visible: false,
     });
   }
-  
-  navigateToScreen = (route) => () => {
+
+  navigateToScreen = route => () => {
     const navigateAction = NavigationActions.navigate({
-      routeName: route
+      routeName: route,
     });
     this.props.navigation.dispatch(navigateAction);
-  }
+  };
   static navigationOptions = {
-      header: null
-  }
+    header: null,
+  };
 
-  
-  getCities(){
+  getCities() {
     this.showLoader();
     fetch(`${SERVER_URL}/mobile/get_cities`, {
-      method: 'GET'
-   })
-   .then((response) => response.json())
-   .then((res) => {
-     this.hideLoader();
-       //
-       this.hideLoader();
-       if(res.success){
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.hideLoader();
+        //
+        this.hideLoader();
+        if (res.success) {
           this.setState({
-            cities:  res.cities
+            cities: res.cities,
           });
-       }else{
-         Alert.alert('Error', res.error);
-       }
-   })
-   .catch((error) => {
-    this.hideLoader();
-      console.error(error);
-      Alert.alert(
-       "Communictaion error",
-       "Ensure you have an active internet connection",
-       [
-         {
-           text: "Ok",
-           onPress: () => console.log("Cancel Pressed"),
-           style: "cancel"
-         },
-         { text: "Refresh", onPress: () => this.getCities() }
-       ],
-       //{ cancelable: false }
-     );
-    });
+        } else {
+          Alert.alert('Error', res.error);
+        }
+      })
+      .catch(error => {
+        this.hideLoader();
+        console.error(error);
+        Alert.alert(
+          'Communictaion error',
+          'Ensure you have an active internet connection',
+          [
+            {
+              text: 'Ok',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Refresh', onPress: () => this.getCities()},
+          ],
+          //{ cancelable: false }
+        );
+      });
   }
 
-  register(){
+  register() {
     this.showLoader();
     var bod = JSON.stringify({
       email: this.state.email,
@@ -217,204 +235,231 @@ export class Register extends Component {
       push_token: this.state.token,
       referralCode: this.state.referralCode,
       user_id: this.state.customer.id,
-      device: Platform.OS
+      device: Platform.OS,
     });
-    console.log(bod, 'bod')
+    console.log(bod, 'bod');
     fetch(`${SERVER_URL}/mobile/register`, {
-      
       method: 'POST',
       headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-          email: this.state.email,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          phone: this.state.phone,
-          cityId: this.state.cityId,
-          password: this.state.password,
-          push_token: this.state.token,
-          referralCode: this.state.referralCode,
-          user_id: this.state.customer.id,
-          device: Platform.OS
-      })
-    }).then((response) => response.json())
-        .then((res) => {
-          console.log(res);
-          this.hideLoader();
-          if(res.success){
-            this.showAlert("success", res.success);
-            this.setState({
-              customer:  res.customer
-            }, ()=> {
-              AsyncStorage.setItem('customer', JSON.stringify(res.customer)).then(() => {
-                AsyncStorage.setItem('loginvalue', this.state.email).then(() => {
-                  this.props.navigation.navigate('Home')
-                });
-              });
-            });
-          }else{
-            this.showAlert("Error", res.error)
-          }
-  }).done();
-  
-}
-onCancel = () => {
-  this.setState({
-    visible1: false
-  });
-}
-onPickupSelect = (city) => {
-  
-  this.setState({
-    cityId: city.id,
-    pickupLocationPlaceholder: city.label,
-    visible1: false 
-  }, ()=> {  })
-  
-}
-
-  forgot(){
-      this.showLoader();
-      fetch(`${SERVER_URL}/mobile/forgot_password_post`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: this.state.email,
-        })
-      }).then((response) => response.json())
-          .then((res) => {
-            this.hideLoader();
-            if(res.success){
-              this.showAlert("success", res.success)
-            }else{
-              this.showAlert("Error", res.error)
-            }
-    }).done();
-  }
-
-  reg(){
-    this.setState({
-      firstName: this.state.userInfo.user.givenName,
-      lastName: this.state.userInfo.user.familyName,
-      email: this.state.userInfo.user.email,
-      cityId: 524,
-      password: "trazine145$",
-      push_token: this.state.token,
-      referralCode: this.state.referralCode,
-      user_id: this.state.customer.id,
-      device: Platform.OS
-    }, ()=> {
-      this.register()
+        email: this.state.email,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        phone: this.state.phone,
+        cityId: this.state.cityId,
+        password: this.state.password,
+        push_token: this.state.token,
+        referralCode: this.state.referralCode,
+        user_id: this.state.customer.id,
+        device: Platform.OS,
+      }),
     })
-  }
-    registerWithGoogle = async () => {
-      Alert.alert("Info", "This feature is comming soon..")
-      try {
-        await GoogleSignin.hasPlayServices();
-        const userInfo = await GoogleSignin.signIn();
-        console.log(userInfo, 'userInfo');
-        this.setState({ userInfo }, ()=> {
-          this.reg();
-        });
-      } catch (error) {
-        console.log(error, 'err')
-        if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-          // user cancelled the login flow
-        } else if (error.code === statusCodes.IN_PROGRESS) {
-          // operation (e.g. sign in) is in progress already
-        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-          // play services not available or outdated
-        } else {
-          // some other error happened
-        }
-      }
-    };
-  
-
-  registerWithFacebook(){
-    LoginManager.logInWithPermissions(["public_profile"]).then(
-      function(result) {
-        if (result.isCancelled) {
-          console.log("Login cancelled");
-        } else {
-          console.log(
-            "Login success with permissions: " +
-              result.grantedPermissions.toString()
+      .then(response => response.json())
+      .then(res => {
+        console.log(res);
+        this.hideLoader();
+        if (res.success) {
+          this.showAlert('success', res.success);
+          this.setState(
+            {
+              customer: res.customer,
+            },
+            () => {
+              AsyncStorage.setItem(
+                'customer',
+                JSON.stringify(res.customer),
+              ).then(() => {
+                AsyncStorage.setItem('loginvalue', this.state.email).then(
+                  () => {
+                    this.props.navigation.navigate('Home');
+                  },
+                );
+              });
+            },
           );
-          console.log(result, "res")
+        } else {
+          this.showAlert('Error', res.error);
         }
+      })
+      .done();
+  }
+  onCancel = () => {
+    this.setState({
+      visible1: false,
+    });
+  };
+  onPickupSelect = city => {
+    this.setState(
+      {
+        cityId: city.id,
+        pickupLocationPlaceholder: city.label,
+        visible1: false,
       },
-      function(error) {
-        console.log("Login fail with error: " + error);
-      }
+      () => {},
+    );
+  };
+
+  forgot() {
+    this.showLoader();
+    fetch(`${SERVER_URL}/mobile/forgot_password_post`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+      }),
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.hideLoader();
+        if (res.success) {
+          this.showAlert('success', res.success);
+        } else {
+          this.showAlert('Error', res.error);
+        }
+      })
+      .done();
+  }
+
+  reg() {
+    this.setState(
+      {
+        firstName: this.state.userInfo.user.givenName,
+        lastName: this.state.userInfo.user.familyName,
+        email: this.state.userInfo.user.email,
+        cityId: 524,
+        password: 'trazine145$',
+        push_token: this.state.token,
+        referralCode: this.state.referralCode,
+        user_id: this.state.customer.id,
+        device: Platform.OS,
+      },
+      () => {
+        this.register();
+      },
     );
   }
-  
-  showLoader(){
+  registerWithGoogle = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo, 'userInfo');
+      this.setState({userInfo}, () => {
+        this.reg();
+      });
+    } catch (error) {
+      Alert.alert('Info', 'This feature is comming soon..');
+
+      console.log(error, 'err');
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
+
+  registerWithFacebook() {
+    LoginManager.logInWithPermissions(['public_profile']).then(
+      function (result) {
+        if (result.isCancelled) {
+          console.log('Login cancelled');
+        } else {
+          console.log(
+            'Login success with permissions: ' +
+              result.grantedPermissions.toString(),
+          );
+          console.log(result, 'res');
+        }
+      },
+      function (error) {
+        console.log('Login fail with error: ' + error);
+      },
+    );
+  }
+
+  showLoader() {
     this.setState({
-      visible: true
+      visible: true,
     });
   }
-  hideLoader(){
+  hideLoader() {
     this.setState({
-      visible: false
+      visible: false,
     });
   }
   render() {
-    const { visible } = this.state;
+    const {visible} = this.state;
     return (
-      <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}}  colors={['#0B277F', '#0B277F']} style={styles.body}>
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 0, y: 1}}
+        colors={['#0B277F', '#0B277F']}
+        style={styles.body}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
-          <TouchableOpacity style = {styles.menuImageView}onPress={() => this.props.navigation.goBack()} >
-          <Icon name="arrow-back" size={18} color="#fff"  style = {styles.backImage}/>
+          <StatusBar translucent={true} backgroundColor={'#0B277F'} />
+          <TouchableOpacity
+            style={styles.menuImageView}
+            onPress={() => this.props.navigation.goBack()}>
+            <Icon
+              name="arrow-back"
+              size={18}
+              color="#fff"
+              style={styles.backImage}
+            />
           </TouchableOpacity>
-          <Text style = {styles.headerText}>Let's create your account</Text>
-            <View style = {styles.bottomView}>
-              <View style= {styles.row}>
-                <View style= {styles.col50}>
-                  <Text style = {styles.label1}>First name</Text>
-                  <TextInput
-                                    style={styles.input}
-                                    placeholder="First name"
-                                    onChangeText={(text) => this.setState({firstName: text})}
-                                    underlineColorAndroid="transparent"
-                                    placeholderTextColor="#ccc" 
-                                    value={this.state.firstName}
-                                    //keyboardType={'email-address'}
-                                  />
-                </View>
-                <View style= {styles.col50}>
-                  <Text style = {styles.label1}>Last name</Text>
-                  <TextInput
-                                    style={styles.input}
-                                    placeholder="Last name"
-                                    onChangeText={(text) => this.setState({lastName: text})}
-                                    underlineColorAndroid="transparent"
-                                    placeholderTextColor="#ccc" 
-                                    value={this.state.lastName}
-                                    //keyboardType={'email-address'}
-                                  />
-                </View>
-              </View>
-              <Text style = {styles.label}>City</Text>
-              {this.state.visible1 &&
-                <ModalFilterPicker
+          <Text style={styles.headerText}>Let's create your account</Text>
+          <View style={styles.bottomView}>
+            <View style={styles.row}>
+              <View style={styles.col50}>
+                <Text style={styles.label1}>First name</Text>
+                <TextInput
                   style={styles.input}
-                  onSelect={this.onPickupSelect}
-                  onCancel={this.onCancel}
-                  options={this.state.cities}
+                  placeholder="First name"
+                  onChangeText={text => this.setState({firstName: text})}
+                  underlineColorAndroid="transparent"
+                  placeholderTextColor="#ccc"
+                  value={this.state.firstName}
+                  //keyboardType={'email-address'}
                 />
-              }
-            <TouchableOpacity onPress={() => this.setState({visible1: true})}  >
-              <Text style={styles.locSelect}>{this.state.pickupLocationPlaceholder}</Text>
+              </View>
+              <View style={styles.col50}>
+                <Text style={styles.label1}>Last name</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Last name"
+                  onChangeText={text => this.setState({lastName: text})}
+                  underlineColorAndroid="transparent"
+                  placeholderTextColor="#ccc"
+                  value={this.state.lastName}
+                  //keyboardType={'email-address'}
+                />
+              </View>
+            </View>
+            <Text style={styles.label}>City</Text>
+            {this.state.visible1 && (
+              <ModalFilterPicker
+                style={styles.input}
+                onSelect={this.onPickupSelect}
+                onCancel={this.onCancel}
+                options={this.state.cities}
+              />
+            )}
+            <TouchableOpacity onPress={() => this.setState({visible1: true})}>
+              <Text style={styles.locSelect}>
+                {this.state.pickupLocationPlaceholder}
+              </Text>
             </TouchableOpacity>
-              {/*
+            {/*
             <Text style = {styles.label1}>Referral code (optional)</Text>
             <TextInput
                                     style={styles.input}
@@ -426,40 +471,40 @@ onPickupSelect = (city) => {
                                     //keyboardType={'email-address'}
                                   />
               */}
-              <Text style = {styles.label}>Email</Text>
-              <TextInput
-                                style={styles.input}
-                                placeholder="Email"
-                                onChangeText={(text) => this.setState({email: text})}
-                                underlineColorAndroid="transparent"
-                                placeholderTextColor="#ccc" 
-                                value={this.state.email}
-                                keyboardType={'email-address'}
-                                autoCapitalize = "none"
-                              />
-              <Text style = {styles.label}>Phone</Text>
-              <TextInput
-                            style={styles.input}
-                            placeholder="Phone"
-                            onChangeText={(text) => this.setState({phone: text})}
-                            underlineColorAndroid="transparent"
-                            minLength={11}
-                            maxLength={11}
-                            value={this.state.phone}
-                            keyboardType={'phone-pad'}
-                          />
-                          
-              <Text style = {styles.label}>Password</Text>
-              <TextInput
-                                style={styles.input}
-                                placeholder="Password"
-                                onChangeText={(text) => this.setState({password:text})}
-                                underlineColorAndroid="transparent"
-                                placeholderTextColor="#ccc" 
-                                autoCapitalize = "none"
-                                secureTextEntry={true} 
-                              />
-                              {/*
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              onChangeText={text => this.setState({email: text})}
+              underlineColorAndroid="transparent"
+              placeholderTextColor="#ccc"
+              value={this.state.email}
+              keyboardType={'email-address'}
+              autoCapitalize="none"
+            />
+            <Text style={styles.label}>Phone</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Phone"
+              onChangeText={text => this.setState({phone: text})}
+              underlineColorAndroid="transparent"
+              minLength={11}
+              maxLength={11}
+              value={this.state.phone}
+              keyboardType={'phone-pad'}
+            />
+
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              onChangeText={text => this.setState({password: text})}
+              underlineColorAndroid="transparent"
+              placeholderTextColor="#ccc"
+              autoCapitalize="none"
+              secureTextEntry={true}
+            />
+            {/*
               <Text style = {styles.label}>City</Text>
               <TextInput
                       style={styles.input}
@@ -471,26 +516,51 @@ onPickupSelect = (city) => {
                       //keyboardType={'email-address'}
                     />
                               */}
-              <TouchableOpacity style = {styles.forgotView}  >
-                <Text style = {styles.forgotText}>By tapping continue, you agree to Enviable's <Text style = {styles.forgotText1}>Terms of Service and privacy policies</Text></Text>
-              </TouchableOpacity>
-              <TouchableOpacity  onPress={() => this.register()} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Continue</Text>
-                
-              </TouchableOpacity>
-              {/*
+            <TouchableOpacity style={styles.forgotView}>
+              <Text style={styles.forgotText}>
+                By tapping continue, you agree to Enviable's{' '}
+                <Text style={styles.forgotText1}>
+                  Terms of Service and privacy policies
+                </Text>
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.register()}
+              style={styles.submitButton}>
+              <Text style={styles.submitButtonText}>Continue</Text>
+            </TouchableOpacity>
+            {/*
               <TouchableOpacity style = {styles.forgotView} onPress={() => this.props.navigation.navigate('Login')}>
               <Text style = {styles.createText1}>Have an account? <Text style = {styles.createText}>Login</Text></Text>
               </TouchableOpacity>
               */}
-            </View>
-            <View>
-                <View style={{alignSelf:'center',position:'absolute', borderBottomColor:'#FFF',borderBottomWidth:1,height:'50%',width:'90%'}}/>
-                <Text style={{alignSelf:'center',paddingHorizontal:5,marginTop: -5, color: '#fff', fontSize: 12, backgroundColor: '#0B277F',}}>OR REGISTER WITH</Text>
           </View>
-            <View style = {styles.rowa}>
-              <View style = {styles.facebookLogin}>
-                {/*
+          <View>
+            <View
+              style={{
+                alignSelf: 'center',
+                position: 'absolute',
+                borderBottomColor: '#FFF',
+                borderBottomWidth: 1,
+                height: '50%',
+                width: '90%',
+              }}
+            />
+            <Text
+              style={{
+                alignSelf: 'center',
+                paddingHorizontal: 5,
+                marginTop: -5,
+                color: '#fff',
+                fontSize: 12,
+                backgroundColor: '#0B277F',
+              }}>
+              OR REGISTER WITH
+            </Text>
+          </View>
+          <View style={styles.rowa}>
+            <View style={styles.facebookLogin}>
+              {/*
                 <LoginButton
                 //style = {styles.facebookLoginButton}
                   onLoginFinished={
@@ -510,16 +580,22 @@ onPickupSelect = (city) => {
                   }
                   onLogoutFinished={() => console.log("logout.")}/>
                 */}
-                <TouchableOpacity  onPress={() => this.registerWithFacebook()}>
-                  <Image source = {require('./imgs/f-icon.png')} style={styles.fImage} />
-                </TouchableOpacity>
-              </View>
-              <View style = {styles.googleLogin}>
-                <TouchableOpacity  onPress={() => this.registerWithGoogle()}>
-                  <Image source = {require('./imgs/g-icon.png')} style={styles.gImage} />
-                </TouchableOpacity>
-                
-                {/*
+              <TouchableOpacity onPress={() => this.registerWithFacebook()}>
+                <Image
+                  source={require('./imgs/f-icon.png')}
+                  style={styles.fImage}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.googleLogin}>
+              <TouchableOpacity onPress={() => this.registerWithGoogle()}>
+                <Image
+                  source={require('./imgs/g-icon.png')}
+                  style={styles.gImage}
+                />
+              </TouchableOpacity>
+
+              {/*
                   <GoogleSigninButton
                     style={{ width: '100%', height: 43, fontSize: 8,marginTop: 0, }}
                     size={GoogleSigninButton.Size.Wide}
@@ -527,20 +603,20 @@ onPickupSelect = (city) => {
                     onPress={this._signIn}
                     disabled={this.state.isSigninInProgress} />
                 */}
-              </View>
             </View>
-          </ScrollView>
-          {this.state.visible &&
-              <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
-            }
+          </View>
+        </ScrollView>
+        {this.state.visible && (
+          <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
+        )}
       </LinearGradient>
-    )
+    );
   }
 }
 
-export default Register
+export default Register;
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
     width: '100%',
   },
@@ -591,10 +667,9 @@ const styles = StyleSheet.create ({
   },
   facebookLoginButton: {
     width: 135,
-    height: 45, 
+    height: 45,
     alignSelf: 'flex-end',
     backgroundColor: '#0B277F',
-    
   },
   fImage: {
     width: 24,
@@ -610,12 +685,12 @@ const styles = StyleSheet.create ({
     marginLeft: 10,
   },
 
-  label1:{
+  label1: {
     color: '#fff',
     paddingLeft: 10,
     marginTop: 10,
   },
-  label:{
+  label: {
     color: '#fff',
     paddingLeft: 15,
     marginTop: 10,
@@ -638,7 +713,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     marginTop: 10,
     paddingLeft: 25,
-    color: '#222'
+    color: '#222',
   },
   locSelect: {
     width: '90%',
@@ -671,7 +746,7 @@ const styles = StyleSheet.create ({
     color: '#fff',
     marginBottom: 20,
   },
-  
+
   createText: {
     textAlign: 'center',
     color: '#fff',
@@ -682,73 +757,72 @@ const styles = StyleSheet.create ({
   col50: {
     width: '50%',
   },
-  
-submitButton: {elevation: 2,
-  marginTop: 15,
-  backgroundColor: '#fff',
-  borderRadius: 10,
-  width: '90%',
-  alignSelf: 'center',
-  paddingTop: 12,
-  paddingBottom: 13,
-  marginBottom: 20,
-},
-submitButton1: {
-  marginTop: 20,
-  backgroundColor: '#e2aa2e',
-  opacity: 0.7,
-  borderRadius: 2,
-  width: '90%',
-  alignSelf: 'center',
-  paddingTop: 12,
-  paddingBottom: 13,
-},
-submitButtonText: {
-  color: '#0B277F',
-  textAlign: 'center'
-},
-loaderImage: {
-  width: 80,
-  height: 80,
-  alignSelf: 'center',
-  zIndex: 99999999999999,
-  
-},
-modal: {
-  margin: 0,
-  padding: 0
-},
-modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
-  alignSelf: 'center',
-  height: 50,
-  width: 100,
-  backgroundColor: '#FFF',
-  paddingTop: 18,
-},
 
+  submitButton: {
+    elevation: 2,
+    marginTop: 15,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    width: '90%',
+    alignSelf: 'center',
+    paddingTop: 12,
+    paddingBottom: 13,
+    marginBottom: 20,
+  },
+  submitButton1: {
+    marginTop: 20,
+    backgroundColor: '#e2aa2e',
+    opacity: 0.7,
+    borderRadius: 2,
+    width: '90%',
+    alignSelf: 'center',
+    paddingTop: 12,
+    paddingBottom: 13,
+  },
+  submitButtonText: {
+    color: '#0B277F',
+    textAlign: 'center',
+  },
+  loaderImage: {
+    width: 80,
+    height: 80,
+    alignSelf: 'center',
+    zIndex: 99999999999999,
+  },
+  modal: {
+    margin: 0,
+    padding: 0,
+  },
+  modalView: {
+    // width: '100%',
+    // height: '100%',
+    // opacity: 0.9,
+    alignSelf: 'center',
+    height: 50,
+    width: 100,
+    backgroundColor: '#FFF',
+    paddingTop: 18,
+  },
 
-forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
-  alignSelf: 'center',
-  height: 280,
-  width: '90%',
-  backgroundColor: '#FFF',
-  paddingTop: 18,
-},
-loading: {
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0,
-  //height: '100vh',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'rgba(0,0,0,0.5)'
-}
-})
+  forgotModalView: {
+    // width: '100%',
+    // height: '100%',
+    // opacity: 0.9,
+    alignSelf: 'center',
+    height: 280,
+    width: '90%',
+    backgroundColor: '#FFF',
+    paddingTop: 18,
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    //height: '100vh',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+});

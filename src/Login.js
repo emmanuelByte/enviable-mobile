@@ -57,6 +57,7 @@ export class Login extends Component {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
+
         //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
         {text: 'Leave', onPress: () => BackHandler.exitApp()},
       ],
@@ -212,16 +213,20 @@ export class Login extends Component {
           imageStyle={styles.bg1}
           style={styles.headerView}>
           <StatusBar translucent={true} backgroundColor={'#0B277F'} />
-          <View>
-            <Text style={styles.headerText}>Welcome To Enviable</Text>
-            <Text style={styles.headerText1}>Log in to your account</Text>
-          </View>
 
-          <Image
-            source={require('./imgs/log1.png')}
-            style={{height: 50, width: 50}}
-          />
+          <View style={styles.banner}>
+            <View style={styles.banner_row}>
+              <Text style={styles.headerText}>Welcome To Enviable</Text>
+              <Text style={styles.headerText1}>Log in to your account</Text>
+            </View>
+
+            <Image
+              source={require('./imgs/log1.png')}
+              style={{height: 50, width: 50}}
+            />
+          </View>
         </ImageBackground>
+
         <View style={styles.bottomView}>
           <Text style={styles.label}>Email</Text>
           <TextInput
@@ -302,13 +307,30 @@ export class Login extends Component {
 export default Login;
 
 const styles = StyleSheet.create({
+  banner: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    paddingLeft: 20,
+    paddingRight: 50,
+  },
+
+  banner_row: {
+    justifyContent: 'center',
+    marginBottom: 75,
+  },
+
   container: {
     width: '100%',
   },
+
   body: {
     minHeight: '100%',
     backgroundColor: 'rgba(126,83,191, 0.1)',
   },
+
   headerView: {
     width: '100%',
     height: '40%',
@@ -316,11 +338,13 @@ const styles = StyleSheet.create({
     //borderBottomLeftRadius: 32,
     zIndex: 1,
   },
+
   bg1: {
     resizeMode: 'cover',
     justifyContent: 'center',
     height: '100%',
   },
+
   loaderImage: {
     width: 19,
     height: 19,
@@ -328,6 +352,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: '-60%',
   },
+
   headerText: {
     color: '#fff',
     paddingLeft: 20,
@@ -335,6 +360,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
+
   headerText1: {
     color: '#fff',
     paddingLeft: 20,
@@ -348,11 +374,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 15,
   },
+
   headerText8: {
     color: '#333',
     paddingLeft: 20,
     fontSize: 12,
   },
+
   headerText2: {
     color: '#fff',
     paddingLeft: 20,
@@ -360,6 +388,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     marginRight: 30,
   },
+
   bottomView: {
     width: '100%',
     alignSelf: 'center',
@@ -367,6 +396,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     zIndex: 99999,
   },
+
   logoImage: {
     width: 75,
     height: 78,
@@ -374,6 +404,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 20,
   },
+
   input: {
     width: '85%',
     height: 50,
@@ -384,6 +415,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     color: '#444',
   },
+
   input1: {
     width: '90%',
     height: 40,
@@ -394,6 +426,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     color: '#222',
   },
+
   forgotText: {
     textAlign: 'right',
     marginRight: 30,
@@ -402,6 +435,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: '700',
   },
+
   createText: {
     textAlign: 'center',
     color: '#0B277F',
@@ -420,6 +454,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 13,
   },
+
   submitButton1: {
     marginTop: 20,
     backgroundColor: '#0B277F',
@@ -429,20 +464,24 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 13,
   },
+
   submitButtonText: {
     color: '#fff',
     textAlign: 'center',
   },
+
   loaderImage: {
     width: 80,
     height: 80,
     alignSelf: 'center',
     zIndex: 99999999999999,
   },
+
   modal: {
     margin: 0,
     padding: 0,
   },
+
   modalView: {
     // width: '100%',
     // height: '100%',
@@ -453,16 +492,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     paddingTop: 18,
   },
+
   label: {
     color: '#4B4A4A',
     marginTop: 15,
     paddingLeft: 30,
   },
+
   label1: {
     color: '#333',
     marginTop: 15,
     paddingLeft: 20,
   },
+
   forgotModalView: {
     // width: '100%',
     // height: '100%',
@@ -473,6 +515,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     paddingTop: 18,
   },
+
   loading: {
     position: 'absolute',
     elevation: 2,

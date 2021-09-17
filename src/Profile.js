@@ -359,7 +359,10 @@ export class Profile extends Component {
 
             <View style={styles.topTextView}>
               <Text style={styles.topTextName}>
-                {this.state.customer && this.state.customer.first_name}
+                <Text style={{marginRight: 10}}>
+                  {this.state.customer && this.state.customer.first_name}
+                </Text>
+
                 {this.state.customer && this.state.customer.last_name}
               </Text>
 
