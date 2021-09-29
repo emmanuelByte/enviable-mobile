@@ -377,7 +377,7 @@ export class RideOrderDetails extends Component {
         {this.state.origin && this.state.destination && (
           <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-            style={[StyleSheet.absoluteFill, styles.map]}
+            style={[styles.map]}
             origin={this.state.origin}
             region={this.state.origin}
             followUserLocation={true}
@@ -394,7 +394,7 @@ export class RideOrderDetails extends Component {
               origin={this.state.origin}
               destination={this.state.destination}
               mode="DRIVING"
-              strokeColor="brown"
+              strokeColor="#0B277F"
               strokeWidth={3}
               apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
             />
@@ -588,6 +588,7 @@ const styles = StyleSheet.create({
   map: {
     height: '45%',
     width: '100%',
+    bottom: -40,
   },
   input: {
     width: '90%',
