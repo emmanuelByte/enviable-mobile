@@ -26,6 +26,7 @@ import TimeAgo from 'react-native-timeago';
 import {SERVER_URL} from './config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
+import RNFS from 'react-native-fs';
 
 export class Profile extends Component {
   constructor(props) {
@@ -78,14 +79,11 @@ export class Profile extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
-  getBase64ImageFromFile(img) {
-    var canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
-    var dataURL = canvas.toDataURL('image/png');
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
+  getBase64ImageFromFile(file) {
+    return RNFS.readFile(file, 'base64');
+    // .then(res =>{
+    //   console.log(res);
+    // });
   }
 
   toggleUpdate() {
@@ -145,7 +143,7 @@ export class Profile extends Component {
         phone: this.state.phone,
         password: this.state.password,
         cityId: this.state.cityId,
-        dp: getBase64ImageFromFile(this.state.dp),
+        dp: this.getBase64ImageFromFile(this.state.dp).then(res => res),
       }),
     })
       .then(response => response.json())
