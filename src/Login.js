@@ -81,6 +81,7 @@ export class Login extends Component {
       });
     }
   }
+
   showAlert(type, message) {
     Alert.alert(type, message);
   }
@@ -160,6 +161,8 @@ export class Login extends Component {
       .then(res => {
         this.hideLoader();
         if (res.success) {
+          console.log(res.customer);
+
           AsyncStorage.setItem('customer', JSON.stringify(res.customer)).then(
             () => {
               AsyncStorage.setItem('loginvalue', this.state.email).then(() => {

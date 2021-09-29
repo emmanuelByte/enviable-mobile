@@ -78,6 +78,16 @@ export class Profile extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
+  getBase64ImageFromFile(img) {
+    var canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    var dataURL = canvas.toDataURL('image/png');
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
+  }
+
   toggleUpdate() {
     if (this.state.toggleUpdate == true) {
       this.setState({
@@ -102,13 +112,13 @@ export class Profile extends Component {
             customer: JSON.parse(value),
           },
           () => {
-            console.log(this.state.customer);
             this.setState({
               firstName: this.state.customer.first_name,
               lastName: this.state.customer.last_name,
               email: this.state.customer.email,
               phone: this.state.customer.phone1,
               customer_id: this.state.customer.id,
+              dp: this.state.customer.photo_base64,
             });
           },
         );
@@ -135,6 +145,7 @@ export class Profile extends Component {
         phone: this.state.phone,
         password: this.state.password,
         cityId: this.state.cityId,
+        dp: getBase64ImageFromFile(this.state.dp),
       }),
     })
       .then(response => response.json())

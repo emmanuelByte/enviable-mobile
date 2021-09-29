@@ -384,7 +384,7 @@ export class RideHome extends Component {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              paddingRight: 40,
+              paddingRight: 45,
             }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.menuImage}>Go Back</Text>
