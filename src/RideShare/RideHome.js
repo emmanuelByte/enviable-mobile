@@ -44,6 +44,7 @@ export class RideHome extends Component {
       initialRegion: false,
       fromLatitude: '',
       toLatitude: '',
+      toLongitude: '',
       fromAddress: '',
       toAddress: '',
       fromText: '',
@@ -353,12 +354,25 @@ export class RideHome extends Component {
                 </Marker>
               ))}
 
+            {/* {this.state.toLatitude && this.state.toLongitude && (
+              <Marker
+                coordinate={{
+                  longitude: this.state.toLongitude,
+                  latitude: this.state.toLatitude,
+                }}>
+                <Image
+                  source={require('../imgs/car-ico.png')}
+                  style={styles.carIco}
+                />
+              </Marker>
+            )} */}
+
             <MapViewDirections
               resetOnChange={true}
               origin={this.state.origin}
               destination={this.state.destination}
               mode="DRIVING"
-              strokeColor="brown"
+              strokeColor="#0B277F"
               strokeWidth={3}
               apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
             />
@@ -366,7 +380,12 @@ export class RideHome extends Component {
         )}
 
         <View style={styles.infoView}>
-          <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingRight: 40,
+            }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.menuImage}>Go Back</Text>
             </TouchableOpacity>
@@ -471,9 +490,9 @@ export class RideHome extends Component {
                     fromLongitude: details.geometry.location.lng,
                     fromAddress: data.description,
                   },
-                  () => {
-                    this.proceed();
-                  },
+                  // () => {
+                  //   this.proceed();
+                  // },
                 );
                 //Alert.alert("Latitude", `${details.geometry.location.lat}`);
               }}
@@ -582,9 +601,9 @@ export class RideHome extends Component {
                       address: data.description,
                     },
                   },
-                  () => {
-                    this.proceed();
-                  },
+                  // () => {
+                  //   this.proceed();
+                  // },
                 );
                 //Alert.alert("Latitude", `${details.geometry.location.lat}`);
               }}
