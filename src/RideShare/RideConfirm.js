@@ -28,7 +28,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 import {SERVER_URL} from '../config/server';
-
+import {getPreciseDistance} from 'geolib';
 export class RideConfirm extends Component {
   constructor(props) {
     super();
@@ -57,7 +57,11 @@ export class RideConfirm extends Component {
       //   latitudeDelta: 5,
       //   longitudeDelta: 5
       // },
+      kekePrice: '',
+      bikePrice: '',
+      carPrice: '',
     };
+
     this.getLoggedInUser();
   }
 
@@ -91,16 +95,31 @@ export class RideConfirm extends Component {
       });
     }
   }
+
   showAlert(type, message) {
     Alert.alert(type, message);
   }
+
   componentDidFocus = () => {
     this.getRiders();
+
     //this.getLocation();
+    const preciseDistance = this.calculatePreciseDistance(
+      this.props.navigation.state.params.origin,
+      this.props.navigation.state.params.destination,
+    );
+
     this.setState(
       {
         origin: this.props.navigation.state.params.origin,
         destination: this.props.navigation.state.params.destination,
+        coordinateDistance: this.calculatePreciseDistance(
+          this.props.navigation.state.params.origin,
+          this.props.navigation.state.params.destination,
+        ),
+        kekePrice: (preciseDistance / 1000) * 150,
+        bikePrice: (preciseDistance / 1000) * 100,
+        carPrice: (preciseDistance / 1000) * 250,
       },
       () => {
         var origin =
@@ -198,6 +217,10 @@ export class RideConfirm extends Component {
       });
   }
 
+  calculatePreciseDistance(origin, destination) {
+    return getPreciseDistance(origin, destination);
+  }
+
   getEstimatedPrice(time, distance) {
     this.showLoader();
     fetch(
@@ -264,11 +287,13 @@ export class RideConfirm extends Component {
       }
     });
   }
+
   showLoader() {
     this.setState({
       loaderVisible: true,
     });
   }
+
   hideLoader() {
     this.setState({
       loaderVisible: false,
@@ -409,8 +434,8 @@ export class RideConfirm extends Component {
               <View style={styles.col3}>
                 <Text style={styles.pricec1}>
                   ₦
-                  {this.state.price &&
-                    parseFloat(this.state.price)
+                  {this.state.carPrice &&
+                    parseFloat(this.state.carPrice)
                       .toFixed(2)
                       .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </Text>
@@ -436,8 +461,8 @@ export class RideConfirm extends Component {
               <View style={styles.col3}>
                 <Text style={styles.pricec}>
                   ₦
-                  {this.state.price2 &&
-                    parseFloat(this.state.price2)
+                  {this.state.kekePrice &&
+                    parseFloat(this.state.kekePrice)
                       .toFixed(2)
                       .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </Text>
@@ -463,8 +488,8 @@ export class RideConfirm extends Component {
               <View style={styles.col3}>
                 <Text style={styles.pricec}>
                   ₦
-                  {this.state.price3 &&
-                    parseFloat(this.state.price3)
+                  {this.state.bikePrice &&
+                    parseFloat(this.state.bikePrice)
                       .toFixed(2)
                       .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </Text>

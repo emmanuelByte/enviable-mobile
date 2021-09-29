@@ -27,7 +27,7 @@ import {SERVER_URL} from './config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
-
+import ImgToBase64 from 'react-native-image-base64';
 export class Profile extends Component {
   constructor(props) {
     super();
@@ -80,12 +80,15 @@ export class Profile extends Component {
   }
 
   getBase64ImageFromFile(file) {
-    console.log(file);
-    const bruh = RNFS.readFile(file, 'base64');
+    ImgToBase64.getBase64String(file)
+      .then(base64String => console.log('russell', base64String))
+      .catch(err => console.log(err));
 
-    console.log('russell', bruh);
+    return ImgToBase64.getBase64String(file);
 
-    return bruh;
+    // const bruh = RNFS.readFile(file, 'base64');
+
+    // console.log('russell', bruh);
     // .then(res =>{
     //   console.log(res);
     // });
@@ -115,6 +118,7 @@ export class Profile extends Component {
             customer: JSON.parse(value),
           },
           () => {
+            console.log(this.state.customer.photo_base64);
             this.setState({
               firstName: this.state.customer.first_name,
               lastName: this.state.customer.last_name,
@@ -296,6 +300,7 @@ export class Profile extends Component {
   handlePhotoSelection() {
     launchImageLibrary({noData: true}, response => {
       if (response) {
+        this.getBase64ImageFromFile(response.assets[0].uri);
         this.setState({dp: response.assets[0].uri});
       }
     });
