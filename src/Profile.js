@@ -80,7 +80,12 @@ export class Profile extends Component {
   }
 
   getBase64ImageFromFile(file) {
-    return RNFS.readFile(file, 'base64');
+    console.log(file);
+    const bruh = RNFS.readFile(file, 'base64');
+
+    console.log('russell', bruh);
+
+    return bruh;
     // .then(res =>{
     //   console.log(res);
     // });
@@ -148,7 +153,7 @@ export class Profile extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
@@ -203,7 +208,7 @@ export class Profile extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
@@ -290,7 +295,6 @@ export class Profile extends Component {
 
   handlePhotoSelection() {
     launchImageLibrary({noData: true}, response => {
-      console.log(response);
       if (response) {
         this.setState({dp: response.assets[0].uri});
       }

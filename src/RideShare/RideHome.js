@@ -334,7 +334,10 @@ export class RideHome extends Component {
         {this.state.origin && this.state.initialRegion && (
           <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-            style={[StyleSheet.absoluteFill, styles.map]}
+            style={[
+              // {position: 'absolute', top: 0, left: 0, right: 0},
+              styles.map,
+            ]}
             origin={this.state.origin}
             region={this.state.initialRegion}
             followUserLocation={true}
@@ -354,18 +357,11 @@ export class RideHome extends Component {
                 </Marker>
               ))}
 
-            {/* {this.state.toLatitude && this.state.toLongitude && (
-              <Marker
-                coordinate={{
-                  longitude: this.state.toLongitude,
-                  latitude: this.state.toLatitude,
-                }}>
-                <Image
-                  source={require('../imgs/car-ico.png')}
-                  style={styles.carIco}
-                />
-              </Marker>
-            )} */}
+            <Marker coordinate={this.state.origin}></Marker>
+
+            {this.state.destination && (
+              <Marker coordinate={this.state.destination}></Marker>
+            )}
 
             <MapViewDirections
               resetOnChange={true}
@@ -656,6 +652,7 @@ const styles = StyleSheet.create({
   map: {
     height: '100%',
     width: '100%',
+    bottom: -25,
   },
   infoView: {
     position: 'absolute',
