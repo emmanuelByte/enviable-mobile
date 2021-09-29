@@ -1,21 +1,41 @@
-import React, { Component  } from 'react';
-import { AppState, View, PermissionsAndroid, Text, Alert, Picker, Image, Button, TextInput, StyleSheet, ScrollView,BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity, AsyncStorage } from 'react-native';
+import React, {Component} from 'react';
+import {
+  AppState,
+  View,
+  PermissionsAndroid,
+  Text,
+  Alert,
+  Picker,
+  Image,
+  Button,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+  BackHandler,
+  ActivityIndicator,
+  ImageBackground,
+  StatusBar,
+  TouchableOpacity,
+  AsyncStorage,
+} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 navigator.geolocation = require('@react-native-community/geolocation');
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { SERVER_URL } from '../config/server';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {SERVER_URL} from '../config/server';
 import Geocoder from 'react-native-geocoding';
+import Geolocation from 'react-native-geolocation-service';
 
 export class RideHome extends Component {
   constructor(props) {
     super();
     this.handleBackPress = this.handleBackPress.bind(this);
     this.state = {
-      visible: false,loaderVisible: false,
+      visible: false,
+      loaderVisible: false,
       loaderVisible: false,
       latitude: false,
       longitude: false,
@@ -33,25 +53,30 @@ export class RideHome extends Component {
       //   latitudeDelta: 5,
       //   longitudeDelta: 5
       // },
-    }
+    };
     this.getLoggedInUser();
-    
   }
-  getAddress(){
+
+  getAddress() {
     Geocoder.from({
-      latitude : this.state.latitude, longitude: this.state.longitude})
-		.then(json => {
-      console.log(json.results, 'json.results');
-        		var formatted_address = json.results[0].formatted_address;
-            this.setState({
-              address: formatted_address,
-              fromText: formatted_address,
-              fromLatitude: this.state.latitude,
-              fromLongitude: this.state.longitude
-            })
-			console.log(json.results[0].formatted_address, 'json.results[0].formatted_address');
-		})
-		.catch(error => console.warn(error));
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+    })
+      .then(json => {
+        console.log(json.results, 'json.results');
+        var formatted_address = json.results[0].formatted_address;
+        this.setState({
+          address: formatted_address,
+          fromText: formatted_address,
+          fromLatitude: this.state.latitude,
+          fromLongitude: this.state.longitude,
+        });
+        console.log(
+          json.results[0].formatted_address,
+          'json.results[0].formatted_address',
+        );
+      })
+      .catch(error => console.warn(error));
   }
 
   componentWillUnmount() {
@@ -60,60 +85,66 @@ export class RideHome extends Component {
   }
 
   handleBackPress = () => {
-    this.props.navigation.goBack()
-    return true
-  }
+    this.props.navigation.goBack();
+    return true;
+  };
 
   componentDidMount() {
     this.subs = [
-      this.props.navigation.addListener('didFocus', (payload) => this.componentDidFocus(payload)),
+      this.props.navigation.addListener('didFocus', payload =>
+        this.componentDidFocus(payload),
+      ),
     ];
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-    
   }
 
-  toggleUpdate(){
-    if(this.state.toggleUpdate == true){
+  toggleUpdate() {
+    if (this.state.toggleUpdate == true) {
       this.setState({
-        toggleUpdate: false
-      })
-    }else{
+        toggleUpdate: false,
+      });
+    } else {
       this.setState({
-        toggleUpdate: true
-      })
+        toggleUpdate: true,
+      });
     }
   }
-  showAlert(type, message){
-    Alert.alert(
-      type,
-      message,
-    );
+
+  showAlert(type, message) {
+    Alert.alert(type, message);
   }
 
-  async getLoggedInUser(){
-    await AsyncStorage.getItem('customer').then((value) => {
-      if(value){
-        this.setState({
-          customer: JSON.parse(value)
-        }, () => {
-          this.setState({
-            customer_id: this.state.customer.id,
-            name: this.state.customer.first_name +" "+ this.state.customer.last_name,
-            phone: this.state.customer.phone1,
-          })
-        });
-          
-      }else{
-        this.props.navigation.navigate('Login')
+  async getLoggedInUser() {
+    await AsyncStorage.getItem('customer').then(value => {
+      if (value) {
+        this.setState(
+          {
+            customer: JSON.parse(value),
+          },
+          () => {
+            this.setState({
+              customer_id: this.state.customer.id,
+              name:
+                this.state.customer.first_name +
+                ' ' +
+                this.state.customer.last_name,
+              phone: this.state.customer.phone1,
+            });
+          },
+        );
+      } else {
+        this.props.navigation.navigate('Login');
       }
     });
   }
-  showLoader(){
+
+  showLoader() {
     this.setState({
-      loaderVisible: true
+      loaderVisible: true,
     });
   }
-  hideLoader(){
+
+  hideLoader() {
     this.setState({
       loaderVisible: false,
     });
@@ -121,186 +152,198 @@ export class RideHome extends Component {
 
   goToInitialRegion() {
     let initialRegion = Object.assign({}, this.state.initialRegion);
-    initialRegion["latitudeDelta"] = 0.009922;
-    initialRegion["longitudeDelta"] = 0.009421;
+    initialRegion['latitudeDelta'] = 0.009922;
+    initialRegion['longitudeDelta'] = 0.009421;
     this.mapView.animateToRegion(initialRegion, 3000);
   }
-  getLocation(){
+
+  getLocation() {
     //this.showLoader();
-    var that =this;
+    var that = this;
     //Checking for the permission just after component loaded
-    if(Platform.OS === 'ios'){
+    if (Platform.OS === 'ios') {
       this.callLocation(that);
-    }else{
-        async function requestLocationPermission() {
-          try {
-            const granted = await PermissionsAndroid.request(
-              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,{
-                'title': 'Location Access Required',
-                'message': 'This App needs to Access your location'
-              }
-            )
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-              //To Check, If Permission is granted
-              that.callLocation(that);
-            } else {
-              alert("Permission Denied");
-            }
-          } catch (err) {
-            alert("err",err);
-            console.warn(err)
+    } else {
+      async function requestLocationPermission() {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Location Access Required',
+              message: 'This App needs to Access your location',
+            },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            //To Check, If Permission is granted
+            that.callLocation(that);
+          } else {
+            alert('Permission Denied');
           }
+        } catch (err) {
+          alert('err', err);
+          console.warn(err);
         }
-        requestLocationPermission();
       }
+      requestLocationPermission();
     }
+  }
 
-    componentDidFocus = () => {
-      this.getLocation();
-      this.getRiders()
-    }
-    callLocation(that){
+  componentDidFocus = () => {
+    this.getLocation();
+    this.getRiders();
+  };
+
+  callLocation(that) {
     //alert("callLocation Called");
-      navigator.geolocation.getCurrentPosition(
-        //Will give you the current location
-         (position) => {
-            const currentLongitude = position.coords.longitude;
-            const currentLatitude = position.coords.latitude;
-            var origin = {
-              latitude: currentLatitude,
-              longitude: currentLongitude,
-              latitudeDelta: 0.009922,
-              longitudeDelta: 0.009421,
-            }
-            that.setState({ 
-              origin:origin,
-              latitude:currentLatitude,
-              longitude:currentLongitude,
-              initialRegion: origin
-            }, ()=>{
-              this.getAddress()
-            });
-            
-         },
-         (error) => console.log(error)
-      );
-      that.watchID = navigator.geolocation.watchPosition((position) => {
-        //Will give you the location on location change
-          const currentLongitude = position.coords.longitude;
-          const currentLatitude = position.coords.latitude;
-          
-         var origin = {
-           latitude: currentLatitude,
-           longitude: currentLongitude,
-         }
-         that.setState({ 
-           origin:origin,
-           latitude:currentLatitude,
-           longitude:currentLongitude
-         }, ()=> {
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+      position => {
+        const currentLongitude = position.coords.longitude;
+
+        const currentLatitude = position.coords.latitude;
+
+        var origin = {
+          latitude: currentLatitude,
+          longitude: currentLongitude,
+          latitudeDelta: 0.009922,
+          longitudeDelta: 0.009421,
+        };
+
+        that.setState(
+          {
+            origin: origin,
+            latitude: currentLatitude,
+            longitude: currentLongitude,
+            initialRegion: origin,
+          },
+          () => {
+            this.getAddress();
+          },
+        );
+      },
+      error => console.log(error),
+    );
+
+    that.watchID = Geolocation.watchPosition(position => {
+      //Will give you the location on location change
+      const currentLongitude = position.coords.longitude;
+      const currentLatitude = position.coords.latitude;
+
+      var origin = {
+        latitude: currentLatitude,
+        longitude: currentLongitude,
+      };
+      that.setState(
+        {
+          origin: origin,
+          latitude: currentLatitude,
+          longitude: currentLongitude,
+        },
+        () => {
           //this.saveLocation(currentLatitude, currentLongitude)
-         });
-         
-      });
-      
-   }
+        },
+      );
+    });
+  }
 
-   proceed(){
-     console.log(this.state.fromText, 'fromText')
-     console.log(this.state.toText, 'toText')
-     if(this.state.fromLatitude == "" && this.state.fromText != ""){
-      this.showAlert("Info", "Kindly provide a pickup address and ensure you select form the option provided");
-      return
-     }
-     else if(this.state.toLatitude == "" && this.state.toText != ""){
-      this.showAlert("Info", "Kindly provide a destination address and ensure you select form the option provided");
-      return
-     }
-     else if(this.state.fromLatitude != "" && this.state.toLatitude != ""){
-      this.gotoRideconfirm()
-     }
-     else{
+  proceed() {
+    console.log(this.state.fromText, 'fromText');
+    console.log(this.state.toText, 'toText');
+    if (this.state.fromLatitude == '' && this.state.fromText != '') {
+      this.showAlert(
+        'Info',
+        'Kindly provide a pickup address and ensure you select from the options provided',
+      );
+      return;
+    } else if (this.state.toLatitude == '' && this.state.toText != '') {
+      this.showAlert(
+        'Info',
+        'Kindly provide a destination address and ensure you select from the options provided',
+      );
+      return;
+    } else if (this.state.fromLatitude != '' && this.state.toLatitude != '') {
+      this.gotoRideconfirm();
+    } else {
       //this.gotoRideconfirm()
-     }
-   }
-
-   
-  
-   gotoRideconfirm(){
-     var origin = {
-       'latitude': this.state.fromLatitude,
-       'longitude': this.state.fromLongitude,
-       'latitudeDelta': 0.009922,
-       'longitudeDelta': 0.009421,
-       'address': this.state.fromAddress,
-     }
-     var destination = {
-      'latitude': this.state.toLatitude,
-      'longitude': this.state.toLongitude,
-      'latitudeDelta': 0.009922,
-      'longitudeDelta': 0.009421,
-      'address': this.state.toAddress,
     }
+  }
+
+  gotoRideconfirm() {
+    var origin = {
+      latitude: this.state.fromLatitude,
+      longitude: this.state.fromLongitude,
+      latitudeDelta: 0.009922,
+      longitudeDelta: 0.009421,
+      address: this.state.fromAddress,
+    };
+    var destination = {
+      latitude: this.state.toLatitude,
+      longitude: this.state.toLongitude,
+      latitudeDelta: 0.009922,
+      longitudeDelta: 0.009421,
+      address: this.state.toAddress,
+    };
     this.props.navigation.navigate('RideShareConfirm', {
       origin: origin,
       destination: destination,
-      //coordinate: 
+      //coordinate:
     });
   }
 
-
-  navigateToScreen = (route) => () => {
+  navigateToScreen = route => () => {
     const navigateAction = NavigationActions.navigate({
-      routeName: route
+      routeName: route,
     });
     this.props.navigation.dispatch(navigateAction);
-  }
+  };
+
   static navigationOptions = {
-      header: null
-  }
+    header: null,
+  };
 
-  getRiders(){
+  getRiders() {
     this.showLoader();
-    fetch(`${SERVER_URL}/mobile/get_riders`, {
-      method: 'GET'
-   })
-   .then((response) => response.json())
-   .then((res) => {
-     
-       console.log(res, "riders");
-       this.hideLoader();
-       if(res.success){
+    fetch(`${SERVER_URL}mobile/get_riders`, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(res => {
+        console.log(res, 'riders');
+        this.hideLoader();
+        if (res.success) {
           this.setState({
-            riders:  res.coordinates
+            riders: res.coordinates,
           });
-       }else{
-         Alert.alert('Error', res.error);
-       }
-   })
-   .catch((error) => {
-      console.error(error);
-      Alert.alert(
-       "Communictaion error",
-       "Ensure you have an active internet connection",
-       [
-         {
-           text: "Ok",
-           onPress: () => console.log("Cancel Pressed"),
-           style: "cancel"
-         },
-         { text: "Refresh", onPress: () => this.getRiders() }
-       ],
-       //{ cancelable: false }
-     );
-    });
-  }
+        } else {
+          Alert.alert('Error', res.error);
+        }
+      })
+      .catch(error => {
+        this.hideLoader();
 
+        console.error(error);
+
+        //   Alert.alert(
+        //    "Communictaion error",
+        //    "Ensure you have an active internet connection",
+        //    [
+        //      {
+        //        text: "Ok",
+        //        onPress: () => console.log("Cancel Pressed"),
+        //        style: "cancel"
+        //      },
+        //      { text: "Refresh", onPress: () => this.getRiders() }
+        //    ],
+        //    //{ cancelable: false }
+        //  );
+      });
+  }
 
   render() {
-    const { visible } = this.state;
+    const {visible} = this.state;
     return (
       <View style={[StyleSheet.absoluteFillObject]}>
-        { this.state.origin && this.state.initialRegion && 
+        {this.state.origin && this.state.initialRegion && (
           <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
             style={[StyleSheet.absoluteFill, styles.map]}
@@ -313,22 +356,24 @@ export class RideHome extends Component {
             //onMapReady={this.goToInitialRegion.bind(this)}
             //initialRegion={this.state.initialRegion}
           >
-            {this.state.riders && this.state.riders.map((rider, index) => (
-                  <Marker  
-                      coordinate={rider}
-                    >
-                      <Image source = {require('../imgs/car-ico.png')} style={styles.carIco}/>
-                  </Marker>
-            ))}
+            {this.state.riders &&
+              this.state.riders.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/car-ico.png')}
+                    style={styles.carIco}
+                  />
+                </Marker>
+              ))}
           </MapView>
-          }
-          
-          <View style= {styles.infoView}>
-          <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
-            <Text style = {styles.menuImage}>Go Back</Text>
-        </TouchableOpacity>
-          <View style={{ paddingTop: 1, flex: 1 }}>
-          <GooglePlacesAutocomplete
+        )}
+
+        <View style={styles.infoView}>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <Text style={styles.menuImage}>Go Back</Text>
+          </TouchableOpacity>
+          <View style={{paddingTop: 1, flex: 1}}>
+            <GooglePlacesAutocomplete
               styles={{
                 textInputContainer: {
                   borderTopWidth: 0,
@@ -355,8 +400,9 @@ export class RideHome extends Component {
                   marginTop: 5,
                   paddingLeft: 10,
                   color: '#444',
-                }
-              }}styles={{
+                },
+              }}
+              styles={{
                 textInputContainer: {
                   borderTopWidth: 0,
                   borderBottomWidth: 0,
@@ -380,7 +426,7 @@ export class RideHome extends Component {
                 },
                 textInput: {
                   // width: '90%',
-                   height: 46,
+                  height: 46,
                   // backgroundColor: '#EFF0F3',
                   // borderRadius: 6,
                   // alignSelf: 'center',
@@ -391,14 +437,14 @@ export class RideHome extends Component {
                   //borderWidth: 1,
                   paddingLeft: 10,
                   color: '#444',
-                }
+                },
               }}
               query={{
                 key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
                 language: 'en',
               }}
               getDefaultValue={() => ''}
-              setAddressText={()=> this.state.address}
+              setAddressText={() => this.state.address}
               placeholder={this.state.address}
               minLength={5} // minimum length of text to search
               autoFocus={false}
@@ -407,30 +453,48 @@ export class RideHome extends Component {
               onSubmitEditing={() => this.proceed()}
               textInputProps={{
                 //onFocus: () => this.showAlert("Info", "Kindly ensure you including your town in the address, then select form the option provided. This allow us to get an accurate coordinate of the address"),
-                onChangeText: (text) => this.setState({fromText: text})
+                onChangeText: text => this.setState({fromText: text}),
               }}
               //currentLocation={true}
-              
+
               onPress={(data, details) => {
                 // 'details' is provided when fetchDetails = true
-                 console.log(data, 'data');
-                // console.log(details, 'details');
-                this.setState({
-                  fromLatitude: details.geometry.location.lat,
-                  fromLongitude: details.geometry.location.lng,
-                  fromAddress: data.description
-                }, ()=>{
-                  this.proceed();
-                })
+                console.log(data, 'data');
+                console.log(details, 'details');
+
+                const newLatitude = details.geometry.location.lat;
+                const newLongitude = details.geometry.location.lng;
+
+                var origin = {
+                  latitude: newLatitude,
+                  longitude: newLongitude,
+                  latitudeDelta: 0.009922,
+                  longitudeDelta: 0.009421,
+                };
+
+                this.setState(
+                  {
+                    fromLatitude: details.geometry.location.lat,
+                    fromLongitude: details.geometry.location.lng,
+                    fromAddress: data.description,
+
+                    origin: origin,
+                    latitude: newLatitude,
+                    longitude: newLongitude,
+                    initialRegion: origin,
+                  },
+                  () => {
+                    this.proceed();
+                  },
+                );
                 //Alert.alert("Latitude", `${details.geometry.location.lat}`);
               }}
-              onFail={(error) => console.error(error)}
-              
+              onFail={error => console.error(error)}
             />
-            </View>
+          </View>
 
-            <View style={{ paddingTop: 1, flex: 1 }}>
-          <GooglePlacesAutocomplete
+          <View style={{paddingTop: 1, flex: 1}}>
+            <GooglePlacesAutocomplete
               styles={{
                 textInputContainer: {
                   borderTopWidth: 0,
@@ -457,8 +521,9 @@ export class RideHome extends Component {
                   marginTop: 5,
                   paddingLeft: 10,
                   color: '#444',
-                }
-              }}styles={{
+                },
+              }}
+              styles={{
                 textInputContainer: {
                   borderTopWidth: 0,
                   borderBottomWidth: 0,
@@ -482,7 +547,7 @@ export class RideHome extends Component {
                 },
                 textInput: {
                   // width: '90%',
-                   height: 46,
+                  height: 46,
                   // backgroundColor: '#EFF0F3',
                   // borderRadius: 6,
                   // alignSelf: 'center',
@@ -493,14 +558,14 @@ export class RideHome extends Component {
                   //borderWidth: 1,
                   paddingLeft: 10,
                   color: '#444',
-                }
+                },
               }}
               query={{
                 key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
                 language: 'en',
               }}
               //getDefaultValue={() => {this.state.address && this.state.address}}
-              placeholder='To'
+              placeholder="To"
               minLength={5} // minimum length of text to search
               autoFocus={false}
               fetchDetails={true}
@@ -508,46 +573,47 @@ export class RideHome extends Component {
               onSubmitEditing={() => this.proceed()}
               textInputProps={{
                 //onFocus: () => this.showAlert("Info", "Kindly ensure you including your town in the address, then select form the option provided. This allow us to get an accurate coordinate of the address"),
-                onChangeText: (text) => this.setState({toText: text})
+                onChangeText: text => this.setState({toText: text}),
               }}
               //currentLocation={true}
-              
+
               onPress={(data, details) => {
                 // 'details' is provided when fetchDetails = true
-                 console.log(data, 'data');
+                console.log(data, 'data');
                 // console.log(details, 'details');
-                this.setState({
-                  toLatitude: details.geometry.location.lat,
-                  toLongitude: details.geometry.location.lng,
-                  toAddress: data.description
-                }, ()=>{
-                  this.proceed();
-                })
+                this.setState(
+                  {
+                    toLatitude: details.geometry.location.lat,
+                    toLongitude: details.geometry.location.lng,
+                    toAddress: data.description,
+                  },
+                  () => {
+                    this.proceed();
+                  },
+                );
                 //Alert.alert("Latitude", `${details.geometry.location.lat}`);
               }}
-              onFail={(error) => console.error(error)}
-              
+              onFail={error => console.error(error)}
             />
-            </View>
+          </View>
         </View>
-          {this.state.loaderVisible &&
-              <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
-            }
-        
+        {this.state.loaderVisible && (
+          <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
+        )}
       </View>
-    )
+    );
   }
 }
 
-export default RideHome
+export default RideHome;
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
     width: '100%',
   },
   body: {
     minHeight: '100%',
-    backgroundColor: "#FFF",
+    backgroundColor: '#FFF',
   },
   backImage: {
     width: 18,
@@ -555,7 +621,7 @@ const styles = StyleSheet.create ({
     marginLeft: 20,
     marginTop: 40,
   },
-  
+
   header: {
     width: '100%',
     height: 110,
@@ -566,38 +632,37 @@ const styles = StyleSheet.create ({
     //position: 'absolute',
     paddingTop: 0,
     left: 20,
-    color: "#0B277F",
+    color: '#0B277F',
     zIndex: 9999999999,
   },
   carIco: {
     width: 30,
-    height: 15
+    height: 15,
   },
   map: {
     height: '100%',
     width: '100%',
   },
   infoView: {
-    position: 'absolute', 
-    top: 70, 
+    position: 'absolute',
+    top: 70,
     backgroundColor: '#fff',
     width: '90%',
     alignSelf: 'center',
     padding: 10,
     paddingBottom: 20,
   },
-loading: {
-  position: 'absolute',
-  elevation: 2, 
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0,
-  zIndex: 9999999999999999999999999,
-  //height: '100vh',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'rgba(0,0,0,0.5)'
-}
-  
-})
+  loading: {
+    position: 'absolute',
+    elevation: 2,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    zIndex: 9999999999999999999999999,
+    //height: '100vh',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+});
