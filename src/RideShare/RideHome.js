@@ -28,6 +28,7 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import {SERVER_URL} from '../config/server';
 import Geocoder from 'react-native-geocoding';
 import MapViewDirections from 'react-native-maps-directions';
+import Geolocation from 'react-native-geolocation-service';
 
 export class RideHome extends Component {
   constructor(props) {
@@ -189,7 +190,7 @@ export class RideHome extends Component {
   };
   callLocation(that) {
     //alert("callLocation Called");
-    navigator.geolocation.getCurrentPosition(
+    Geolocation.getCurrentPosition(
       //Will give you the current location
       position => {
         const currentLongitude = position.coords.longitude;
@@ -214,7 +215,7 @@ export class RideHome extends Component {
       },
       error => console.log(error),
     );
-    that.watchID = navigator.geolocation.watchPosition(position => {
+    that.watchID = Geolocation.watchPosition(position => {
       //Will give you the location on location change
       const currentLongitude = position.coords.longitude;
       const currentLatitude = position.coords.latitude;
@@ -365,9 +366,15 @@ export class RideHome extends Component {
         )}
 
         <View style={styles.infoView}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Text style={styles.menuImage}>Go Back</Text>
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.menuImage}>Go Back</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => this.proceed()}>
+              <Text style={styles.menuImage}>Proceed</Text>
+            </TouchableOpacity>
+          </View>
 
           <View style={{paddingTop: 1, flex: 1}}>
             <GooglePlacesAutocomplete
@@ -567,6 +574,13 @@ export class RideHome extends Component {
                     toLatitude: details.geometry.location.lat,
                     toLongitude: details.geometry.location.lng,
                     toAddress: data.description,
+                    destination: {
+                      latitude: details.geometry.location.lat,
+                      longitude: details.geometry.location.lng,
+                      latitudeDelta: 0.009922,
+                      longitudeDelta: 0.009421,
+                      address: data.description,
+                    },
                   },
                   () => {
                     this.proceed();
