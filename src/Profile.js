@@ -80,9 +80,11 @@ export class Profile extends Component {
   }
 
   getBase64ImageFromFile(file) {
-    ImgToBase64.getBase64String(file)
-      .then(base64String => console.log('russell', base64String))
-      .catch(err => console.log(err));
+    // ImgToBase64.getBase64String(file)
+    //   .then(base64String =>
+    //     console.log('russell', `data:image/png;base64,${base64String}`),
+    //   )
+    //   .catch(err => console.log(err));
 
     return ImgToBase64.getBase64String(file);
 
@@ -118,7 +120,8 @@ export class Profile extends Component {
             customer: JSON.parse(value),
           },
           () => {
-            console.log(this.state.customer.photo_base64);
+            // console.log('image', value);
+
             this.setState({
               firstName: this.state.customer.first_name,
               lastName: this.state.customer.last_name,
@@ -152,18 +155,20 @@ export class Profile extends Component {
         phone: this.state.phone,
         password: this.state.password,
         cityId: this.state.cityId,
-        dp: this.getBase64ImageFromFile(this.state.dp).then(res => res),
+        photo: this.state.dp,
       }),
     })
       .then(response => response.json())
       .then(res => {
-        // console.log(res);
+        console.log('profile response', res, this.state.dp);
+
         this.hideLoader();
         if (res.success) {
+          console.log('respose', res.customer);
           this.showAlert('success', res.success);
           this.setState(
             {
-              customer: res.customer,
+              customer: {...res.customer, photo: this.state.dp},
             },
             () => {
               AsyncStorage.setItem(
@@ -299,9 +304,12 @@ export class Profile extends Component {
 
   handlePhotoSelection() {
     launchImageLibrary({noData: true}, response => {
-      if (response) {
-        this.getBase64ImageFromFile(response.assets[0].uri);
-        this.setState({dp: response.assets[0].uri});
+      if (!response.didCancel) {
+        this.getBase64ImageFromFile(response.assets[0].uri).then(res => {
+          console.log('res');
+
+          this.setState({dp: `data:${response.assets[0].type};base64,${res}`});
+        });
       }
     });
   }

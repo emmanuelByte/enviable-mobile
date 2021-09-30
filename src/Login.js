@@ -142,8 +142,11 @@ export class Login extends Component {
 
   login() {
     console.log(this.state.email, 'email');
+
     console.log(this.state.token, 'password');
+
     this.showLoader();
+
     fetch(`${SERVER_URL}/mobile/login`, {
       method: 'POST',
       headers: {
@@ -161,16 +164,15 @@ export class Login extends Component {
       .then(res => {
         this.hideLoader();
         if (res.success) {
-          console.log(res.customer);
+          console.log('customer', res.customer);
 
           AsyncStorage.setItem('customer', JSON.stringify(res.customer)).then(
             () => {
               AsyncStorage.setItem('loginvalue', this.state.email).then(() => {
-                this.setState({
-                  password: '',
-                });
+                this.setState({password: ''});
                 this.props.navigation.navigate('Home');
               });
+
               //this.showAlert("error", res.error)
             },
           );

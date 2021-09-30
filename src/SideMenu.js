@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 
 const SideMenu = props => {
+  // const getUserDp
   return (
     <Modal
       isVisible={this.state.sideMenuModalVisible}
@@ -40,10 +41,24 @@ const SideMenu = props => {
                   source={require('./imgs/user.png')}
                   style={styles.userImage}
                 />
+
+                {/* {this.state.dp === null ? (
+                  <Image
+                    source={require('./imgs/round-profile.png')}
+                    style={styles.userImage}
+                  />
+                ) : (
+                  <Image
+                    source={{
+                      uri: this.state.dp,
+                    }}
+                    style={styles.userImage}
+                  />
+                )} */}
               </View>
               <View style={styles.topTextView}>
                 <Text style={styles.topTextName}>
-                  {this.state.customer && this.state.customer.first_name}{' '}
+                  {this.state.customer && this.state.customer.first_name}
                   {this.state.customer && this.state.customer.last_name}
                 </Text>
                 <Text style={styles.topLocation}>Lagos, Nigeria</Text>
