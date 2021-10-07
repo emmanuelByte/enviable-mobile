@@ -27,6 +27,7 @@ navigator.geolocation = require('@react-native-community/geolocation');
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {SERVER_URL} from '../config/server';
 import Geocoder from 'react-native-geocoding';
+import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
 
 export class RideHome extends Component {
@@ -43,6 +44,7 @@ export class RideHome extends Component {
       initialRegion: false,
       fromLatitude: '',
       toLatitude: '',
+      toLongitude: '',
       fromAddress: '',
       toAddress: '',
       fromText: '',
@@ -56,7 +58,6 @@ export class RideHome extends Component {
     };
     this.getLoggedInUser();
   }
-
   getAddress() {
     Geocoder.from({
       latitude: this.state.latitude,
@@ -109,7 +110,6 @@ export class RideHome extends Component {
       });
     }
   }
-
   showAlert(type, message) {
     Alert.alert(type, message);
   }
@@ -137,13 +137,11 @@ export class RideHome extends Component {
       }
     });
   }
-
   showLoader() {
     this.setState({
       loaderVisible: true,
     });
   }
-
   hideLoader() {
     this.setState({
       loaderVisible: false,
@@ -156,7 +154,6 @@ export class RideHome extends Component {
     initialRegion['longitudeDelta'] = 0.009421;
     this.mapView.animateToRegion(initialRegion, 3000);
   }
-
   getLocation() {
     //this.showLoader();
     var that = this;
@@ -192,23 +189,19 @@ export class RideHome extends Component {
     this.getLocation();
     this.getRiders();
   };
-
   callLocation(that) {
     //alert("callLocation Called");
     Geolocation.getCurrentPosition(
       //Will give you the current location
       position => {
         const currentLongitude = position.coords.longitude;
-
         const currentLatitude = position.coords.latitude;
-
         var origin = {
           latitude: currentLatitude,
           longitude: currentLongitude,
           latitudeDelta: 0.009922,
           longitudeDelta: 0.009421,
         };
-
         that.setState(
           {
             origin: origin,
@@ -223,7 +216,6 @@ export class RideHome extends Component {
       },
       error => console.log(error),
     );
-
     that.watchID = Geolocation.watchPosition(position => {
       //Will give you the location on location change
       const currentLongitude = position.coords.longitude;
@@ -252,13 +244,13 @@ export class RideHome extends Component {
     if (this.state.fromLatitude == '' && this.state.fromText != '') {
       this.showAlert(
         'Info',
-        'Kindly provide a pickup address and ensure you select from the options provided',
+        'Kindly provide a pickup address and ensure you select form the option provided',
       );
       return;
     } else if (this.state.toLatitude == '' && this.state.toText != '') {
       this.showAlert(
         'Info',
-        'Kindly provide a destination address and ensure you select from the options provided',
+        'Kindly provide a destination address and ensure you select form the option provided',
       );
       return;
     } else if (this.state.fromLatitude != '' && this.state.toLatitude != '') {
@@ -296,14 +288,13 @@ export class RideHome extends Component {
     });
     this.props.navigation.dispatch(navigateAction);
   };
-
   static navigationOptions = {
     header: null,
   };
 
   getRiders() {
     this.showLoader();
-    fetch(`${SERVER_URL}mobile/get_riders`, {
+    fetch(`${SERVER_URL}/mobile/get_riders`, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -319,23 +310,20 @@ export class RideHome extends Component {
         }
       })
       .catch(error => {
-        this.hideLoader();
-
         console.error(error);
-
-        //   Alert.alert(
-        //    "Communictaion error",
-        //    "Ensure you have an active internet connection",
-        //    [
-        //      {
-        //        text: "Ok",
-        //        onPress: () => console.log("Cancel Pressed"),
-        //        style: "cancel"
-        //      },
-        //      { text: "Refresh", onPress: () => this.getRiders() }
-        //    ],
-        //    //{ cancelable: false }
-        //  );
+        Alert.alert(
+          'Communictaion error',
+          'Ensure you have an active internet connection',
+          [
+            {
+              text: 'Ok',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Refresh', onPress: () => this.getRiders()},
+          ],
+          //{ cancelable: false }
+        );
       });
   }
 
@@ -346,7 +334,10 @@ export class RideHome extends Component {
         {this.state.origin && this.state.initialRegion && (
           <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-            style={[StyleSheet.absoluteFill, styles.map]}
+            style={[
+              // {position: 'absolute', top: 0, left: 0, right: 0},
+              styles.map,
+            ]}
             origin={this.state.origin}
             region={this.state.initialRegion}
             followUserLocation={true}
@@ -365,13 +356,41 @@ export class RideHome extends Component {
                   />
                 </Marker>
               ))}
+
+            <Marker coordinate={this.state.origin}></Marker>
+
+            {this.state.destination && (
+              <Marker coordinate={this.state.destination}></Marker>
+            )}
+
+            <MapViewDirections
+              resetOnChange={true}
+              origin={this.state.origin}
+              destination={this.state.destination}
+              mode="DRIVING"
+              strokeColor="#0B277F"
+              strokeWidth={3}
+              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+            />
           </MapView>
         )}
 
         <View style={styles.infoView}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Text style={styles.menuImage}>Go Back</Text>
-          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingRight: 45,
+            }}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.menuImage}>Go Back</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => this.proceed()}>
+              <Text style={styles.menuImage}>Proceed</Text>
+            </TouchableOpacity>
+          </View>
+
           <View style={{paddingTop: 1, flex: 1}}>
             <GooglePlacesAutocomplete
               styles={{
@@ -460,32 +479,16 @@ export class RideHome extends Component {
               onPress={(data, details) => {
                 // 'details' is provided when fetchDetails = true
                 console.log(data, 'data');
-                console.log(details, 'details');
-
-                const newLatitude = details.geometry.location.lat;
-                const newLongitude = details.geometry.location.lng;
-
-                var origin = {
-                  latitude: newLatitude,
-                  longitude: newLongitude,
-                  latitudeDelta: 0.009922,
-                  longitudeDelta: 0.009421,
-                };
-
+                // console.log(details, 'details');
                 this.setState(
                   {
                     fromLatitude: details.geometry.location.lat,
                     fromLongitude: details.geometry.location.lng,
                     fromAddress: data.description,
-
-                    origin: origin,
-                    latitude: newLatitude,
-                    longitude: newLongitude,
-                    initialRegion: origin,
                   },
-                  () => {
-                    this.proceed();
-                  },
+                  // () => {
+                  //   this.proceed();
+                  // },
                 );
                 //Alert.alert("Latitude", `${details.geometry.location.lat}`);
               }}
@@ -586,10 +589,17 @@ export class RideHome extends Component {
                     toLatitude: details.geometry.location.lat,
                     toLongitude: details.geometry.location.lng,
                     toAddress: data.description,
+                    destination: {
+                      latitude: details.geometry.location.lat,
+                      longitude: details.geometry.location.lng,
+                      latitudeDelta: 0.009922,
+                      longitudeDelta: 0.009421,
+                      address: data.description,
+                    },
                   },
-                  () => {
-                    this.proceed();
-                  },
+                  // () => {
+                  //   this.proceed();
+                  // },
                 );
                 //Alert.alert("Latitude", `${details.geometry.location.lat}`);
               }}
@@ -642,6 +652,7 @@ const styles = StyleSheet.create({
   map: {
     height: '100%',
     width: '100%',
+    bottom: -25,
   },
   infoView: {
     position: 'absolute',

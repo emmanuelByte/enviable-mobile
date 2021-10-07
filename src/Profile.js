@@ -26,7 +26,8 @@ import TimeAgo from 'react-native-timeago';
 import {SERVER_URL} from './config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
-
+import RNFS from 'react-native-fs';
+import ImgToBase64 from 'react-native-image-base64';
 export class Profile extends Component {
   constructor(props) {
     super();
@@ -78,6 +79,23 @@ export class Profile extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
+  getBase64ImageFromFile(file) {
+    // ImgToBase64.getBase64String(file)
+    //   .then(base64String =>
+    //     console.log('russell', `data:image/png;base64,${base64String}`),
+    //   )
+    //   .catch(err => console.log(err));
+
+    return ImgToBase64.getBase64String(file);
+
+    // const bruh = RNFS.readFile(file, 'base64');
+
+    // console.log('russell', bruh);
+    // .then(res =>{
+    //   console.log(res);
+    // });
+  }
+
   toggleUpdate() {
     if (this.state.toggleUpdate == true) {
       this.setState({
@@ -102,13 +120,15 @@ export class Profile extends Component {
             customer: JSON.parse(value),
           },
           () => {
-            console.log(this.state.customer);
+            // console.log('image', value);
+
             this.setState({
               firstName: this.state.customer.first_name,
               lastName: this.state.customer.last_name,
               email: this.state.customer.email,
               phone: this.state.customer.phone1,
               customer_id: this.state.customer.id,
+              dp: this.state.customer.photo_base64,
             });
           },
         );
@@ -135,17 +155,20 @@ export class Profile extends Component {
         phone: this.state.phone,
         password: this.state.password,
         cityId: this.state.cityId,
+        photo: this.state.dp,
       }),
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        console.log('profile response', res, this.state.dp);
+
         this.hideLoader();
         if (res.success) {
+          console.log('respose', res.customer);
           this.showAlert('success', res.success);
           this.setState(
             {
-              customer: res.customer,
+              customer: {...res.customer, photo: this.state.dp},
             },
             () => {
               AsyncStorage.setItem(
@@ -194,7 +217,7 @@ export class Profile extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
@@ -281,9 +304,12 @@ export class Profile extends Component {
 
   handlePhotoSelection() {
     launchImageLibrary({noData: true}, response => {
-      console.log(response);
-      if (response) {
-        this.setState({dp: response.assets[0].uri});
+      if (!response.didCancel) {
+        this.getBase64ImageFromFile(response.assets[0].uri).then(res => {
+          console.log('res');
+
+          this.setState({dp: `data:${response.assets[0].type};base64,${res}`});
+        });
       }
     });
   }
