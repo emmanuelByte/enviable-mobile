@@ -104,12 +104,13 @@ export class HireDetails extends Component {
      );
     });
   }
-  cancelDispatch(){
+  cancelHire(){
+        // console.log(this.state.orderParam, "order param simplified");
     if(this.state.orderParam.status != "Pending"){
       return;
     }
     this.showLoader()
-    fetch(`${SERVER_URL}/mobile/cancel_dispatch/${this.state.orderParam.order_number}`, {
+    fetch(`${SERVER_URL}/mobile/cancel_hire/${this.state.orderParam.order_number}`, {
       method: 'GET'
   })
   .then((response) => response.json())
@@ -452,7 +453,13 @@ rateRider(){
             </View>
            
           </View>
-          
+
+          {
+          this.state.orderParam.status === "Pending" ? <TouchableOpacity style={{width:'80%', marginHorizontal:'10%'}}  onPress={() => this.cancelHire()}>
+              <Text style={{height:50, textAlign:'center', borderRadius:10, lineHeight:40, color:'white', backgroundColor:'#0B277F'}}>Cancel Order</Text>
+            </TouchableOpacity>
+            : null
+  }
         </ScrollView>
         {this.state.loaderVisible &&
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />

@@ -49,6 +49,9 @@ export class RideHome extends Component {
       toAddress: '',
       fromText: '',
       toText: '',
+      kekeMarker: null,
+      bikeMarker: null,
+      carMarker: null,
       // initialRegion: {
       //   latitude: 6.465422,
       //   longitude: 3.406448,
@@ -232,7 +235,7 @@ export class RideHome extends Component {
           longitude: currentLongitude,
         },
         () => {
-          //this.saveLocation(currentLatitude, currentLongitude)
+          // this.saveLocation(currentLatitude, currentLongitude)
         },
       );
     });
@@ -304,6 +307,9 @@ export class RideHome extends Component {
         if (res.success) {
           this.setState({
             riders: res.coordinates,
+            kekeMarker: res.data.keke,
+            bikeMarker: res.data.bike,
+            carMarker: res.data.car
           });
         } else {
           Alert.alert('Error', res.error);
@@ -347,12 +353,45 @@ export class RideHome extends Component {
             //onMapReady={this.goToInitialRegion.bind(this)}
             //initialRegion={this.state.initialRegion}
           >
-            {this.state.riders &&
+            {/* {this.state.riders &&
               this.state.riders.map((rider, index) => (
                 <Marker coordinate={rider}>
                   <Image
                     source={require('../imgs/car-ico.png')}
                     style={styles.carIco}
+                  />
+                </Marker>
+              ))} */}
+
+
+
+{this.state.carMarker &&
+              this.state.carMarker.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/car-ico.png')}
+                    style={styles.carIco}
+                  />
+                </Marker>
+              ))}
+
+
+          {this.state.bikeMarker &&
+              this.state.bikeMarker.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/bike.png')}
+                    style={[ styles.carIco, {width:25, height:35} ]}
+                  />
+                </Marker>
+              ))}
+
+          {this.state.kekeMarker &&
+              this.state.kekeMarker.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/keke.png')}
+                    style={[ styles.carIco, {width:25, height:25} ]}
                   />
                 </Marker>
               ))}
@@ -375,6 +414,7 @@ export class RideHome extends Component {
           </MapView>
         )}
 
+
         <View style={styles.infoView}>
           <View
             style={{
@@ -385,10 +425,10 @@ export class RideHome extends Component {
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.menuImage}>Go Back</Text>
             </TouchableOpacity>
-
+{/* 
             <TouchableOpacity onPress={() => this.proceed()}>
               <Text style={styles.menuImage}>Proceed</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
           <View style={{paddingTop: 1, flex: 1}}>
@@ -606,10 +646,26 @@ export class RideHome extends Component {
               onFail={error => console.error(error)}
             />
           </View>
+          
         </View>
+        
         {this.state.loaderVisible && (
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
         )}
+        <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              // backgroundColor:'yellow',
+              position:'absolute',
+              bottom:10,
+              width:'100%'
+            }}>
+
+            <TouchableOpacity style={{width:'80%'}}  onPress={() => this.proceed()}>
+              <Text style={{height:50, textAlign:'center', borderRadius:10, lineHeight:40, color:'white', backgroundColor:'#0B277F'}}>Proceed</Text>
+            </TouchableOpacity>
+          </View>
       </View>
     );
   }

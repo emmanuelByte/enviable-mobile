@@ -140,7 +140,7 @@ export class Register extends Component {
         customer: JSON.parse(value),
         phone: JSON.parse(value).phone1,
       });
-      if (value.first_name != null) {
+      if(value.first_name != null) {
         this.props.navigation.navigate('Home');
         // this.setState({
         //   customer: JSON.parse(value)
@@ -223,7 +223,54 @@ export class Register extends Component {
       });
   }
 
+
+
+  sendVerification(email){
+    console.log(email, "this is  my emauk serbfun")
+    // this.showLoader();
+
+    fetch(`${SERVER_URL}/mobile/resend_verify_email`, {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          email: email,
+          phone: this.state.phone
+      })
+    }).then((response) => response.json())
+        .then((res) => {
+          console.log(res);
+          this.hideLoader();
+          if(res.success){
+
+            // this.showAlert("success", res.success);
+            this.setState({
+              customer:  res.customer
+            }, ()=> {
+              this.showAlert("Success", res.success);
+              // AsyncStorage.setItem('loginvalue', this.state.email).then(
+                //   () => {
+                //     this.props.navigation.navigate('Home');
+                //   },
+                // );
+
+                this.props.navigation.navigate('VerifyPhone', {
+                  phone: this.state.email,
+                })              // change this
+              // this.props.navigation.pop();
+            });
+          }else{
+            this.showAlert("Error", res.error)
+          }
+  }).done();
+  
+  }
+
+
   register() {
+    console.log(this.state, "STATUS");
     this.showLoader();
     var bod = JSON.stringify({
       email: this.state.email,
@@ -272,12 +319,19 @@ export class Register extends Component {
                 'customer',
                 JSON.stringify(res.customer),
               ).then(() => {
-                AsyncStorage.setItem('loginvalue', this.state.email).then(
-                  () => {
-                    this.props.navigation.navigate('Home');
-                  },
-                );
+                //send verification here
+                //take to verification Page
+
+
+                // AsyncStorage.setItem('loginvalue', this.state.email).then(
+                //   () => {
+                //     this.props.navigation.navigate('Home');
+                //   },
+                // );
               });
+
+              this.sendVerification(this.state.email);
+
             },
           );
         } else {

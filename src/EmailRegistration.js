@@ -7,7 +7,7 @@ import Modal from 'react-native-modal';
 import { SERVER_URL } from './config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
 
-export class PhoneRegistration extends Component {
+export class EmailRegistration extends Component {
   constructor(props) {
     super();
     this.handleBackPress = this.handleBackPress.bind(this);
@@ -251,10 +251,9 @@ onPickupSelect = (city) => {
           <Icon name="arrow-back" size={18} color="#fff"  style = {styles.backImage}/>
           </TouchableOpacity>
           */}
-          <Text style = {styles.headerText}>Welcome to Enviable</Text>
+          <Text style = {styles.headerText}>Welcome</Text>
             <View style = {styles.bottomView}>
-              {/* commented by malik*/ }
-              {/* <Text style = {styles.label}>Enter Email Address</Text>
+              <Text style = {styles.label}>Enter phone number</Text>
               <TextInput
                             style={styles.input}
                             //placeholder="Phone"
@@ -262,21 +261,17 @@ onPickupSelect = (city) => {
                             underlineColorAndroid="transparent"
                             minLength={11}
                             maxLength={11}
-                            keyboardType={'email'}
+                            keyboardType={'phone-pad'}
                           />
                           
-               */}
+              
              
-              <TouchableOpacity  onPress={() => this.props.navigation.push("Register")} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Sign Up</Text>
+              <TouchableOpacity  onPress={() => this.sendVerification()} style={styles.submitButton}>
+                <Text style={styles.submitButtonText}>Continue</Text>
               </TouchableOpacity>
-
-              <TouchableOpacity  onPress={() => this.props.navigation.navigate('Login')} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Login</Text>
-              </TouchableOpacity>
-              {/* <TouchableOpacity style = {styles.forgotView} onPress={() => this.props.navigation.navigate('Login')}>
+              <TouchableOpacity style = {styles.forgotView} onPress={() => this.props.navigation.navigate('Login')}>
               <Text style = {styles.createText1}>Have an account? <Text style = {styles.createText}>Login instead</Text></Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
 
           </ScrollView>
@@ -288,7 +283,7 @@ onPickupSelect = (city) => {
   }
 }
 
-export default PhoneRegistration
+export default EmailRegistration
 
 const styles = StyleSheet.create ({
   container: {
@@ -311,7 +306,6 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
     marginTop: '40%',
     color: '#fff',
-    textAlign:'center'
   },
   logoImage: {
     marginTop: 60,

@@ -106,12 +106,12 @@ export class SpecialMovementDetails extends Component {
      );
     });
   }
-  cancelDispatch(){
+  cancelSpecialMovement(){
     if(this.state.orderParam.status != "Pending"){
       return;
     }
     this.showLoader()
-    fetch(`${SERVER_URL}/mobile/cancel_dispatch/${this.state.orderParam.order_number}`, {
+    fetch(`${SERVER_URL}/mobile/cancel_special_movement/${this.state.orderParam.order_number}`, {
       method: 'GET'
   })
   .then((response) => response.json())
@@ -460,10 +460,19 @@ rateRider(){
                 <Text style = {styles.txt}>{this.state.orderParam && this.state.orderParam.note}</Text>
               </View>
             </View>
-           
+              
+              {
+                this.state.orderParam.status === "Pending" ?   <TouchableOpacity style={{width:'80%', marginVertical:20, marginHorizontal:'10%'}}  onPress={() => this.cancelSpecialMovement()}>
+                <Text style={{height:50, textAlign:'center', borderRadius:10, lineHeight:40, color:'white', backgroundColor:'#0B277F'}}>Cancel Order</Text>
+              </TouchableOpacity>
+              : null
+              }
+        
           </View>
-          
+       
         </ScrollView>
+
+
         {this.state.loaderVisible &&
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
         }

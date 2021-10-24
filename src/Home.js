@@ -539,6 +539,19 @@ export class Home extends Component {
               </TouchableOpacity>
               */}
 
+              <TouchableOpacity
+                  onPress={this.navigateToScreen('RideShareHome')}
+                  style={styles.linkItem}>
+                  <View style={styles.iconView}>
+                    <Image
+                      source={require('./imgs/haulage.png')}
+                      style={styles.dash}
+                    />
+                  </View>
+                  <View style={styles.textView}>
+                    <Text style={styles.textLink}>Book A Ride</Text>
+                  </View>
+                </TouchableOpacity>
                 <TouchableOpacity
                   onPress={this.navigateToScreen('DispatchOrders')}
                   style={styles.linkItem}>

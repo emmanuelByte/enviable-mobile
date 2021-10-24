@@ -22,7 +22,7 @@ export class VerifyPhone extends Component {
       phone: props.navigation.state.params.phone,
       visible1: false,
     }
-    this.getLoggedInUser();
+    // this.getLoggedInUser();
     this.getCities();
   }
 
@@ -178,23 +178,59 @@ resendVerification(){
         console.log(res);
         this.hideLoader();
         if(res.success){
-          this.showAlert("success", res.success);
-          this.setState({
-            customer:  res.customer
-          }, ()=> {
-            this.showAlert("Success", res.success)
-          });
+          // this.showAlert("success", res.success);
+          // this.setState({
+          //   customer:  res.customer
+          // }, ()=> {
+          //   this.showAlert("Success", res.success)
+          // });
+          this.props.navigation.navigate('Login');
         }else{
           this.showAlert("Error", res.error)
         }
 }).done();
 
 }
+
+resendVerificationThruEmail(){
+//   this.showLoader();
+  
+//   fetch(`${SERVER_URL}/mobile/resend_verify_email`, {
+//     method: 'POST',
+//     headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({
+//         email: this.state.phone,
+//     })
+//   }).then((response) => response.json())
+//       .then((res) => {
+//         console.log(res);
+//         this.hideLoader();
+//         if(res.success){
+//           this.showAlert("success", res.success);
+//           this.setState({
+//             customer:  res.customer
+//           }, ()=> {
+//             this.showAlert("Success", res.success)
+//           });
+//         }else{
+//           this.showAlert("Error", res.error)
+//         }
+// }).done();
+
+this.props.navigation.navigate('EmailRegistration', {phone: this.state.phone});
+
+}
+
 verify(){
   this.showLoader();
   if(!this.state.token){
-    this.showAlert("Info", "Kindly input token")
+    this.showAlert("Info", "Kindly input token");
+    return;
   }
+  console.log(this.state.phone, this.state.token)
   
   fetch(`${SERVER_URL}/mobile/verify_token`, {
     method: 'POST',
@@ -204,7 +240,8 @@ verify(){
     },
     body: JSON.stringify({
         phone: this.state.phone,
-        token: this.state.token
+        token: this.state.token,
+        email: this.state.phone
     })
   }).then((response) => response.json())
       .then((res) => {
@@ -273,7 +310,7 @@ onFinishCheckingCode(code){
           <Text style = {styles.headerText}>Verification</Text>
           
             <View style = {styles.bottomView}>
-            <Text style = {styles.label}>Enter the 5 digits code sent to your{`\n`}phone number</Text>
+            <Text style = {styles.label}>Enter the 5 digits code sent to your{`\n`} phone number (or email)</Text>
               <View  style={styles.cv}>
                 <CodeInput
                   ref="codeInputRef2"
@@ -301,6 +338,9 @@ onFinishCheckingCode(code){
               <TouchableOpacity  onPress={() => this.resendVerification()} >
                 <Text style = {styles.headerText6}>Resend now </Text>
               </TouchableOpacity>
+              {/* <TouchableOpacity  onPress={() => this.resendVerificationThruEmail()} >
+                <Text style = {styles.headerText6}>Resend via Email </Text>
+              </TouchableOpacity> */}
               
             </View>
 

@@ -7,10 +7,10 @@ import Modal from 'react-native-modal';
 import { SERVER_URL } from './config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
 
-export class PhoneRegistration extends Component {
+export class EmailRegistration extends Component {
   constructor(props) {
     super();
-    this.handleBackPress = this.handleBackPress.bind(this);
+    // this.handleBackPress = this.handleBackPress.bind(this);
     this.state = {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
@@ -39,29 +39,29 @@ export class PhoneRegistration extends Component {
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    // BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
   }
 
-  handleBackPress = () => {
-    Alert.alert(
-      "Confirm exit",
-      "Are you sure you want to exit this app?",
-      [
-        {
-          text: "Stay here",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
-      ],
-      //{ cancelable: false }
-    );
-    return true
-  }
+  // handleBackPress = () => {
+  //   Alert.alert(
+  //     "Confirm exit",
+  //     "Are you sure you want to exit this app?",
+  //     [
+  //       {
+  //         text: "Stay here",
+  //         onPress: () => console.log("Cancel Pressed"),
+  //         style: "cancel"
+  //       },
+  //       //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
+  //       { text: "Leave", onPress: () => BackHandler.exitApp() }
+  //     ],
+  //     //{ cancelable: false }
+  //   );
+  //   return true
+  // }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+    // BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
   toggleUpdate(){
@@ -169,17 +169,25 @@ export class PhoneRegistration extends Component {
   }
 
   sendVerification(){
+
+    if(!this.state.email){
+      return this.showAlert("Info", "Kindly input Email Address");
+
+
+    }
+
+
     this.showLoader();
-    
-    fetch(`${SERVER_URL}/mobile/verify_phone`, {
+
+    fetch(`${SERVER_URL}/mobile/resend_verify_email`, {
       method: 'POST',
       headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-          phone: this.state.phone,
-          // email: this.state.email
+          email: this.state.email,
+          phone: this.props.navigation.state.params.phone
       })
     }).then((response) => response.json())
         .then((res) => {
@@ -190,27 +198,50 @@ export class PhoneRegistration extends Component {
             this.setState({
               customer:  res.customer
             }, ()=> {
-              AsyncStorage.setItem('enviable', JSON.stringify(res.customer)).then(() => {
-                  this.props.navigation.navigate('VerifyPhone', {
-                    phone: this.state.phone,
-                  })
-              });
+              this.showAlert("Success", res.success);
+
+
+              // change this
+              // this.props.navigation.pop();
             });
           }else{
-            if(res.customer.phone_verification == "No"){
-              AsyncStorage.setItem('enviable', JSON.stringify(res.customer)).then(() => {
-                this.props.navigation.navigate('VerifyPhone', {
-                  phone: this.state.phone,
-                })
-              });
-            }else{
-              AsyncStorage.setItem('enviable', JSON.stringify(res.customer)).then(() => {
-                this.showAlert("Info", "Looks like we have your number already.")
-                this.props.navigation.navigate('Home')
-              });
-            }
+            this.showAlert("Error", res.error)
           }
   }).done();
+  
+  }
+  
+  verify(){
+    this.showLoader();
+    if(!this.state.token){
+      this.showAlert("Info", "Kindly input token")
+    }
+    
+    fetch(`${SERVER_URL}/mobile/verify_token`, {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          email: this.state.email,
+        //   token: this.state.token
+      })
+    }).then((response) => response.json())
+        .then((res) => {
+          console.log(res);
+          this.hideLoader();
+          if(res.success){
+            this.showAlert("success", res.success);
+            AsyncStorage.setItem('enviable', JSON.stringify(res.customer)).then(() => {
+                this.props.navigation.navigate('VerifyPhone')
+            });
+          }else{
+            this.showAlert("Error", res.error)
+          }
+  }).done();
+
+  
   
 }
 onPickupCancel = () => {
@@ -246,37 +277,32 @@ onPickupSelect = (city) => {
       <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}}  colors={['#0B277F', '#0B277F']} style={styles.body}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
-          {/*
+          
           <TouchableOpacity style = {styles.menuImageView}onPress={() => this.props.navigation.goBack()} >
           <Icon name="arrow-back" size={18} color="#fff"  style = {styles.backImage}/>
           </TouchableOpacity>
-          */}
-          <Text style = {styles.headerText}>Welcome to Enviable</Text>
+         
+          <Text style = {styles.headerText}>Send Verification to Email</Text>
             <View style = {styles.bottomView}>
-              {/* commented by malik*/ }
-              {/* <Text style = {styles.label}>Enter Email Address</Text>
+              <Text style = {styles.label}>Enter Email Address</Text>
               <TextInput
                             style={styles.input}
                             //placeholder="Phone"
-                            onChangeText={(text) => this.setState({phone: text})}
+                            onChangeText={(text) => this.setState({email: text})}
                             underlineColorAndroid="transparent"
-                            minLength={11}
-                            maxLength={11}
-                            keyboardType={'email'}
+                            // minLength={11}
+                            // maxLength={11}
+                            keyboardType={'email-address'}
                           />
                           
-               */}
+              
              
-              <TouchableOpacity  onPress={() => this.props.navigation.push("Register")} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Sign Up</Text>
+              <TouchableOpacity  onPress={() => this.sendVerification()} style={styles.submitButton}>
+                <Text style={styles.submitButtonText}>Continue</Text>
               </TouchableOpacity>
-
-              <TouchableOpacity  onPress={() => this.props.navigation.navigate('Login')} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Login</Text>
-              </TouchableOpacity>
-              {/* <TouchableOpacity style = {styles.forgotView} onPress={() => this.props.navigation.navigate('Login')}>
+              <TouchableOpacity style = {styles.forgotView} onPress={() => this.props.navigation.navigate('Login')}>
               <Text style = {styles.createText1}>Have an account? <Text style = {styles.createText}>Login instead</Text></Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
 
           </ScrollView>
@@ -288,7 +314,7 @@ onPickupSelect = (city) => {
   }
 }
 
-export default PhoneRegistration
+export default EmailRegistration;
 
 const styles = StyleSheet.create ({
   container: {
@@ -311,7 +337,6 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
     marginTop: '40%',
     color: '#fff',
-    textAlign:'center'
   },
   logoImage: {
     marginTop: 60,

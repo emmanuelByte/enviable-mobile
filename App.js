@@ -46,6 +46,8 @@ console.disableYellowBox = true;
 
 const MainNavigator = createStackNavigator({
   Initial: {screen: Initial},
+  Register: {screen: Register},
+
   PhoneRegistration: {screen: PhoneRegistration},
   VerifyPhone: {screen: VerifyPhone},
   Hires: {screen: Hires},
@@ -79,7 +81,7 @@ const MainNavigator = createStackNavigator({
   Profile: {screen: Profile},
   Help: {screen: Help},
   Login: {screen: Login},
-  Register: {screen: Register},
+  // Register: {screen: Register},
   
    
 });

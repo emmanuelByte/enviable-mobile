@@ -60,6 +60,9 @@ export class RideConfirm extends Component {
       kekePrice: '',
       bikePrice: '',
       carPrice: '',
+      carMarker: null,
+      kekeMarker: null,
+      bikeMarker: null
     };
 
     this.getLoggedInUser();
@@ -144,6 +147,9 @@ export class RideConfirm extends Component {
         if (res.success) {
           this.setState({
             riders: res.coordinates,
+            bikeMarker: res.data.bike,
+            kekeMarker: res.data.keke,
+            carMarker: res.data.car
           });
         } else {
           Alert.alert('Error', res.error);
@@ -373,12 +379,44 @@ export class RideConfirm extends Component {
             //onMapReady={this.goToInitialRegion.bind(this)}
             //initialRegion={this.state.initialRegion}
           >
-            {this.state.riders &&
+            {/* {this.state.riders &&
               this.state.riders.map((rider, index) => (
                 <Marker coordinate={rider}>
                   <Image
                     source={require('../imgs/car-ico.png')}
                     style={styles.carIco}
+                  />
+                </Marker>
+              ))} */}
+
+
+          {this.state.carMarker &&
+              this.state.carMarker.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/car-ico.png')}
+                    style={styles.carIco}
+                  />
+                </Marker>
+              ))}
+
+
+          {this.state.bikeMarker &&
+              this.state.bikeMarker.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/bike.png')}
+                    style={[ styles.carIco, {width:25, height:35} ]}
+                  />
+                </Marker>
+              ))}
+
+          {this.state.kekeMarker &&
+              this.state.kekeMarker.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/keke.png')}
+                    style={[ styles.carIco, {width:25, height:25} ]}
                   />
                 </Marker>
               ))}
