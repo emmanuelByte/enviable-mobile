@@ -328,6 +328,9 @@ export class Hires extends Component {
           onBackdropPress={() => {
             this.setState({rateVisible: false});
           }}
+          onBackButtonPress={() => {
+            this.setState({rateVisible: false});
+          }}
           height={'100%'}
           width={'100%'}
           style={styles.modal}>

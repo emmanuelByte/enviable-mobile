@@ -642,6 +642,9 @@ export class DispatchOrderDetails extends Component {
             onBackdropPress={() => {
               this.setState({forgotVisible: false});
             }}
+            onBackButtonPress={() => {
+              this.setState({forgotVisible: false});
+            }}
             height={'100%'}
             width={'100%'}
             style={styles.modal}>

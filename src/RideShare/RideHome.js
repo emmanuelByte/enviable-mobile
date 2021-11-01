@@ -381,7 +381,7 @@ export class RideHome extends Component {
                 <Marker coordinate={rider}>
                   <Image
                     source={require('../imgs/bike.png')}
-                    style={[ styles.carIco, {width:25, height:35} ]}
+                    style={[ styles.carIco, {width:35, height:25} ]}
                   />
                 </Marker>
               ))}

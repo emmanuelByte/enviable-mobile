@@ -254,7 +254,7 @@ export class RideOrderDetails extends Component {
   }
 
   changeStatus(status) {
-    console.log(`${SERVER_URL}mobile/cancel_ride_share/${this.state.order.id}/${this.state.customer.id}/rider_cancelled_order`, "CHECK HERE  BOSS");
+    // console.log(`${SERVER_URL}mobile/cancel_ride_share/${this.state.order.id}/${this.state.customer.id}/rider_cancelled_order`, "CHECK HERE  BOSS");
 
     this.showLoader();
     fetch(
@@ -418,6 +418,7 @@ export class RideOrderDetails extends Component {
               <View>
                 <TouchableOpacity onPress={() => this.use()}>
                   <Text style={styles.use}>Use google map </Text>
+                  {/* <Text>{this.state.rider.phone1}</Text> */}
                 </TouchableOpacity>
                 {this.state.rider && (
                   <View style={styles.row}>
@@ -462,7 +463,7 @@ export class RideOrderDetails extends Component {
                   </View>
                 )}
 
-                <TouchableOpacity
+               {this.state.rider ? <TouchableOpacity
                   onPress={() =>
                     Linking.openURL('tel:' + this.state.rider.phone1)
                   }
@@ -487,6 +488,8 @@ export class RideOrderDetails extends Component {
                     )}
                   </View>
                 </TouchableOpacity>
+    : null
+            }
                 <View style={styles.statusView}>
                   <Text style={styles.statusText}>
                     {this.state.order.status}
@@ -501,6 +504,9 @@ export class RideOrderDetails extends Component {
         </View>
         <Modal
           isVisible={this.state.rateVisible}
+          onBackdropPress={() => {
+            this.setState({rateVisible: false});
+          }}
           onBackdropPress={() => {
             this.setState({rateVisible: false});
           }}
