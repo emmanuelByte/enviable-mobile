@@ -406,7 +406,7 @@ export class RideConfirm extends Component {
                 <Marker coordinate={rider}>
                   <Image
                     source={require('../imgs/bike.png')}
-                    style={[ styles.carIco, {width:25, height:35} ]}
+                    style={[ styles.carIco, {width:44, height:27} ]}
                   />
                 </Marker>
               ))}

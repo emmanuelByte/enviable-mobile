@@ -327,7 +327,7 @@ export class RidePaymentMethod extends Component {
               textStyles={styles.price}
               //nt6}
               showPayButton={true}
-              paystackKey="pk_test_9b06080a0fde87971069a48fcb91e958720cede4"
+              paystackKey="pk_live_6b3b23bc38a669799804cdc53316494a4678dcdb"
               amount={10}
               billingEmail={this.state.customer.email}
               billingMobile={this.state.customer.phone1}
