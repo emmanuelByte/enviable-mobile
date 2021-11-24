@@ -1,0 +1,9 @@
+{
+  "name": "enviable",
+  "displayName": "Enviable",
+  "ios":{
+    "config":{
+      "googleMapsApiKey":"AIzaSyDnVg5RKb73upJivq8tfLc36uqi9phBhgk"
+    }
+  }
+}

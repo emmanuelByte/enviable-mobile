@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "639533620742",
+    "project_id": "enviable-9f815",
+    "storage_bucket": "enviable-9f815.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639533620742:android:5a3d0efda2a3075a95ed87",
+        "android_client_info": {
+          "package_name": "com.enviable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639533620742-6k0eal801bac1i5oqb9bklfa9s9ig1gn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enviable",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "639533620742-am62h0780h9kdf1k6fuhblgdut3607u0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enviable",
+            "certificate_hash": "df40da423d0f655bb0876c6bea26ee79ae2b2186"
+          }
+        },
+        {
+          "client_id": "639533620742-br5seql1pot1f0nansffiqgao7r4p7g7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy6imJa1_jCcaP3z-HHuLVQOom7ORZ9ls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639533620742-br5seql1pot1f0nansffiqgao7r4p7g7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
