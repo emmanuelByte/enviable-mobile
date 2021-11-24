@@ -20,7 +20,7 @@ export class Initial extends Component {
     Geocoder.init("AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co");
     GoogleSignin.configure();
     //AsyncStorage.clear();
-    //this.getLoggedInUser();
+    // this.getLoggedInUser();
     //base64 signing for facebook  a9Szg9e01lAQYewaL8KLDGRTAgQ=
   }
 
@@ -30,7 +30,7 @@ export class Initial extends Component {
   
   async getLoggedInUser(token){
     await AsyncStorage.getItem('enviable').then((value) => {
-      
+      // alert("dsdsd"+value)
       console.log(value, 'val')
       if(value == null){
         this.props.navigation.navigate('PhoneRegistration')
@@ -46,7 +46,7 @@ export class Initial extends Component {
           }, ()=>{
             this.savePush(token);
             
-              this.props.navigation.navigate('Home')
+            this.props.navigation.navigate('Home')
           
           })
         }else{

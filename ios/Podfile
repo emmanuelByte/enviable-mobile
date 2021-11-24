@@ -16,6 +16,8 @@ target 'enviable' do
 
   pod 'react-native-image-base64', :path => '../node_modules/react-native-image-base64'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'enviableTests' do
     inherit! :complete
     # Pods for testing

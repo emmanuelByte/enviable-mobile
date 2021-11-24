@@ -41,7 +41,7 @@ export class Register extends Component {
     super();
     this.handleBackPress = this.handleBackPress.bind(this);
     this.registerWithGoogle = this.registerWithGoogle.bind(this);
-    this.signOut = this.signOut.bind(this);
+    // this.signOut = this.signOut.bind(this);
     this.state = {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
@@ -62,23 +62,24 @@ export class Register extends Component {
       pickupLocationPlaceholder: '',
       visible1: false,
     };
-    GoogleSignin.configure();
-    this.signOut();
+    // GoogleSignin.configure();
+    // this.signOut();
   }
-  signOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      this.setState({user: null}); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // signOut = async () => {
+  //   try {
+  //     await GoogleSignin.signOut();
+  //     this.setState({user: null}); // Remember to remove the user from your app's state as well
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   componentWillUnmount() {
     this.subs.forEach(sub => sub.remove());
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
   }
   async componentDidFocus() {
+    // alert('me o')
     Settings.initializeSDK();
     this.getLoggedInUser();
     this.getCities();
@@ -237,30 +238,32 @@ export class Register extends Component {
       },
       body: JSON.stringify({
           email: email,
-          phone: this.state.phone
+          phone: this.state.email
       })
     }).then((response) => response.json())
         .then((res) => {
           console.log(res);
           this.hideLoader();
           if(res.success){
-
+            this.props.navigation.navigate('VerifyPhone', {
+              phone: this.state.email,
+            }) 
             // this.showAlert("success", res.success);
-            this.setState({
-              customer:  res.customer
-            }, ()=> {
-              this.showAlert("Success", res.success);
-              // AsyncStorage.setItem('loginvalue', this.state.email).then(
-                //   () => {
-                //     this.props.navigation.navigate('Home');
-                //   },
-                // );
+            // this.setState({
+            //   customer:  res.customer
+            // }, ()=> {
+            //   this.showAlert("Success", res.success);
+            //   // AsyncStorage.setItem('loginvalue', this.state.email).then(
+            //     //   () => {
+            //     //     this.props.navigation.navigate('Home');
+            //     //   },
+            //     // );
 
-                this.props.navigation.navigate('VerifyPhone', {
-                  phone: this.state.email,
-                })              // change this
-              // this.props.navigation.pop();
-            });
+            //     this.props.navigation.navigate('VerifyPhone', {
+            //       phone: this.state.email,
+            //     })              // change this
+            //   // this.props.navigation.pop();
+            // });
           }else{
             this.showAlert("Error", res.error)
           }
@@ -271,7 +274,27 @@ export class Register extends Component {
 
   register() {
     console.log(this.state, "STATUS");
+    let {email, firstName, lastName, cityId, password, phone} = this.state;
+    if(email == '' || firstName == '' || cityId == '' || lastName == '' || phone == '' || password == '' )
+    {
+      this.showAlert('error', "All field values are required");
+      
+      return this.hideLoader();
+    }
+    else if(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(this.state.email) != true){
+      return this.showAlert('error', "Invalid Email Format");
+
+    }
+    else if(phone.length < 11){
+      return this.showAlert('error', "Invalid Phone Number Length");
+
+    }
+    else if(password.length < 8){
+      return this.showAlert('error', "Password Length cannot be lesser than 8 characters");
+
+    }
     this.showLoader();
+
     var bod = JSON.stringify({
       email: this.state.email,
       firstName: this.state.firstName,
@@ -307,33 +330,37 @@ export class Register extends Component {
       .then(response => response.json())
       .then(res => {
         console.log(res);
-        this.hideLoader();
+        // this.hideLoader();
         if (res.success) {
-          this.showAlert('success', res.success);
-          this.setState(
-            {
-              customer: res.customer,
-            },
-            () => {
-              AsyncStorage.setItem(
-                'customer',
-                JSON.stringify(res.customer),
-              ).then(() => {
-                //send verification here
-                //take to verification Page
+          // this.showAlert('success', res.success);
+          // this.setState(
+          //   {
+          //     customer: res.customer,
+          //   },
+          //   () => {
+          //     AsyncStorage.setItem(
+          //       'customer',
+          //       JSON.stringify(res.customer),
+          //     ).then(() => {
+          //       //send verification here
+          //       //take to verification Page
 
 
-                // AsyncStorage.setItem('loginvalue', this.state.email).then(
-                //   () => {
-                //     this.props.navigation.navigate('Home');
-                //   },
-                // );
-              });
+          //       // AsyncStorage.setItem('loginvalue', this.state.email).then(
+          //       //   () => {
+          //       //     this.props.navigation.navigate('Home');
+          //       //   },
+          //       // );
+          //     });
 
-              this.sendVerification(this.state.email);
+          //     this.sendVerification(this.state.email);
 
-            },
-          );
+          //   },
+          // );
+          this.setState({customer: res.customer});
+          this.sendVerification(this.state.email);
+
+
         } else {
           this.showAlert('Error', res.error);
         }
@@ -589,7 +616,7 @@ export class Register extends Component {
               </TouchableOpacity>
               */}
           </View>
-          <View>
+          {/* <View>
             <View
               style={{
                 alignSelf: 'center',
@@ -611,29 +638,10 @@ export class Register extends Component {
               }}>
               OR REGISTER WITH
             </Text>
-          </View>
-          <View style={styles.rowa}>
+          </View> */}
+          {/* <View style={styles.rowa}>
             <View style={styles.facebookLogin}>
-              {/*
-                <LoginButton
-                //style = {styles.facebookLoginButton}
-                  onLoginFinished={
-                    (error, result) => {
-                      if (error) {
-                        console.log("login has error: " + error);
-                      } else if (result.isCancelled) {
-                        console.log("login is cancelled.");
-                      } else {
-                        AccessToken.getCurrentAccessToken().then(
-                          (data) => {
-                            console.log(data, 'data')
-                          }
-                        )
-                      }
-                    }
-                  }
-                  onLogoutFinished={() => console.log("logout.")}/>
-                */}
+             
               <TouchableOpacity onPress={() => this.registerWithFacebook()}>
                 <Image
                   source={require('./imgs/f-icon.png')}
@@ -649,16 +657,9 @@ export class Register extends Component {
                 />
               </TouchableOpacity>
 
-              {/*
-                  <GoogleSigninButton
-                    style={{ width: '100%', height: 43, fontSize: 8,marginTop: 0, }}
-                    size={GoogleSigninButton.Size.Wide}
-                    color={GoogleSigninButton.Color.Dark}
-                    onPress={this._signIn}
-                    disabled={this.state.isSigninInProgress} />
-                */}
+           
             </View>
-          </View>
+          </View> */}
         </ScrollView>
         {this.state.visible && (
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
