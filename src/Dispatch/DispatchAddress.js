@@ -90,10 +90,6 @@ export class DispatchAddress extends Component {
     // this.setState({
     //   type: this.props.navigation.state.params.type,
     // }, () => {
-<<<<<<< HEAD
-=======
-
->>>>>>> 6efd752e283ce01703650c608104c0ea5192cfcd
     //})
     this.getCities();
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);

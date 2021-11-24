@@ -24,11 +24,8 @@ pod 'react-native-google-maps', :path => rn_maps_path
 
   pod 'react-native-image-base64', :path => '../node_modules/react-native-image-base64'
 
-<<<<<<< HEAD
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-=======
   pod 'RNFS', :path => '../node_modules/react-native-fs'
->>>>>>> 6efd752e283ce01703650c608104c0ea5192cfcd
 
   target 'enviableTests' do
     inherit! :complete

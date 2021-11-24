@@ -404,7 +404,7 @@ export class RideConfirm extends Component {
                 <Marker key={index} coordinate={rider}>
                   <Image
                     source={require('../imgs/bike.png')}
-                    style={[ styles.bikeImage, {width:40, height:25} ]}
+                    style={[ styles.bikeImage ]}
                   />
                 </Marker>
               ))}
@@ -632,7 +632,7 @@ const styles = StyleSheet.create({
     height: 15,
   },
   bikeImage: {
-    width: 38,
+    width: 40,
     height: 25,
     alignSelf: 'center',
     paddingTop: 6,

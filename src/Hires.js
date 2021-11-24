@@ -840,10 +840,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 13,
   },
-<<<<<<< HEAD
-=======
-
->>>>>>> 6efd752e283ce01703650c608104c0ea5192cfcd
   createText: {
     textAlign: 'center',
     color: '#fff',
