@@ -41,7 +41,7 @@ export class Register extends Component {
     super();
     this.handleBackPress = this.handleBackPress.bind(this);
     this.registerWithGoogle = this.registerWithGoogle.bind(this);
-    this.signOut = this.signOut.bind(this);
+    // this.signOut = this.signOut.bind(this);
     this.state = {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
@@ -62,23 +62,24 @@ export class Register extends Component {
       pickupLocationPlaceholder: '',
       visible1: false,
     };
-    GoogleSignin.configure();
-    this.signOut();
+    // GoogleSignin.configure();
+    // this.signOut();
   }
-  signOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      this.setState({user: null}); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // signOut = async () => {
+  //   try {
+  //     await GoogleSignin.signOut();
+  //     this.setState({user: null}); // Remember to remove the user from your app's state as well
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   componentWillUnmount() {
     this.subs.forEach(sub => sub.remove());
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
   }
   async componentDidFocus() {
+    // alert('me o')
     Settings.initializeSDK();
     this.getLoggedInUser();
     this.getCities();
@@ -238,30 +239,32 @@ export class Register extends Component {
       },
       body: JSON.stringify({
           email: email,
-          phone: this.state.phone
+          phone: this.state.email
       })
     }).then((response) => response.json())
         .then((res) => {
           console.log(res);
           this.hideLoader();
           if(res.success){
-
+            this.props.navigation.navigate('VerifyPhone', {
+              phone: this.state.email,
+            }) 
             // this.showAlert("success", res.success);
-            this.setState({
-              customer:  res.customer
-            }, ()=> {
-              this.showAlert("Success", res.success);
-              // AsyncStorage.setItem('loginvalue', this.state.email).then(
-                //   () => {
-                //     this.props.navigation.navigate('Home');
-                //   },
-                // );
+            // this.setState({
+            //   customer:  res.customer
+            // }, ()=> {
+            //   this.showAlert("Success", res.success);
+            //   // AsyncStorage.setItem('loginvalue', this.state.email).then(
+            //     //   () => {
+            //     //     this.props.navigation.navigate('Home');
+            //     //   },
+            //     // );
 
-                this.props.navigation.navigate('VerifyPhone', {
-                  phone: this.state.email,
-                })              // change this
-              // this.props.navigation.pop();
-            });
+            //     this.props.navigation.navigate('VerifyPhone', {
+            //       phone: this.state.email,
+            //     })              // change this
+            //   // this.props.navigation.pop();
+            // });
           }else{
             this.showAlert("Error", res.error)
           }
@@ -273,6 +276,7 @@ export class Register extends Component {
   register() {
     console.log(this.state, "STATUS");
     this.showLoader();
+
     var bod = JSON.stringify({
       email: this.state.email,
       firstName: this.state.firstName,
@@ -308,33 +312,37 @@ export class Register extends Component {
       .then(response => response.json())
       .then(res => {
         console.log(res);
-        this.hideLoader();
+        // this.hideLoader();
         if (res.success) {
-          this.showAlert('success', res.success);
-          this.setState(
-            {
-              customer: res.customer,
-            },
-            () => {
-              AsyncStorage.setItem(
-                'customer',
-                JSON.stringify(res.customer),
-              ).then(() => {
-                //send verification here
-                //take to verification Page
+          // this.showAlert('success', res.success);
+          // this.setState(
+          //   {
+          //     customer: res.customer,
+          //   },
+          //   () => {
+          //     AsyncStorage.setItem(
+          //       'customer',
+          //       JSON.stringify(res.customer),
+          //     ).then(() => {
+          //       //send verification here
+          //       //take to verification Page
 
 
-                // AsyncStorage.setItem('loginvalue', this.state.email).then(
-                //   () => {
-                //     this.props.navigation.navigate('Home');
-                //   },
-                // );
-              });
+          //       // AsyncStorage.setItem('loginvalue', this.state.email).then(
+          //       //   () => {
+          //       //     this.props.navigation.navigate('Home');
+          //       //   },
+          //       // );
+          //     });
 
-              this.sendVerification(this.state.email);
+          //     this.sendVerification(this.state.email);
 
-            },
-          );
+          //   },
+          // );
+          this.setState({customer: res.customer});
+          this.sendVerification(this.state.email);
+
+
         } else {
           this.showAlert('Error', res.error);
         }
@@ -590,8 +598,50 @@ export class Register extends Component {
               </TouchableOpacity>
               */}
           </View>
-        
-          
+          {/* <View>
+            <View
+              style={{
+                alignSelf: 'center',
+                position: 'absolute',
+                borderBottomColor: '#FFF',
+                borderBottomWidth: 1,
+                height: '50%',
+                width: '90%',
+              }}
+            />
+            <Text
+              style={{
+                alignSelf: 'center',
+                paddingHorizontal: 5,
+                marginTop: -5,
+                color: '#fff',
+                fontSize: 12,
+                backgroundColor: '#0B277F',
+              }}>
+              OR REGISTER WITH
+            </Text>
+          </View> */}
+          {/* <View style={styles.rowa}>
+            <View style={styles.facebookLogin}>
+             
+              <TouchableOpacity onPress={() => this.registerWithFacebook()}>
+                <Image
+                  source={require('./imgs/f-icon.png')}
+                  style={styles.fImage}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.googleLogin}>
+              <TouchableOpacity onPress={() => this.registerWithGoogle()}>
+                <Image
+                  source={require('./imgs/g-icon.png')}
+                  style={styles.gImage}
+                />
+              </TouchableOpacity>
+
+           
+            </View>
+          </View> */}
         </ScrollView>
         {this.state.visible && (
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />

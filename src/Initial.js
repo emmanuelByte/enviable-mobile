@@ -31,7 +31,7 @@ export class Initial extends Component {
   
   async getLoggedInUser(token){
     await AsyncStorage.getItem('enviable').then((value) => {
-      
+      // alert("dsdsd"+value)
       console.log(value, 'val')
       if(value == null){
         this.props.navigation.navigate('PhoneRegistration')
@@ -47,7 +47,7 @@ export class Initial extends Component {
           }, ()=>{
             this.savePush(token);
             
-              this.props.navigation.navigate('Home')
+            this.props.navigation.navigate('Home')
           
           })
         }else{

@@ -164,7 +164,7 @@ export class VerifyPhone extends Component {
 resendVerification(){
   this.showLoader();
   
-  fetch(`${SERVER_URL}/mobile/resend_verify_phone`, {
+  fetch(`${SERVER_URL}/mobile/resend_verify_email`, {
     method: 'POST',
     headers: {
         'Accept': 'application/json',
@@ -183,9 +183,12 @@ resendVerification(){
           //   customer:  res.customer
           // }, ()=> {
           //   this.showAlert("Success", res.success)
-          // });
-          this.props.navigation.navigate('Login');
+          // // });
+          // this.props.navigation.navigate('Login');
+          this.showAlert("Status", "Code Resent")
+
         }else{
+          console.log(this.state.phone)
           this.showAlert("Error", res.error)
         }
 }).done();

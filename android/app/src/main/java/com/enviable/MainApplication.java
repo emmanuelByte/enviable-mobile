@@ -5,6 +5,7 @@ import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.rnfs.RNFSPackage;
 import fr.snapp.imagebase64.RNImgToBase64Package;
 import com.imagepicker.ImagePickerPackage;
 import com.facebook.react.ReactInstanceManager;

@@ -21,6 +21,7 @@ import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import {SERVER_URL} from './config/server';
+import {logInUser} from './api/user.api'
 
 export class Login extends Component {
   constructor(props) {
@@ -81,6 +82,7 @@ export class Login extends Component {
       });
     }
   }
+
   showAlert(type, message) {
     Alert.alert(type, message);
   }
@@ -117,9 +119,7 @@ export class Login extends Component {
   }
 
   showLoader() {
-    this.setState({
-      loaderVisible: true,
-    });
+    this.setState({ loaderVisible: true });
   }
 
   hideLoader() {
@@ -139,32 +139,26 @@ export class Login extends Component {
     header: null,
   };
 
-  login() {
-    console.log(this.state.email, 'email');
+  async login() {
+    const { email, password, token} = this.state;
+    const payload = { email, password, push_token: token, device: Platform.OS };
+    
 
-    console.log(this.state.token, 'password');
+    try {
 
-    this.showLoader();
-
-    fetch(`${SERVER_URL}/mobile/login`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        push_token: this.state.token,
-        device: Platform.OS,
-      }),
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.hideLoader();
-        if (res.success) {
-          console.log('customer', res.customer);
-
+      this.showLoader();
+      const res = (await logInUser(payload));
+      if(!res.success) {
+        this.showAlert("error", res.error);
+        console.log(res)
+      }
+      else if(res.customer.phone_verification === 'No'){
+        this.props.navigation.navigate('VerifyPhone', {
+          phone: res.customer.email
+        })
+      }
+      else{
+        
           AsyncStorage.setItem('customer', JSON.stringify(res.customer)).then(
             () => {
               AsyncStorage.setItem('loginvalue', this.state.email).then(() => {
@@ -175,11 +169,52 @@ export class Login extends Component {
               //this.showAlert("error", res.error)
             },
           );
-        } else {
-          this.showAlert('Error', res.error);
-        }
-      })
-      .done();
+      }
+      console.log(res, 'Indistry user')
+
+    } catch (error) { 
+      console.log(error)
+      this.showAlert("error", error)
+
+    }
+    this.hideLoader();
+
+    // this.showLoader();
+
+    // fetch(`${SERVER_URL}/mobile/login`, {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     email: this.state.email,
+    //     password: this.state.password,
+    //     push_token: this.state.token,
+    //     device: Platform.OS,
+    //   }),
+    // })
+    //   .then(response => response.json())
+    //   .then(res => {
+    //     this.hideLoader();
+    //     if (res.success) {
+    //       console.log('customer', res.customer);
+
+    //       AsyncStorage.setItem('customer', JSON.stringify(res.customer)).then(
+    //         () => {
+    //           AsyncStorage.setItem('loginvalue', this.state.email).then(() => {
+    //             this.setState({password: ''});
+    //             this.props.navigation.navigate('Home');
+    //           });
+
+    //           //this.showAlert("error", res.error)
+    //         },
+    //       );
+    //     } else {
+    //       this.showAlert('Error', res.error);
+    //     }
+    //   })
+    //   .done();
   }
 
   forgot() {

@@ -53,6 +53,7 @@ export class DispatchOrderDetails extends Component {
       deliveryInfo: false,
       orderParam: false,
       orderDetails: false,
+      
       trn_ref: false,
       play: false,
       rating: 5,

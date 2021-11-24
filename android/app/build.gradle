@@ -134,8 +134,8 @@ android {
         applicationId "com.enviable"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.1.1"
+        versionCode 5
+        versionName "1.1.3"
     }
     splits {
         abi {
@@ -153,12 +153,16 @@ android {
             keyPassword 'android'
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6efd752e283ce01703650c608104c0ea5192cfcd
         // release {
         //     storeFile file('op-release-key-live.keystore')
         //     storePassword '@Ughonu@234'
         //     keyAlias 'optisoft_ng_android_key'
         //     keyPassword '@Ughonu@234'
         // }
+<<<<<<< HEAD
         release {
             if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
                 storeFile file(MYAPP_UPLOAD_STORE_FILE)
@@ -173,6 +177,15 @@ android {
             keyAlias 'optisoft_ng_android_key'
             keyPassword '@Ughonu@234'
 >>>>>>> 19dd5b2e4a22bc930ecfb388e09fdd45ffb9062d
+=======
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+>>>>>>> 6efd752e283ce01703650c608104c0ea5192cfcd
         }
     }
     buildTypes {
@@ -182,11 +195,8 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-<<<<<<< HEAD
-            signingConfig signingConfigs.release
-=======
-            signingConfig signingConfigs.debug
->>>>>>> 19dd5b2e4a22bc930ecfb388e09fdd45ffb9062d
+          signingConfig signingConfigs.release
+
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

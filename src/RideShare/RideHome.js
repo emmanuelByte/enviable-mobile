@@ -370,6 +370,18 @@ export class RideHome extends Component {
           >
            
 
+{/* {this.state.carMarker &&
+              this.state.carMarker.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/car-ico.png')}
+                    style={styles.carIco}
+                  />
+                </Marker>
+              ))} */} 
+
+
+
 {this.state.carMarker &&
               this.state.carMarker.map((rider, index) => (
                 <Marker coordinate={rider}>
@@ -380,6 +392,27 @@ export class RideHome extends Component {
                 </Marker>
               ))}
 
+
+          {/* {this.state.bikeMarker &&
+              this.state.bikeMarker.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/bike.png')}
+                    style={[ styles.carIco, {width:44, height:27} ]}
+                  />
+                </Marker>
+              ))}
+
+          {this.state.kekeMarker &&
+              this.state.kekeMarker.map((rider, index) => (
+                <Marker coordinate={rider}>
+                  <Image
+                    source={require('../imgs/keke.png')}
+                    style={[ styles.carIco, {width:25, height:25} ]}
+                  />
+                </Marker>
+              ))}
+ */}
 
           {this.state.bikeMarker &&
               this.state.bikeMarker.map((rider, index) => (
