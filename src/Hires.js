@@ -612,7 +612,6 @@ const styles = StyleSheet.create({
   row: {
     width: '100%',
     alignSelf: 'center',
-
     flexDirection: 'row',
     marginTop: 20,
   },
@@ -718,7 +717,6 @@ const styles = StyleSheet.create({
     //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
-
     borderWidth: 1,
     borderRadius: 9,
     elevation: 1,
@@ -842,7 +840,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 13,
   },
-
   createText: {
     textAlign: 'center',
     color: '#fff',

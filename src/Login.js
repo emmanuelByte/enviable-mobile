@@ -81,7 +81,6 @@ export class Login extends Component {
       });
     }
   }
-
   showAlert(type, message) {
     Alert.alert(type, message);
   }

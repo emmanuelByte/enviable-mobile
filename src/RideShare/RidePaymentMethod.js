@@ -50,7 +50,6 @@ export class RidePaymentMethod extends Component {
       timeValue: false,
       paymentMethod: '',
       userCards: [],
-
       // initialRegion: {
       //   latitude: 6.465422,
       //   longitude: 3.406448,
@@ -488,7 +487,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: 40,
   },
-
   header: {
     width: '100%',
     height: 110,
@@ -562,7 +560,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     //marginTop: 15,
   },
-
   est: {
     width: '80%',
     alignSelf: 'center',
@@ -635,7 +632,6 @@ const styles = StyleSheet.create({
     height: 280,
     width: '90%',
     backgroundColor: '#FFF',
-
     padding: 18,
   },
   submitButton1: {

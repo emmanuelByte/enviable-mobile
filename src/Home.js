@@ -203,7 +203,7 @@ export class Home extends Component {
     try {
       const result = await Share.share({
         message:
-          'Get the Rickreen app from the playstore and register with my refferal code: ' +
+          'Get the Enviable app from the playstore and register with my refferal code: ' +
           this.state.customer.referral_code +
           ' and win free credit for deliveries',
       });
@@ -842,7 +842,6 @@ const styles = StyleSheet.create({
     marginBottom: 13,
     marginLeft: '10%',
     backgroundColor: '#fff',
-
     borderRadius: 20,
     padding: 15,
   },
@@ -862,7 +861,6 @@ const styles = StyleSheet.create({
     height: 180,
     width: '45%',
     marginBottom: 13,
-
     backgroundColor: '#fff',
     borderRadius: 20,
     padding: 15,
@@ -984,7 +982,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 13,
   },
-
   createText: {
     textAlign: 'center',
     color: '#fff',

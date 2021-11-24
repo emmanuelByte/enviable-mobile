@@ -152,6 +152,7 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+<<<<<<< HEAD
         // release {
         //     storeFile file('op-release-key-live.keystore')
         //     storePassword '@Ughonu@234'
@@ -165,6 +166,13 @@ android {
                 keyAlias MYAPP_UPLOAD_KEY_ALIAS
                 keyPassword MYAPP_UPLOAD_KEY_PASSWORD
             }
+=======
+        release {
+            storeFile file('op-release-key-live.keystore')
+            storePassword '@Ughonu@234'
+            keyAlias 'optisoft_ng_android_key'
+            keyPassword '@Ughonu@234'
+>>>>>>> 19dd5b2e4a22bc930ecfb388e09fdd45ffb9062d
         }
     }
     buildTypes {
@@ -174,7 +182,11 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
+<<<<<<< HEAD
             signingConfig signingConfigs.release
+=======
+            signingConfig signingConfigs.debug
+>>>>>>> 19dd5b2e4a22bc930ecfb388e09fdd45ffb9062d
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

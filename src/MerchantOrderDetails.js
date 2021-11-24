@@ -779,7 +779,6 @@ const styles = StyleSheet.create({
     padding: 10,
     //marginRight: 25,
     //marginLeft: 30,
-
     //flexDirection: 'row',
   },
   addText: {
@@ -892,7 +891,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
   },
-
   item: {
     width: '100%',
     marginLeft: 5,
@@ -917,7 +915,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#585757',
   },
-
   itemBottom: {
     flexDirection: 'row',
     width: '100%',
@@ -936,7 +933,6 @@ const styles = StyleSheet.create({
   row: {
     width: '100%',
     alignSelf: 'center',
-
     flexDirection: 'row',
     marginTop: 20,
   },
@@ -1029,7 +1025,6 @@ const styles = StyleSheet.create({
     //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
-
     borderWidth: 1,
     borderRadius: 9,
     elevation: 1,
@@ -1203,7 +1198,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 13,
   },
-
   createText: {
     textAlign: 'center',
     color: '#fff',

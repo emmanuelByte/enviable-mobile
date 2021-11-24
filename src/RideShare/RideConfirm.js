@@ -559,7 +559,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: 40,
   },
-
   header: {
     width: '100%',
     height: 110,

@@ -140,6 +140,7 @@ export class Register extends Component {
         customer: JSON.parse(value),
         phone: JSON.parse(value).phone1,
       });
+      
       if(value.first_name != null) {
         this.props.navigation.navigate('Home');
         // this.setState({
