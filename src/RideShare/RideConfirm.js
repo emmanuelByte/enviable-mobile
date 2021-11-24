@@ -80,6 +80,8 @@ export class RideConfirm extends Component {
   };
 
   componentDidMount() {
+    // alert('COMPONENT DID')
+    console.log(this.props.navigation.state, "NAV OASDFGHJKL")
     this.subs = [
       this.props.navigation.addListener('didFocus', payload =>
         this.componentDidFocus(payload),
@@ -178,9 +180,12 @@ export class RideConfirm extends Component {
     console.log(this.state.origin, 'sksks');
 
     this.showLoader();
-
+    console.log(origin,destination, "destination origin combo")
     fetch(
+      // `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${MAP_API_KEY}`,
       `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
+
+      // `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
       {
         method: 'GET',
       },
@@ -188,7 +193,8 @@ export class RideConfirm extends Component {
       .then(response => response.json())
       .then(res => {
         this.hideLoader();
-        //console.log(res.rows[0].elements[0].distance.text, "distance");
+        // console.log(res.rows[0].elements[0].duration.text, res.rows[0].elements[0].duration, "res 12 then block")
+        console.log(res.rows[0].elements[0].distance.text, "distance");
         this.setState(
           {
             time: res.rows[0].elements[0].duration.text,
@@ -206,7 +212,7 @@ export class RideConfirm extends Component {
       })
       .catch(error => {
         this.hideLoader();
-        console.error(error);
+        console.error(error, "error here");
         Alert.alert(
           'Distance error',
           'Could not get distance',
@@ -384,7 +390,7 @@ export class RideConfirm extends Component {
 
           {this.state. carMarker &&
               this.state.carMarker.map((rider, index) => (
-                <Marker coordinate={rider}>
+                <Marker key={index} coordinate={rider}>
                   <Image
                     source={require('../imgs/car-ico.png')}
                     style={styles.carIco}
@@ -395,20 +401,20 @@ export class RideConfirm extends Component {
 
           {this.state.bikeMarker &&
               this.state.bikeMarker.map((rider, index) => (
-                <Marker coordinate={rider}>
+                <Marker key={index} coordinate={rider}>
                   <Image
                     source={require('../imgs/bike.png')}
-                    style={[ styles.carIco, {width:25, height:35} ]}
+                    style={[ styles.bikeImage, {width:40, height:25} ]}
                   />
                 </Marker>
               ))}
 
           {this.state.kekeMarker &&
               this.state.kekeMarker.map((rider, index) => (
-                <Marker coordinate={rider}>
+                <Marker key={index} coordinate={rider}>
                   <Image
                     source={require('../imgs/keke.png')}
-                    style={[ styles.carIco, {width:25, height:25} ]}
+                    style={[styles.kekeImage]}
                   />
                 </Marker>
               ))}
@@ -614,8 +620,8 @@ const styles = StyleSheet.create({
     //marginTop: 15,
   },
   kekeImage: {
-    width: 35,
-    height: 35,
+    width: 25,
+    height: 25,
     alignSelf: 'center',
     marginTop: 6,
     marginBottom: 6,
@@ -626,7 +632,7 @@ const styles = StyleSheet.create({
     height: 15,
   },
   bikeImage: {
-    width: 40,
+    width: 38,
     height: 25,
     alignSelf: 'center',
     paddingTop: 6,

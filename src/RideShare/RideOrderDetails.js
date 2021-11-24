@@ -387,8 +387,8 @@ export class RideOrderDetails extends Component {
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
             showsUserLocation={true}
-            //onMapReady={this.goToInitialRegion.bind(this)}
-            //initialRegion={this.state.initialRegion}
+            // onMapReady={this.goToInitialRegion.bind(this)}
+            // initialRegion={this.state.initialRegion}
           >
             <Marker coordinate={this.state.origin}></Marker>
             <Marker coordinate={this.state.destination}></Marker>

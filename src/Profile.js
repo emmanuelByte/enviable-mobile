@@ -450,6 +450,7 @@ export class Profile extends Component {
                   value={this.state.email}
                   keyboardType={'email-address'}
                   autoCapitalize="none"
+                  editable={false}
                 />
                 <Text style={styles.label}>Phone</Text>
                 <TextInput

@@ -75,6 +75,7 @@ export class RideHome extends Component {
       .then(json => {
         console.log(json.results, 'json.results');
         var formatted_address = json.results[0].formatted_address;
+        
         this.setState({
           address: formatted_address,
           fromText: formatted_address,
@@ -206,16 +207,24 @@ export class RideHome extends Component {
         const currentLongitude = position.coords.longitude;
         const currentLatitude = position.coords.latitude;
         var origin = {
+          // latitude: "",
           latitude: currentLatitude,
+
+          // longitude: "",
           longitude: currentLongitude,
+
           latitudeDelta: 0.009922,
           longitudeDelta: 0.009421,
         };
+        console.log(currentLatitude, currentLongitude, "lkjhgfasc")
         that.setState(
           {
             origin: origin,
-            latitude: currentLatitude,
-            longitude: currentLongitude,
+            latitude: "",
+            longitude: "",
+
+            // latitude: currentLatitude,
+            // longitude: currentLongitude,
             initialRegion: origin,
           },
           () => {
@@ -508,9 +517,9 @@ export class RideHome extends Component {
                 key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
                 language: 'en',
               }}
-              getDefaultValue={() => ''}
+              // getDefaultValue={() => ''}
               setAddressText={() => this.state.address}
-              placeholder={this.state.address}
+              placeholder={'From'}
               minLength={5} // minimum length of text to search
               autoFocus={false}
               fetchDetails={true}
@@ -531,6 +540,13 @@ export class RideHome extends Component {
                     fromLatitude: details.geometry.location.lat,
                     fromLongitude: details.geometry.location.lng,
                     fromAddress: data.description,
+                    origin: {
+                      latitude: details.geometry.location.lat,
+                      longitude: details.geometry.location.lng,
+                      latitudeDelta: 0.009922,
+                      longitudeDelta: 0.009421,
+                      address: data.description,
+                    }
                   },
                   // () => {
                   //   this.proceed();
