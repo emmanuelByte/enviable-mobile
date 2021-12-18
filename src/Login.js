@@ -16,6 +16,7 @@ import {
   StatusBar,
   TouchableOpacity,
   AsyncStorage,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
@@ -245,7 +246,10 @@ export class Login extends Component {
   render() {
     const {visible} = this.state;
     return (
+
       <View style={styles.body}>
+              <KeyboardAvoidingView behavior="padding" >
+
         <ImageBackground
           resizeMode={'cover'}
           source={require('./imgs/login-bg1.png')}
@@ -303,7 +307,6 @@ export class Login extends Component {
             <Text style={styles.createText}>New user? Create an account.</Text>
           </TouchableOpacity>
         </View>
-
         {this.state.loaderVisible && (
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
         )}
@@ -338,7 +341,10 @@ export class Login extends Component {
             </TouchableOpacity>
           </View>
         </Modal>
+        </KeyboardAvoidingView>
+
       </View>
+
     );
   }
 }
