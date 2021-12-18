@@ -244,6 +244,7 @@ onPickupSelect = (city) => {
     const { visible } = this.state;
     return (
       <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}}  colors={['#0B277F', '#0B277F']} style={styles.body}>
+        
         <ScrollView showsVerticalScrollIndicator={false}>
           <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
           {/*

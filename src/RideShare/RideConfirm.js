@@ -436,8 +436,8 @@ export class RideConfirm extends Component {
               mode="DRIVING"
               strokeColor="#0B277F"
               strokeWidth={3}
-              // apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
-              apikey={MAP_API_KEY}
+              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+              // apikey={MAP_API_KEY}
 
             />
           </MapView>

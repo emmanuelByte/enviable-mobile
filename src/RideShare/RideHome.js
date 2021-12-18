@@ -159,11 +159,15 @@ export class RideHome extends Component {
   }
 
   goToInitialRegion() {
+    // alert("readfghj")
+    this.getLocation();
     let initialRegion = Object.assign({}, this.state.initialRegion);
     initialRegion['latitudeDelta'] = 0.009922;
     initialRegion['longitudeDelta'] = 0.009421;
+    console.log(initialRegion, "initialregion gores hehrbwksn ")
     this.mapView.animateToRegion(initialRegion, 3000);
   }
+  
   getLocation() {
     //this.showLoader();
     var that = this;
@@ -206,6 +210,7 @@ export class RideHome extends Component {
       position => {
         const currentLongitude = position.coords.longitude;
         const currentLatitude = position.coords.latitude;
+        // alert(currentLatitude+"+"+ currentLongitude)
         var origin = {
           // latitude: "",
           latitude: currentLatitude,
@@ -216,7 +221,7 @@ export class RideHome extends Component {
           latitudeDelta: 0.009922,
           longitudeDelta: 0.009421,
         };
-        console.log(currentLatitude, currentLongitude, "lkjhgfasc")
+        // console.log(currentLatitude, currentLongitude, "lkjhgfasc")
         that.setState(
           {
             origin: origin,
@@ -233,6 +238,7 @@ export class RideHome extends Component {
         );
       },
       error => console.log(error),
+      {enableHighAccuracy:true, maximumAge:5000}
     );
     that.watchID = Geolocation.watchPosition(position => {
       //Will give you the location on location change
@@ -248,12 +254,11 @@ export class RideHome extends Component {
           origin: origin,
           latitude: currentLatitude,
           longitude: currentLongitude,
-        },
-        () => {
-          // this.saveLocation(currentLatitude, currentLongitude)
-        },
-      );
-    });
+        });
+
+
+
+    }, (_)=>(_),{enableHighAccuracy:true});
   }
 
   proceed() {
@@ -361,7 +366,6 @@ export class RideHome extends Component {
             region={this.state.initialRegion}
             followUserLocation={true}
             showsUserLocation={true}
-
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
             showsUserLocation={true}
@@ -447,7 +451,9 @@ export class RideHome extends Component {
               mode="DRIVING"
               strokeColor="#0B277F"
               strokeWidth={3}
-              apikey={MAP_API_KEY}
+              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+
+              // apikey={MAP_API_KEY}
             />
           </MapView>
         )}
