@@ -140,7 +140,7 @@ export class Home extends Component {
   async getLoggedInUser() {
     await AsyncStorage.getItem('customer').then(value => {
       if (value) {
-        //this.props.navigation.navigate('Home')
+        this.props.navigation.navigate('Home')
         console.log(JSON.parse(value), 'lllJSON.parse(value)');
 
         this.setState(
@@ -155,7 +155,7 @@ export class Home extends Component {
           },
         );
       } else {
-        //this.props.navigation.navigate('Login')
+        // this.props.navigation.navigate('Login')
       }
     });
   }
@@ -391,7 +391,7 @@ export class Home extends Component {
                       </View>
                       <View style={styles.colContent}>
                         <Text style={styles.contentText3}>
-                          Special movement
+                          Hire a car
                         </Text>
                       </View>
                     </ShadowView>
@@ -607,7 +607,7 @@ export class Home extends Component {
                     />
                   </View>
                   <View style={styles.textView}>
-                    <Text style={styles.textLink}>Special movement</Text>
+                    <Text style={styles.textLink}>Hire a car</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity

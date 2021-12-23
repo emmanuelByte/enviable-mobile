@@ -19,11 +19,13 @@ import {
   TouchableOpacity,
   AsyncStorage,
 } from 'react-native';
+import { OpenMapDirections } from 'react-native-navigation-directions';
+
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Marker, MarkerAnimated, AnimatedRegion} from 'react-native-maps';
 navigator.geolocation = require('@react-native-community/geolocation');
 import MapViewDirections from 'react-native-maps-directions';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
@@ -37,6 +39,7 @@ import { MAP_API_KEY } from '../config/keys';
 export class RideOrderDetails extends Component {
   constructor(props) {
     super();
+  
     this.ratingCompleted = this.ratingCompleted.bind(this);
     this.handleBackPress = this.handleBackPress.bind(this);
     this.state = {
@@ -52,7 +55,8 @@ export class RideOrderDetails extends Component {
       rating: '',
       vs: false,
       rateVisible: false,
-    };
+      driver:false
+      };
     this.getLoggedInUser();
   }
 
@@ -91,12 +95,17 @@ export class RideOrderDetails extends Component {
   }
   componentDidFocus = () => {
     //this.getLocation();
-    this.getOrder(this.props.navigation.state.params.orderId);
+      this.getOrder(this.props.navigation.state.params.orderId);
+
+    setInterval(()=>{
+      this.updateDriverLocation(this.props.navigation.state.params.orderId);
+
+    }, 10000)
   };
 
   getDistance(origin, destination) {
     console.log(this.state.origin, 'sksks');
-    this.showLoader();
+    // this.showLoader();
     fetch(
       `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
       {
@@ -134,14 +143,95 @@ export class RideOrderDetails extends Component {
       });
   }
 
-  getOrder(orderId) {
+  updateDriverLocation(orderId){
+    fetch(`${SERVER_URL}/mobile/get_ride_share_order/${orderId}`, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(res => {
+       
+        if (res.success) {
+          if(res.rider.longitude != null){
+
+            var origin =
+            JSON.parse(res.rider.latitude) +
+            ',' +
+            JSON.parse(res.rider.longitude);
+
+          }
+          else{
+            var origin =
+            JSON.parse(res.order.pickup_latitude) +
+            ',' +
+            JSON.parse(res.order.pickup_longitude);
+
+          }
+        
+          var destination =
+            JSON.parse(res.order.delivery_latitude) +
+            ',' +
+            JSON.parse(res.order.delivery_longitude);
+
+          this.getDistance(origin, destination);
+         
+          if(res.rider.longitude != null){
+            if (this.marker) {
+              let newCoordinate = {
+                    longitude: parseFloat(res.rider.longitude), latitude: parseFloat(res.rider.latitude) 
+                  }
+              this.marker.animateMarkerToCoordinate(newCoordinate, 1000);
+            }
+
+            this.setState({
+              order: res.order,
+              rider: res.rider,
+              // origin: origin,
+              // destination: destination,
+              // driver: {longitude: parseFloat(res.rider.longitude), latitude: parseFloat(res.rider.latitude) }
+  
+            });
+            // this.setState({
+            //   driver: 
+            //   // new AnimatedRegion(
+            //     {
+            //     longitude: parseFloat(res.rider.longitude), latitude: parseFloat(res.rider.latitude) 
+            //   }
+            //   // )
+  
+            // });
+          }
+         
+        
+        } else {
+          Alert.alert('Error', res.error);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        Alert.alert(
+          'Communictaion error',
+          'Ensure you have an active internet connection',
+          [
+            {
+              text: 'Ok',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Refresh', onPress: () => this.updateDriverLocation(orderId)},
+          ],
+          //{ cancelable: false }
+        );
+      });
+  }
+
+  getOrder(orderId){
     this.showLoader();
     fetch(`${SERVER_URL}/mobile/get_ride_share_order/${orderId}`, {
       method: 'GET',
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        console.log(res, "COUPLED WITH RIDER DATA NICE");
         this.hideLoader();
         if (res.success) {
           var origin =
@@ -166,12 +256,27 @@ export class RideOrderDetails extends Component {
             longitudeDelta: 0.009421,
           };
           console.log(res.rider, 'res.rider');
-          this.setState({
-            order: res.order,
-            rider: res.rider,
-            origin: origin,
-            destination: destination,
-          });
+          if(res.rider.longitude != null){
+            this.setState({
+              order: res.order,
+              rider: res.rider,
+              origin: origin,
+              destination: destination,
+              // driver: {longitude: parseFloat(res.rider.longitude), latitude: parseFloat(res.rider.latitude) }
+  
+            });
+          }
+          else{
+            this.setState({
+              order: res.order,
+              rider: res.rider,
+              origin: origin,
+              destination: destination,
+  
+            });
+          }
+         
+        
         } else {
           Alert.alert('Error', res.error);
         }
@@ -193,6 +298,8 @@ export class RideOrderDetails extends Component {
         );
       });
   }
+
+
 
   async getLoggedInUser() {
     await AsyncStorage.getItem('customer').then(value => {
@@ -235,24 +342,44 @@ export class RideOrderDetails extends Component {
     });
   }
   use() {
-    showLocation({
-      latitude: this.state.order.delivery_latitude,
-      longitude: this.state.order.delivery_longitude,
-      //sourceLatitude: this.state.origin.latitude,  // optionally specify starting location for directions
-      //sourceLongitude: this.state.origin.longitude,  // not optional if sourceLatitude is specified
-      title: this.state.order.delivery_address, // optional
-      //googleForceLatLon: false,  // optionally force GoogleMaps to use the latlon for the query instead of the title
-      //googlePlaceId: 'ChIJGVtI4by3t4kRr51d_Qm_x58',  // optionally specify the google-place-id
-      //alwaysIncludeGoogle: true, // optional, true will always add Google Maps to iOS and open in Safari, even if app is not installed (default: false)
-      dialogTitle: 'Change map', // optional (default: 'Open in Maps')
-      dialogMessage: 'Open in google map', // optional (default: 'What app would you like to use?')
-      cancelText: 'Cancel', // optional (default: 'Cancel')
-      appsWhiteList: ['google-maps'], // optionally you can set which apps to show (default: will show all supported apps installed on device)
-      naverCallerName: 'com.Rickreen', // to link into Naver Map You should provide your appname which is the bundle ID in iOS and applicationId in android.
-      appTitles: {'google-maps': 'Direction to your destination'}, // optionally you can override default app titles
-      // app: 'uber'  // optionally specify specific app to use
+    // alert('clicked')
+    // showLocation({
+    //   latitude: this.state.order.delivery_latitude,
+    //   longitude: this.state.order.delivery_longitude,
+    //   //sourceLatitude: this.state.origin.latitude,  // optionally specify starting location for directions
+    //   //sourceLongitude: this.state.origin.longitude,  // not optional if sourceLatitude is specified
+    //   title: this.state.order.delivery_address, // optional
+    //   //googleForceLatLon: false,  // optionally force GoogleMaps to use the latlon for the query instead of the title
+    //   //googlePlaceId: 'ChIJGVtI4by3t4kRr51d_Qm_x58',  // optionally specify the google-place-id
+    //   //alwaysIncludeGoogle: true, // optional, true will always add Google Maps to iOS and open in Safari, even if app is not installed (default: false)
+    //   dialogTitle: 'Change map', // optional (default: 'Open in Maps')
+    //   dialogMessage: 'Open in google map', // optional (default: 'What app would you like to use?')
+    //   cancelText: 'Cancel', // optional (default: 'Cancel')
+    //   appsWhiteList: ['google-maps'], // optionally you can set which apps to show (default: will show all supported apps installed on device)
+    //   naverCallerName: 'com.enviable', // to link into Naver Map You should provide your appname which is the bundle ID in iOS and applicationId in android.
+    //   appTitles: {'google-maps': 'Direction to your destination'}, // optionally you can override default app titles
+    //   // app: 'uber'  // optionally specify specific app to use
+    // });
+
+
+    const startPoint = {
+      latitude: parseFloat(this.state.order.pickup_latitude),
+      longitude: parseFloat(this.state.order.pickup_longitude),
+    } 
+
+    const endPoint = {
+      latitude: parseFloat(this.state.order.delivery_latitude),
+      longitude: parseFloat(this.state.order.delivery_longitude),
+    }
+
+		const transportPlan = 'w';
+if(this.state.order.status == "Rider accepted"){
+    OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
+      console.log(res)
     });
+
   }
+}
 
   changeStatus(status) {
     // console.log(`${SERVER_URL}mobile/cancel_ride_share/${this.state.order.id}/${this.state.customer.id}/rider_cancelled_order`, "CHECK HERE  BOSS");
@@ -387,10 +514,30 @@ export class RideOrderDetails extends Component {
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
             showsUserLocation={true}
+            // onMoveShouldSetResponder={true}
             // onMapReady={this.goToInitialRegion.bind(this)}
             // initialRegion={this.state.initialRegion}
           >
             <Marker coordinate={this.state.origin}></Marker>
+          {/* {console.log(this.state.driver, "driver PUNT")} */}
+           {
+             this.state.driver !== false ? (
+              <MarkerAnimated
+              ref={marker => {
+                this.marker = marker;
+              }}
+              coordinate={{
+                longitude: this.state.driver.longitude,
+                latitude: this.state.driver.latitude
+              }}
+             
+              >
+                <Image style={{width:35, height:15}} source={require('../../src/imgs/car-ico.png')}/>
+              </MarkerAnimated>
+             )
+             : null
+           }
+
             <Marker coordinate={this.state.destination}></Marker>
             <MapViewDirections
               resetOnChange={true}
@@ -399,8 +546,8 @@ export class RideOrderDetails extends Component {
               mode="DRIVING"
               strokeColor="brown"
               strokeWidth={3}
-              // apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
-              apikey={MAP_API_KEY}
+              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+              // apikey={MAP_API_KEY}
 
             />
           </MapView>
@@ -420,7 +567,7 @@ export class RideOrderDetails extends Component {
             {this.state.order && (
               <View>
                 <TouchableOpacity onPress={() => this.use()}>
-                  <Text style={styles.use}>Use google map </Text>
+                  <Text style={styles.use}>Use google navigation</Text>
                   {/* <Text>{this.state.rider.phone1}</Text> */}
                 </TouchableOpacity>
                 {this.state.rider && (

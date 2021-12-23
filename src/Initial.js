@@ -17,7 +17,7 @@ export class Initial extends Component {
     }
     
     //AsyncStorage.clear();
-    this.getLoggedInUser();
+    // this.getLoggedInUser();
     //base64 signing for facebook  a9Szg9e01lAQYewaL8KLDGRTAgQ=
   }
 

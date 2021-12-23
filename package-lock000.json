@@ -1783,9 +1783,9 @@
       }
     },
     "@react-native-community/toolbar-android": {
-      "version": "0.2.1",
-      "resolved": "https://registry.npmjs.org/@react-native-community/toolbar-android/-/toolbar-android-0.2.1.tgz",
-      "integrity": "sha512-kq1jVuJTSnKvqiyFqHp0hNLfntZRdE16heQI2UbE7dUUI0pR7YIoBoRlnt8x5ivJJ/f6m1Dcidku9LkwtcUs6w=="
+      "version": "0.1.0-rc.2",
+      "resolved": "https://registry.npmjs.org/@react-native-community/toolbar-android/-/toolbar-android-0.1.0-rc.2.tgz",
+      "integrity": "sha512-UCblqsitOcoYxVc6QzcaqCKogeRnePPMw7cbGvW5GI/GXIwQel8Kge9d910W3MUPUzw3pFzhIZVug6U3W067Pg=="
     },
     "@react-native-google-signin/google-signin": {
       "version": "7.0.1",
@@ -2727,11 +2727,6 @@
       "version": "2.2.2",
       "resolved": "https://registry.npmjs.org/before-after-hook/-/before-after-hook-2.2.2.tgz",
       "integrity": "sha512-3pZEU3NT5BFUo/AD5ERPWOgQOCZITni6iavr5AUw5AUwQjMlI0kzu5btnyD39AF0gUEsDPwJT+oY1ORBJijPjQ=="
-    },
-    "between-range": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/between-range/-/between-range-1.0.0.tgz",
-      "integrity": "sha1-qrfC9G74ejtLqadhFyTZuBPn4Uk="
     },
     "big-integer": {
       "version": "1.6.51",
@@ -5790,14 +5785,6 @@
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/is-typedarray/-/is-typedarray-1.0.0.tgz",
       "integrity": "sha1-5HnICFjfDBsR3dppQPlgEfzaSpo="
-    },
-    "is-valid-coordinates": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/is-valid-coordinates/-/is-valid-coordinates-1.0.0.tgz",
-      "integrity": "sha1-rCbpaL549zkD4m++mQgI6KUBUxA=",
-      "requires": {
-        "between-range": "^1.0.0"
-      }
     },
     "is-weakref": {
       "version": "1.0.1",
@@ -8946,14 +8933,6 @@
       "version": "2.1.0",
       "resolved": "https://registry.npmjs.org/react-native-modal-filter-picker/-/react-native-modal-filter-picker-2.1.0.tgz",
       "integrity": "sha512-uDYHSZf102dYSoI2v/hJLQrP5Q4hR3RBKtIwK/2/5bkRx/mRVduhd62azoa1cPtjCs8k7sYzwlbXVV+1NGFrng=="
-    },
-    "react-native-navigation-directions": {
-      "version": "1.0.4",
-      "resolved": "https://registry.npmjs.org/react-native-navigation-directions/-/react-native-navigation-directions-1.0.4.tgz",
-      "integrity": "sha512-hfodbALxN5dMG4ZW5yzeYhng6JoIzuox/U0iU96LKaeNuedWD0d3JPtCvY5J5WElK52iPspUwHmsPhlSCePylg==",
-      "requires": {
-        "is-valid-coordinates": "1.0.0"
-      }
     },
     "react-native-paystack-webview": {
       "version": "3.2.1",

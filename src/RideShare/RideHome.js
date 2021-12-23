@@ -30,6 +30,8 @@ import Geocoder from 'react-native-geocoding';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
 import {MAP_API_KEY} from '../config/keys'
+navigator.geolocation = require('@react-native-community/geolocation');
+navigator.geolocation = require('react-native-geolocation-service');
 
 export class RideHome extends Component {
   constructor(props) {
@@ -54,6 +56,8 @@ export class RideHome extends Component {
       fromAddress: '',
       toAddress: '',
       fromText: '',
+      formatted_address:"",
+      address:"",
       toText: '',
       kekeMarker: null,
       bikeMarker: null,
@@ -68,6 +72,8 @@ export class RideHome extends Component {
     this.getLoggedInUser();
   }
   getAddress() {
+    // alert("frjfbrjfrfrfrf")
+    console.log(this.state.latitude +" "+ this.state.longitude)
     Geocoder.from({
       latitude: this.state.latitude,
       longitude: this.state.longitude,
@@ -75,8 +81,9 @@ export class RideHome extends Component {
       .then(json => {
         console.log(json.results, 'json.results');
         var formatted_address = json.results[0].formatted_address;
-        
+        // alert(formatted_address);
         this.setState({
+          formatted_address,
           address: formatted_address,
           fromText: formatted_address,
           fromLatitude: this.state.latitude,
@@ -106,7 +113,14 @@ export class RideHome extends Component {
         this.componentDidFocus(payload),
       ),
     ];
+    this.fromRef.setAddressText(this.state.formatted_address)
+    // this.fromRef.getCurrentLocation();
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.formatted_address !== prevState.formatted_address){
+      this.fromRef.setAddressText(this.state.formatted_address)
+    }
   }
 
   toggleUpdate() {
@@ -204,7 +218,7 @@ export class RideHome extends Component {
     this.getRiders();
   };
   callLocation(that) {
-    //alert("callLocation Called");
+    // alert("callLocation Called");
     Geolocation.getCurrentPosition(
       //Will give you the current location
       position => {
@@ -222,14 +236,15 @@ export class RideHome extends Component {
           longitudeDelta: 0.009421,
         };
         // console.log(currentLatitude, currentLongitude, "lkjhgfasc")
+        // alert(origin)
         that.setState(
           {
             origin: origin,
-            latitude: "",
-            longitude: "",
+            // latitude: "",
+            // longitude: "",
 
-            // latitude: currentLatitude,
-            // longitude: currentLongitude,
+            latitude: currentLatitude,
+            longitude: currentLongitude,
             initialRegion: origin,
           },
           () => {
@@ -487,6 +502,9 @@ export class RideHome extends Component {
 
 
             <GooglePlacesAutocomplete
+          
+            // currentLocation={true}
+              ref={ref=> this.fromRef = ref}
               styles={{
                 textInputContainer: {
                   borderTopWidth: 0,
@@ -552,12 +570,15 @@ export class RideHome extends Component {
                   color: '#444',
                 },
               }}
+            
               query={{
                 key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
                 language: 'en',
               }}
-              // getDefaultValue={() => ''}
-              setAddressText={() => this.state.address}
+              nearbyPlacesAPI="GoogleReverseGeocoding"
+              getDefaultValue={() => this.state.formatted_address}
+              // defaultValue='fbvdhbfd'
+              // setAddressText={() => this.state.address}
               placeholder={'From'}
               minLength={5} // minimum length of text to search
               autoFocus={false}
@@ -565,6 +586,7 @@ export class RideHome extends Component {
               listViewDisplayed={'auto'}
               onSubmitEditing={() => this.proceed()}
               textInputProps={{
+                // defaultValue:"Ikotun agege",
                 //onFocus: () => this.showAlert("Info", "Kindly ensure you including your town in the address, then select form the option provided. This allow us to get an accurate coordinate of the address"),
                 onChangeText: text => this.setState({fromText: text}),
               }}

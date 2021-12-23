@@ -317,13 +317,13 @@ export class SpecialMovement extends Component {
               style={styles.menuImage}
             />
           </TouchableOpacity>
-          <Text style={styles.headerText}>Special Movements</Text>
+          <Text style={styles.headerText}>Hire a car</Text>
         </View>
 
         <TouchableOpacity
           style={styles.specialmvmt}
           onPress={() => this.setState({rateVisible: true})}>
-          <Text style={styles.requestText}>Request for Special Movement</Text>
+          <Text style={styles.requestText}>Request for a car</Text>
         </TouchableOpacity>
 
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
@@ -467,7 +467,7 @@ export class SpecialMovement extends Component {
                 style={styles.submitButton}
                 onPress={() => this.hireDriver()}>
                 <Text style={styles.submitButtonText}>
-                  Request for special movement{' '}
+                  Request for a car{' '}
                 </Text>
               </TouchableOpacity>
             {/* </ScrollView> */}
