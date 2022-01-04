@@ -452,7 +452,7 @@ PODS:
     - React
   - RNVectorIcons (7.1.0):
     - React
-  - toolbar-android (0.1.0-rc.2):
+  - toolbar-android (0.2.1):
     - React
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -760,7 +760,7 @@ SPEC CHECKSUMS:
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
-  toolbar-android: 404f4450b203597e7b417f714ff417bed562a1be
+  toolbar-android: 7c528a58a3d79f03124cbb370f738280bf1114a6
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
