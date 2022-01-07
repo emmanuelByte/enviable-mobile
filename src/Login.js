@@ -22,7 +22,7 @@ import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import {SERVER_URL} from './config/server';
-import {logInUser} from './api/user.api'
+import {logInUser} from './redux/api/user.api'
 
 export class Login extends Component {
   constructor(props) {

@@ -1,4 +1,4 @@
-import {SERVER_URL, FETCH_HEADER_CONFIG} from '../config/server';
+import {SERVER_URL, FETCH_HEADER_CONFIG} from '../../config/server';
 const POST_CONFIG = (payload) => ({
       method: 'POST',
       headers: FETCH_HEADER_CONFIG,

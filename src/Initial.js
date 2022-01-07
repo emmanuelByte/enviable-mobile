@@ -30,23 +30,26 @@ export class Initial extends Component {
   }
   
   async getLoggedInUser(token){
+    // alert("jhdbnfjbdhb")
     await AsyncStorage.getItem('enviable').then((value) => {
       // alert("dsdsd"+value)
-      console.log(value, 'val')
+      // alert(value+ 'val')
+
       if(value == null){
         this.props.navigation.navigate('PhoneRegistration')
         return;
       }
       var phone = JSON.parse(value).phone1;
       AsyncStorage.getItem('customer').then((value) => {
-        console.log(value, 'valwww')
+        
         if(value){
+
           this.setState({
             user: JSON.parse(value)
 
           }, ()=>{
-            this.savePush(token);
-            
+
+            // this.savePush(token);
             this.props.navigation.navigate('Home')
           
           })
@@ -63,7 +66,8 @@ export class Initial extends Component {
           //   } 
           // });
         }
-      });
+      }, (err)=> {alert(err)})
+      ;
     })
   }
   navigateToScreen = (route) => () => {
@@ -76,13 +80,15 @@ export class Initial extends Component {
       header: null
   }
   async init() {
-    
+      await this.getLoggedInUser();
+
       await PushNotification.configure({
         largeIcon: "ic_notification",
         smallIcon: "ic_notification",
         onRegister: (token) => {
           AsyncStorage.setItem('pushToken', token.token, () => {
-            this.getLoggedInUser(token.token); 
+            // alert("token here"+token.token)
+            this.savePush(token.token,1); 
           })
         },
         onNotification: (notification) => {
@@ -170,8 +176,8 @@ export class Initial extends Component {
 
   }
 
-  savePush(token){
-    console.log(token, 'token');
+  savePush(token, type){
+    // alert(token+ this.state.user.id+' token'+ type);
     fetch(`${SERVER_URL}/mobile/save_push_token`, {
       method: 'POST',
       headers: {
