@@ -57,10 +57,10 @@ export class Merchants extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
+         
         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
-      //{ cancelable: false }
+       
     );
     return true
   }
@@ -131,7 +131,7 @@ export class Merchants extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }
@@ -148,7 +148,7 @@ export class Merchants extends Component {
    .then((res) => {
      this.hideLoader();
        console.log(res, "res");
-       //this.hideLoader();
+        
        if(res.success){
           this.setState({
             merchants:  res.merchants,
@@ -171,7 +171,7 @@ export class Merchants extends Component {
          },
          { text: "Refresh", onPress: () => this.getMerchants() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }  
@@ -183,7 +183,7 @@ export class Merchants extends Component {
    .then((response) => response.json())
    .then((res) => {
        console.log(res, "res");
-       //this.hideLoader();
+        
        if(res.success){
           this.setState({
             merchantCategories:  res.merchant_categories,
@@ -205,7 +205,7 @@ export class Merchants extends Component {
          },
          { text: "Refresh", onPress: () => this.getMerchantCategories() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }  
@@ -277,12 +277,12 @@ export class Merchants extends Component {
    .then((res) => {
      this.hideLoader();
        console.log(res, "submit res");
-       //this.hideLoader();
+        
        if(res.success){
           this.setState({
             merchants:  res.merchants,
             limit: newLimit,
-            //searchId:"not-set",
+             
           });
        }else{
          Alert.alert('Error', res.error);
@@ -301,7 +301,7 @@ export class Merchants extends Component {
          },
          { text: "Refresh", onPress: () => this.executesearch() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }
@@ -312,18 +312,14 @@ export class Merchants extends Component {
   }
 
   render() {
-    //const { visible } = this.state;
+     
     return (
       <View style = {styles.body}>
         <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         <TouchableOpacity  onPress={() => this.props.navigation.goBack()}>
         <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
         </TouchableOpacity>
-        {/*
-          <TouchableOpacity  onPress={() => this.props.navigation.navigate('Cart')} style = {styles.cartView}>
-          <Image source = {require('../imgs/cart.png')} style = {styles.cartImage} />
-          </TouchableOpacity>
-        */}
+       
         <View style = {styles.bottomView}>
             
             {this.state.visible &&
@@ -337,11 +333,7 @@ export class Merchants extends Component {
             <TouchableOpacity onPress={() => this.setState({visible: true})}  >
             <Text style={styles.locSelect}>{this.state.locationPlaceholder}</Text>
               </TouchableOpacity>
-              {/*}
-              <TouchableOpacity onPress={() => this.setState({cityId: 0, locationPlaceholder: 'All'})}  >
-                <Text style = {styles.locationText}> Select all location</Text>
-              </TouchableOpacity>
-          */}
+             
               
           <View style={styles.dRow}>
             <View style={styles.searchInputView}>
@@ -353,26 +345,11 @@ export class Merchants extends Component {
                     placeholderTextColor="#000" 
                     value={this.state.search}
                     onSubmitEditing={() => this.executesearch()}
-                    //keyboardType={'email-address'}
+                     
                   />
                 </View>
           </View>
-          
-          {/*
-          <View  style = {styles.row}>
-          <ScrollView
-            horizontal={true}>
-            <TouchableOpacity onPress={() => this.setState({categoryMenu: 'All', categoryId: "not-set"}, ()=> { this.executesearch() })}  style = {styles.col1}>
-            {this.displayCategoryText('All')}
-            </TouchableOpacity>
-            {this.state.merchantCategories && this.state.merchantCategories.map((merchantCategory, index) => (
-            <TouchableOpacity key={index} onPress={() => this.setState({categoryMenu: merchantCategory.name, categoryId: merchantCategory.id}, ()=> { this.executesearch() })}  style = {styles.col1}>
-              {this.displayCategoryText(merchantCategory.name)}
-            </TouchableOpacity>
-            ))}
-          </ScrollView>
-          </View>
-            */}
+        
         </View>
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
           <View style={styles.cView}>
@@ -414,7 +391,7 @@ const styles = StyleSheet.create ({
     backgroundColor: "#f8f8f8",
   },
   cView: {
-    //minHeight: 1200,
+     
     width: '95%',
     alignSelf: 'center',
     paddingBottom: 50,
@@ -447,7 +424,7 @@ const styles = StyleSheet.create ({
     marginTop: 25,
     alignContent: 'center',
     alignSelf: 'center',
-    //marginRight: 20,
+     
     flexWrap: 'wrap',
 
 
@@ -461,7 +438,7 @@ const styles = StyleSheet.create ({
   },
   i: {
     width: '100%',
-    //marginRight: 10,
+     
   },
   item: {
     width: '100%',
@@ -471,7 +448,7 @@ const styles = StyleSheet.create ({
     borderRadius: 8,
     elevation: 1,
     padding: 15,
-    //marginLeft: 5,
+     
     
 
   },
@@ -480,7 +457,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   itemPriceText: {
-    //paddingTop: 4,
+     
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -510,7 +487,7 @@ const styles = StyleSheet.create ({
   dRow: {
     flexDirection: 'row',
     width: '100%',
-    //alignSelf: 'center',
+     
   },
   searchImage: {
     width: 40,
@@ -520,23 +497,23 @@ const styles = StyleSheet.create ({
     borderBottomRightRadius: 18,
   },
   col1: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   
   },
   col3: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -546,7 +523,7 @@ const styles = StyleSheet.create ({
   bImage1: {
     width: '100%',
     height: 220,
-    //opacity: 0.6,
+     
     overflow: 'hidden',
     borderBottomEndRadius: 20, 
     borderBottomStartRadius: 20, 
@@ -558,8 +535,8 @@ const styles = StyleSheet.create ({
     height: 78,
   },
   menuImage: {
-    //width: 21,
-    //height: 15,
+     
+     
     marginLeft: 20,
     marginTop: 49,
   },
@@ -585,7 +562,7 @@ const styles = StyleSheet.create ({
 
   },
   card: {
-    //flexDirection: 'row',
+     
     width: '100%',
     marginBottom: 4,
     
@@ -617,7 +594,7 @@ const styles = StyleSheet.create ({
     marginTop: 5,
   },
   segmentText: {
-    //textAlign: 'center',
+     
     paddingRight: 10,
     marginRight: 10,
     color: '#333',
@@ -639,7 +616,7 @@ const styles = StyleSheet.create ({
     marginLeft: -40,
     zIndex: 99,
     marginTop: 10,
-    //width: 4,
+     
   },
   
   searchInputView: {
@@ -655,7 +632,7 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     borderRadius: 8,
     elevation: 1,
-    //alignSelf: 'center', 
+     
     marginTop: 5,
     paddingLeft: 10,
     color: '#000',
@@ -670,7 +647,7 @@ const styles = StyleSheet.create ({
     borderRadius: 8,
     elevation: 1,
     paddingTop: 10,
-    //alignSelf: 'center', 
+     
     marginTop: 5,
     paddingLeft: 9,
     color: '#000',
@@ -718,7 +695,7 @@ const styles = StyleSheet.create ({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
+     
     width: 10,
     height: 10,
     width: 10,
@@ -759,9 +736,9 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+   
+   
+   
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -775,9 +752,9 @@ label1: {
   paddingLeft: 20,
 },
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+   
+   
+   
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -792,7 +769,7 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
+   
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

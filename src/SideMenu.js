@@ -20,8 +20,7 @@ import {
 } from 'react-native';
 
 const SideMenu = props => {
-  // const getUserDp
-  return (
+   return (
     <Modal
       isVisible={this.state.sideMenuModalVisible}
       onBackdropPress={() => {
@@ -42,19 +41,6 @@ const SideMenu = props => {
                   style={styles.userImage}
                 />
 
-                {/* {this.state.dp === null ? (
-                  <Image
-                    source={require('./imgs/round-profile.png')}
-                    style={styles.userImage}
-                  />
-                ) : (
-                  <Image
-                    source={{
-                      uri: this.state.dp,
-                    }}
-                    style={styles.userImage}
-                  />
-                )} */}
               </View>
               <View style={styles.topTextView}>
                 <Text style={styles.topTextName}>

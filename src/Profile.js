@@ -80,20 +80,11 @@ export class Profile extends Component {
   }
 
   getBase64ImageFromFile(file) {
-    // ImgToBase64.getBase64String(file)
-    //   .then(base64String =>
-    //     console.log('russell', `data:image/png;base64,${base64String}`),
-    //   )
-    //   .catch(err => console.log(err));
+
 
     return ImgToBase64.getBase64String(file);
 
-    // const bruh = RNFS.readFile(file, 'base64');
 
-    // console.log('russell', bruh);
-    // .then(res =>{
-    //   console.log(res);
-    // });
   }
 
   toggleUpdate() {
@@ -120,7 +111,6 @@ export class Profile extends Component {
             customer: JSON.parse(value),
           },
           () => {
-            // console.log('image', value);
 
             this.setState({
               firstName: this.state.customer.first_name,
@@ -217,7 +207,6 @@ export class Profile extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        // console.log(res);
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
@@ -297,7 +286,6 @@ export class Profile extends Component {
             },
             {text: 'Refresh', onPress: () => this.getCities()},
           ],
-          //{ cancelable: false }
         );
       });
   }
@@ -362,7 +350,6 @@ export class Profile extends Component {
           </View>
         </View>
 
-        {/*<Text style = {styles.headerText5}>Update profile</Text>*/}
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
           <View style={styles.cView}>
             <View style={styles.topImageView}>
@@ -409,7 +396,6 @@ export class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.firstName}
-                      //keyboardType={'email-address'}
                     />
                   </View>
                   <View style={styles.col50}>
@@ -421,7 +407,6 @@ export class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.lastName}
-                      //keyboardType={'email-address'}
                     />
                   </View>
                 </View>
@@ -551,10 +536,8 @@ const styles = StyleSheet.create({
   },
   body: {
     minHeight: '100%',
-    //backgroundColor: "#f8f8f8",
   },
   cView: {
-    //minHeight: 1200,
     width: '95%',
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
@@ -645,7 +628,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignContent: 'center',
     alignSelf: 'center',
-    //marginRight: 20,
     flexDirection: 'row',
   },
   itemView4: {
@@ -664,7 +646,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-    //flexDirection: 'row',
   },
   orderNumber: {
     color: '#000',
@@ -683,8 +664,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    //borderColor: '#9c77b1',
-    //borderWidth: 6,
+
     marginTop: 10,
     alignSelf: 'center',
   },
@@ -753,7 +733,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   itemPriceText: {
-    //paddingTop: 4,
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -786,29 +765,28 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 160,
     zIndex: 0,
-    //opacity: 0.6,
     overflow: 'hidden',
     borderRadius: 20,
     borderRadius: 20,
   },
 
   col1: {
-    //width: '20%',
+    
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
+    
     borderRadius: 18,
     textAlign: 'center',
   },
   col3: {
-    //width: '20%',
+    
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
+    
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -876,7 +854,6 @@ const styles = StyleSheet.create({
   },
   headerText0: {
     fontSize: 17,
-    //paddingLeft: 10,
     color: '#fff',
     marginTop: 29,
     textAlign: 'center',
@@ -889,7 +866,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   card: {
-    //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
 
@@ -1002,7 +978,6 @@ const styles = StyleSheet.create({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
     width: 10,
     height: 10,
     width: 10,
@@ -1016,7 +991,6 @@ const styles = StyleSheet.create({
     borderColor: '#0B277F',
     borderRadius: 10,
     width: '90%',
-    //elevation: 2,
     alignSelf: 'center',
     paddingTop: 12,
     paddingBottom: 13,
@@ -1027,7 +1001,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     width: '90%',
-    //elevation: 2,
     alignSelf: 'center',
     paddingTop: 12,
     paddingBottom: 13,
@@ -1051,9 +1024,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -1062,9 +1033,7 @@ const styles = StyleSheet.create({
   },
 
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+ 
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -1079,7 +1048,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',

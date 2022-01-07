@@ -29,7 +29,6 @@ import RNPickerSelect from 'react-native-picker-select';
 import CheckBox from '@react-native-community/checkbox';
 import { FlatList } from 'react-native-gesture-handler';
 
-//import { getDistance } from 'geolib';
 
 export class DispatchAddress extends Component {
   constructor(props) {
@@ -87,10 +86,7 @@ export class DispatchAddress extends Component {
 
   componentDidMount() {
     this.getDC();
-    // this.setState({
-    //   type: this.props.navigation.state.params.type,
-    // }, () => {
-    //})
+   
     this.getCities();
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
@@ -192,7 +188,6 @@ export class DispatchAddress extends Component {
       .then(response => response.json())
       .then(res => {
         console.log(res, 'vehicle_types');
-        //this.hideLoader();
         if (res.success) {
           this.setState(
             {
@@ -221,7 +216,6 @@ export class DispatchAddress extends Component {
             },
             {text: 'Refresh', onPress: () => this.getVehicleTypes()},
           ],
-          //{ cancelable: false }
         );
       });
   }
@@ -232,7 +226,7 @@ export class DispatchAddress extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        //this.hideLoader();
+
         if (res.success) {
           this.setState({
             cities: res.cities,
@@ -254,7 +248,6 @@ export class DispatchAddress extends Component {
             },
             {text: 'Refresh', onPress: () => this.getCities()},
           ],
-          //{ cancelable: false }
         );
       });
   }
@@ -310,10 +303,7 @@ export class DispatchAddress extends Component {
     await AsyncStorage.getItem('dispatchCart').then(value => {
       if (value) {
         var dispatchCart = JSON.parse(value);
-        //   var distance = getDistance(
-        //     { latitude: this.state.pickupLatitude, longitude: this.state.pickupLongitude },
-        //     { latitude: this.state.deliveryLatitude, longitude: this.state.deliveryLongitude }
-        // );
+      
         var ori = this.state.pickupLatitude + ',' + this.state.pickupLongitude;
         var des =
           this.state.deliveryLatitude + ',' + this.state.deliveryLongitude;
@@ -337,11 +327,8 @@ export class DispatchAddress extends Component {
       .then(res => {
         this.hideLoader();
         this.placeOrder(dispatchCart, res.rows[0].elements[0].distance.value);
-        //if(res.success){
         return res.rows[0].elements[0].distance.value;
-        //  }else{
-        //    Alert.alert('Error', res.error);
-        //  }
+        
       })
       .catch(error => {
         console.error(error);
@@ -356,7 +343,6 @@ export class DispatchAddress extends Component {
             },
             {text: 'Refresh', onPress: () => this.getDistance()},
           ],
-          //{ cancelable: false }
         );
         return;
       });
@@ -410,11 +396,8 @@ export class DispatchAddress extends Component {
             },
             () => {
               AsyncStorage.removeItem('dispatchCart');
-              //this.gotoDispatchSummary(res.order_id)
               this.showAlert('Success', res.success);
-              // this.props.navigation.navigate('DispatchOrders', {
-              //   orderId: res.order_id,
-              // });
+            
               this.props.navigation.navigate('DispatchOrders');
             },
           );
@@ -532,9 +515,7 @@ export class DispatchAddress extends Component {
           <Text style={styles.label}>Vehicle type</Text>
           <TouchableOpacity style={[styles.input]}>
             <Picker
-              //selectedValue={selectedValue}
               selectedValue={this.state.vehicleTypeId}
-              //style={{ height: 100, width: 200 }}
               style={styles.input}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({vehicleTypeId: itemValue})
@@ -548,9 +529,7 @@ export class DispatchAddress extends Component {
         </View>
       );
     } else {
-      // this.setState({
-      //   vehicleTypeId: 4
-      // })
+     
     }
   }
 
@@ -562,7 +541,6 @@ export class DispatchAddress extends Component {
 
       <FlatList 
     data={['data']}
-    // keyExtractor={keyExtractor}
     renderItem={({item}) => (
     <>
       <View style={styles.header}>
@@ -590,19 +568,7 @@ export class DispatchAddress extends Component {
           items={this.state.vs}
           returnKeyType={'done'}
         />
-        {/*
-       <Picker
-          //selectedValue={selectedValue}
-          selectedValue={this.state.vehicleTypeId}  
-          //style={{ height: 100, width: 200 }}
-          style={styles.input}
-          onValueChange={(itemValue, itemIndex) => this.setState({vehicleTypeId: itemValue})}
-        >
-          {this.state.vehicleTypes && this.state.vehicleTypes.map(vehicleType => (
-            this.displayPickeritems(vehicleType)
-          ))}
-        </Picker>
-          */}
+     
       </TouchableOpacity>
     </View>
     <Text style={styles.label}>How many trucks do you need?</Text>
@@ -648,17 +614,14 @@ export class DispatchAddress extends Component {
               borderTopWidth: 0,
               borderBottomWidth: 0,
               width: '95%',
-              //width: '5%',
               alignSelf: 'center',
               backgroundColor: '#fff',
               padding: 0,
             },
             listView: {
               height: '100%',
-              //width: '100%',
               elevation: 5,
               zIndex: 999999,
-              //backgroundColor: '#333',
             },
             textInput: {
               width: '85%',
@@ -688,18 +651,12 @@ export class DispatchAddress extends Component {
             },
             listView: {
               height: '100%',
-              //width: '100%',
               elevation: 5,
               zIndex: 999999,
-              //backgroundColor: '#333',
             },
             textInput: {
-              // width: '90%',
               height: 46,
-              // backgroundColor: '#EFF0F3',
-              // borderRadius: 6,
-              // alignSelf: 'center',
-              // marginTop: 5,
+           
               backgroundColor: '#fff',
               borderRadius: 7,
               borderColor: '#ABA7A7',
@@ -725,18 +682,15 @@ export class DispatchAddress extends Component {
                 'Kindly ensure you including your town in the address, then select form the option provided. This allow us to get an accurate coordinate of the address',
               ),
           }}
-          //currentLocation={true}
 
           onPress={(data, details) => {
             // 'details' is provided when fetchDetails = true
             console.log(data, 'data');
-            // console.log(details, 'details');
             this.setState({
               pickupLatitude: details.geometry.location.lat,
               pickupLongitude: details.geometry.location.lng,
               pickupAddress: data.description,
             });
-            //Alert.alert("Latitude", `${details.geometry.location.lat}`);
           }}
           onFail={error => console.error(error)}
         />
@@ -764,15 +718,7 @@ export class DispatchAddress extends Component {
 
     <View style={styles.bottomView}>
       <Text style={styles.subHead}>Delivery information</Text>
-      {/*
-      <View  style={styles.mySwitchView}>
-        <Text style = {styles.labelo}>Use profile info</Text>
-        <CheckBox
-              value={this.state.useAddress1}
-              onValueChange={() =>  {this.changeStatus1(!this.state.useAddress1)}}
-          />
-        </View>
-      */}
+
       <Text style={styles.label}>Delivery City</Text>
       {this.state.visible2 && (
         <ModalFilterPicker
@@ -807,18 +753,12 @@ export class DispatchAddress extends Component {
             },
             listView: {
               height: '100%',
-              //width: '100%',
               elevation: 5,
               zIndex: 999999,
-              //backgroundColor: '#333',
             },
             textInput: {
-              // width: '90%',
               height: 46,
-              // backgroundColor: '#EFF0F3',
-              // borderRadius: 6,
-              // alignSelf: 'center',
-              // marginTop: 5,
+              
               backgroundColor: '#fff',
               borderRadius: 7,
               borderColor: '#ABA7A7',
@@ -837,18 +777,15 @@ export class DispatchAddress extends Component {
           autoFocus={false}
           fetchDetails={true}
           listViewDisplayed={'auto'}
-          //currentLocation={true}
 
           onPress={(data, details) => {
             // 'details' is provided when fetchDetails = true
             console.log(data, 'data');
-            // console.log(details, 'details');
             this.setState({
               deliveryLatitude: details.geometry.location.lat,
               deliveryLongitude: details.geometry.location.lng,
               deliveryAddress: data.description,
             });
-            //Alert.alert("Latitude", `${details.geometry.location.lat}`);
           }}
           onFail={error => console.error(error)}
         />
@@ -889,13 +826,9 @@ export class DispatchAddress extends Component {
     
       )}
   />
-        {/* <ScrollView
-          keyboardShouldPersistTaps={'always'}
-          showsVerticalScrollIndicator={false}
-          > */}
+       
           <StatusBar translucent={true} backgroundColor={'#0B277F'} />
          
-        {/* </ScrollView> */}
         {this.state.loaderVisible && (
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
         )}
@@ -936,7 +869,6 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     height: 110,
-    //backgroundColor: 'rgb(126,83,191)',
     flexDirection: 'row',
   },
   headerTextZ: {
@@ -954,7 +886,6 @@ const styles = StyleSheet.create({
   bottomView: {
     width: '100%',
     alignSelf: 'center',
-    //marginTop: 10,
     backgroundColor: '#fff',
     borderRadius: 10,
     paddingBottom: 10,
@@ -963,7 +894,6 @@ const styles = StyleSheet.create({
     width: 190,
     alignSelf: 'flex-start',
     padding: 10,
-    //backgroundColor: '#444',
     borderRadius: 2,
     marginTop: 5,
     marginLeft: 15,
@@ -972,7 +902,6 @@ const styles = StyleSheet.create({
   locSelect: {
     width: '90%',
     height: 40,
-    //backgroundColor: 'rgba(126,83,191, 0.1)',
     borderRadius: 7,
     borderColor: '#ABA7A7',
     borderWidth: 1,
@@ -995,10 +924,8 @@ const styles = StyleSheet.create({
   cardText: {
     color: '#fff',
     paddingLeft: 5,
-    //paddingTop: 5,
   },
   subHead: {
-    //marginBottom: 10,
     fontWeight: 'bold',
     paddingLeft: 15,
     paddingTop: 10,
@@ -1008,8 +935,7 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     alignSelf: 'center',
-    // paddingBottom: 5,
-    // paddingLeft: 15
+   
     position: 'absolute',
     top: 13,
     right: 17,
@@ -1063,7 +989,6 @@ const styles = StyleSheet.create({
   input: {
     width: '90%',
     height: 40,
-    //backgroundColor: 'rgba(126,83,191, 0.1)',
     borderRadius: 7,
     borderColor: '#ABA7A7',
     borderWidth: 1,
@@ -1084,14 +1009,12 @@ const styles = StyleSheet.create({
   },
   forgotText: {
     textAlign: 'center',
-    //marginRight: 30,
     color: '#5B5B5B',
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
-    //marginRight: 30,
     color: '#0B277F',
     fontSize: 12,
   },
@@ -1152,9 +1075,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -1163,9 +1084,7 @@ const styles = StyleSheet.create({
   },
 
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -1180,7 +1099,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -1192,7 +1110,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#EFF0F3',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -1,
     color: '#aaa',
@@ -1201,7 +1118,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -1,
     color: '#aaa',

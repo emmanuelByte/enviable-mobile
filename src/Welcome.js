@@ -42,10 +42,8 @@ export class Welcome extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
-      //{ cancelable: false }
     );
     return true
   }
@@ -76,13 +74,7 @@ export class Welcome extends Component {
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
         this.props.navigation.navigate('Home')
-        // this.setState({
-        //   customer: JSON.parse(value)
-        // }, () => {
-        //   this.setState({
-        //     customer_id: this.state.customer.id
-        //   })
-        // });
+        
           
       }else{
         AsyncStorage.getItem('loginvalue').then((value) => {
@@ -116,25 +108,6 @@ export class Welcome extends Component {
       header: null
   }
 
-  /*
-  displayText(index){
-    //if(index == 2){
-      
-      return(
-        <TouchableHighlight
-                    key={index}
-                    underlayColor="#ccc"
-                    onPress={() => move(index)}
-                    style={styles.button}
-                  >
-          <Text style={styles.buttonSelected}>
-            {index + 1}
-          </Text>
-        </TouchableHighlight>
-      )
-    //}
-  } 
-  */
  displayText(position, index){
    console.log(position, "pos");
    console.log(index, "index");
@@ -216,14 +189,12 @@ export class Welcome extends Component {
       require('./imgs/a1.png'),
       require('./imgs/a2.png'),
       require('./imgs/a0.png'),
-      //require('./imgs/a4.png'),
     ];
     return (
       <View style = {styles.body}>
           <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
           <ImageSlider
-            //loopBothSides
-            //autoPlayWithInterval={3000}
+       
             images={images}
             customSlide={({ index, item, style, width }) => (
               // It's important to put style here because it's got offset inside
@@ -237,7 +208,6 @@ export class Welcome extends Component {
                   return (
                     <TouchableOpacity
                       key={index}
-                      //underlayColor="#ccc"
                       onPress={() => { if(position != 2) {displayText(position + 1, index + 1)}}}
                       style={styles.button}
                     >
@@ -265,8 +235,7 @@ const styles = StyleSheet.create ({
   body: {
     height: '100%',
     width: '100%',
-    //backgroundColor: "#fff",
-    //paddingTop: 80,
+    
   },
   customSlide: {
     backgroundColor: "transparent",
@@ -280,9 +249,7 @@ const styles = StyleSheet.create ({
     bottom: 290,
     width: 300,
     height: 220,
-    //backgroundColor: "#fff",
     alignSelf: 'center',
-    //marginTop: 40,
     zIndex: 0,
   },
   button: {
@@ -291,7 +258,6 @@ const styles = StyleSheet.create ({
     zIndex: 99999999,
     width: '90%',
     alignSelf: 'center',
-    //backgroundColor: '#000',
   },
   buttonSelected: {
     zIndex: 99999999,
@@ -299,7 +265,6 @@ const styles = StyleSheet.create ({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    //marginBottom: 10,
   },
   buttonSelected1: {
     zIndex: 99999999,

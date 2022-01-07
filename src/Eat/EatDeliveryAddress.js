@@ -59,17 +59,17 @@ export class EatDeliveryAddress extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
+         
         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
-      //{ cancelable: false }
+       
     );
     return true
   }
 
   componentDidMount() {
     this.getCities();
-    //this.getVehicleTypes();
+     
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
@@ -99,8 +99,8 @@ export class EatDeliveryAddress extends Component {
         }, () => {
           this.setState({
             customer_id: this.state.customer.id,
-            //name: this.state.customer.first_name +" "+ this.state.customer.last_name,
-            //phone: this.state.customer.phone1,
+             
+             
           })
         });
           
@@ -139,7 +139,7 @@ export class EatDeliveryAddress extends Component {
    .then((res) => {
      this.hideLoader(); 
        
-       //this.hideLoader();
+        
        if(res.success){
           this.setState({
             cities:  res.cities
@@ -161,7 +161,7 @@ export class EatDeliveryAddress extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }
@@ -219,7 +219,7 @@ export class EatDeliveryAddress extends Component {
    .then((res) => {
      
        console.log(res, "vehicle_types");
-       //this.hideLoader();
+        
        if(res.success){
           this.setState({
             vehicleTypes:  res.vehicle_types.filter(function(vehicleType){return vehicleType.type == "Courier"}),
@@ -242,7 +242,7 @@ export class EatDeliveryAddress extends Component {
          },
          { text: "Refresh", onPress: () => this.getVehicleTypes() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }
@@ -299,22 +299,7 @@ export class EatDeliveryAddress extends Component {
             <Icon name="arrow-back" size={18} color="#000"  style = {styles.menuImage}/>
           </TouchableOpacity>
           <Text style = {styles.headerText}>Delivery info</Text>
-          {/*
-              <Text style = {styles.label1}>Vehicle type</Text>
-              <TouchableOpacity style={[styles.input]}>
-                <Picker
-                  //selectedValue={selectedValue}
-                  selectedValue={this.state.vehicleTypeId}  
-                  //style={{ height: 100, width: 200 }}
-                  style={styles.input}
-                  onValueChange={(itemValue, itemIndex) => this.setState({vehicleTypeId: itemValue})}
-                >
-                  {this.state.vehicleTypes && this.state.vehicleTypes.map(vehicleType => (
-                    this.displayPickeritems(vehicleType)
-                  ))}
-                </Picker>
-              </TouchableOpacity>
-                  */}
+         
           <View  style={styles.mySwitchView}>
               <Text style = {styles.labelo}>Use profile info</Text>
               <CheckBox
@@ -333,7 +318,6 @@ export class EatDeliveryAddress extends Component {
                                     underlineColorAndroid="transparent"
                                     placeholderTextColor="#ccc" 
                                     value={this.state.name}
-                                    //keyboardType={'email-address'}
                                   />
                 </View>
                 <View style= {styles.col50}>
@@ -377,10 +361,8 @@ export class EatDeliveryAddress extends Component {
                     },
                     listView: {
                       height: '100%',
-                      //width: '90%',
                       elevation: 5,
                       zIndex: 999999,
-                      //backgroundColor: '#333',
                     },
                     textInput: {
                       width: '90%',
@@ -399,59 +381,29 @@ export class EatDeliveryAddress extends Component {
                   }}
                   getDefaultValue={() => ''}
                   placeholder='Delivery Address'
-                  minLength={2} // minimum length of text to search
+                  minLength={2}  
                   autoFocus={false}
                   fetchDetails={true}
                   listViewDisplayed={'auto'}
                   textInputProps={{
                     onFocus: () => this.showAlert("Info", "Kindly ensure you including your town in the address, then select form the option provided. This allow us to get an accurate coordinate of the address"),
                   }}
-                  //currentLocation={true}
                   
                   onPress={(data, details) => {
-                    // 'details' is provided when fetchDetails = true
+                     
                      console.log(data, 'data');
-                    // console.log(details, 'details');
                     this.setState({
                       latitude: details.geometry.location.lat,
                       longitude: details.geometry.location.lng,
                       address: data.description
                     })
-                    //Alert.alert("Latitude", `${details.geometry.location.lat}`);
                   }}
                   onFail={(error) => console.error(error)}
                   
                 />
                 </View>
                 
-                {/*
-              <TextInput
-                      style={styles.input}
-                      placeholder="Enter Address"
-                      onChangeText={(text) => this.setState({address: text})}
-                      underlineColorAndroid="transparent"
-                      placeholderTextColor="#ccc" 
-                      value={this.state.address}
-                      //keyboardType={'email-address'}
-                    />
-                */}
-              {/*
-              <Text style = {styles.headerTextZ}>Payment options</Text>
-              <TouchableOpacity style = {styles.cardView}   onPress={() => this.setState({payWithWallet: false, payWithCard: true})} >
-                <Image source = {require('../imgs/card2.png')} style = {styles.cardIcon1} />
-                <Text style = {styles.cardText}>Pay with card</Text>
-                {this.state.payWithCard &&
-                <Image source = {require('../imgs/check-circle.png')} style = {styles.checkIcon} />
-                }
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.cardView}  onPress={() => this.setState({payWithCard: false, payWithWallet: true})}>
-                <Image source = {require('../imgs/wallet2.png')} style = {styles.cardIcon} />
-                <Text style = {styles.cardText}>Pay from wallet</Text>
-                {this.state.payWithWallet &&
-                <Image source = {require('../imgs/check-circle.png')} style = {styles.checkIcon} />
-                }
-              </TouchableOpacity>
-              */}
+            
               <TouchableOpacity style={styles.addView}  onPress={() => this.submit()}>
                   <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
                     <Text style={styles.addText}>Next</Text>
@@ -512,7 +464,6 @@ const styles = StyleSheet.create ({
     width: 190,
     alignSelf: 'flex-start',
     padding:10,
-    //backgroundColor: '#444',
     borderRadius: 2,
     marginTop: 5,
     marginLeft: 15,
@@ -542,14 +493,12 @@ const styles = StyleSheet.create ({
   cardText: {
     color: '#fff',
     paddingLeft: 5,
-    //paddingTop: 5,
   },
   checkIcon: {
     width: 22,
     height: 22,
     alignSelf: 'center',
-    // paddingBottom: 5,
-    // paddingLeft: 15
+
     position: 'absolute',
     top: 13,
     right: 17
@@ -627,14 +576,14 @@ const styles = StyleSheet.create ({
   },
   forgotText: {
     textAlign: 'center',
-    //marginRight: 30,
+     
     color: '#5B5B5B',
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
-    //marginRight: 30,
+     
     color: '#0B277F',
     fontSize: 12,
   },
@@ -692,9 +641,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+ 
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -704,9 +651,7 @@ modalView: {
 
 
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+ 
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -721,7 +666,7 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
+   
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
@@ -734,7 +679,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-    //borderWidth: 1,
+     
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -743,7 +688,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-    //borderWidth: 1,
+     
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',

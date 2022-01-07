@@ -68,8 +68,7 @@ export class SpecialMovement extends Component {
         {label: 'SUV', value: 'SUV'},
       ],
     };
-    //this.getLoggedInUser();
-  }
+   }
 
   async componentDidFocus() {
     await this.getLoggedInUser();
@@ -129,8 +128,7 @@ export class SpecialMovement extends Component {
             },
             {text: 'Refresh', onPress: () => this.getOrders()},
           ],
-          //{ cancelable: false }
-        );
+         );
       });
   }
 
@@ -373,8 +371,7 @@ export class SpecialMovement extends Component {
           <KeyboardAvoidingView behavior="padding">
 
           <View style={styles.rateModalView}>
-            {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-              <Text style={styles.headerText7}>Special movement</Text>
+               <Text style={styles.headerText7}>Special movement</Text>
 
               <Text style={styles.inputLabel}>Location</Text>
               <TextInput
@@ -383,10 +380,7 @@ export class SpecialMovement extends Component {
                   this.setState({location: text});
                 }}
                 underlineColorAndroid="transparent"
-                //placeholder={'Location'}
-                //keyboardType={'numeric'}
-                //min={1}
-                //value={this.state.review}
+               
               />
 
               <Text style={styles.inputLabel}>From</Text>
@@ -402,8 +396,7 @@ export class SpecialMovement extends Component {
                   testID="dateTimePicker"
                   value={this.state.fromDate}
                   mode={'date'}
-                  //is24Hour={true}
-                  display="default"
+                   display="default"
                   onChange={this.onFromChange}
                 />
               )}
@@ -420,7 +413,6 @@ export class SpecialMovement extends Component {
                   testID="dateTimePicker"
                   value={this.state.toDate}
                   mode={'date'}
-                  //is24Hour={true}
                   display="default"
                   onChange={this.onToChange}
                 />
@@ -459,8 +451,7 @@ export class SpecialMovement extends Component {
                   this.setState({note: text});
                 }}
                 underlineColorAndroid="transparent"
-                //placeholder={'What do you need the driver for?'}
-                multiline={true}
+                 multiline={true}
               />
 
               <TouchableOpacity
@@ -470,8 +461,7 @@ export class SpecialMovement extends Component {
                   Request for a car{' '}
                 </Text>
               </TouchableOpacity>
-            {/* </ScrollView> */}
-          </View>
+           </View>
           </KeyboardAvoidingView>
         </Modal>
       </View>
@@ -511,7 +501,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 110,
     zIndex: 0,
-    //backgroundColor: 'rgb(126,83,191)',
     flexDirection: 'row',
   },
   cartImage: {
@@ -531,8 +520,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignContent: 'center',
     alignSelf: 'center',
-    //marginRight: 20,
-    flexDirection: 'row',
+     flexDirection: 'row',
   },
   itemView4: {
     width: '90%',
@@ -550,15 +538,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-    //flexDirection: 'row',
-  },
+   },
   requestText: {
     color: 'white',
-    // width: '95%',
-    borderRadius: 10,
-    // textAlign: 'right',
-    //alignSelf: 'flex-end',
-  },
+     borderRadius: 10,
+   },
 
   orderNumber: {
     color: '#000',
@@ -572,8 +556,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000',
     textAlign: 'right',
-    //paddingTop: 10,
-  },
+   },
   item1: {
     width: '60%',
   },
@@ -626,21 +609,17 @@ const styles = StyleSheet.create({
   },
 
   rateModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 670,
     width: '90%',
-    //marginRight: '10%',
-    backgroundColor: '#FFF',
+     backgroundColor: '#FFF',
     paddingTop: 18,
     paddingBottom: 38,
   },
   headerText7: {
     color: '#333',
-    //paddingLeft: 20,
-    fontWeight: '700',
+     fontWeight: '700',
     marginTop: 5,
     marginBottom: 20,
     fontSize: 14,
@@ -651,8 +630,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   itemPriceText: {
-    //paddingTop: 4,
-    fontWeight: 'bold',
+     fontWeight: 'bold',
     color: '#585757',
   },
   itemBottom: {
@@ -677,22 +655,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   col1: {
-    //width: '20%',
-    borderRadius: 18,
+     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
-    borderRadius: 18,
+     borderRadius: 18,
     textAlign: 'center',
   },
   col3: {
-    //width: '20%',
-    borderRadius: 18,
+     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -700,7 +674,6 @@ const styles = StyleSheet.create({
   bImage1: {
     width: '100%',
     height: 220,
-    //opacity: 0.6,
     overflow: 'hidden',
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
@@ -775,7 +748,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   card: {
-    //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
     borderWidth: 1,
@@ -805,7 +777,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   segmentText: {
-    //textAlign: 'center',
     paddingRight: 10,
     marginRight: 10,
   },
@@ -820,8 +791,7 @@ const styles = StyleSheet.create({
     color: '#454A65',
     marginTop: 10,
     fontSize: 12,
-    //width: '50%',
-    //textAlign: 'right'
+ 
   },
   labelZ: {
     color: '#454A65',
@@ -848,12 +818,10 @@ const styles = StyleSheet.create({
   inputLabel: {
     color: '#454A65',
     fontWeight: '700',
-    //marginTop: 10,
 
     fontSize: 12,
     width: '90%',
     alignSelf: 'center',
-    //textAlign: 'right'
   },
   dateText: {
     paddingTop: 10,
@@ -912,7 +880,6 @@ const styles = StyleSheet.create({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
     width: 10,
     height: 10,
     width: 10,
@@ -953,9 +920,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -969,9 +934,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -986,7 +949,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -998,7 +960,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#EFF0F3',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -1,
     color: '#aaa',
@@ -1007,7 +968,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -1,
     color: '#aaa',

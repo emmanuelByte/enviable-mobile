@@ -60,10 +60,8 @@ export class Login extends Component {
           style: 'cancel',
         },
 
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
         {text: 'Leave', onPress: () => BackHandler.exitApp()},
       ],
-      //{ cancelable: false }
     );
     return true;
   };
@@ -167,7 +165,6 @@ export class Login extends Component {
                 this.props.navigation.navigate('Home');
               });
 
-              //this.showAlert("error", res.error)
             },
           );
       }
@@ -180,42 +177,6 @@ export class Login extends Component {
     }
     this.hideLoader();
 
-    // this.showLoader();
-
-    // fetch(`${SERVER_URL}/mobile/login`, {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     email: this.state.email,
-    //     password: this.state.password,
-    //     push_token: this.state.token,
-    //     device: Platform.OS,
-    //   }),
-    // })
-    //   .then(response => response.json())
-    //   .then(res => {
-    //     this.hideLoader();
-    //     if (res.success) {
-    //       console.log('customer', res.customer);
-
-    //       AsyncStorage.setItem('customer', JSON.stringify(res.customer)).then(
-    //         () => {
-    //           AsyncStorage.setItem('loginvalue', this.state.email).then(() => {
-    //             this.setState({password: ''});
-    //             this.props.navigation.navigate('Home');
-    //           });
-
-    //           //this.showAlert("error", res.error)
-    //         },
-    //       );
-    //     } else {
-    //       this.showAlert('Error', res.error);
-    //     }
-    //   })
-    //   .done();
   }
 
   forgot() {
@@ -278,7 +239,6 @@ export class Login extends Component {
             onChangeText={text => this.setState({email: text})}
             underlineColorAndroid="transparent"
             value={this.state.email}
-            //keyboardType={'email-address'}
             autoCapitalize="none"
           />
           <Text style={styles.label}>Password</Text>
@@ -379,8 +339,7 @@ const styles = StyleSheet.create({
   headerView: {
     width: '100%',
     height: '40%',
-    //marginTop: 100,
-    //borderBottomLeftRadius: 32,
+   
     zIndex: 1,
   },
 
@@ -492,7 +451,6 @@ const styles = StyleSheet.create({
   submitButton: {
     marginTop: 20,
     backgroundColor: '#0B277F',
-    //opacity: 0.7,
     borderRadius: 7,
     width: '85%',
     alignSelf: 'center',
@@ -528,9 +486,7 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -551,9 +507,7 @@ const styles = StyleSheet.create({
   },
 
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -569,7 +523,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',

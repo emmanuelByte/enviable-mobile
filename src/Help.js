@@ -11,8 +11,7 @@ import { WebView } from 'react-native-webview';
 export class Help extends Component {
   constructor(props) {
     super();
-    //this.handleBackPress = this.handleBackPress.bind(this);
-    this.state = {
+     this.state = {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
       toggleUpdate: false,
@@ -41,8 +40,7 @@ export class Help extends Component {
       sideMenuModalVisible: false,
       chatVisible: false,
     }
-    //this.getBitcoinValue();
-    //AsyncStorage.clear(); 
+   
   }
  
   async componentWillMount() {
@@ -74,11 +72,7 @@ export class Help extends Component {
     this.props.navigation.goBack()
     return true
   }
-
-  componentDidMount() {
-    //this.getNetworkInfo();
-    //BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-  }
+ 
 
   
 
@@ -103,8 +97,7 @@ export class Help extends Component {
   async getLoggedInUser(){
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
-        //this.props.navigation.navigate('Home')
-        this.setState({
+         this.setState({
           customer: JSON.parse(value)
         }, () => {
           this.setState({
@@ -156,8 +149,7 @@ export class Help extends Component {
          <TouchableOpacity style = {styles.chatView}  onPress={() => this.setState({'chatVisible': true})}>
           <Text style = {styles.chatText}>Live chat </Text>
         </TouchableOpacity>
-        {/*<Text style = {styles.fTextu}>We are always{`\n`} here for you</Text> */}
-        </ImageBackground>
+         </ImageBackground>
         
         <ScrollView>
           <View style = {styles.bottomView}>
@@ -221,11 +213,7 @@ export class Help extends Component {
                   </TouchableOpacity>
                </View> 
                <View style = {styles.cola}>
-                 {/*
-                  <TouchableOpacity onPress={() => Linking.openURL(`https://www.facebook.com/102729778653133/posts/102740301985414/?app=fbl`)}  style = {styles.d}>
-                    <Image source = {require('./imgs/l.png')}  style = {styles.icab} />
-                  </TouchableOpacity>
-                 */}
+                
                </View> 
               </View>
             </View>
@@ -280,12 +268,10 @@ const styles = StyleSheet.create ({
   marginTop: 60,
   borderColor: '#0B277F',
   borderWidth: 1,
-  //opacity: 0.7,
-  borderRadius: 27,
+   borderRadius: 27,
   marginLeft: 20,
   width: 160,
-  //alignSelf: 'center',
-  paddingTop: 12,
+   paddingTop: 12,
   paddingBottom: 13,
   },
   chatText: {
@@ -295,13 +281,9 @@ const styles = StyleSheet.create ({
   bImage: {
     width: '100%',
     height: 220, 
-    //overflow: 'hidden',
-  },
+   },
   bImage1: {
-    //width: '100%',
-    //position: 'absolute',
-    //bottom: 0,
-    //height: 260,
+     
   },
   d: {
     marginTop: 10,
@@ -343,8 +325,7 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   product: {
-    //flexDirection: 'row',
-    //flexWrap: 'wrap',
+  
     width: '100%',
     marginTop: 10,
     alignContent: 'center',
@@ -363,53 +344,44 @@ const styles = StyleSheet.create ({
   },
   cardView0: {
     width: '90%',
-    //marginLeft: 8,
-    //marginRight: 5,
+    
     alignSelf: 'center',
     backgroundColor: '#fff',
     padding: 19,
     borderRadius: 9,
     marginBottom: 15,
     marginTop: 15,
-    //elevation: 1,
-  },
+   },
   cardView1: {
     flexDirection: 'row',
     width: '90%',
-    //marginLeft: 8,
-    //marginRight: 5,
+   
     marginTop: 10,
     alignSelf: 'center',
     backgroundColor: '#fff',
     padding: 12,
     borderRadius: 9,
     marginBottom: 10,
-    //elevation: 1,
-  },
+   },
   cardViewd: {
     width: '90%',
-    //marginLeft: 8,
-    //marginRight: 5,
-    //marginTop: 10,
+    
     alignSelf: 'center',
     backgroundColor: '#fff',
     padding: 17,
     borderRadius: 9,
     marginBottom: 15,
-    //elevation: 1,
-  },
+   },
   cardView2: {
     
     width: '90%',
-    //marginLeft: 8,
-    //marginRight: 5,
+ 
     alignSelf: 'center',
     backgroundColor: '#fff',
     padding: 12,
     borderRadius: 9,
     marginBottom: 15,
-    //elevation: 1,
-  },
+   },
   cardView1Row: {
     flexDirection: 'row',
   },
@@ -450,7 +422,6 @@ const styles = StyleSheet.create ({
     color: '#EF0000',
     textAlign: 'right',
     alignSelf: 'flex-end'
-    //marginTop: 2,
   },
   fText:{
     color: '#555',
@@ -467,12 +438,10 @@ const styles = StyleSheet.create ({
     fontSize: 17,
     marginLeft: 20,
     marginTop: 60, 
-    //width: '70%'
-  },
+   },
   xText:{
     color: '#555',
-    //fontWeight: 'bold',
-    fontSize: 14,
+     fontSize: 14,
     width: '70%'
   },
   cText4: {
@@ -488,13 +457,11 @@ const styles = StyleSheet.create ({
   cText1:{
     color: '#475168',
     fontSize: 14,
-    //marginTop: 6,
-  },
+   },
   cText2:{
     color: '#475168',
     fontSize: 12,
-    //marginTop: 6,
-  },
+   },
   tDate: {
     fontSize: 20,
     color: '#2D323D',
@@ -533,8 +500,7 @@ const styles = StyleSheet.create ({
   bottomView: {
     width: '100%',
     alignSelf: 'center',
-    //marginTop: -20,
-    minHeight: 700,
+     minHeight: 700,
     backgroundColor: '#fafafa',
   },
   headerText: {
@@ -558,8 +524,7 @@ const styles = StyleSheet.create ({
     marginLeft: 20,
     color: '#808080',
     fontSize: 14,
-    //fontWeight: '700',
-  },
+   },
   currentText: {
     marginLeft: 40,
     marginTop: 35,
@@ -575,7 +540,6 @@ const styles = StyleSheet.create ({
   },
   currentText2: {
     marginLeft: 40,
-    //marginTop: 5,
     color: '#000',
     fontSize: 20,
     fontWeight: '700',
@@ -607,8 +571,7 @@ ica: {
     width: 42,
     height: 42,
     alignSelf: 'center',
-    // paddingBottom: 5,
-    // paddingLeft: 15
+
     position: 'absolute',
     top: -15,
     right: -23
@@ -677,7 +640,6 @@ headerText8: {
   },
   
 submitButton: {
-  //marginTop: 20,
   backgroundColor: '#E7081A',
   elevation: 2,
   borderColor: 'rgba(255, 114, 94, 0.69)',
@@ -689,8 +651,7 @@ submitButton: {
   paddingBottom: 13,
 },
 submitButton1: {
-  //marginTop: 20,
-  //backgroundColor: '#E7081A',
+
   elevation: 2,
   borderColor: '#E7081A',
   borderRadius: 10,
@@ -720,9 +681,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+ 
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -736,9 +695,7 @@ label1: {
   paddingLeft: 20,
 },
 chatModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+ 
   alignSelf: 'center',
   alignContent: 'center',
   height: '100%',
@@ -754,7 +711,6 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

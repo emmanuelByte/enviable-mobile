@@ -16,9 +16,7 @@ export class Initial extends Component {
       user: false,
     }
     
-    //AsyncStorage.clear();
-    // this.getLoggedInUser();
-    //base64 signing for facebook  a9Szg9e01lAQYewaL8KLDGRTAgQ=
+   
   }
 
   
@@ -30,10 +28,8 @@ export class Initial extends Component {
   }
   
   async getLoggedInUser(token){
-    // alert("jhdbnfjbdhb")
     await AsyncStorage.getItem('enviable').then((value) => {
-      // alert("dsdsd"+value)
-      // alert(value+ 'val')
+   
 
       if(value == null){
         this.props.navigation.navigate('PhoneRegistration')
@@ -49,7 +45,6 @@ export class Initial extends Component {
 
           }, ()=>{
 
-            // this.savePush(token);
             this.props.navigation.navigate('Home')
           
           })
@@ -57,14 +52,7 @@ export class Initial extends Component {
           this.props.navigation.navigate('VerifyPhone', {
             phone: phone
           })
-          //this.props.navigation.navigate('Home')
-          // AsyncStorage.getItem('loginvalue').then((value) => {
-          //   if(value){
-          //     this.props.navigation.navigate('Login');
-          //   }  else{
-          //     this.props.navigation.navigate('Welcome');
-          //   } 
-          // });
+        
         }
       }, (err)=> {alert(err)})
       ;
@@ -87,7 +75,6 @@ export class Initial extends Component {
         smallIcon: "ic_notification",
         onRegister: (token) => {
           AsyncStorage.setItem('pushToken', token.token, () => {
-            // alert("token here"+token.token)
             this.savePush(token.token,1); 
           })
         },
@@ -121,18 +108,12 @@ export class Initial extends Component {
         JSON.parse(notification.data.message).title,
         JSON.parse(notification.data.message).body,
         [
-          // {
-          //   text: "Stay here",
-          //   onPress: () => console.log("Cancel Pressed"),
-          //   style: "cancel"
-          // },
-          //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
+          
           { text: "Check order", onPress: () => this.props.navigation.push('MerchantOrderDetails', {
             orderId: JSON.parse(notification.data.message).orderId ,
           })
          }
         ],
-        //{ cancelable: false }
       );
     }
     if(JSON.parse(notification.data.message).myId == "dispatch"){
@@ -140,18 +121,11 @@ export class Initial extends Component {
         JSON.parse(notification.data.message).title,
         JSON.parse(notification.data.message).body,
         [
-          // {
-          //   text: "Stay here",
-          //   onPress: () => console.log("Cancel Pressed"),
-          //   style: "cancel"
-          // },
-          //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-          { text: "Check order", onPress: () => this.props.navigation.push('DispatchOrderDetails', {
+        { text: "Check order", onPress: () => this.props.navigation.push('DispatchOrderDetails', {
             orderId: JSON.parse(notification.data.message).orderId ,
           })
          }
         ],
-        //{ cancelable: false }
       );
     }
     if(JSON.parse(notification.data.message).myId == "ride_share"){
@@ -159,25 +133,17 @@ export class Initial extends Component {
         JSON.parse(notification.data.message).title,
         JSON.parse(notification.data.message).body,
         [
-          // {
-          //   text: "Stay here",
-          //   onPress: () => console.log("Cancel Pressed"),
-          //   style: "cancel"
-          // },
-          //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-          { text: "Check order", onPress: () => this.props.navigation.push('RideOrderDetails', {
+         { text: "Check order", onPress: () => this.props.navigation.push('RideOrderDetails', {
             orderId: JSON.parse(notification.data.message).orderId ,
           })
          }
         ],
-        //{ cancelable: false }
       );
     } 
 
   }
 
   savePush(token, type){
-    // alert(token+ this.state.user.id+' token'+ type);
     fetch(`${SERVER_URL}/mobile/save_push_token`, {
       method: 'POST',
       headers: {

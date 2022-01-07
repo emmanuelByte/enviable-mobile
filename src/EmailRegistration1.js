@@ -10,8 +10,7 @@ import ModalFilterPicker from 'react-native-modal-filter-picker';
 export class EmailRegistration extends Component {
   constructor(props) {
     super();
-    // this.handleBackPress = this.handleBackPress.bind(this);
-    this.state = {
+     this.state = {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
       toggleUpdate: false,
@@ -39,29 +38,11 @@ export class EmailRegistration extends Component {
   }
 
   componentWillUnmount() {
-    // BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
-  }
+   }
 
-  // handleBackPress = () => {
-  //   Alert.alert(
-  //     "Confirm exit",
-  //     "Are you sure you want to exit this app?",
-  //     [
-  //       {
-  //         text: "Stay here",
-  //         onPress: () => console.log("Cancel Pressed"),
-  //         style: "cancel"
-  //       },
-  //       //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-  //       { text: "Leave", onPress: () => BackHandler.exitApp() }
-  //     ],
-  //     //{ cancelable: false }
-  //   );
-  //   return true
-  // }
+  
 
   componentDidMount() {
-    // BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
   toggleUpdate(){
@@ -86,13 +67,7 @@ export class EmailRegistration extends Component {
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
         this.props.navigation.navigate('Home')
-        // this.setState({
-        //   customer: JSON.parse(value)
-        // }, () => {
-        //   this.setState({
-        //     customer_id: this.state.customer.id
-        //   })
-        // });
+      
           
       }else{
         AsyncStorage.getItem('pushToken').then((value) => {
@@ -141,7 +116,6 @@ export class EmailRegistration extends Component {
    .then((res) => {
      this.hideLoader();
        
-       //this.hideLoader();
        if(res.success){
           this.setState({
             cities:  res.cities
@@ -163,8 +137,7 @@ export class EmailRegistration extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
-       //{ cancelable: false }
-     );
+      );
     });
   }
 
@@ -201,8 +174,7 @@ export class EmailRegistration extends Component {
               this.showAlert("Success", res.success);
 
 
-              // change this
-              // this.props.navigation.pop();
+          
             });
           }else{
             this.showAlert("Error", res.error)
@@ -225,7 +197,6 @@ export class EmailRegistration extends Component {
       },
       body: JSON.stringify({
           email: this.state.email,
-        //   token: this.state.token
       })
     }).then((response) => response.json())
         .then((res) => {
@@ -287,11 +258,9 @@ onPickupSelect = (city) => {
               <Text style = {styles.label}>Enter Email Address</Text>
               <TextInput
                             style={styles.input}
-                            //placeholder="Phone"
-                            onChangeText={(text) => this.setState({email: text})}
+                             onChangeText={(text) => this.setState({email: text})}
                             underlineColorAndroid="transparent"
-                            // minLength={11}
-                            // maxLength={11}
+                          
                             keyboardType={'email-address'}
                           />
                           
@@ -323,12 +292,10 @@ const styles = StyleSheet.create ({
   body: {
     minHeight: '100%',
     marginBottom: 100,
-    //backgroundColor: "#fff",
-  },
+   },
   backImage: {
     width: 18,
-    //height: 12,
-    marginLeft: 20,
+     marginLeft: 20,
     marginTop: 40,
   },
   headerText: {
@@ -367,8 +334,7 @@ const styles = StyleSheet.create ({
     color: '#fff',
     width: '90%',
     alignSelf: 'center',
-    //paddingLeft: 15,
-    marginTop: 10,
+     marginTop: 10,
   },
   input: {
     width: '90%',
@@ -403,15 +369,13 @@ const styles = StyleSheet.create ({
   },
   forgotText: {
     textAlign: 'center',
-    //marginRight: 30,
-    color: '#fff',
+     color: '#fff',
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
-    //marginRight: 30,
-    color: '#0B277F',
+     color: '#0B277F',
     fontSize: 12,
   },
   createText1: {
@@ -468,9 +432,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+   
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -480,9 +442,7 @@ modalView: {
 
 
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+  
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -495,8 +455,7 @@ loading: {
   right: 0,
   top: 0,
   bottom: 0,
-  //height: '100vh',
-  alignItems: 'center',
+   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
 }

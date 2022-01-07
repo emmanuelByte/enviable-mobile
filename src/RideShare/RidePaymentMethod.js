@@ -50,12 +50,12 @@ export class RidePaymentMethod extends Component {
       timeValue: false,
       paymentMethod: '',
       userCards: [],
-      // initialRegion: {
-      //   latitude: 6.465422,
-      //   longitude: 3.406448,
-      //   latitudeDelta: 5,
-      //   longitudeDelta: 5
-      // },
+       
+       
+       
+       
+       
+       
     };
     this.getLoggedInUser();
   }
@@ -94,7 +94,7 @@ export class RidePaymentMethod extends Component {
     Alert.alert(type, message);
   }
   componentDidFocus = () => {
-    //this.getLocation();
+     
     this.setState(
       {
         origin: this.props.navigation.state.params.origin,
@@ -137,7 +137,7 @@ export class RidePaymentMethod extends Component {
             },
             {text: 'Refresh', onPress: () => this.getUserCards()},
           ],
-          //{ cancelable: false }
+           
         );
       });
   }
@@ -169,7 +169,7 @@ export class RidePaymentMethod extends Component {
             },
             {text: 'Try again', onPress: () => this.removeCard()},
           ],
-          //{ cancelable: false }
+           
         );
       });
   }
@@ -324,7 +324,7 @@ export class RidePaymentMethod extends Component {
             <PaystackWebView
               buttonText="Add your credit/debit card"
               textStyles={styles.price}
-              //nt6}
+               
               showPayButton={true}
               paystackKey="pk_live_6b3b23bc38a669799804cdc53316494a4678dcdb"
               amount={10}
@@ -334,12 +334,12 @@ export class RidePaymentMethod extends Component {
               refNumber={this.state.trn_ref}
               ActivityIndicatorColor="green"
               handleWebViewMessage={e => {
-                // handle the message
-                //this.setRef();
+                 
+                 
                 console.log(e);
               }}
               onCancel={e => {
-                // handle response here
+                 
                 this.setRef();
                 console.log(e);
               }}
@@ -494,8 +494,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   menuImage: {
-    //width: 21,
-    //height: 15,
+     
+     
     marginLeft: 20,
     marginTop: 49,
   },
@@ -532,7 +532,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     flexDirection: 'row',
-    //paddingLeft: 20,
+     
     backgroundColor: '#fff',
     marginTop: 15,
     paddingTop: 15,
@@ -550,21 +550,21 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 14,
-    //fontWeight: 'bold',
-    ///marginTop: 15,
+     
+     
     paddingLeft: 10,
   },
   cardImage: {
     width: 32,
     height: 20,
     alignSelf: 'center',
-    //marginTop: 15,
+     
   },
   est: {
     width: '80%',
     alignSelf: 'center',
     marginTop: 15,
-    //textAlign: 'center',
+     
   },
   submitButton: {
     elevation: 2,
@@ -593,9 +593,9 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+     
+     
+     
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -614,7 +614,7 @@ const styles = StyleSheet.create({
   },
   headerText7: {
     color: '#333',
-    //paddingLeft: 20,
+     
     fontWeight: '700',
     marginTop: 5,
     fontSize: 15,
@@ -625,9 +625,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+     
+     
+     
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -669,7 +669,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
+     
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',

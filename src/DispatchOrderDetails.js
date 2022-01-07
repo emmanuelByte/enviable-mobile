@@ -70,10 +70,7 @@ export class DispatchOrderDetails extends Component {
         orderId: this.props.navigation.state.params.orderId,
       },
       () => {
-        // this.setState({
-        //   trn_ref: this.state.orderParam.order_number+Math.floor(1000 + Math.random() * 9000)
-        // })
-        //Alert.alert(this.state.orderId)
+     
         this.getOrderDetails(this.state.orderId);
       },
     );
@@ -98,7 +95,6 @@ export class DispatchOrderDetails extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        //this.hideLoader();
         console.log(res, 'kkk');
         if (res.success) {
           this.setState(
@@ -110,11 +106,7 @@ export class DispatchOrderDetails extends Component {
                 Math.floor(1000 + Math.random() * 9000),
             },
             () => {
-              // if(res.order_param.status == "Pending"){
-              //   setTimeout(function(){
-              //     this.cancelDispatch()
-              //   }.bind(this), 180000);
-              // }
+            
             },
           );
         } else {
@@ -134,7 +126,6 @@ export class DispatchOrderDetails extends Component {
             },
             {text: 'Refresh', onPress: () => this.getOrderDetails()},
           ],
-          //{ cancelable: false }
         );
       });
   }
@@ -156,9 +147,7 @@ export class DispatchOrderDetails extends Component {
         if (res.success) {
           this.showAlert('Info', res.success);
           this.getOrderDetails(this.state.orderParam.id);
-        } else {
-          //Alert.alert('Error', res.error);
-        }
+        } 
       })
       .catch(error => {
         console.error(error);
@@ -266,13 +255,7 @@ export class DispatchOrderDetails extends Component {
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
-          // this.setState(prevState => ({
-          //   orderParam: {
-          //     ...prevState.orderParam,           // copy all other key-value pairs of food object
-          //     payment_status: "Completed",
-          //     payment_method: "Pay with wallet",
-          //   }
-          // }))
+        
           this.getOrderDetails(this.state.orderParam.id);
         } else {
           this.showAlert('Error', res.error);
@@ -302,13 +285,7 @@ export class DispatchOrderDetails extends Component {
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
-          // this.setState(prevState => ({
-          //   orderParam: {
-          //     ...prevState.orderParam,           // copy all other key-value pairs of food object
-          //     payment_status: "Completed",
-          //     payment_method: "Pay with wallet",
-          //   }
-          // }))
+         
           this.getOrderDetails(this.state.orderParam.id);
         } else {
           this.showAlert('Error', res.error);
@@ -340,13 +317,7 @@ export class DispatchOrderDetails extends Component {
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
-          // this.setState(prevState => ({
-          //   orderParam: {
-          //     ...prevState.orderParam,           // copy all other key-value pairs of food object
-          //     payment_status: "Completed",
-          //     payment_method: "Pay with card",
-          //   }
-          // }))
+         
           this.getOrderDetails(this.state.orderParam.id);
         } else {
           this.showAlert('Error', res.error);
@@ -391,7 +362,7 @@ export class DispatchOrderDetails extends Component {
     if (
       this.state.orderParam &&
       this.state.orderParam.payment_status ==
-        'Pending' /*&& this.state.orderParam.status == "Rider accepted"*/
+        'Pending'  
     ) {
       return (
         <View style={{flexDirection: 'row', width: '90%', alignSelf: 'center'}}>
@@ -489,11 +460,7 @@ export class DispatchOrderDetails extends Component {
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
           <View style={styles.cView}>
             <View style={styles.itemView4}>
-              {/*this.state.orderParam && this.state.orderParam.payment_status == "Pending" && this.state.orderParam.status == "Pending" &&
-                
-                <Text style = {styles.wait}>Wait while a rider accepts your request... </Text>
-              
-              */}
+             
               <View style={styles.item31}>
                 <Text style={styles.label60}>Tracking No</Text>
                 <Text style={styles.txt60}>
@@ -560,14 +527,7 @@ export class DispatchOrderDetails extends Component {
                 </Text>
               </View>
             </View>
-            {/*
-            <View style={styles.itemView}>
-              <View style={styles.item3}>
-                <Text style = {styles.label}>Address</Text>
-                <Text style = {styles.txt}>{this.state.orderParam.address}</Text>
-              </View>
-            </View>
-            */}
+        
 
             <View style={styles.itemView1}>
               <Text style={styles.topic1}>Items in your order</Text>
@@ -585,10 +545,7 @@ export class DispatchOrderDetails extends Component {
                       {orderDetail.order_detail_description} (x
                       {orderDetail.order_detail_quantity})
                     </Text>
-                    {/*}
-                <Text style = {styles.label}>{orderDetail.merchant_product_description.substring(0,50)}</Text>
-                <Text style = {styles.label50}>₦{orderDetail.order_detail_price * orderDetail.order_detail_quantity}.00</Text>
-              */}
+                   
                   </View>
                 ))}
             </View>
@@ -637,8 +594,7 @@ export class DispatchOrderDetails extends Component {
             </View>
             {this.displayButton()}
             {this.state.orderParam && this.displayRatingButton()}
-            {/*this.state.orderParam && this.displayReceipt()*/}
-          </View>
+           </View>
           <Modal
             isVisible={this.state.forgotVisible}
             onBackdropPress={() => {
@@ -674,21 +630,7 @@ export class DispatchOrderDetails extends Component {
                   ]}
                   returnKeyType={'done'}
                 />
-                {/*
-              <Picker
-                //selectedValue={selectedValue}
-                selectedValue={this.state.rating}  
-                //style={{ height: 100, width: 200 }}
-                style={styles.input}
-                onValueChange={(itemValue, itemIndex) => this.setState({rating: itemValue})}
-              >
-                <Picker.Item color="#444" label={"5*"} value={"5"} />
-                <Picker.Item color="#444" label={"4*"} value={"4"} />
-                <Picker.Item color="#444" label={"3*"} value={"3"} />
-                <Picker.Item color="#444" label={"2*"} value={"2"} />
-                <Picker.Item color="#444" label={"1*"} value={"1"} />
-              </Picker>
-                */}
+              
               </TouchableOpacity>
               <Text style={styles.label1}>Review</Text>
               <TextInput
@@ -697,8 +639,7 @@ export class DispatchOrderDetails extends Component {
                   this.setState({review: text});
                 }}
                 underlineColorAndroid="transparent"
-                //keyboardType={'numeric'}
-                //min={1}
+                
                 value={this.state.review}
               />
 
@@ -743,7 +684,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
   },
   cView: {
-    //minHeight: 1200,
     width: '95%',
     alignSelf: 'center',
     marginBottom: 250,
@@ -752,7 +692,6 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     height: 110,
-    //backgroundColor: 'rgb(126,83,191)',
     flexDirection: 'row',
   },
   cartImage: {
@@ -783,8 +722,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignSelf: 'center',
     padding: 10,
-    //marginRight: 20,
-    //flexDirection: 'row',
+
     backgroundColor: '#fff',
   },
   itemView4: {
@@ -796,21 +734,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-    //flexDirection: 'row',
+    
   },
   center: {
     alignSelf: 'center',
-    //alignContent: 'center',
     marginBottom: 5,
     flexDirection: 'row',
-    //marginRight: 10,
   },
   wait: {
     color: '#252969',
     fontSize: 12,
-    //paddingLeft: 5,
     paddingTop: 10,
-    //textAlign: 'center',
     marginBottom: 20,
   },
   addView8: {
@@ -826,9 +760,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#fff',
     padding: 10,
-    //marginRight: 25,
-    //marginLeft: 30,
-    //flexDirection: 'row',
+
   },
   item1: {
     width: '100%',
@@ -839,8 +771,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     alignSelf: 'center',
     marginBottom: 10,
-    //padding: 10,
-    //flexDirection: 'row'
+  
   },
   item22: {
     flexDirection: 'row',
@@ -911,7 +842,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#0B277F',
     borderRadius: 8,
-    //backgroundColor: 'green',
     paddingTop: 7,
     marginTop: 20,
   },
@@ -935,7 +865,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   itemPriceText: {
-    //paddingTop: 4,
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -961,31 +890,26 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   col1: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
   col3: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
-    borderRadius: 18,
+     borderRadius: 18,
     textAlign: 'center',
   },
   sView: {},
   bImage1: {
     width: '100%',
     height: 220,
-    //opacity: 0.6,
-    overflow: 'hidden',
+     overflow: 'hidden',
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
   },
@@ -1046,7 +970,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   card: {
-    //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
     borderWidth: 1,
@@ -1076,8 +999,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   segmentText: {
-    //textAlign: 'center',
-    paddingRight: 10,
+     paddingRight: 10,
     marginRight: 10,
   },
   contentText: {
@@ -1104,7 +1026,6 @@ const styles = StyleSheet.create({
     marginTop: 1,
     fontSize: 14,
     paddingBottom: 3,
-    //fontWeight: 'bold',
   },
   label50: {
     color: '#454A65',
@@ -1123,7 +1044,6 @@ const styles = StyleSheet.create({
     width: '40%',
   },
   label88: {
-    //color: '#454A65',
     fontWeight: 'bold',
     marginTop: 1,
     fontSize: 12,
@@ -1138,7 +1058,6 @@ const styles = StyleSheet.create({
   labelZ: {
     color: '#454A65',
     width: '50%',
-    //fontWeight: 'bold',
     marginTop: 1,
     fontSize: 13,
   },
@@ -1233,7 +1152,6 @@ const styles = StyleSheet.create({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
     width: 10,
     height: 10,
     width: 10,
@@ -1275,9 +1193,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -1291,9 +1207,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 330,
     width: '90%',
@@ -1308,7 +1222,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -1321,7 +1234,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: 200,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -1356,7 +1268,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -1365,7 +1276,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',

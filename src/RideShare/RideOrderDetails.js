@@ -94,7 +94,7 @@ export class RideOrderDetails extends Component {
     Alert.alert(type, message);
   }
   componentDidFocus = () => {
-    //this.getLocation();
+     
       this.getOrder(this.props.navigation.state.params.orderId);
 
     setInterval(()=>{
@@ -105,7 +105,7 @@ export class RideOrderDetails extends Component {
 
   getDistance(origin, destination) {
     console.log(this.state.origin, 'sksks');
-    // this.showLoader();
+     
     fetch(
       `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
       {
@@ -115,7 +115,7 @@ export class RideOrderDetails extends Component {
       .then(response => response.json())
       .then(res => {
         this.hideLoader();
-        //console.log(res.rows[0].elements[0].distance.text, "distance");
+         
         this.setState({
           time: res.rows[0].elements[0].duration.text,
         });
@@ -137,7 +137,7 @@ export class RideOrderDetails extends Component {
               onPress: () => this.getDistance(origin, destination),
             },
           ],
-          //{ cancelable: false }
+           
         );
         return;
       });
@@ -185,20 +185,20 @@ export class RideOrderDetails extends Component {
             this.setState({
               order: res.order,
               rider: res.rider,
-              // origin: origin,
-              // destination: destination,
-              // driver: {longitude: parseFloat(res.rider.longitude), latitude: parseFloat(res.rider.latitude) }
+               
+               
+               
   
             });
-            // this.setState({
-            //   driver: 
-            //   // new AnimatedRegion(
-            //     {
-            //     longitude: parseFloat(res.rider.longitude), latitude: parseFloat(res.rider.latitude) 
-            //   }
-            //   // )
+             
+             
+             
+             
+             
+             
+             
   
-            // });
+             
           }
          
         
@@ -219,7 +219,7 @@ export class RideOrderDetails extends Component {
             },
             {text: 'Refresh', onPress: () => this.updateDriverLocation(orderId)},
           ],
-          //{ cancelable: false }
+           
         );
       });
   }
@@ -262,7 +262,7 @@ export class RideOrderDetails extends Component {
               rider: res.rider,
               origin: origin,
               destination: destination,
-              // driver: {longitude: parseFloat(res.rider.longitude), latitude: parseFloat(res.rider.latitude) }
+               
   
             });
           }
@@ -294,7 +294,7 @@ export class RideOrderDetails extends Component {
             },
             {text: 'Refresh', onPress: () => this.getOrder(orderId)},
           ],
-          //{ cancelable: false }
+           
         );
       });
   }
@@ -342,24 +342,24 @@ export class RideOrderDetails extends Component {
     });
   }
   use() {
-    // alert('clicked')
-    // showLocation({
-    //   latitude: this.state.order.delivery_latitude,
-    //   longitude: this.state.order.delivery_longitude,
-    //   //sourceLatitude: this.state.origin.latitude,  // optionally specify starting location for directions
-    //   //sourceLongitude: this.state.origin.longitude,  // not optional if sourceLatitude is specified
-    //   title: this.state.order.delivery_address, // optional
-    //   //googleForceLatLon: false,  // optionally force GoogleMaps to use the latlon for the query instead of the title
-    //   //googlePlaceId: 'ChIJGVtI4by3t4kRr51d_Qm_x58',  // optionally specify the google-place-id
-    //   //alwaysIncludeGoogle: true, // optional, true will always add Google Maps to iOS and open in Safari, even if app is not installed (default: false)
-    //   dialogTitle: 'Change map', // optional (default: 'Open in Maps')
-    //   dialogMessage: 'Open in google map', // optional (default: 'What app would you like to use?')
-    //   cancelText: 'Cancel', // optional (default: 'Cancel')
-    //   appsWhiteList: ['google-maps'], // optionally you can set which apps to show (default: will show all supported apps installed on device)
-    //   naverCallerName: 'com.enviable', // to link into Naver Map You should provide your appname which is the bundle ID in iOS and applicationId in android.
-    //   appTitles: {'google-maps': 'Direction to your destination'}, // optionally you can override default app titles
-    //   // app: 'uber'  // optionally specify specific app to use
-    // });
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
 
 
     const startPoint = {
@@ -382,7 +382,7 @@ if(this.state.order.status == "Rider accepted"){
 }
 
   changeStatus(status) {
-    // console.log(`${SERVER_URL}mobile/cancel_ride_share/${this.state.order.id}/${this.state.customer.id}/rider_cancelled_order`, "CHECK HERE  BOSS");
+     
 
     this.showLoader();
     fetch(
@@ -398,7 +398,7 @@ if(this.state.order.status == "Rider accepted"){
         if (res.success) {
           this.getOrder(this.props.navigation.state.params.orderId);
           this.showAlert('Success', res.success);
-          //this.gotoOrderDetails(order);
+           
         } else {
           Alert.alert('Error', res.error);
         }
@@ -514,12 +514,9 @@ if(this.state.order.status == "Rider accepted"){
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
             showsUserLocation={true}
-            // onMoveShouldSetResponder={true}
-            // onMapReady={this.goToInitialRegion.bind(this)}
-            // initialRegion={this.state.initialRegion}
+           
           >
             <Marker coordinate={this.state.origin}></Marker>
-          {/* {console.log(this.state.driver, "driver PUNT")} */}
            {
              this.state.driver !== false ? (
               <MarkerAnimated
@@ -547,7 +544,7 @@ if(this.state.order.status == "Rider accepted"){
               strokeColor="brown"
               strokeWidth={3}
               apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
-              // apikey={MAP_API_KEY}
+               
 
             />
           </MapView>
@@ -568,7 +565,7 @@ if(this.state.order.status == "Rider accepted"){
               <View>
                 <TouchableOpacity onPress={() => this.use()}>
                   <Text style={styles.use}>Use google navigation</Text>
-                  {/* <Text>{this.state.rider.phone1}</Text> */}
+
                 </TouchableOpacity>
                 {this.state.rider && (
                   <View style={styles.row}>
@@ -664,7 +661,7 @@ if(this.state.order.status == "Rider accepted"){
           width={'100%'}
           style={styles.modal}>
           <View style={styles.rateModalView}>
-            {/*<Text style = {styles.headerText7}>Rate Rider</Text>*/}
+
             {this.state.rider && (
               <Image
                 source={{uri: SERVER_URL + this.state.rider.photo}}
@@ -693,8 +690,8 @@ if(this.state.order.status == "Rider accepted"){
               }}
               underlineColorAndroid="transparent"
               placeholder={'Leave a review'}
-              //keyboardType={'numeric'}
-              //min={1}
+               
+               
               multiline={true}
               value={this.state.review}
             />
@@ -738,8 +735,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   menuImage: {
-    //width: 21,
-    //height: 15,
+     
+     
     marginLeft: 20,
     marginTop: 39,
   },
@@ -757,8 +754,8 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: 'rgba(126,83,191, 0.1)',
     borderRadius: 7,
-    //borderColor: '#ABA7A7',
-    //borderWidth: 1,
+     
+     
     alignSelf: 'center',
     marginTop: 5,
     paddingLeft: 15,
@@ -807,21 +804,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'right',
-    //paddingRight: 20,
-    //width:
+     
+     
     marginTop: 2,
   },
   plate: {
     fontSize: 12,
     color: '#848484',
-    //fontWeight: 'bold',
-    //marginTop: 20,
+     
+     
   },
   est: {
     width: '80%',
     alignSelf: 'center',
     marginTop: 15,
-    //textAlign: 'center',
+     
   },
   est1: {
     width: '100%',
@@ -829,7 +826,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 20,
     color: '#282828',
-    //marginRight: 20,
+     
     textAlign: 'right',
   },
   use: {
@@ -851,11 +848,11 @@ const styles = StyleSheet.create({
     paddingLeft: 6,
   },
   sText: {
-    // color: '#fff',
-    // textAlign: 'center',
-    //fontSize: 12,
+     
+     
+     
     paddingTop: 10,
-    // paddingLeft: 6,
+     
   },
   submitButton: {
     elevation: 2,
@@ -877,7 +874,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     flexDirection: 'row',
-    //paddingLeft: 20,
+     
     zIndex: 9999999999,
     marginTop: 5,
     paddingTop: 15,
@@ -901,32 +898,32 @@ const styles = StyleSheet.create({
   },
   price1: {
     fontSize: 14,
-    //fontWeight: 'bold',
+     
     marginTop: 3,
     paddingLeft: 10,
   },
   cardImage: {
     width: 20,
     height: 20,
-    //alignSelf: 'center',
+     
     marginTop: 3,
   },
-  // carImage: {
-  //   width: 50,
-  //   height: 50,
-  //   borderRadius: 25,
-  // },
+   
+   
+   
+   
+   
 
   label1: {
     color: '#333',
     marginTop: 15,
-    //paddingLeft: 20,
+     
     textAlign: 'center',
   },
   rateModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+     
+     
+     
     alignSelf: 'center',
     height: 340,
     width: '90%',
@@ -937,7 +934,7 @@ const styles = StyleSheet.create({
   },
   headerText7: {
     color: '#333',
-    //paddingLeft: 20,
+     
     fontWeight: '700',
     marginTop: 5,
     fontSize: 12,
@@ -977,7 +974,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
+     
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -988,7 +985,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-    //borderWidth: 1,
+     
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -997,7 +994,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-    //borderWidth: 1,
+     
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',

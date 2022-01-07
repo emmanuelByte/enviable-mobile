@@ -52,12 +52,12 @@ export class RideConfirm extends Component {
       timeValue: false,
       vehicleTypeId: 13,
       bg1: 'rgba(231, 236, 255, 0.69)',
-      // initialRegion: {
-      //   latitude: 6.465422,
-      //   longitude: 3.406448,
-      //   latitudeDelta: 5,
-      //   longitudeDelta: 5
-      // },
+       
+       
+       
+       
+       
+       
       kekePrice: '',
       bikePrice: '',
       carPrice: '',
@@ -80,7 +80,7 @@ export class RideConfirm extends Component {
   };
 
   componentDidMount() {
-    // alert('COMPONENT DID')
+     
     console.log(this.props.navigation.state, "NAV OASDFGHJKL")
     this.subs = [
       this.props.navigation.addListener('didFocus', payload =>
@@ -109,7 +109,7 @@ export class RideConfirm extends Component {
   componentDidFocus = () => {
     this.getRiders();
 
-    //this.getLocation();
+     
     const preciseDistance = this.calculatePreciseDistance(
       this.props.navigation.state.params.origin,
       this.props.navigation.state.params.destination,
@@ -171,7 +171,7 @@ export class RideConfirm extends Component {
             },
             {text: 'Refresh', onPress: () => this.getRiders()},
           ],
-          //{ cancelable: false }
+           
         );
       });
   }
@@ -182,10 +182,10 @@ export class RideConfirm extends Component {
     this.showLoader();
     console.log(origin,destination, "destination origin combo")
     fetch(
-      // `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${MAP_API_KEY}`,
+       
       `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
 
-      // `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
+       
       {
         method: 'GET',
       },
@@ -193,7 +193,7 @@ export class RideConfirm extends Component {
       .then(response => response.json())
       .then(res => {
         this.hideLoader();
-        // console.log(res.rows[0].elements[0].duration.text, res.rows[0].elements[0].duration, "res 12 then block")
+         
         console.log(res.rows[0].elements[0].distance.text, "distance");
         this.setState(
           {
@@ -224,7 +224,7 @@ export class RideConfirm extends Component {
             },
             {text: 'Refresh', onPress: () => this.getDistance()},
           ],
-          //{ cancelable: false }
+           
         );
         return;
       });
@@ -272,7 +272,7 @@ export class RideConfirm extends Component {
               onPress: () => this.getEstimatedPrice(time, distance),
             },
           ],
-          //{ cancelable: false }
+           
         );
       });
   }
@@ -328,7 +328,7 @@ export class RideConfirm extends Component {
       time: this.state.timeValue,
       distance: this.state.distance,
       vehicleTypeId: this.state.vehicleTypeId,
-      //coordinate:
+       
     });
   }
 
@@ -375,7 +375,7 @@ export class RideConfirm extends Component {
       <View style={StyleSheet.absoluteFillObject}>
         {this.state.origin && this.state.destination && (
           <MapView
-            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+            provider={PROVIDER_GOOGLE}  
             style={[StyleSheet.absoluteFillObject, styles.map]}
             origin={this.state.origin}
             region={this.state.origin}
@@ -383,8 +383,8 @@ export class RideConfirm extends Component {
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
             showsUserLocation={true}
-            //onMapReady={this.goToInitialRegion.bind(this)}
-            //initialRegion={this.state.initialRegion}
+             
+             
           >
           
 
@@ -437,7 +437,7 @@ export class RideConfirm extends Component {
               strokeColor="#0B277F"
               strokeWidth={3}
               apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
-              // apikey={MAP_API_KEY}
+               
 
             />
           </MapView>
@@ -533,7 +533,7 @@ export class RideConfirm extends Component {
                 </Text>
               </View>
             </TouchableOpacity>
-            {/*this.state.timeValue && <Text style = {styles.est}>Estimated journey duration is {Math.ceil(this.state.timeValue/60)} minutes, based on current traffic info.</Text>*/}
+
             <TouchableOpacity
               onPress={() => this.proceed()}
               style={styles.submitButton}>
@@ -572,8 +572,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   menuImage: {
-    //width: 21,
-    //height: 15,
+     
+     
     marginLeft: 20,
     marginTop: 69,
   },
@@ -602,7 +602,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 25,
     alignItems: 'center',
-    //backgroundColor: 'rgba(231, 236, 255, 0.69)',
+     
   },
   col1: {
     width: '25%',
@@ -617,7 +617,7 @@ const styles = StyleSheet.create({
     width: 54,
     height: 40,
     alignSelf: 'center',
-    //marginTop: 15,
+     
   },
   kekeImage: {
     width: 25,
@@ -625,7 +625,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 6,
     marginBottom: 6,
-    //marginTop: 15,
+     
   },
   carIco: {
     width: 30,
@@ -638,7 +638,7 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     marginTop: 6,
     marginBottom: 10,
-    //marginTop: 20,
+     
   },
   price1: {
     fontSize: 14,
@@ -672,10 +672,10 @@ const styles = StyleSheet.create({
   est: {
     fontSize: 11,
     color: '#282828',
-    //width: '80%',
-    //alignSelf: 'center',
-    //marginTop: 15,
-    //textAlign: 'center',
+     
+     
+     
+     
   },
   submitButton: {
     elevation: 2,
@@ -700,7 +700,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
+     
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(255,255,255,0.9)',

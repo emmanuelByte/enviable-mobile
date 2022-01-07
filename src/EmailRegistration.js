@@ -52,11 +52,9 @@ export class EmailRegistration extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
+         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
-      //{ cancelable: false }
-    );
+     );
     return true
   }
 
@@ -86,14 +84,7 @@ export class EmailRegistration extends Component {
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
         this.props.navigation.navigate('Home')
-        // this.setState({
-        //   customer: JSON.parse(value)
-        // }, () => {
-        //   this.setState({
-        //     customer_id: this.state.customer.id
-        //   })
-        // });
-          
+    
       }else{
         AsyncStorage.getItem('pushToken').then((value) => {
           this.setState({
@@ -141,8 +132,7 @@ export class EmailRegistration extends Component {
    .then((res) => {
      this.hideLoader();
        
-       //this.hideLoader();
-       if(res.success){
+        if(res.success){
           this.setState({
             cities:  res.cities
           });
@@ -163,8 +153,7 @@ export class EmailRegistration extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
-       //{ cancelable: false }
-     );
+      );
     });
   }
 
@@ -179,8 +168,7 @@ export class EmailRegistration extends Component {
       },
       body: JSON.stringify({
           phone: this.state.phone,
-          // email: this.state.email
-      })
+       })
     }).then((response) => response.json())
         .then((res) => {
           console.log(res);
@@ -247,18 +235,13 @@ onPickupSelect = (city) => {
         
         <ScrollView showsVerticalScrollIndicator={false}>
           <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
-          {/*
-          <TouchableOpacity style = {styles.menuImageView}onPress={() => this.props.navigation.goBack()} >
-          <Icon name="arrow-back" size={18} color="#fff"  style = {styles.backImage}/>
-          </TouchableOpacity>
-          */}
+        
           <Text style = {styles.headerText}>Welcome</Text>
             <View style = {styles.bottomView}>
               <Text style = {styles.label}>Enter phone number</Text>
               <TextInput
                             style={styles.input}
-                            //placeholder="Phone"
-                            onChangeText={(text) => this.setState({phone: text})}
+                             onChangeText={(text) => this.setState({phone: text})}
                             underlineColorAndroid="transparent"
                             minLength={11}
                             maxLength={11}
@@ -293,12 +276,10 @@ const styles = StyleSheet.create ({
   body: {
     minHeight: '100%',
     marginBottom: 100,
-    //backgroundColor: "#fff",
-  },
+   },
   backImage: {
     width: 18,
-    //height: 12,
-    marginLeft: 20,
+     marginLeft: 20,
     marginTop: 40,
   },
   headerText: {
@@ -337,8 +318,7 @@ const styles = StyleSheet.create ({
     color: '#fff',
     width: '90%',
     alignSelf: 'center',
-    //paddingLeft: 15,
-    marginTop: 10,
+     marginTop: 10,
   },
   input: {
     width: '90%',
@@ -373,15 +353,13 @@ const styles = StyleSheet.create ({
   },
   forgotText: {
     textAlign: 'center',
-    //marginRight: 30,
-    color: '#fff',
+     color: '#fff',
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
-    //marginRight: 30,
-    color: '#0B277F',
+     color: '#0B277F',
     fontSize: 12,
   },
   createText1: {
@@ -438,9 +416,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+  
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -450,9 +426,7 @@ modalView: {
 
 
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+ 
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -465,8 +439,7 @@ loading: {
   right: 0,
   top: 0,
   bottom: 0,
-  //height: '100vh',
-  alignItems: 'center',
+   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
 }

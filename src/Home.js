@@ -50,7 +50,6 @@ export class Home extends Component {
       top: 40,
       photo_base64: '',
     };
-    //AsyncStorage.clear();
   }
 
   async componentWillMount() {}
@@ -70,10 +69,8 @@ export class Home extends Component {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
         {text: 'Leave', onPress: () => BackHandler.exitApp()},
       ],
-      //{ cancelable: false }
     );
     return true;
   };
@@ -93,31 +90,19 @@ export class Home extends Component {
         top: '2%',
       });
     }
-    // else if(height < 700 && height > 600){
-    //   this.setState({
-    //     top: '20%'
-    //   })
-    // }
+  
     else if (height < 750 && height > 650) {
       this.setState({
         top: '2%',
       });
     }
-    // else if(height < 750 && height > 700){
-    //   this.setState({
-    //     top: '10%'
-    //   })
-    // }
+    
     else if (height > 750) {
       this.setState({
         top: '3%',
       });
     }
-    // else if( height > 800){
-    //   this.setState({
-    //     top: '10%'
-    //   })
-    // }
+    
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
@@ -148,14 +133,11 @@ export class Home extends Component {
             customer: JSON.parse(value),
           },
           () => {
-            //this.getTransactions();
             this.setState({
               customer_id: this.state.customer.id,
             });
           },
         );
-      } else {
-        // this.props.navigation.navigate('Login')
       }
     });
   }
@@ -193,9 +175,7 @@ export class Home extends Component {
               style: 'cancel',
             },
             {text: 'Refresh', onPress: () => this.getTransactions()},
-          ],
-          //{ cancelable: false }
-        );
+          ]        );
       });
   }
 
@@ -348,12 +328,7 @@ export class Home extends Component {
             source={require('./imgs/logoo.png')}
             style={styles.logoImage}
           />
-          {/* this.state.customer && 
-              <Text style = {styles.headerText}>Hello {this.state.customer.first_name}! </Text>
-              */}
-          {/*
-            <Image source = {require('./imgs/rickreen-logo.png')} style = {styles.logo} />
-              */}
+         
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.bottomView}>
               <View style={styles.top}>
@@ -465,7 +440,6 @@ export class Home extends Component {
                 onPress={this.navigateToScreen('Profile')}
                 style={styles.topRow}>
                 <View style={styles.topImageView}>
-                  {/* <Image source = {require('./imgs/round-profile.png')} style = {styles.userImage} /> */}
 
                   {this.state.photo_base64 === null ? (
                     <Image
@@ -506,38 +480,7 @@ export class Home extends Component {
                   </View>
                 </TouchableOpacity>
 
-                {/*
-              <TouchableOpacity onPress={this.navigateToScreen('MerchantCategories')} style = {styles.linkItem}>
-                <View style = {styles.iconView}>
-                <Icon.Button name="motorcycle" style = {styles.star} size={25} backgroundColor="transparent" color="#fff" >
-                  </Icon.Button>  
-                </View>
-                <View style = {styles.textView}>
-                  <Text style = {styles.textLink} >Short errands</Text>
-                </View>
-              </TouchableOpacity>
-              
-              
-              <TouchableOpacity onPress={this.navigateToScreen('EatMerchant')} style = {styles.linkItem}>
-                <View style = {styles.iconView}>
-                <Icon.Button name="restaurant" style = {styles.star} size={25} backgroundColor="transparent" color="#fff" >
-                  </Icon.Button>  
-                </View>
-                <View style = {styles.textView}>
-                  <Text style = {styles.textLink} >Errand Eat</Text>
-                </View>
-              </TouchableOpacity>
-              
-              <TouchableOpacity  onPress={() => { this.hideSideMenu(); this.gotoNewDispatch("Courier")}} style = {styles.linkItem}>
-                <View style = {styles.iconView}>
-                  <Icon.Button name="directions-car" style = {styles.star} size={25} backgroundColor="transparent" color="#fff" >
-                  </Icon.Button>  
-                </View>
-                <View style = {styles.textView}>
-                  <Text style = {styles.textLink} >New Dispatch services</Text>
-                </View>
-              </TouchableOpacity>
-              */}
+             
 
               <TouchableOpacity
                   onPress={this.navigateToScreen('RideShareHome')}
@@ -623,15 +566,7 @@ export class Home extends Component {
                     <Text style={styles.textLink}>Transactions</Text>
                   </View>
                 </TouchableOpacity>
-                {/*<TouchableOpacity onPress={this.navigateToScreen('Feedback')} style = {styles.linkItem}>
-                    <View style = {styles.iconView}>
-                    <Icon.Button name="notifications" style = {styles.star} size={25} backgroundColor="transparent" color="#fff" >
-                      </Icon.Button>  
-                    </View>
-                    <View style = {styles.textView}>
-                      <Text style = {styles.textLink} >Notificatons</Text>
-                    </View>
-                 </TouchableOpacity>*/}
+           
                 <TouchableOpacity
                   onPress={this.navigateToScreen('Help')}
                   style={styles.linkItem}>
@@ -691,7 +626,6 @@ const styles = StyleSheet.create({
   },
   body: {
     minHeight: '100%',
-    //backgroundColor: "#ebf7fe",
   },
   bImage: {
     width: '100%',
@@ -715,7 +649,6 @@ const styles = StyleSheet.create({
     color: '#6A2CB3',
     paddingTop: 15,
     paddingLeft: 15,
-    //fontWeight: 'bold',
   },
   inviteImageView: {
     paddingRight: 20,
@@ -731,9 +664,7 @@ const styles = StyleSheet.create({
   bImage1: {
     width: '100%',
     height: '100%',
-    zIndex: 0,
-    //opacity: 0.6,
-    overflow: 'hidden',
+    zIndex: 0,    overflow: 'hidden',
   },
   logoImage: {
     marginTop: -25,
@@ -742,8 +673,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   menuImage: {
-    //marginLeft: 20,
-    //marginTop: 69,
+    
     width: 22,
     height: 22,
   },
@@ -782,32 +712,23 @@ const styles = StyleSheet.create({
   menuImageView: {
     zIndex: 999999999999999,
     width: '100%',
-    //backgroundColor: '#000',
     height: 15,
     paddingLeft: 20,
     paddingRight: 40,
     paddingBottom: 20,
-    //marginLeft: 20,
     paddingTop: 40,
-    //elevation: 2,
   },
   bottomView: {
-    //width: '90%',
     alignSelf: 'center',
-    //position: 'absolute',
-    //bottom: 0,
     marginTop: 10,
     marginBottom: 100,
-    //paddingLeft: 20,
-    //paddingRight: 20,
+    
   },
   tButton: {
-    //marginTop: 20,
     borderColor: '#fff',
     borderWidth: 1,
     borderRadius: 6,
     width: '50%',
-    //alignSelf: 'flex-end',
     marginRight: 5,
     paddingTop: 7,
     paddingBottom: 8,
@@ -836,7 +757,6 @@ const styles = StyleSheet.create({
     height: 30,
   },
   card: {
-    //flexDirection: 'row',
     width: '45%',
     height: 180,
     marginBottom: 13,
@@ -846,7 +766,6 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   card8: {
-    //flexDirection: 'row',
     width: '45%',
     height: 180,
     marginBottom: 13,
@@ -856,8 +775,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   card1: {
-    //flexDirection: 'row',
-    //alignSelf: 'flex-end',
+  
     height: 180,
     width: '45%',
     marginBottom: 13,
@@ -870,7 +788,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   colContent: {
-    //width: '95%',
     flexDirection: 'column',
   },
   tImage1: {
@@ -884,7 +801,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   tImage3: {
-    //marginTop: 10,
     width: 37,
     height: 30,
     alignSelf: 'flex-end',
@@ -1025,9 +941,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+    
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -1041,9 +955,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+    
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -1052,9 +964,7 @@ const styles = StyleSheet.create({
   },
 
   top: {
-    //marginBottom: 60,
     width: '100%',
-    //height: '100%'
   },
 
   row: {
@@ -1078,7 +988,6 @@ const styles = StyleSheet.create({
   },
   lText1: {
     color: '#0B277F',
-    //width: '50%',
     fontSize: 16,
     textAlign: 'center',
     fontWeight: '700',
@@ -1092,7 +1001,6 @@ const styles = StyleSheet.create({
   },
   lText2: {
     color: '#fff',
-    //width: '50%',
     fontSize: 16,
     textAlign: 'center',
     fontWeight: '700',
@@ -1112,8 +1020,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    //borderColor: '#9c77b1',
-    //borderWidth: 6,
+ 
   },
   topTextView: {
     paddingLeft: 20,
@@ -1139,7 +1046,6 @@ const styles = StyleSheet.create({
   },
   linkItemBottom: {
     width: '100%',
-    //paddingLeft: 20,
     flexDirection: 'row',
     marginBottom: 5,
   },
@@ -1171,7 +1077,6 @@ const styles = StyleSheet.create({
   linkIcon: {
     width: 20,
     height: 20,
-    //paddingRi: 20,
   },
 
   profilePix: {

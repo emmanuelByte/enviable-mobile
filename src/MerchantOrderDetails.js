@@ -85,10 +85,8 @@ export class MerchantOrderDetails extends Component {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
         {text: 'Leave', onPress: () => BackHandler.exitApp()},
       ],
-      //{ cancelable: false }
     );
     return true;
   };
@@ -103,7 +101,6 @@ export class MerchantOrderDetails extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        //this.hideLoader();
         if (res.success) {
           this.setState(
             {
@@ -114,11 +111,7 @@ export class MerchantOrderDetails extends Component {
                 Math.floor(1000 + Math.random() * 9000),
             },
             () => {
-              // if(res.order_param.status == "Pending"){
-              //   setTimeout(function(){
-              //     this.cancelDispatch()
-              //   }.bind(this), 180000);
-              // }
+              
             },
           );
         } else {
@@ -141,7 +134,6 @@ export class MerchantOrderDetails extends Component {
               onPress: () => this.getOrderDetails(this.state.orderParam.id),
             },
           ],
-          //{ cancelable: false }
         );
       });
   }
@@ -164,7 +156,6 @@ export class MerchantOrderDetails extends Component {
           this.showAlert('Info', res.success);
           this.getOrderDetails(this.state.orderParam.id);
         } else {
-          //Alert.alert('Error', res.error);
         }
       })
       .catch(error => {
@@ -209,13 +200,7 @@ export class MerchantOrderDetails extends Component {
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
-          // this.setState(prevState => ({
-          //   orderParam: {
-          //     ...prevState.orderParam,           // copy all other key-value pairs of food object
-          //     payment_status: "Completed",
-          //     payment_method: "Pay with wallet",
-          //   }
-          // }))
+         
           this.getOrderDetails(this.state.orderParam.id);
         } else {
           this.showAlert('Error', res.error);
@@ -246,13 +231,7 @@ export class MerchantOrderDetails extends Component {
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
-          // this.setState(prevState => ({
-          //   orderParam: {
-          //     ...prevState.orderParam,           // copy all other key-value pairs of food object
-          //     payment_status: "Completed",
-          //     payment_method: "Pay with card",
-          //   }
-          // }))
+        
           this.getOrderDetails(this.state.orderParam.id);
         } else {
           this.showAlert('Error', res.error);
@@ -615,13 +594,7 @@ export class MerchantOrderDetails extends Component {
             {this.state.orderParam && this.displayRatingButton()}
             {this.state.orderParam && this.displayReceipt()}
             {this.state.orderParam && this.displayButton()}
-            {/*
-              <TouchableOpacity style={styles.addView} onPress={() => {Alert.alert("info", "Coming soon")}}>
-                <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
-                  <Text style={styles.addText}>Reorder</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            */}
+        
           </View>
         </ScrollView>
         <Modal
@@ -654,21 +627,7 @@ export class MerchantOrderDetails extends Component {
                 ]}
                 returnKeyType={'done'}
               />
-              {/*
-              <Picker
-                //selectedValue={selectedValue}
-                selectedValue={this.state.rating}  
-                //style={{ height: 100, width: 200 }}
-                style={styles.input}
-                onValueChange={(itemValue, itemIndex) => this.setState({rating: itemValue})}
-              >
-                <Picker.Item color="#444" label={"5*"} value={"5"} />
-                <Picker.Item color="#444" label={"4*"} value={"4"} />
-                <Picker.Item color="#444" label={"3*"} value={"3"} />
-                <Picker.Item color="#444" label={"2*"} value={"2"} />
-                <Picker.Item color="#444" label={"1*"} value={"1"} />
-              </Picker>
-                */}
+            
             </TouchableOpacity>
             <Text style={styles.label1}>Review</Text>
             <TextInput
@@ -677,8 +636,7 @@ export class MerchantOrderDetails extends Component {
                 this.setState({review: text});
               }}
               underlineColorAndroid="transparent"
-              //keyboardType={'numeric'}
-              //min={1}
+           
               value={this.state.review}
             />
 
@@ -715,7 +673,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
   },
   cView: {
-    //minHeight: 1200,
     width: '95%',
     alignSelf: 'center',
     paddingBottom: 50,
@@ -724,7 +681,6 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     height: 110,
-    //backgroundColor: 'rgb(126,83,191)',
     flexDirection: 'row',
   },
   cartImage: {
@@ -755,8 +711,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignSelf: 'center',
     padding: 10,
-    //marginRight: 20,
-    //flexDirection: 'row',
+  
     backgroundColor: '#fff',
   },
   itemView4: {
@@ -768,7 +723,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-    //flexDirection: 'row',
   },
   itemView1: {
     width: '95%',
@@ -777,9 +731,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#fff',
     padding: 10,
-    //marginRight: 25,
-    //marginLeft: 30,
-    //flexDirection: 'row',
+   
   },
   addText: {
     textAlign: 'center',
@@ -840,7 +792,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#0B277F',
     borderRadius: 8,
-    //backgroundColor: 'green',
     paddingTop: 7,
     marginTop: 40,
   },
@@ -853,8 +804,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     alignSelf: 'center',
     marginBottom: 10,
-    //padding: 10,
-    //flexDirection: 'row'
+  
   },
   item22: {
     flexDirection: 'row',
@@ -868,17 +818,13 @@ const styles = StyleSheet.create({
   },
   center: {
     alignSelf: 'center',
-    //alignContent: 'center',
     marginBottom: 5,
     flexDirection: 'row',
-    //marginRight: 10,
   },
   wait: {
     color: '#252969',
     fontSize: 12,
-    //paddingLeft: 10,
     paddingTop: 10,
-    //textAlign: 'center',
     marginBottom: 20,
   },
   item36: {
@@ -911,7 +857,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   itemPriceText: {
-    //paddingTop: 4,
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -937,22 +882,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   col1: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
   col3: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -960,7 +901,6 @@ const styles = StyleSheet.create({
   bImage1: {
     width: '100%',
     height: 220,
-    //opacity: 0.6,
     overflow: 'hidden',
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
@@ -1022,7 +962,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   card: {
-    //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
     borderWidth: 1,
@@ -1052,7 +991,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   segmentText: {
-    //textAlign: 'center',
     paddingRight: 10,
     marginRight: 10,
   },
@@ -1080,7 +1018,6 @@ const styles = StyleSheet.create({
     marginTop: 1,
     fontSize: 14,
     paddingBottom: 3,
-    //fontWeight: 'bold',
   },
   label50: {
     color: '#454A65',
@@ -1099,7 +1036,6 @@ const styles = StyleSheet.create({
     width: '40%',
   },
   label88: {
-    //color: '#454A65',
     fontWeight: 'bold',
     marginTop: 1,
     fontSize: 12,
@@ -1114,7 +1050,6 @@ const styles = StyleSheet.create({
   labelZ: {
     color: '#454A65',
     width: '50%',
-    //fontWeight: 'bold',
     marginTop: 1,
     fontSize: 13,
   },
@@ -1209,7 +1144,6 @@ const styles = StyleSheet.create({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
     width: 10,
     height: 10,
     width: 10,
@@ -1250,9 +1184,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+    
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -1266,9 +1198,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+   
     alignSelf: 'center',
     height: 340,
     width: '90%',
@@ -1296,8 +1226,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
-    alignItems: 'center',
+     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
@@ -1308,7 +1237,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -1317,7 +1245,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
