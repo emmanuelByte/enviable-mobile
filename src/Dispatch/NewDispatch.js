@@ -145,7 +145,6 @@ export class NewDispatch extends Component {
        console.log(res, "categories");
        this.hideLoader();
        
-       //prepareData(data)
        if(res.success){
           this.setState({
             categories:  res.dispatch_item_categories.filter(function(cat){return cat.type == type})
@@ -179,21 +178,7 @@ export class NewDispatch extends Component {
       this.showAlert("Error", "Kindly provide item description");
       return;
     }
-    // else if(this.state.length == ""){
-    //   this.showAlert("Error", "Kindly provide length in cm");
-    //   return;
-    // }
-    // else if(this.state.width == ""){
-    //   this.showAlert("Error", "Kindly provide width in cm");
-    //   return;
-    // }else if(this.state.height == ""){
-    //   this.showAlert("Error", "Kindly provide height in cm");
-    //   return;
-    // }
-    // else if(this.state.weight == ""){
-    //   this.showAlert("Error", "Kindly provide weight in cm");
-    //   return;
-    // }
+   
     else if(this.state.quantity == ""){
       this.showAlert("Error", "Kindly provide quantity");
       return;
@@ -284,44 +269,7 @@ export class NewDispatch extends Component {
                                     value={this.state.weight}
                                     keyboardType={'numeric'}
                                   />
-                                  {/*
-              <Text style = {styles.label}>Measurement (cm)</Text>
-              <View style= {styles.row}>
-                <View style= {styles.col25}>
-                  <TextInput
-                                      style={styles.input}
-                                      placeholder="Length"
-                                      onChangeText={(text) => this.setState({length: text})}
-                                      underlineColorAndroid="transparent"
-                                      placeholderTextColor="#ccc" 
-                                      value={this.state.length}
-                                      keyboardType={'numeric'}
-                                    />
-                </View>    
-                <View style= {styles.col25}>       
-                  <TextInput
-                                      style={styles.input}
-                                      placeholder="Width"
-                                      onChangeText={(text) => this.setState({width: text})}
-                                      underlineColorAndroid="transparent"
-                                      placeholderTextColor="#ccc" 
-                                      value={this.state.width}
-                                      keyboardType={'numeric'}
-                                    />
-                </View>
-                <View style= {styles.col25}>
-                  <TextInput
-                                      style={styles.input}
-                                      placeholder="Height"
-                                      onChangeText={(text) => this.setState({height: text})}
-                                      underlineColorAndroid="transparent"
-                                      placeholderTextColor="#ccc" 
-                                      value={this.state.height}
-                                      keyboardType={'numeric'}
-                                    />
-                </View>
-              </View>
-                                  */}
+           
               <Text style = {styles.label}>Quantity</Text>
               <TextInput
                 style={styles.input}
@@ -343,19 +291,7 @@ export class NewDispatch extends Component {
                     items={this.state.vs}
                     returnKeyType={ 'done' }
                     />
-               {/*
-             <Picker
-                //selectedValue={selectedValue}
-                selectedValue={this.state.dispatchItemCategoryId}  
-                //style={{ height: 100, width: 200 }}
-                style={styles.input}
-                onValueChange={(itemValue, itemIndex) => this.setState({dispatchItemCategoryId: itemValue})}
-              >
-                {this.state.categories && this.state.categories.map(category => (
-                <Picker.Item color="#444" label={category.name} key={category.id} value={category.id} />
-                ))}
-              </Picker>
-                */}
+            
               </TouchableOpacity>
               <TouchableOpacity style={styles.addView}  onPress={() => this.submit()}> 
                   <LinearGradient start={{x: 0, y: 0}} end={{x:1, y: 0}}  colors={['#0B277F', '#0B277F']} style={styles.addGradient}>
@@ -419,7 +355,6 @@ const styles = StyleSheet.create ({
     width: 190,
     alignSelf: 'flex-start',
     padding:10,
-    //backgroundColor: '#444',
     borderRadius: 2,
     marginTop: 5,
     marginLeft: 15,
@@ -449,14 +384,11 @@ const styles = StyleSheet.create ({
   cardText: {
     color: '#fff',
     paddingLeft: 5,
-    //paddingTop: 5,
   },
   checkIcon: {
     width: 22,
     height: 22,
     alignSelf: 'center',
-    // paddingBottom: 5,
-    // paddingLeft: 15
     position: 'absolute',
     top: 13,
     right: 17
@@ -507,7 +439,6 @@ const styles = StyleSheet.create ({
     width: '90%', 
     
     height: 40,
-    //backgroundColor: 'rgba(126,83,191, 0.1)',
     borderRadius: 7,
     borderColor: '#ABA7A7',
     borderWidth: 1,
@@ -528,14 +459,13 @@ const styles = StyleSheet.create ({
   },
   forgotText: {
     textAlign: 'center',
-    //marginRight: 30,
+     
     color: '#5B5B5B',
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
-    //marginRight: 30,
     color: '#0B277F',
     fontSize: 12,
   },
@@ -552,14 +482,13 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
     paddingLeft: 10,
     color: '#000',
-    //marginTop: 73,
     width: '80%',
   },
   menuImage: {
     paddingTop: 2, 
     paddingRight: 20,
     paddingLeft: 20,
-    //marginTop: 77,
+     
   },
   createText: {
     textAlign: 'center',
@@ -611,9 +540,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+ 
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -623,9 +550,7 @@ modalView: {
 
 
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -640,7 +565,6 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
@@ -653,7 +577,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#EFF0F3',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -1,
     color: '#aaa',
@@ -662,7 +585,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -1,
     color: '#aaa',

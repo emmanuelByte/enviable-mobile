@@ -71,7 +71,6 @@ export class Transactions extends Component {
    .then((response) => response.json())
    .then((res) => {
      
-       //console.log(res.transactions.length, "Transactions");
        this.hideLoader();
        if(res.success){
           this.setState({
@@ -98,7 +97,6 @@ export class Transactions extends Component {
          },
          { text: "Refresh", onPress: () => this.getTransactions() }
        ],
-       //{ cancelable: false }
      );
     });
   }
@@ -202,13 +200,7 @@ payWithCard(){
         this.hideLoader();
         if(res.success){
           this.showAlert("success", res.success);
-          // this.setState(prevState => ({
-          //   orderParam: {
-          //     ...prevState.orderParam,           // copy all other key-value pairs of food object
-          //     payment_status: "Completed",
-          //     payment_method: "Pay with card",
-          //   }
-          // }))
+        
           this.getTransactions()
         }else{
           this.showAlert("Error", res.error)
@@ -275,11 +267,7 @@ displayNoTrans(){
               </View>
           </LinearGradient>
         </ImageBackground>
-        {/*
-        <TouchableOpacity  onPress={() => this.setState({forgotVisible: true})} style={styles.submitButton1}>
-          <Text style={styles.submitButtonText}>Fund wallet</Text>
-          </TouchableOpacity>
-        */}
+       
         <Text style = {styles.headerText5}>Transactions</Text>
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
           <View style={styles.cView}>
@@ -332,7 +320,7 @@ displayNoTrans(){
                     textStyles={styles.addText1}
                     btnStyles={styles.addGradient6}
                     showPayButton={true}
-                    paystackKey="pk_test_9b06080a0fde87971069a48fcb91e958720cede4"
+                    paystackKey="pk_live_6b3b23bc38a669799804cdc53316494a4678dcdb"
                     amount={Math.floor(this.state.amount)}
                     billingEmail="paystackwebview@something.com"
                     billingMobile={this.state.customer.phone1}
@@ -387,8 +375,7 @@ const styles = StyleSheet.create ({
   },
   header: {
     width: '100%',
-    //height: 110,
-    //backgroundColor: '#0B277F',
+  
     flexDirection: 'row',
   },
   cartImage: {
@@ -411,7 +398,6 @@ const styles = StyleSheet.create ({
     marginTop: 20,
   },
   segmentText: {
-    //color: '#0B277F',
     fontSize: 12,
     paddingTop: 6,
     paddingBottom: 7,
@@ -419,7 +405,6 @@ const styles = StyleSheet.create ({
   
   },
   segmentText1: {
-    //color: '#fff',
     fontSize: 12,
     paddingTop: 6,
     paddingBottom: 7,
@@ -457,7 +442,6 @@ const styles = StyleSheet.create ({
     backgroundColor: '#fff',
     alignContent: 'center',
     alignSelf: 'center',
-    //marginRight: 20,
     flexDirection: 'row',
   },
   itemView4: {
@@ -476,7 +460,6 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-    //flexDirection: 'row',
   },
   orderNumber: {
     color: '#000'
@@ -545,7 +528,6 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
   },
   itemPriceText: {
-    //paddingTop: 4,
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -578,30 +560,25 @@ const styles = StyleSheet.create ({
     width: '100%',
     height: 160,
     zIndex:0,
-    //opacity: 0.6,
     overflow: 'hidden',
     borderRadius: 20, 
     borderRadius: 20, 
   },
   
   col1: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   
   },
   col3: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -669,7 +646,6 @@ const styles = StyleSheet.create ({
   },
   headerText0: {
     fontSize: 17,
-    //paddingLeft: 10,
     color: '#fff',
     marginTop: 29,
     textAlign: 'center',
@@ -683,7 +659,6 @@ const styles = StyleSheet.create ({
 
   },
   card: {
-    //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
     
@@ -726,7 +701,6 @@ const styles = StyleSheet.create ({
     color: '#454A65',
     marginTop: 1,
     fontSize: 12,
-    //width: '50%',
     textAlign: 'right'
   },
   labelZ:{
@@ -794,7 +768,6 @@ const styles = StyleSheet.create ({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
     width: 10,
     height: 10,
     width: 10,
@@ -830,7 +803,6 @@ addGradient: {
 },
 addGradient1: {
   width: '100%',
-  //paddingLeft: 10,
 },
 addText1: {
   textAlign: 'center',
@@ -845,7 +817,6 @@ addGradient6: {
   borderWidth: 1,
   borderColor: '#0B277F',
   borderRadius: 8,
-  //backgroundColor: 'green',
   paddingTop: 7,
   marginTop: 20,
 },
@@ -861,9 +832,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+  
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -877,9 +846,7 @@ label1: {
   paddingLeft: 20,
 },
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -906,7 +873,6 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

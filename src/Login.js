@@ -16,11 +16,13 @@ import {
   StatusBar,
   TouchableOpacity,
   AsyncStorage,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import {SERVER_URL} from './config/server';
+import {logInUser} from './redux/api/user.api'
 
 export class Login extends Component {
   constructor(props) {
@@ -58,10 +60,8 @@ export class Login extends Component {
           style: 'cancel',
         },
 
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
         {text: 'Leave', onPress: () => BackHandler.exitApp()},
       ],
-      //{ cancelable: false }
     );
     return true;
   };
@@ -81,6 +81,7 @@ export class Login extends Component {
       });
     }
   }
+
   showAlert(type, message) {
     Alert.alert(type, message);
   }
@@ -117,9 +118,7 @@ export class Login extends Component {
   }
 
   showLoader() {
-    this.setState({
-      loaderVisible: true,
-    });
+    this.setState({ loaderVisible: true });
   }
 
   hideLoader() {
@@ -139,43 +138,45 @@ export class Login extends Component {
     header: null,
   };
 
-  login() {
-    console.log(this.state.email, 'email');
-    console.log(this.state.token, 'password');
-    this.showLoader();
-    fetch(`${SERVER_URL}/mobile/login`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        push_token: this.state.token,
-        device: Platform.OS,
-      }),
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.hideLoader();
-        if (res.success) {
+  async login() {
+    const { email, password, token} = this.state;
+    const payload = { email, password, push_token: token, device: Platform.OS };
+    
+
+    try {
+
+      this.showLoader();
+      const res = (await logInUser(payload));
+      if(!res.success) {
+        this.showAlert("error", res.error);
+        console.log(res)
+      }
+      else if(res.customer.phone_verification === 'No'){
+        this.props.navigation.navigate('VerifyPhone', {
+          phone: res.customer.email
+        })
+      }
+      else{
+        
           AsyncStorage.setItem('customer', JSON.stringify(res.customer)).then(
             () => {
               AsyncStorage.setItem('loginvalue', this.state.email).then(() => {
-                this.setState({
-                  password: '',
-                });
+                this.setState({password: ''});
                 this.props.navigation.navigate('Home');
               });
-              //this.showAlert("error", res.error)
+
             },
           );
-        } else {
-          this.showAlert('Error', res.error);
-        }
-      })
-      .done();
+      }
+      console.log(res, 'Indistry user')
+
+    } catch (error) { 
+      console.log(error)
+      this.showAlert("error", error)
+
+    }
+    this.hideLoader();
+
   }
 
   forgot() {
@@ -206,7 +207,10 @@ export class Login extends Component {
   render() {
     const {visible} = this.state;
     return (
+
       <View style={styles.body}>
+              <KeyboardAvoidingView behavior="padding" >
+
         <ImageBackground
           resizeMode={'cover'}
           source={require('./imgs/login-bg1.png')}
@@ -235,7 +239,6 @@ export class Login extends Component {
             onChangeText={text => this.setState({email: text})}
             underlineColorAndroid="transparent"
             value={this.state.email}
-            //keyboardType={'email-address'}
             autoCapitalize="none"
           />
           <Text style={styles.label}>Password</Text>
@@ -264,7 +267,6 @@ export class Login extends Component {
             <Text style={styles.createText}>New user? Create an account.</Text>
           </TouchableOpacity>
         </View>
-
         {this.state.loaderVisible && (
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
         )}
@@ -299,7 +301,10 @@ export class Login extends Component {
             </TouchableOpacity>
           </View>
         </Modal>
+        </KeyboardAvoidingView>
+
       </View>
+
     );
   }
 }
@@ -334,8 +339,7 @@ const styles = StyleSheet.create({
   headerView: {
     width: '100%',
     height: '40%',
-    //marginTop: 100,
-    //borderBottomLeftRadius: 32,
+   
     zIndex: 1,
   },
 
@@ -447,7 +451,6 @@ const styles = StyleSheet.create({
   submitButton: {
     marginTop: 20,
     backgroundColor: '#0B277F',
-    //opacity: 0.7,
     borderRadius: 7,
     width: '85%',
     alignSelf: 'center',
@@ -483,9 +486,7 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -506,9 +507,7 @@ const styles = StyleSheet.create({
   },
 
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -524,7 +523,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',

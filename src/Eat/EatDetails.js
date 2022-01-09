@@ -28,7 +28,7 @@ export class EatDetails extends Component {
       vs: false,
     }
     this.getLoggedInUser();
-    //AsyncStorage.clear();
+     
   }
 
   async componentWillMount() {
@@ -49,10 +49,10 @@ export class EatDetails extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
+         
         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
-      //{ cancelable: false }
+       
     );
     return true
   }
@@ -70,7 +70,7 @@ export class EatDetails extends Component {
           var foundIndex = parsedValue.findIndex(x => x.id == this.state.myParams.merchantProduct.id);
           cartItem.qty = this.state.quantity;
           parsedValue[foundIndex] = cartItem;
-          //cart = newParsedValue;
+           
           AsyncStorage.setItem('cart', JSON.stringify(parsedValue)).then(() => {
             this.showCartAlert();
           })
@@ -103,10 +103,10 @@ export class EatDetails extends Component {
             onPress: () => console.log("Cancel Pressed"),
             style: "cancel"
           },
-          //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
+           
           { text: "Go to cart", onPress: () => this.props.navigation.navigate('Cart') }
         ],
-        //{ cancelable: false }
+         
       );
     });
   }
@@ -239,7 +239,7 @@ export class EatDetails extends Component {
           </TouchableOpacity>
           <TouchableOpacity style = {styles.cartFabView} onPress={() => this.props.navigation.navigate('Cart')} >
           <FAB style = {styles.cartFab} size={12} buttonColor="#0B277F" iconTextColor="#FFFFFF" onClickAction={() => {this.props.navigation.navigate('Cart')}} visible={true} iconTextComponent={<Icon  name="shopping-cart"/>} />
-            {/*<Image source = {require('../imgs/cart.png')} style = {styles.cartImage} /> */} 
+
           </TouchableOpacity>
         <View style = {styles.bottomView}>
           <View style={styles.item1}>
@@ -313,29 +313,14 @@ export class EatDetails extends Component {
                     ]}
                     returnKeyType={ 'done' }
                     />
-                {/*
-              <Picker
-                //selectedValue={selectedValue}
-                selectedValue={this.state.rating}  
-                //style={{ height: 100, width: 200 }}
-                style={styles.input}
-                onValueChange={(itemValue, itemIndex) => this.setState({rating: itemValue})}
-              >
-                <Picker.Item color="#444" label={"5*"} value={"5"} />
-                <Picker.Item color="#444" label={"4*"} value={"4"} />
-                <Picker.Item color="#444" label={"3*"} value={"3"} />
-                <Picker.Item color="#444" label={"2*"} value={"2"} />
-                <Picker.Item color="#444" label={"1*"} value={"1"} />
-              </Picker>
-                */}
+               
               </TouchableOpacity>
               <Text style = {styles.label1}>Review</Text>
               <TextInput
                 style={styles.input}
                 onChangeText={(text) => {this.setState({review: text}) }}
                 underlineColorAndroid="transparent"
-                //keyboardType={'numeric'}
-                //min={1}
+                
                 value={this.state.review}
               />
               
@@ -366,7 +351,7 @@ const styles = StyleSheet.create ({
   },
   body: {
     minHeight: '100%',
-    //backgroundColor: "#f8f8f8",
+     
   },
   cView: {
     minHeight: 900,
@@ -377,33 +362,33 @@ const styles = StyleSheet.create ({
   backFabView: {
     position: 'absolute',
     bottom: 180,
-    //left: 5,
+     
     alignItems: 'flex-start',
-    //height: 600,
+     
     width: 100,
     zIndex: 999999999999999999999999,
     elevation: 10,
-    //paddingLeft: 20,
+     
   },
   cartFabView: {
     position: 'absolute',
     bottom: 180,
     right: 0,
     alignItems: 'flex-end',
-    //height: 600,
+     
     width: 100,
     zIndex: 999999999999999999999999,
     elevation: 10,
-    //paddingLeft: 20,
+     
   },
   backFab: {
-    //position: 'absolute',
-    // zIndex: 9999999,
-    // top: 20,
+     
+     
+     
   },
   cartFab: {
-    // position: 'absolute',
-    // top: -200,
+     
+     
   },
   actionView: {
     flexDirection: 'row',
@@ -422,7 +407,7 @@ const styles = StyleSheet.create ({
   },
   minusText: {
     textAlign: 'center',
-    //width: '33%',
+     
     fontSize: 16,
     marginTop: 2,
     
@@ -440,7 +425,7 @@ const styles = StyleSheet.create ({
   },
   plusText: {
     textAlign: 'center',
-    //width: '33%',
+     
     fontSize: 16,
     marginTop: 2,
   },
@@ -483,7 +468,7 @@ const styles = StyleSheet.create ({
     marginRight: 30,
     alignSelf: 'flex-end',
     marginTop: 51,
-    //backgroundColor: '#000',
+     
   },
   itemImage: {
     width: '100%',
@@ -498,7 +483,7 @@ const styles = StyleSheet.create ({
   bImage: {
     width: '100%',
     height: 300,
-    //opacity: 0.6,
+     
     overflow: 'hidden',
     flexDirection: 'row',
   },
@@ -512,10 +497,10 @@ const styles = StyleSheet.create ({
     
     marginLeft: 20,
     marginTop: 51,
-    // backgroundColor: '#fff',
-    // padding: 30,
-    // borderWidth: 1,
-    // borderRadius: 12,
+     
+     
+     
+     
   },
   bottomView: {
     width: '100%',
@@ -528,7 +513,7 @@ const styles = StyleSheet.create ({
   itemView: {
     flexDirection: 'row',
     width: '95%',
-    //marginTop: 25,
+     
     alignContent: 'center',
     alignSelf: 'center',
     marginRight: 20,
@@ -539,11 +524,11 @@ const styles = StyleSheet.create ({
     width: '100%',
     marginBottom: 20,
     borderColor: '#fff',
-    //borderWidth: 1,
+     
     borderRadius: 14,
-    //elevation: 1,
+     
     paddingBottom: 15,
-    //marginLeft: 5,
+     
     
 
   },
@@ -558,8 +543,8 @@ const styles = StyleSheet.create ({
     width: '75%',
   },
   itemPriceText: {
-    //paddingTop: 4,
-    //fontSize: 16,
+     
+     
     fontWeight: 'bold',
     paddingLeft: 14,
     color: '#585757',
@@ -584,7 +569,7 @@ const styles = StyleSheet.create ({
     width: '75%',
   },
   itemRatingText: {
-    //width: '25%',
+     
     fontSize: 12,
     paddingTop: 10,
     color: '#585757',
@@ -633,9 +618,9 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+   
+   
+   
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -649,9 +634,9 @@ label1: {
   paddingLeft: 20,
 },
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+   
+   
+   
   alignSelf: 'center',
   height: 330,
   width: '90%',
@@ -712,7 +697,7 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
+   
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
@@ -725,7 +710,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-    //borderWidth: 1,
+     
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -734,7 +719,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-    //borderWidth: 1,
+     
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',

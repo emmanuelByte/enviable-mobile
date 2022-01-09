@@ -27,7 +27,6 @@ import MerchantOrderDetails from './src/MerchantOrderDetails';
 import DispatchOrders from './src/DispatchOrders';
 import DispatchOrderDetails from './src/DispatchOrderDetails';
 import NewDispatch from './src/Dispatch/NewDispatch';
-//import DispatchType from './src/Dispatch/DispatchType';
 import DispatchCartSummary from './src/Dispatch/DispatchCartSummary';
 import DispatchAddress from './src/Dispatch/DispatchAddress';
 import Transactions from './src/Transactions';
@@ -46,6 +45,8 @@ console.disableYellowBox = true;
 
 const MainNavigator = createStackNavigator({
   Initial: {screen: Initial},
+  Register: {screen: Register},
+
   PhoneRegistration: {screen: PhoneRegistration},
   VerifyPhone: {screen: VerifyPhone},
   Hires: {screen: Hires},
@@ -68,7 +69,6 @@ const MainNavigator = createStackNavigator({
   MerchantOrderDetails: {screen: MerchantOrderDetails},
   DispatchOrders: {screen: DispatchOrders},
   DispatchOrderDetails: {screen: DispatchOrderDetails},
-  //DispatchType: {screen: DispatchType},
   RideShareHome: {screen: RideShareHome},
   RideShareConfirm: {screen: RideShareConfirm},
   RidePaymentMethod: {screen: RidePaymentMethod},
@@ -79,7 +79,6 @@ const MainNavigator = createStackNavigator({
   Profile: {screen: Profile},
   Help: {screen: Help},
   Login: {screen: Login},
-  Register: {screen: Register},
   
    
 });
@@ -88,9 +87,7 @@ const AppContainer = createAppContainer(MainNavigator);
 export default class App extends Component {
   render () {
     return (
-        /*<Provider store={store}>*/
           <AppContainer/>
-        /*</Provider>*/
     )
   }
 }

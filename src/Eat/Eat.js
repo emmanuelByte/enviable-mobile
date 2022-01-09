@@ -54,15 +54,7 @@ export class Eat extends Component {
     this.subs = [
       this.props.navigation.addListener('didFocus', (payload) => this.componentDidFocus(payload)),
     ];
-    // this.getLoggedInUser();
-    // this.setState({
-    //   merchant: this.props.navigation.state.params.merchant,
-    //   merchantId: this.props.navigation.state.params.merchant.id,
-    // }, () => {
-    //   this.getMerchantProducts();
-    // });
-    // this.getMerchantProductCategories();
-    // this.getCities();
+
   }
 
   componentWillUnmount() {
@@ -80,11 +72,9 @@ export class Eat extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
+         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
-      //{ cancelable: false }
-    );
+     );
     return true
   }
 
@@ -135,7 +125,7 @@ export class Eat extends Component {
    .then((res) => {
      
        
-       //this.hideLoader();
+        
        if(res.success){
           this.setState({
             cities:  res.cities
@@ -157,7 +147,7 @@ export class Eat extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }
@@ -174,7 +164,7 @@ export class Eat extends Component {
    .then((res) => {
      this.hideLoader();
        console.log(res, "res");
-       //this.hideLoader();
+        
        if(res.success){
           this.setState({
             merchantProducts:  res.merchant_products,
@@ -197,7 +187,7 @@ export class Eat extends Component {
          },
          { text: "Refresh", onPress: () => this.getMerchantProducts() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }  
@@ -209,7 +199,7 @@ export class Eat extends Component {
    .then((response) => response.json())
    .then((res) => {
        console.log(res, "res");
-       //this.hideLoader();
+        
        if(res.success){
           this.setState({
             merchantProductCategories:  res.merchant_product_categories,
@@ -231,7 +221,7 @@ export class Eat extends Component {
          },
          { text: "Refresh", onPress: () => this.getMerchantProductCategories() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }  
@@ -303,12 +293,12 @@ export class Eat extends Component {
    .then((res) => {
      this.hideLoader();
        console.log(res, "submit res");
-       //this.hideLoader();
+        
        if(res.success){
           this.setState({
             merchantProducts:  res.merchant_products,
             limit: newLimit,
-            //searchId:"not-set",
+             
           });
        }else{
          Alert.alert('Error', res.error);
@@ -327,7 +317,7 @@ export class Eat extends Component {
          },
          { text: "Refresh", onPress: () => this.getMerchantProducts() }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }
@@ -338,7 +328,7 @@ export class Eat extends Component {
   }
 
   render() {
-    //const { visible } = this.state;
+     
     return (
       <View style = {styles.body}>
         <StatusBar translucent={true} barStyle="dark-content" backgroundColor={'transparent'}  />
@@ -351,25 +341,7 @@ export class Eat extends Component {
           
         </ImageBackground>
         <View style = {styles.bottomView}>
-          {/*<View style = {styles.card}>
-            
-            <Text style = {styles.label}>Location</Text>
-            {this.state.visible &&
-            <ModalFilterPicker
-              style={styles.input}
-              onSelect={this.onSelect}
-              onCancel={this.onCancel}
-              options={this.state.cities}
-            />
-            }
-            <TouchableOpacity onPress={() => this.setState({visible: true})}  >
-            <Text style={styles.locSelect}>{this.state.locationPlaceholder}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.setState({cityId: 0, locationPlaceholder: 'All'})}  >
-                <Text style = {styles.locationText}> Select all location</Text>
-              </TouchableOpacity>
-              
-          </View>*/}
+         
           <View style={styles.dRow}>
             <View style={styles.searchInputView}>
             <TextInput
@@ -380,14 +352,10 @@ export class Eat extends Component {
                     placeholderTextColor="#ccc" 
                     value={this.state.search}
                     onSubmitEditing={() => this.executesearch()}
-                    //keyboardType={'email-address'}
+                     
                   />
                 </View>
-                {/*
-                  <TouchableOpacity onPress={() => this.executesearch()} style = {styles.searchButton}>
-                  <Image source = {require('../imgs/search.png')} style = {styles.searchImage} />
-            </TouchableOpacity>
-                */}
+              
           </View>
           
           <View  style = {styles.row}>
@@ -468,8 +436,8 @@ const styles = StyleSheet.create ({
   cartImage: {
     width: 21,
     height: 15,
-    // marginRight: 30,
-    // marginTop: 71,
+     
+     
     position: 'absolute',
     right: 20,
     top: 80
@@ -483,7 +451,7 @@ const styles = StyleSheet.create ({
     marginTop: 25,
     alignContent: 'center',
     alignSelf: 'center',
-    //marginRight: 20,
+     
     flexWrap: 'wrap',
 
 
@@ -494,7 +462,7 @@ const styles = StyleSheet.create ({
   },  
   i: {
     width: '50%',
-    //marginRight: 10,
+     
   },
   item: {
     width: '100%',
@@ -524,7 +492,7 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
   },
   itemPriceText: {
-    //paddingTop: 4,
+     
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -554,7 +522,7 @@ const styles = StyleSheet.create ({
     flexDirection: 'row',
     width: '100%',
     marginTop: -40,
-    //alignSelf: 'center',
+     
   },
   searchImage: {
     width: 40,
@@ -564,23 +532,23 @@ const styles = StyleSheet.create ({
     borderBottomRightRadius: 18,
   },
   col1: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   
   },
   col3: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -590,7 +558,7 @@ const styles = StyleSheet.create ({
   bImage1: {
     width: '100%',
     height: 220,
-    //opacity: 0.6,
+     
     overflow: 'hidden',
     borderBottomEndRadius: 20, 
     borderBottomStartRadius: 20, 
@@ -602,8 +570,8 @@ const styles = StyleSheet.create ({
     height: 78,
   },
   menuImage: {
-    //width: 21,
-    //height: 15,
+     
+     
     marginLeft: 20,
     marginTop: 69,
   },
@@ -626,7 +594,7 @@ const styles = StyleSheet.create ({
     fontSize: 14,
     paddingLeft: 20,
     color: '#000',
-    //marginTop: 67,
+     
     width: '80%',
   },
   headerText1: {
@@ -637,7 +605,7 @@ const styles = StyleSheet.create ({
 
   },
   card: {
-    //flexDirection: 'row',
+     
     width: '100%',
     marginBottom: 4,
     
@@ -669,7 +637,7 @@ const styles = StyleSheet.create ({
     marginTop: 5,
   },
   segmentText: {
-    //textAlign: 'center',
+     
     paddingRight: 10,
     marginRight: 10,
     color: '#333',
@@ -691,7 +659,7 @@ const styles = StyleSheet.create ({
     marginLeft: -40,
     zIndex: 99,
     marginTop: 10,
-    //width: 4,
+     
   },
   
   searchInputView: {
@@ -707,7 +675,7 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     borderRadius: 18,
     elevation: 1,
-    //alignSelf: 'center', 
+     
     marginTop: 5,
     paddingLeft: 10,
     color: '#ccc',
@@ -766,7 +734,7 @@ const styles = StyleSheet.create ({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
+     
     width: 10,
     height: 10,
     width: 10,
@@ -807,9 +775,9 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+   
+   
+   
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -823,9 +791,9 @@ label1: {
   paddingLeft: 20,
 },
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+   
+   
+   
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -840,7 +808,7 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
+   
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

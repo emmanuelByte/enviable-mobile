@@ -52,10 +52,8 @@ export class PhoneRegistration extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
-      //{ cancelable: false }
     );
     return true
   }
@@ -86,13 +84,7 @@ export class PhoneRegistration extends Component {
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
         this.props.navigation.navigate('Home')
-        // this.setState({
-        //   customer: JSON.parse(value)
-        // }, () => {
-        //   this.setState({
-        //     customer_id: this.state.customer.id
-        //   })
-        // });
+     
           
       }else{
         AsyncStorage.getItem('pushToken').then((value) => {
@@ -141,7 +133,6 @@ export class PhoneRegistration extends Component {
    .then((res) => {
      this.hideLoader();
        
-       //this.hideLoader();
        if(res.success){
           this.setState({
             cities:  res.cities
@@ -163,7 +154,6 @@ export class PhoneRegistration extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
-       //{ cancelable: false }
      );
     });
   }
@@ -245,32 +235,19 @@ onPickupSelect = (city) => {
       <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}}  colors={['#0B277F', '#0B277F']} style={styles.body}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
-          {/*
-          <TouchableOpacity style = {styles.menuImageView}onPress={() => this.props.navigation.goBack()} >
-          <Icon name="arrow-back" size={18} color="#fff"  style = {styles.backImage}/>
-          </TouchableOpacity>
-          */}
-          <Text style = {styles.headerText}>Welcome</Text>
+        
+          <Text style = {styles.headerText}>Welcome to Enviable</Text>
             <View style = {styles.bottomView}>
-              <Text style = {styles.label}>Enter phone number</Text>
-              <TextInput
-                            style={styles.input}
-                            //placeholder="Phone"
-                            onChangeText={(text) => this.setState({phone: text})}
-                            underlineColorAndroid="transparent"
-                            minLength={11}
-                            maxLength={11}
-                            keyboardType={'phone-pad'}
-                          />
-                          
-              
+           
              
-              <TouchableOpacity  onPress={() => this.sendVerification()} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Continue</Text>
+              <TouchableOpacity  onPress={() => this.props.navigation.push("Register")} style={styles.submitButton}>
+                <Text style={styles.submitButtonText}>Sign Up</Text>
               </TouchableOpacity>
-              <TouchableOpacity style = {styles.forgotView} onPress={() => this.props.navigation.navigate('Login')}>
-              <Text style = {styles.createText1}>Have an account? <Text style = {styles.createText}>Login instead</Text></Text>
+
+              <TouchableOpacity  onPress={() => this.props.navigation.navigate('Login')} style={styles.submitButton}>
+                <Text style={styles.submitButtonText}>Login</Text>
               </TouchableOpacity>
+       
             </View>
 
           </ScrollView>
@@ -291,11 +268,9 @@ const styles = StyleSheet.create ({
   body: {
     minHeight: '100%',
     marginBottom: 100,
-    //backgroundColor: "#fff",
   },
   backImage: {
     width: 18,
-    //height: 12,
     marginLeft: 20,
     marginTop: 40,
   },
@@ -305,6 +280,7 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
     marginTop: '40%',
     color: '#fff',
+    textAlign:'center'
   },
   logoImage: {
     marginTop: 60,
@@ -335,7 +311,6 @@ const styles = StyleSheet.create ({
     color: '#fff',
     width: '90%',
     alignSelf: 'center',
-    //paddingLeft: 15,
     marginTop: 10,
   },
   input: {
@@ -371,14 +346,12 @@ const styles = StyleSheet.create ({
   },
   forgotText: {
     textAlign: 'center',
-    //marginRight: 30,
     color: '#fff',
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
-    //marginRight: 30,
     color: '#0B277F',
     fontSize: 12,
   },
@@ -436,9 +409,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+  
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -448,9 +419,7 @@ modalView: {
 
 
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -463,7 +432,6 @@ loading: {
   right: 0,
   top: 0,
   bottom: 0,
-  //height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

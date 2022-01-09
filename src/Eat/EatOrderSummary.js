@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import { SERVER_URL } from '../config/server';
-//import { getDistance } from 'geolib';
+ 
 
 export class EatOrderSummary extends Component {
   constructor(props) {
@@ -47,10 +47,10 @@ export class EatOrderSummary extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
+         
         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
-      //{ cancelable: false }
+       
     );
     return true
   }
@@ -79,12 +79,12 @@ export class EatOrderSummary extends Component {
               this.setState({
                 deliveryInfo: JSON.parse(value)
               }, ()=> {
-                // var distance = getDistance(
-                //   { latitude: this.state.deliveryInfo.latitude, longitude: this.state.deliveryInfo.longitude },
-                //   { latitude: this.state.cartItems[0].merchant_latitude, longitude: this.state.cartItems[0].merchant_longitude }
-                // );
-                // console.log(distance, "distance");
-                // this.getDeliveryFee(distance);
+                 
+                 
+                 
+                 
+                 
+                 
                 var ori = this.state.deliveryInfo.latitude + "," + this.state.deliveryInfo.longitude;
                 var des = this.state.cartItems[0].merchant_latitude + "," + this.state.cartItems[0].merchant_longitude;
                 var distance = this.getDistance(ori, des);
@@ -134,13 +134,13 @@ export class EatOrderSummary extends Component {
          },
          { text: "Refresh", onPress: () => this.getDeliveryFee(distance) }
        ],
-       //{ cancelable: false }
+        
      );
     });
   }  
   getDistance(origin, destination){
     this.showLoader();
-     fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`, {
+     fetch(`https: 
       method: 'GET'
    })
    .then((response) => response.json())
@@ -148,7 +148,7 @@ export class EatOrderSummary extends Component {
      
        console.log(res, "tance");
        this.hideLoader();
-       //if(res.success){
+        
         this.getDeliveryFee(res.rows[0].elements[0].distance.value);
         this.setState({
           distance: res.rows[0].elements[0].distance.value
@@ -156,9 +156,9 @@ export class EatOrderSummary extends Component {
           return res.rows[0].elements[0].distance.value;
         })
         
-      //  }else{
-      //    Alert.alert('Error', res.error);
-      //  }
+       
+       
+       
    })
    .catch((error) => {
       console.error(error);
@@ -173,20 +173,20 @@ export class EatOrderSummary extends Component {
          },
          { text: "Refresh", onPress: () => this.getDistance() }
        ],
-       //{ cancelable: false }
+        
      );
      return;
     });
   }
 
   placeOrder(){
-    // var distance = getDistance(
-    //   { latitude: this.state.deliveryInfo.latitude, longitude: this.state.deliveryInfo.longitude },
-    //   { latitude: this.state.cartItems[0].merchant_latitude, longitude: this.state.cartItems[0].merchant_longitude }
-    // );
-    // var ori = this.state.deliveryInfo.latitude + "," + this.state.deliveryInfo.longitude;
-    // var des = this.state.cartItems[0].merchant_latitude + "," + this.state.cartItems[0].merchant_longitude;
-    // var distance = this.getDistance(ori, des);
+     
+     
+     
+     
+     
+     
+     
     var distance = 1;
     if( this.state.distance != 0){
       distance = this.state.distance;
@@ -223,16 +223,16 @@ export class EatOrderSummary extends Component {
             Alert.alert(
               "Success",
               res.success,
-              // [
-              //   {
-              //     text: "Stay here",
-              //     onPress: () => console.log("Cancel Pressed"),
-              //     style: "cancel"
-              //   },
-              //   { text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
-              //   { text: "Go to orders", onPress: () => this.props.navigation.navigate('MerchantOrders') }
-              // ],
-              // //{ cancelable: false }
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
             );
             this.props.navigation.navigate('MerchantOrderDetails', {
               orderId: res.order.id,
@@ -403,10 +403,10 @@ const styles = StyleSheet.create ({
   body: {
     minHeight: '100%',
     width: '100%',
-    //backgroundColor: "#fff",
+     
   },
   cView: {
-    //minHeight: 1200,
+     
     width: '90%',
     alignSelf: 'center',
     alignContent: 'center',
@@ -415,7 +415,7 @@ const styles = StyleSheet.create ({
   header: {
     width: '100%',
     height: 110,
-    //backgroundColor: 'rgb(126,83,191)',
+     
     flexDirection: 'row',
   },
   cartImage: {
@@ -433,8 +433,8 @@ const styles = StyleSheet.create ({
     marginTop: 15,
     alignContent: 'center',
     alignSelf: 'center',
-    //marginRight: 20,
-    //elevation: 2,
+     
+     
     backgroundColor: '#fff',
     paddingTop: 15,
     paddingBottom: 15,
@@ -448,8 +448,8 @@ const styles = StyleSheet.create ({
     marginTop: 15,
     alignContent: 'center',
     alignSelf: 'center',
-    //marginRight: 20,
-    //elevation: 2,
+     
+     
     backgroundColor: '#fff',
     paddingTop: 10,
     paddingBottom: 15,
@@ -458,7 +458,7 @@ const styles = StyleSheet.create ({
     borderRadius: 4,
   },
   itemView4: {
-    //backgroundColor: '#fff',
+     
     width: '90%',
     marginTop: 10,
     alignContent: 'flex-start',
@@ -474,7 +474,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-    //flexDirection: 'row',
+     
   },
   item1: {
     width: '60%',
@@ -513,8 +513,8 @@ const styles = StyleSheet.create ({
   },
   item: {
     width: '100%',
-    //marginLeft: 5,
-    //marginRight: 10,
+     
+     
     flexDirection: 'row',
   },
   contentCol1: {
@@ -531,7 +531,7 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
   },
   itemPriceText: {
-    //paddingTop: 4,
+     
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -558,23 +558,23 @@ const styles = StyleSheet.create ({
     marginTop: 20,
   },
   col1: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   
   },
   col3: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
+     
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -584,7 +584,7 @@ const styles = StyleSheet.create ({
   bImage1: {
     width: '100%',
     height: 220,
-    //opacity: 0.6,
+     
     overflow: 'hidden',
     borderBottomEndRadius: 20, 
     borderBottomStartRadius: 20, 
@@ -648,7 +648,7 @@ const styles = StyleSheet.create ({
 
   },
   card: {
-    //flexDirection: 'row',
+     
     width: '100%',
     marginBottom: 4,
     
@@ -679,7 +679,7 @@ const styles = StyleSheet.create ({
     marginTop: 5,
   },
   segmentText: {
-    //textAlign: 'center',
+     
     paddingRight: 10,
     marginRight: 10,
   },
@@ -762,7 +762,7 @@ const styles = StyleSheet.create ({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
+     
     width: 10,
     height: 10,
     width: 10,
@@ -803,9 +803,9 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+   
+   
+   
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -819,9 +819,9 @@ label1: {
   paddingLeft: 20,
 },
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+   
+   
+   
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -836,7 +836,7 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
+   
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

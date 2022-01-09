@@ -39,10 +39,7 @@ export class DispatchCartSummary extends Component {
         this.setState({
           cartItems: JSON.parse(value)
         }, () => {
-          // var total = this.state.cartItems.reduce(function (a, b) { return parseFloat(a) + (parseFloat(b.price) * parseFloat(b.qty)); }, 0);
-          // this.setState({
-          //   total: total
-          // })
+       
         });
       }else{
         this.props.navigation.navigate('home')
@@ -82,7 +79,7 @@ export class DispatchCartSummary extends Component {
     var cartItems1 = this.state.cartItems;
     var cartItems1 = cartItems1.filter(cartItem1 => cartItem1.id != cartItemId);
     await AsyncStorage.setItem('dispatchCart', JSON.stringify(cartItems1)).then(() => {
-      //this.props.navigation.navigate('DispatchCartSummary');
+       
       this.setState({
         cartItems: cartItems1
       })
@@ -127,23 +124,19 @@ export class DispatchCartSummary extends Component {
               <View style = {styles.labelView}>
                 <Text style = {styles.label1}>Item description</Text>
                 <Text style = {styles.label2}>Qty</Text>
-                {/*<Text style = {styles.label3}>Measurement</Text>*/}
+               
               </View>
               <View style = {styles.textView}>
                 <Text style = {styles.text1}>{cartItem.itemDescription}</Text>
                 <Text style = {styles.text2}>{cartItem.quantity}</Text>
-                {/*<Text style = {styles.text3}>{cartItem.length}cm x {cartItem.width}cm x {cartItem.heigth}cm - {cartItem.length}kg</Text>*/}
               </View>
               <TouchableOpacity style={styles.removeView}  onPress={() => this.removeItem(cartItem.id)}>
               <Icon name="delete" size={18} color="#c00"  style = {styles.removeIcon}/>
               </TouchableOpacity>
             </View>
           ))}
-          {/*
-           <TouchableOpacity style={styles.addView1}  onPress={() => this.props.navigation.navigate('NewDispatch')}>
-              <Icon name="add" size={24} color="#000"  style = {styles.addIcon}/>
-          </TouchableOpacity>
-          */}
+        
+        
           {this.state.cartItems &&
             <TouchableOpacity style={styles.addView}  onPress={() => this.props.navigation.navigate('DispatchAddress', {
               type: this.state.cartItems[0].type,
@@ -193,7 +186,6 @@ const styles = StyleSheet.create ({
   header: {
     width: '100%',
     height: 110,
-    //backgroundColor: 'rgb(126,83,191)',
     flexDirection: 'row',
   },
   headerTextZ: {
@@ -268,14 +260,12 @@ const styles = StyleSheet.create ({
   cardText: {
     color: '#fff',
     paddingLeft: 5,
-    //paddingTop: 5,
   },
   checkIcon: {
     width: 22,
     height: 22,
     alignSelf: 'center',
-    // paddingBottom: 5,
-    // paddingLeft: 15
+   
     position: 'absolute',
     top: 13,
     right: 17
@@ -366,14 +356,12 @@ const styles = StyleSheet.create ({
   },
   forgotText: {
     textAlign: 'center',
-    //marginRight: 30,
     color: '#5B5B5B',
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
-    //marginRight: 30,
     color: '#0B277F',
     fontSize: 12,
   },
@@ -434,9 +422,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -446,9 +432,7 @@ modalView: {
 
 
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+ 
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -463,7 +447,6 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

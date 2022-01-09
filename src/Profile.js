@@ -26,7 +26,8 @@ import TimeAgo from 'react-native-timeago';
 import {SERVER_URL} from './config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
-
+import RNFS from 'react-native-fs';
+import ImgToBase64 from 'react-native-image-base64';
 export class Profile extends Component {
   constructor(props) {
     super();
@@ -78,6 +79,14 @@ export class Profile extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
+  getBase64ImageFromFile(file) {
+
+
+    return ImgToBase64.getBase64String(file);
+
+
+  }
+
   toggleUpdate() {
     if (this.state.toggleUpdate == true) {
       this.setState({
@@ -102,13 +111,14 @@ export class Profile extends Component {
             customer: JSON.parse(value),
           },
           () => {
-            console.log(this.state.customer);
+
             this.setState({
               firstName: this.state.customer.first_name,
               lastName: this.state.customer.last_name,
               email: this.state.customer.email,
               phone: this.state.customer.phone1,
               customer_id: this.state.customer.id,
+              dp: this.state.customer.photo_base64,
             });
           },
         );
@@ -135,17 +145,20 @@ export class Profile extends Component {
         phone: this.state.phone,
         password: this.state.password,
         cityId: this.state.cityId,
+        photo: this.state.dp,
       }),
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        console.log('profile response', res, this.state.dp);
+
         this.hideLoader();
         if (res.success) {
+          console.log('respose', res.customer);
           this.showAlert('success', res.success);
           this.setState(
             {
-              customer: res.customer,
+              customer: {...res.customer, photo: this.state.dp},
             },
             () => {
               AsyncStorage.setItem(
@@ -194,7 +207,6 @@ export class Profile extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
@@ -274,16 +286,18 @@ export class Profile extends Component {
             },
             {text: 'Refresh', onPress: () => this.getCities()},
           ],
-          //{ cancelable: false }
         );
       });
   }
 
   handlePhotoSelection() {
     launchImageLibrary({noData: true}, response => {
-      console.log(response);
-      if (response) {
-        this.setState({dp: response.assets[0].uri});
+      if (!response.didCancel) {
+        this.getBase64ImageFromFile(response.assets[0].uri).then(res => {
+          console.log('res');
+
+          this.setState({dp: `data:${response.assets[0].type};base64,${res}`});
+        });
       }
     });
   }
@@ -336,7 +350,6 @@ export class Profile extends Component {
           </View>
         </View>
 
-        {/*<Text style = {styles.headerText5}>Update profile</Text>*/}
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
           <View style={styles.cView}>
             <View style={styles.topImageView}>
@@ -383,7 +396,6 @@ export class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.firstName}
-                      //keyboardType={'email-address'}
                     />
                   </View>
                   <View style={styles.col50}>
@@ -395,7 +407,6 @@ export class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.lastName}
-                      //keyboardType={'email-address'}
                     />
                   </View>
                 </View>
@@ -424,6 +435,7 @@ export class Profile extends Component {
                   value={this.state.email}
                   keyboardType={'email-address'}
                   autoCapitalize="none"
+                  editable={false}
                 />
                 <Text style={styles.label}>Phone</Text>
                 <TextInput
@@ -524,10 +536,8 @@ const styles = StyleSheet.create({
   },
   body: {
     minHeight: '100%',
-    //backgroundColor: "#f8f8f8",
   },
   cView: {
-    //minHeight: 1200,
     width: '95%',
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
@@ -618,7 +628,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignContent: 'center',
     alignSelf: 'center',
-    //marginRight: 20,
     flexDirection: 'row',
   },
   itemView4: {
@@ -637,7 +646,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-    //flexDirection: 'row',
   },
   orderNumber: {
     color: '#000',
@@ -656,8 +664,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    //borderColor: '#9c77b1',
-    //borderWidth: 6,
+
     marginTop: 10,
     alignSelf: 'center',
   },
@@ -726,7 +733,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   itemPriceText: {
-    //paddingTop: 4,
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -759,29 +765,28 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 160,
     zIndex: 0,
-    //opacity: 0.6,
     overflow: 'hidden',
     borderRadius: 20,
     borderRadius: 20,
   },
 
   col1: {
-    //width: '20%',
+    
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
+    
     borderRadius: 18,
     textAlign: 'center',
   },
   col3: {
-    //width: '20%',
+    
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
+    
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -849,7 +854,6 @@ const styles = StyleSheet.create({
   },
   headerText0: {
     fontSize: 17,
-    //paddingLeft: 10,
     color: '#fff',
     marginTop: 29,
     textAlign: 'center',
@@ -862,7 +866,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   card: {
-    //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
 
@@ -975,7 +978,6 @@ const styles = StyleSheet.create({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
     width: 10,
     height: 10,
     width: 10,
@@ -989,7 +991,6 @@ const styles = StyleSheet.create({
     borderColor: '#0B277F',
     borderRadius: 10,
     width: '90%',
-    //elevation: 2,
     alignSelf: 'center',
     paddingTop: 12,
     paddingBottom: 13,
@@ -1000,7 +1001,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     width: '90%',
-    //elevation: 2,
     alignSelf: 'center',
     paddingTop: 12,
     paddingBottom: 13,
@@ -1024,9 +1024,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+  
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -1035,9 +1033,7 @@ const styles = StyleSheet.create({
   },
 
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+ 
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -1052,7 +1048,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-    //height: '100vh',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
