@@ -99,6 +99,7 @@ class Profile extends Component {
    
 
   getBase64ImageFromFile(file) {
+<<<<<<< HEAD:src/pages/Profile.js
      
      
      
@@ -113,6 +114,13 @@ class Profile extends Component {
      
      
      
+=======
+
+
+    return ImgToBase64.getBase64String(file);
+
+
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
   }
 
   toggleUpdate() {
@@ -131,6 +139,7 @@ class Profile extends Component {
     Alert.alert(type, message);
   }
 
+<<<<<<< HEAD:src/pages/Profile.js
    
    
    
@@ -156,6 +165,32 @@ class Profile extends Component {
    
    
    
+=======
+  async getLoggedInUser() {
+    await AsyncStorage.getItem('customer').then(value => {
+      if (value) {
+        this.setState(
+          {
+            customer: JSON.parse(value),
+          },
+          () => {
+
+            this.setState({
+              firstName: this.state.customer.first_name,
+              lastName: this.state.customer.last_name,
+              email: this.state.customer.email,
+              phone: this.state.customer.phone1,
+              customer_id: this.state.customer.id,
+              dp: this.state.customer.photo_base64,
+            });
+          },
+        );
+      } else {
+        this.props.navigation.navigate('Login');
+      }
+    });
+  }
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
 
   updateProfile() {
     this.showLoader();
@@ -239,7 +274,10 @@ class Profile extends Component {
     })
       .then(response => response.json())
       .then(res => {
+<<<<<<< HEAD:src/pages/Profile.js
          
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
         this.hideLoader();
         if (res.success) {
           this.showAlert('success', res.success);
@@ -322,7 +360,10 @@ class Profile extends Component {
             },
             {text: 'Refresh', onPress: () => this.getCities()},
           ],
+<<<<<<< HEAD:src/pages/Profile.js
            
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
         );
       });
   }
@@ -434,7 +475,10 @@ class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.firstName}
+<<<<<<< HEAD:src/pages/Profile.js
                        
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
                     />
                   </View>
                   <View style={styles.col50}>
@@ -446,7 +490,10 @@ class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.lastName}
+<<<<<<< HEAD:src/pages/Profile.js
                        
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
                     />
                   </View>
                 </View>
@@ -566,10 +613,15 @@ const styles = StyleSheet.create({
   },
   body: {
     minHeight: '100%',
+<<<<<<< HEAD:src/pages/Profile.js
      
   },
   cView: {
      
+=======
+  },
+  cView: {
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     width: '95%',
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
@@ -662,7 +714,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignContent: 'center',
     alignSelf: 'center',
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     flexDirection: 'row',
   },
   itemView4: {
@@ -681,7 +736,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
   },
   orderNumber: {
     color: '#000',
@@ -700,8 +758,12 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
+<<<<<<< HEAD:src/pages/Profile.js
      
      
+=======
+
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     marginTop: 10,
     alignSelf: 'center',
   },
@@ -772,7 +834,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   itemPriceText: {
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -807,29 +872,48 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 160,
     zIndex: 0,
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     overflow: 'hidden',
     borderRadius: 20,
     borderRadius: 20,
   },
 
   col1: {
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+    
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+    
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col3: {
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+    
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+    
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -899,7 +983,10 @@ const styles = StyleSheet.create({
   },
   headerText0: {
     fontSize: 17,
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     color: '#fff',
     marginTop: 29,
     textAlign: 'center',
@@ -914,7 +1001,10 @@ const styles = StyleSheet.create({
 
   },
   card: {
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     width: '100%',
     marginBottom: 4,
 
@@ -1043,7 +1133,10 @@ const styles = StyleSheet.create({
     marginTop: -14,
   },
   locImage: {
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     width: 10,
     height: 10,
     width: 10,
@@ -1057,7 +1150,10 @@ const styles = StyleSheet.create({
     borderColor: '#0B277F',
     borderRadius: 10,
     width: '90%',
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     alignSelf: 'center',
     paddingTop: 12,
     paddingBottom: 13,
@@ -1068,7 +1164,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     width: '90%',
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     alignSelf: 'center',
     paddingTop: 12,
     paddingBottom: 13,
@@ -1099,9 +1198,13 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
+<<<<<<< HEAD:src/pages/Profile.js
      
      
      
+=======
+  
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -1110,9 +1213,13 @@ const styles = StyleSheet.create({
   },
 
   forgotModalView: {
+<<<<<<< HEAD:src/pages/Profile.js
      
      
      
+=======
+ 
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -1127,7 +1234,10 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
+<<<<<<< HEAD:src/pages/Profile.js
      
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Profile.js
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',

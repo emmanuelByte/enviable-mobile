@@ -74,8 +74,12 @@ export class RideHome extends Component {
   }
   getAddress() {
      
+<<<<<<< HEAD:src/pages/RideShare/RideHome.js
     console.log(this.state.latitude +" "+ this.state.longitude);
 
+=======
+    console.log(this.state.latitude +" "+ this.state.longitude)
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideHome.js
     Geocoder.from({
       latitude: this.state.latitude,
       longitude: this.state.longitude,
@@ -110,6 +114,7 @@ export class RideHome extends Component {
    
 
   componentDidMount() {
+<<<<<<< HEAD:src/pages/RideShare/RideHome.js
     Geocoder.init('AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co');
 
     this.getLoggedInUser();
@@ -123,6 +128,16 @@ export class RideHome extends Component {
     this.setState({fromAddress: this.state.formatted_address});
      
      
+=======
+    this.subs = [
+      this.props.navigation.addListener('didFocus', payload =>
+        this.componentDidFocus(payload),
+      ),
+    ];
+    this.fromRef.setAddressText(this.state.formatted_address)
+     
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideHome.js
   }
   componentDidUpdate(prevProps, prevState){
     if(this.state.formatted_address !== prevState.formatted_address){
@@ -235,24 +250,48 @@ export class RideHome extends Component {
   };
 
   callLocation(that) {
+<<<<<<< HEAD:src/pages/RideShare/RideHome.js
 
+=======
+     
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideHome.js
     Geolocation.getCurrentPosition(
        
       position => {
         const currentLongitude = position.coords.longitude;
         const currentLatitude = position.coords.latitude;
+<<<<<<< HEAD:src/pages/RideShare/RideHome.js
         
         var origin = {
           latitude: currentLatitude,
+=======
+         
+        var origin = {
+           
+          latitude: currentLatitude,
+
+           
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideHome.js
           longitude: currentLongitude,
 
           latitudeDelta: 0.009922,
           longitudeDelta: 0.009421,
         };
+<<<<<<< HEAD:src/pages/RideShare/RideHome.js
 
         that.setState(
           {
             origin: origin,
+=======
+         
+         
+        that.setState(
+          {
+            origin: origin,
+             
+             
+
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideHome.js
             latitude: currentLatitude,
             longitude: currentLongitude,
             initialRegion: origin,
@@ -400,6 +439,10 @@ export class RideHome extends Component {
           >
            
 
+<<<<<<< HEAD:src/pages/RideShare/RideHome.js
+=======
+
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideHome.js
 
 
 
@@ -416,7 +459,10 @@ export class RideHome extends Component {
               ))}
 
 
+<<<<<<< HEAD:src/pages/RideShare/RideHome.js
 
+=======
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideHome.js
           {this.state.bikeMarker &&
               this.state.bikeMarker.map((rider, index) => (
                 <Marker coordinate={rider}
@@ -678,8 +724,13 @@ export class RideHome extends Component {
                 language: 'en',
               }}
                
+<<<<<<< HEAD:src/pages/RideShare/RideHome.js
               placeholder="Where are you going?"
               minLength={5}  
+=======
+              placeholder="To"
+              minLength={5} // minimum length of text to search
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideHome.js
               autoFocus={false}
               fetchDetails={true}
               listViewDisplayed={'auto'}

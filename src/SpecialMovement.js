@@ -25,17 +25,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import TimeAgo from 'react-native-timeago';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {SERVER_URL} from '../../config/server';
-import { connect } from 'react-redux';
-import { poppins } from '../../config/fonts';
+import RNPickerSelect from 'react-native-picker-select';
+import {SERVER_URL} from './config/server';
 var moment = require('moment');
-
-import { withNavigationFocus } from "react-navigation";
-
-class Hires extends Component {
+export class SpecialMovement extends Component {
   constructor(props) {
     super();
-     
+    this.handleBackPress = this.handleBackPress.bind(this);
     this.state = {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
@@ -45,6 +41,10 @@ class Hires extends Component {
       forgotVisible: false,
       orders: false,
       email: '',
+      location: '',
+      service: '',
+      note: '',
+      vehicle_type: '',
       password: '',
       total: false,
       email1: '',
@@ -53,43 +53,63 @@ class Hires extends Component {
       deliveryInfo: false,
       fromDate: new Date(),
       toDate: new Date(),
-      service:'',
-      location:''
+      vs: [
+        {label: 'Event', value: 'Event'},
+        {label: 'Wedding ceremony', value: 'Wedding ceremony'},
+        {label: 'Burial', value: 'Burial'},
+        {label: 'Birthday Party', value: 'Birthday Party'},
+        {label: 'Relocation', value: 'Relocation'},
+        {label: 'Other', value: 'Other'},
+      ],
+      vs1: [
+        {label: 'Car', value: 'Car'},
+        {label: 'Pickup truck', value: 'Pickup truck'},
+        {label: 'Bus', value: 'Bus'},
+        {label: 'SUV', value: 'SUV'},
+      ],
     };
+   }
+
+  async componentDidFocus() {
+    await this.getLoggedInUser();
   }
 
-
-
-
-  componentDidMount(){
-    this.setState({customer: this.props.user}, ()=>{
-      this.getOrders();
-    })
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    this.subs.forEach(sub => sub.remove());
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if((prevState.rateVisible !== this.state.rateVisible) && this.state.rateVisible === false){
-       
-      this.getOrders();
-    }
-  }
+  handleBackPress = () => {
+    this.props.navigation.goBack();
+    return true;
+  };
 
-  componentWillUnmount(){
-    
+  componentWillMount() {
+    this.subs = [
+      this.props.navigation.addListener('didFocus', payload =>
+        this.componentDidFocus(payload),
+      ),
+    ];
+  }
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
   getOrders() {
     this.showLoader();
-     
-    fetch(`${SERVER_URL}/mobile/get_hires/${this.state.customer.id}`, {
-      method: 'GET',
-    })
+    fetch(
+      `${SERVER_URL}/mobile/get_special_movements/${this.state.customer.id}`,
+      {
+        method: 'GET',
+      },
+    )
       .then(response => response.json())
       .then(res => {
+        console.log(res, 'orders');
         this.hideLoader();
         if (res.success) {
           this.setState({
-            orders: res.hires,
+            orders: res.special_movements,
           });
         } else {
           Alert.alert('Error', res.error);
@@ -98,8 +118,8 @@ class Hires extends Component {
       .catch(error => {
         console.error(error);
         Alert.alert(
-          'Something happened!',
-          error,
+          'Communictaion error',
+          'Ensure you have an active internet connection',
           [
             {
               text: 'Ok',
@@ -108,24 +128,28 @@ class Hires extends Component {
             },
             {text: 'Refresh', onPress: () => this.getOrders()},
           ],
-<<<<<<< HEAD:src/pages/Hire/index.js
-           
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-        );
+         );
       });
   }
 
   hireDriver() {
-    if (this.state.location === "" || this.state.fromDate === '' || this.state.toDate=== ""  || this.state.service === "") {
-      this.showAlert('Info', 'Kindly provide all information');
+    if (
+      this.state.location == '' ||
+      this.state.service == '' ||
+      this.state.note == '' ||
+      this.state.vehicle_type == ''
+    ) {
+      this.showAlert(
+        'Info',
+        'Kindly provide location and service, note and vehicle type',
+      );
       return;
     }
     this.setState({
       rateVisible: false,
     });
     this.showLoader();
-    fetch(`${SERVER_URL}/mobile/create_hire`, {
+    fetch(`${SERVER_URL}/mobile/create_special_movement`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -134,7 +158,9 @@ class Hires extends Component {
       body: JSON.stringify({
         userId: this.state.customer.id,
         location: this.state.location,
+        note: this.state.note,
         service: this.state.service,
+        vehicle_type: this.state.vehicle_type,
         fromDate: moment(this.state.fromDate).format('YYYY/MM/DD'),
         toDate: moment(this.state.toDate).format('YYYY/MM/DD'),
       }),
@@ -153,18 +179,28 @@ class Hires extends Component {
       .done();
   }
 
-
+  toggleUpdate() {
+    if (this.state.toggleUpdate == true) {
+      this.setState({
+        toggleUpdate: false,
+      });
+    } else {
+      this.setState({
+        toggleUpdate: true,
+      });
+    }
+  }
   showAlert(type, message) {
     Alert.alert(type, message);
   }
-  displayNoData(data) {
-     
+  displayNoData() {
+    var data = this.state.orders.length;
     console.log(data, 'hdhdhdhd');
-    if (data.length < 1) {
+    if (data < 1) {
       return (
         <View style={styles.noView}>
           <Image
-            source={require('@src/images/no.png')}
+            source={require('./imgs/no.png')}
             style={styles.noImage}></Image>
           <Text style={styles.ndt}>You have no request at the moment...</Text>
         </View>
@@ -193,19 +229,52 @@ class Hires extends Component {
     );
   };
 
-  displayStatus(order_status) {
-  const case_items = {
-    'Cancelled':'#ED4515',
-    'Pending':'#0B277F',
-    'Completed': '#3EC628'
+  async getLoggedInUser() {
+    await AsyncStorage.getItem('customer').then(value => {
+      if (value) {
+        this.setState(
+          {
+            customer: JSON.parse(value),
+          },
+          () => {
+            this.getOrders();
+            this.setState({
+              customer_id: this.state.customer.id,
+            });
+          },
+        );
+      } else {
+        this.props.navigation.navigate('Login');
+      }
+    });
   }
-
-  return <Text style={{color: case_items[order_status]}}>{order_status}</Text>;
-
+  displayStatus(order_status) {
+    if (order_status == 'Cancelled') {
+      return <Text style={{color: '#ED4515'}}>Cancelled</Text>;
+    } else if (order_status == 'Pending') {
+      return (
+        <Text
+          style={{
+            color: '#0B277F',
+            width: 90,
+            borderRadius: 10,
+            alignSelf: 'flex-end',
+            textAlign: 'center',
+            paddingTop: 5,
+            paddingBottom: 5,
+          }}>
+          Pending
+        </Text>
+      );
+    } else if (order_status == 'Pending') {
+      return <Text style={{color: '#EDBD15'}}>Pending </Text>;
+    } else if (order_status == 'Completed') {
+      return <Text style={{color: '#3EC628'}}>Completed</Text>;
+    }
   }
 
   gotoOrderDetails(order) {
-    this.props.navigation.navigate('HireDetails', {
+    this.props.navigation.navigate('SpecialMovementDetails', {
       orderId: order.id,
     });
   }
@@ -221,34 +290,43 @@ class Hires extends Component {
     });
   }
 
-
-
+  navigateToScreen = route => () => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: route,
+    });
+    this.props.navigation.dispatch(navigateAction);
+  };
+  static navigationOptions = {
+    header: null,
+  };
 
   render() {
     const {visible} = this.state;
     return (
       <View style={styles.body}>
+        <StatusBar translucent={true} backgroundColor={'#0B277F'} />
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.pop()}>
+            onPress={() => this.props.navigation.navigate('Home')}>
             <Icon
               name="arrow-back"
-              size={25}
+              size={18}
               color="#000"
               style={styles.menuImage}
             />
           </TouchableOpacity>
-          <Text style={styles.headerText}>Hires</Text>
+          <Text style={styles.headerText}>Hire a car</Text>
         </View>
+
         <TouchableOpacity
           style={styles.specialmvmt}
           onPress={() => this.setState({rateVisible: true})}>
-          <Text style={styles.requestText}>Hire a Driver </Text>
+          <Text style={styles.requestText}>Request for a car</Text>
         </TouchableOpacity>
+
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
           <View style={styles.cView}>
-
-            {this.state.orders && this.displayNoData(this.state.orders)}
+            {this.state.orders && this.displayNoData()}
             {this.state.orders &&
               this.state.orders.map((order, index) => (
                 <TouchableWithoutFeedback
@@ -288,113 +366,115 @@ class Hires extends Component {
           }}
           height={'100%'}
           width={'100%'}
-          
           style={styles.modal}>
-            <KeyboardAvoidingView behavior="position">
+          
+          <KeyboardAvoidingView behavior="padding">
 
           <View style={styles.rateModalView}>
+               <Text style={styles.headerText7}>Special movement</Text>
 
-            <Text style={styles.headerText7}>Hire a driver</Text>
-
-            <Text style={styles.inputLabel}>Location</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={text => {
-                this.setState({location: text});
-              }}
-              underlineColorAndroid="transparent"
-<<<<<<< HEAD:src/pages/Hire/index.js
+              <Text style={styles.inputLabel}>Location</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={text => {
+                  this.setState({location: text});
+                }}
+                underlineColorAndroid="transparent"
                
-               
-               
-               
-=======
-              
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-            />
-
-            <Text style={styles.inputLabel}>From</Text>
-            <TouchableOpacity
-              style={styles.input}
-              onPress={() => this.setState({showFrom: true})}>
-              <Text style={styles.dateText}>
-                {moment(this.state.fromDate).format('YYYY/MM/DD')}
-              </Text>
-            </TouchableOpacity>
-            {this.state.showFrom && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={this.state.fromDate}
-                mode={'date'}
-<<<<<<< HEAD:src/pages/Hire/index.js
-                 
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-                display="default"
-                onChange={this.onFromChange}
               />
-            )}
-            <Text style={styles.inputLabel}>To</Text>
-            <TouchableOpacity
-              style={styles.input}
-              onPress={() => this.setState({showTo: true})}>
-              <Text style={styles.dateText}>
-                {moment(this.state.toDate).format('YYYY/MM/DD')}
-              </Text>
-            </TouchableOpacity>
-            {this.state.showTo && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={this.state.toDate}
-                mode={'date'}
-<<<<<<< HEAD:src/pages/Hire/index.js
-                 
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-                display="default"
-                onChange={this.onToChange}
-              />
-            )}
-            <Text style={styles.inputLabel}>
-              What do you need the driver for?
-            </Text>
-            <TextInput
-              style={styles.inputk}
-              onChangeText={text => {
-                this.setState({service: text});
-              }}
-              underlineColorAndroid="transparent"
-<<<<<<< HEAD:src/pages/Hire/index.js
-               
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-              multiline={true}
-            />
 
-            <TouchableOpacity
-              style={styles.submitButton}
-              onPress={() => this.hireDriver()}>
-              <Text style={styles.submitButtonText}>Hire a driver </Text>
-            </TouchableOpacity>
-          </View>
+              <Text style={styles.inputLabel}>From</Text>
+              <TouchableOpacity
+                style={styles.input}
+                onPress={() => this.setState({showFrom: true})}>
+                <Text style={styles.dateText}>
+                  {moment(this.state.fromDate).format('YYYY/MM/DD')}
+                </Text>
+              </TouchableOpacity>
+              {this.state.showFrom && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={this.state.fromDate}
+                  mode={'date'}
+                   display="default"
+                  onChange={this.onFromChange}
+                />
+              )}
+              <Text style={styles.inputLabel}>To</Text>
+              <TouchableOpacity
+                style={styles.input}
+                onPress={() => this.setState({showTo: true})}>
+                <Text style={styles.dateText}>
+                  {moment(this.state.toDate).format('YYYY/MM/DD')}
+                </Text>
+              </TouchableOpacity>
+              {this.state.showTo && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={this.state.toDate}
+                  mode={'date'}
+                  display="default"
+                  onChange={this.onToChange}
+                />
+              )}
+
+              <Text style={styles.inputLabel}>Vehicle type</Text>
+              <TouchableOpacity style={[styles.input]}>
+                <RNPickerSelect
+                  placeholder=""
+                  style={pickerSelectStyles}
+                  selectedValue={this.state.vehicle_type}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({vehicle_type: itemValue})
+                  }
+                  items={this.state.vs1}
+                  returnKeyType={'done'}
+                />
+              </TouchableOpacity>
+              <Text style={styles.inputLabel}>Service</Text>
+              <TouchableOpacity style={[styles.input]}>
+                <RNPickerSelect
+                  placeholder=""
+                  style={pickerSelectStyles}
+                  selectedValue={this.state.service}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({service: itemValue})
+                  }
+                  items={this.state.vs}
+                  returnKeyType={'done'}
+                />
+              </TouchableOpacity>
+              <Text style={styles.inputLabel}>Note</Text>
+              <TextInput
+                style={styles.inputk}
+                onChangeText={text => {
+                  this.setState({note: text});
+                }}
+                underlineColorAndroid="transparent"
+                 multiline={true}
+              />
+
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={() => this.hireDriver()}>
+                <Text style={styles.submitButtonText}>
+                  Request for a car{' '}
+                </Text>
+              </TouchableOpacity>
+           </View>
           </KeyboardAvoidingView>
-
         </Modal>
       </View>
     );
   }
 }
-const mapStateToProps = (state, others) =>{
-  return {user: state.user.value, ...others}
-}
 
-export default connect(mapStateToProps)(Hires);
-
+export default SpecialMovement;
 
 const styles = StyleSheet.create({
   specialmvmt: {
     backgroundColor: '#0B277F',
-    width: 150,
+    width: 230,
     position: 'absolute',
     bottom: 150,
     right: 20,
@@ -419,19 +499,15 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 100,
+    height: 110,
     zIndex: 0,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     flexDirection: 'row',
   },
   cartImage: {
     width: 21,
     height: 15,
     marginRight: 30,
-    marginTop: 50,
+    marginTop: 75,
   },
   descContent: {
     color: '#535871',
@@ -444,11 +520,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignContent: 'center',
     alignSelf: 'center',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-    flexDirection: 'row',
+     flexDirection: 'row',
   },
   itemView4: {
     width: '90%',
@@ -466,25 +538,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-  },
+   },
   requestText: {
     color: 'white',
-     
-    borderRadius: 10,
-     
-     
-=======
-  },
-  requestText: {
-    color: 'white',
-    borderRadius: 10,
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-    zIndex: 10,
-    fontFamily:poppins,
-
-  },
+     borderRadius: 10,
+   },
 
   orderNumber: {
     color: '#000',
@@ -498,11 +556,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000',
     textAlign: 'right',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-  },
+   },
   item1: {
     width: '60%',
   },
@@ -555,47 +609,28 @@ const styles = StyleSheet.create({
   },
 
   rateModalView: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-     
-=======
-
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
+  
     alignSelf: 'center',
-    height: 600,
+    height: 670,
     width: '90%',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-    backgroundColor: '#FFF',
+     backgroundColor: '#FFF',
     paddingTop: 18,
     paddingBottom: 38,
   },
   headerText7: {
     color: '#333',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-    fontWeight: '700',
+     fontWeight: '700',
     marginTop: 5,
     marginBottom: 20,
     fontSize: 14,
     textAlign: 'center',
-    fontFamily:poppins,
   },
   itemNameText: {
     paddingTop: 10,
     fontWeight: 'bold',
   },
   itemPriceText: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-    fontWeight: 'bold',
+     fontWeight: 'bold',
     color: '#585757',
   },
   itemBottom: {
@@ -620,34 +655,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   col1: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-    borderRadius: 18,
+     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-    borderRadius: 18,
+     borderRadius: 18,
     textAlign: 'center',
   },
   col3: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
-    borderRadius: 18,
+     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -655,10 +674,6 @@ const styles = StyleSheet.create({
   bImage1: {
     width: '100%',
     height: 220,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     overflow: 'hidden',
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
@@ -671,7 +686,7 @@ const styles = StyleSheet.create({
   },
   menuImage: {
     marginLeft: 20,
-    marginTop: 50,
+    marginTop: 75,
   },
   noView: {
     width: '100%',
@@ -720,24 +735,19 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   headerText: {
-    fontSize: 18,
+    fontSize: 17,
     paddingLeft: 10,
     color: '#000',
-    marginTop: 50,
+    marginTop: 73,
     width: '80%',
-    fontFamily:poppins,
   },
   headerText1: {
     fontSize: 20,
     paddingLeft: 20,
     color: '#fff',
-    fontFamily:poppins
-    },
+    fontWeight: 'bold',
+  },
   card: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     width: '100%',
     marginBottom: 4,
     borderWidth: 1,
@@ -754,7 +764,6 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     marginRight: 10,
     fontSize: 12,
-    fontFamily:poppins,
   },
   colImage: {
     width: '35%',
@@ -768,17 +777,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   segmentText: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-    fontFamily:poppins,
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     paddingRight: 10,
     marginRight: 10,
   },
   contentText: {
     fontWeight: 'bold',
-    fontFamily:poppins,
   },
   contentText1: {
     color: '#5D626A',
@@ -788,12 +791,7 @@ const styles = StyleSheet.create({
     color: '#454A65',
     marginTop: 10,
     fontSize: 12,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-=======
-
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
+ 
   },
   labelZ: {
     color: '#454A65',
@@ -816,25 +814,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingLeft: 10,
     color: '#ccc',
-    fontFamily:poppins,
   },
   inputLabel: {
     color: '#454A65',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-    fontFamily:poppins,
-=======
     fontWeight: '700',
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
 
     fontSize: 12,
     width: '90%',
     alignSelf: 'center',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
   },
   dateText: {
     paddingTop: 10,
@@ -849,8 +836,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingLeft: 10,
     color: '#000',
-    fontFamily:poppins,
-
   },
   inputk: {
     width: '90%',
@@ -895,10 +880,6 @@ const styles = StyleSheet.create({
     marginTop: -14,
   },
   locImage: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     width: 10,
     height: 10,
     width: 10,
@@ -937,16 +918,9 @@ const styles = StyleSheet.create({
   modal: {
     margin: 0,
     padding: 0,
-    height:'100%',
   },
   modalView: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-     
-=======
-    
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
+  
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -960,13 +934,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   forgotModalView: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-     
-=======
-    
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
+  
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -981,12 +949,27 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputAndroid: {
+    width: '100%',
+    height: 40,
+    borderColor: '#EFF0F3',
+    borderRadius: 8,
+    marginTop: -1,
+    color: '#aaa',
+  },
+  inputIOS: {
+    width: '100%',
+    height: 40,
+    borderColor: '#777',
+    borderRadius: 8,
+    marginTop: -1,
+    color: '#aaa',
   },
 });

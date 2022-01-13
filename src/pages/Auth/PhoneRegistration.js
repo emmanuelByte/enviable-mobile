@@ -111,7 +111,6 @@ export class PhoneRegistration extends Component {
    .then((res) => {
      this.hideLoader();
        
-       //this.hideLoader();
        if(res.success){
           this.setState({
             cities:  res.cities
@@ -133,7 +132,6 @@ export class PhoneRegistration extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
-       //{ cancelable: false }
      );
     });
   }
@@ -149,7 +147,6 @@ export class PhoneRegistration extends Component {
       },
       body: JSON.stringify({
           phone: this.state.phone,
-          // email: this.state.email
       })
     }).then((response) => response.json())
         .then((res) => {
@@ -247,11 +244,9 @@ const styles = StyleSheet.create ({
   body: {
     minHeight: '100%',
     marginBottom: 100,
-    //backgroundColor: "#fff",
   },
   backImage: {
     width: 18,
-    //height: 12,
     marginLeft: 20,
     marginTop: 40,
   },
@@ -293,7 +288,6 @@ const styles = StyleSheet.create ({
     color: '#fff',
     width: '90%',
     alignSelf: 'center',
-    //paddingLeft: 15,
     marginTop: 10,
   },
   input: {
@@ -329,14 +323,12 @@ const styles = StyleSheet.create ({
   },
   forgotText: {
     textAlign: 'center',
-    //marginRight: 30,
     color: '#fff',
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
-    //marginRight: 30,
     color: '#0B277F',
     fontSize: 12,
   },
@@ -395,9 +387,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+  
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -407,9 +397,7 @@ modalView: {
 
 
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -422,7 +410,6 @@ loading: {
   right: 0,
   top: 0,
   bottom: 0,
-  //height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

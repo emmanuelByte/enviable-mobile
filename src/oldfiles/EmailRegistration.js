@@ -52,11 +52,17 @@ export class EmailRegistration extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
          
         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
        
     );
+=======
+         { text: "Leave", onPress: () => BackHandler.exitApp() }
+      ],
+     );
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
     return true
   }
 
@@ -85,6 +91,7 @@ export class EmailRegistration extends Component {
   async getLoggedInUser(){
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
          
          
          
@@ -94,6 +101,10 @@ export class EmailRegistration extends Component {
          
          
           
+=======
+        this.props.navigation.navigate('Home')
+    
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
       }else{
         AsyncStorage.getItem('pushToken').then((value) => {
           this.setState({
@@ -141,8 +152,12 @@ export class EmailRegistration extends Component {
    .then((res) => {
      this.hideLoader();
        
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
         
        if(res.success){
+=======
+        if(res.success){
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
           this.setState({
             cities:  res.cities
           });
@@ -163,8 +178,12 @@ export class EmailRegistration extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
         
      );
+=======
+      );
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
     });
   }
 
@@ -179,8 +198,12 @@ export class EmailRegistration extends Component {
       },
       body: JSON.stringify({
           phone: this.state.phone,
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
            
       })
+=======
+       })
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
     }).then((response) => response.json())
         .then((res) => {
           console.log(res);
@@ -253,8 +276,12 @@ onPickupSelect = (city) => {
               <Text style = {styles.label}>Enter phone number</Text>
               <TextInput
                             style={styles.input}
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
                              
                             onChangeText={(text) => this.setState({phone: text})}
+=======
+                             onChangeText={(text) => this.setState({phone: text})}
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
                             underlineColorAndroid="transparent"
                             minLength={11}
                             maxLength={11}
@@ -289,12 +316,19 @@ const styles = StyleSheet.create ({
   body: {
     minHeight: '100%',
     marginBottom: 100,
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
      
   },
   backImage: {
     width: 18,
      
     marginLeft: 20,
+=======
+   },
+  backImage: {
+    width: 18,
+     marginLeft: 20,
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
     marginTop: 40,
   },
   headerText: {
@@ -333,8 +367,12 @@ const styles = StyleSheet.create ({
     color: '#fff',
     width: '90%',
     alignSelf: 'center',
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
      
     marginTop: 10,
+=======
+     marginTop: 10,
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
   },
   input: {
     width: '90%',
@@ -369,15 +407,23 @@ const styles = StyleSheet.create ({
   },
   forgotText: {
     textAlign: 'center',
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
      
     color: '#fff',
+=======
+     color: '#fff',
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
      
     color: '#0B277F',
+=======
+     color: '#0B277F',
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
     fontSize: 12,
   },
   createText1: {
@@ -434,9 +480,13 @@ modal: {
   padding: 0
 },
 modalView: {
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
    
    
    
+=======
+  
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -446,9 +496,13 @@ modalView: {
 
 
 forgotModalView: {
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
    
    
    
+=======
+ 
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -461,8 +515,12 @@ loading: {
   right: 0,
   top: 0,
   bottom: 0,
+<<<<<<< HEAD:src/oldfiles/EmailRegistration.js
    
   alignItems: 'center',
+=======
+   alignItems: 'center',
+>>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration.js
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
 }

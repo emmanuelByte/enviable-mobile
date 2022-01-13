@@ -6,17 +6,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import moment from "moment";
 import TimeAgo from 'react-native-timeago';
-import { SERVER_URL } from '../../config/server';
+import { SERVER_URL } from './config/server';
 import PaystackWebView from "react-native-paystack-webview";
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import RNPickerSelect from 'react-native-picker-select';
-import fonts, { poppins } from '../../config/fonts';
 
 
-export default class HireDetails extends Component {
+export class SpecialMovementDetails extends Component {
   constructor(props) {
     super();
-     
+    this.handleBackPress = this.handleBackPress.bind(this);
     this.state = {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
@@ -39,51 +38,54 @@ export default class HireDetails extends Component {
       review: '',
       vs: false,
     }
-  }
-
-  componentDidMount(){
     this.getLoggedInUser();
-
   }
+
   componentWillMount(){
-    console.log(this.props.route.params.orderId, 'ldkld');
+    console.log(this.props.navigation.state.params.orderId, 'ldkld');
     this.setState({
-      orderId: this.props.route.params.orderId,
+      orderId: this.props.navigation.state.params.orderId,
     }, () => {
-       
-       
-       
-       
+
       this.getOrderDetails(this.state.orderId);
     })
   }
 
-   
-   
-   
-   
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
 
-   
-   
-   
+  handleBackPress = () => {
+    this.props.navigation.goBack()
+    return true
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
 
   getOrderDetails(order_id){
-    fetch(`${SERVER_URL}/mobile/get_hire_details/${order_id}`, {
+    this.showLoader()
+    fetch(`${SERVER_URL}/mobile/get_special_movement_details/${order_id}`, {
       method: 'GET'
    })
    .then((response) => response.json())
    .then((res) => {
-       
+      this.hideLoader();
       console.log(res, 'kkk')
        if(res.success){
           this.setState({
-            orderParam: res.hire,  
+            orderParam: res.special_movement,
+            
+          }, ()=>{
+            
           });
        }else{
          Alert.alert('Error', res.error);
        }
    })
    .catch((error) => {
+    this.hideLoader();
       console.error(error);
       Alert.alert(
        "Communictaion error",
@@ -96,17 +98,15 @@ export default class HireDetails extends Component {
          },
          { text: "Refresh", onPress: () => this.getOrderDetails() }
        ],
-        
      );
     });
   }
-  cancelHire(){
-         
+  cancelSpecialMovement(){
     if(this.state.orderParam.status != "Pending"){
       return;
     }
     this.showLoader()
-    fetch(`${SERVER_URL}/mobile/cancel_hire/${this.state.orderParam.order_number}`, {
+    fetch(`${SERVER_URL}/mobile/cancel_special_movement/${this.state.orderParam.order_number}`, {
       method: 'GET'
   })
   .then((response) => response.json())
@@ -142,14 +142,6 @@ export default class HireDetails extends Component {
       message,
     );
   }
-
-   
-   
-   
-   
-   
-   
-
 
   async getLoggedInUser(){
     await AsyncStorage.getItem('customer').then((value) => {
@@ -223,13 +215,7 @@ export default class HireDetails extends Component {
           this.hideLoader();
           if(res.success){
             this.showAlert("success", res.success);
-             
-             
-             
-             
-             
-             
-             
+          
             this.getOrderDetails(this.state.orderParam.id)
           }else{
             this.showAlert("Error", res.error)
@@ -257,13 +243,7 @@ payWithCash(){
         this.hideLoader();
         if(res.success){
           this.showAlert("success", res.success);
-           
-           
-           
-           
-           
-           
-           
+       
           this.getOrderDetails(this.state.orderParam.id)
         }else{
           this.showAlert("Error", res.error)
@@ -293,13 +273,7 @@ payWithCard(){
         this.hideLoader();
         if(res.success){
           this.showAlert("success", res.success);
-           
-           
-           
-           
-           
-           
-           
+       
           this.getOrderDetails(this.state.orderParam.id)
         }else{
           this.showAlert("Error", res.error)
@@ -365,11 +339,11 @@ rateRider(){
            refNumber={this.state.trn_ref}
           ActivityIndicatorColor="green"
           handleWebViewMessage={(e) => {
-             
+            // handle the message
             console.log(e);
           }}
           onCancel={(e) => {
-             
+            // handle response here
             console.log(e);
           }}
           onSuccess={(e) => {
@@ -404,9 +378,10 @@ rateRider(){
     const { visible } = this.state;
     return (
       <View style = {styles.body}>
+        <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
         <View style={styles.header}>
           <TouchableOpacity  onPress={() => this.props.navigation.goBack() }>
-          <Icon name="arrow-back" size={25} color="000"  style = {styles.menuImage}/>
+          <Icon name="arrow-back" size={18} color="000"  style = {styles.menuImage}/>
           </TouchableOpacity>
           <Text style = {styles.headerText}>Order summary</Text>
         </View>
@@ -415,7 +390,7 @@ rateRider(){
           <View style={styles.cView}>
             <View style={styles.itemView4}>
                 
-             
+          
               <View style={styles.item31}>
                 <Text style = {styles.label60}>Tracking No</Text>
                 <Text style = {styles.txt60}>#{this.state.orderParam && this.state.orderParam.order_number}</Text>
@@ -437,27 +412,38 @@ rateRider(){
                 <Text style = {styles.txt20}>{this.state.orderParam && this.state.orderParam.date_to}</Text>
               </View>
               <View style={styles.item3}>
+                <Text style = {styles.label}>Vehicle type</Text>
+                <Text style = {styles.txt}>{this.state.orderParam && this.state.orderParam.vehicle_type}</Text>
+              </View>
+              <View style={styles.item3}>
+                <Text style = {styles.label}>Service</Text>
+                <Text style = {styles.txt}>{this.state.orderParam && this.state.orderParam.service}</Text>
+              </View>
+              <View style={styles.item3}>
                 <Text style = {styles.label}>Address</Text>
                 <Text style = {styles.txt}>{this.state.orderParam && this.state.orderParam.location}</Text>
               </View>
             </View>
             <View style={styles.itemView}> 
-              <Text style = {styles.topic}>Service</Text>
+              <Text style = {styles.topic}>Note</Text>
               
               <View style={styles.item3}>
-                <Text style = {styles.txt}>{this.state.orderParam && this.state.orderParam.service}</Text>
+                <Text style = {styles.txt}>{this.state.orderParam && this.state.orderParam.note}</Text>
               </View>
             </View>
-           
+              
+              {
+                this.state.orderParam.status === "Pending" ?   <TouchableOpacity style={{width:'80%', marginVertical:20, marginHorizontal:'10%'}}  onPress={() => this.cancelSpecialMovement()}>
+                <Text style={{height:50, textAlign:'center', borderRadius:10, lineHeight:40, color:'white', backgroundColor:'#0B277F'}}>Cancel Order</Text>
+              </TouchableOpacity>
+              : null
+              }
+        
           </View>
-
-          {
-          this.state.orderParam.status === "Pending" ? <TouchableOpacity style={{width:'80%', marginHorizontal:'10%'}}  onPress={() => this.cancelHire()}>
-              <Text style={{height:50, textAlign:'center', borderRadius:10, lineHeight:40, color:'white', backgroundColor:'#0B277F'}}>Cancel Order</Text>
-            </TouchableOpacity>
-            : null
-  }
+       
         </ScrollView>
+
+
         {this.state.loaderVisible &&
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
         }
@@ -470,6 +456,7 @@ rateRider(){
   }
 }
 
+export default SpecialMovementDetails
 
 const styles = StyleSheet.create ({
   container: {
@@ -480,7 +467,6 @@ const styles = StyleSheet.create ({
     backgroundColor: "#f8f8f8",
   },
   cView: {
-     
     width: '95%',
     alignSelf: 'center',
     marginBottom: 250,
@@ -489,23 +475,21 @@ const styles = StyleSheet.create ({
   header: {
     width: '100%',
     height: 110,
-     
     flexDirection: 'row',
   },
   cartImage: {
     width: 21,
     height: 15,
     marginRight: 30,
-    marginTop: 50,
+    marginTop: 75,
   },
   descContent: {
     color: '#535871',
     textAlign: 'justify',
   },
   topic: {
-     
+    fontWeight: 'bold',
     paddingBottom: 10,
-    fontFamily: fonts.poppins.bold
   },
   topic1: {
     fontWeight: 'bold',
@@ -517,54 +501,32 @@ const styles = StyleSheet.create ({
   },
   itemView: {
     width: '95%',
-    marginVertical: 20,
+    marginTop: 15,
     alignContent: 'center',
     alignSelf: 'center', 
     padding: 10,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-     
-=======
-
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
+    
     backgroundColor: '#fff',
   },
   itemView4: {
     width: '95%',
     backgroundColor: '#fff',
-    marginVertical: 20,
+    marginTop: 10,
     padding: 10,
     alignContent: 'center',
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-  },
-  center: {
-    alignSelf: 'center',
-     
-    marginBottom: 5,
-    flexDirection: 'row',
-     
-=======
   },
   center: {
     alignSelf: 'center',
     marginBottom: 5,
     flexDirection: 'row',
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   },
   wait: {
     color: '#252969',
     fontSize: 12,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
     paddingTop: 10,
-     
-=======
-    paddingTop: 10,
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     marginBottom: 20,
   },
   addView8: {
@@ -580,14 +542,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     backgroundColor: '#fff',
     padding: 10,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-     
-    
-     
-=======
-   
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
+  
   },
   item1: {
     width: '100%',
@@ -598,12 +553,7 @@ const styles = StyleSheet.create ({
     marginLeft: 30,
     alignSelf: 'center',
     marginBottom: 10,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-     
-=======
-  
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
+   
   },
   item22: {
     flexDirection: 'row',
@@ -674,10 +624,6 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     borderColor: '#0B277F',
     borderRadius: 8,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     paddingTop: 7,
     marginTop: 20,
   },
@@ -701,10 +647,6 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
   },
   itemPriceText: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -731,35 +673,23 @@ const styles = StyleSheet.create ({
     marginTop: 20,
   },
   col1: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
+   
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
+   
     borderRadius: 18,
     textAlign: 'center',
   
   },
   col3: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
+   
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
+   
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -769,10 +699,6 @@ const styles = StyleSheet.create ({
   bImage1: {
     width: '100%',
     height: 220,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     overflow: 'hidden',
     borderBottomEndRadius: 20, 
     borderBottomStartRadius: 20, 
@@ -785,7 +711,7 @@ const styles = StyleSheet.create ({
   },
   menuImage: {
     marginLeft: 20,
-    marginTop: 50,
+    marginTop: 75,
   },
   counterView: {
     borderWidth: 1,
@@ -825,9 +751,8 @@ const styles = StyleSheet.create ({
     fontSize: 17,
     paddingLeft: 10,
     color: '#000',
-    marginTop: 50,
+    marginTop: 73,
     width: '80%',
-    fontFamily:poppins
   },
   headerText1: {
     fontSize: 20,
@@ -837,10 +762,6 @@ const styles = StyleSheet.create ({
 
   },
   card: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     width: '100%',
     marginBottom: 4,
     
@@ -871,10 +792,6 @@ const styles = StyleSheet.create ({
     marginTop: 5,
   },
   segmentText: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     paddingRight: 10,
     marginRight: 10,
   },
@@ -902,10 +819,6 @@ const styles = StyleSheet.create ({
     marginTop: 1,
     fontSize: 14,
     paddingBottom: 3,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   },
   label50:{
     color: '#454A65',
@@ -916,47 +829,30 @@ const styles = StyleSheet.create ({
   label70: {
     fontWeight: 'bold',
     paddingBottom: 6,
-    fontFamily:fonts.poppins.bold
-
   },
   label60:{
     color: '#454A65',
     marginTop: 1,
     fontSize: 12,
     width: '40%',
-    fontFamily:poppins
   },
   label88:{
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     fontWeight: 'bold',
     marginTop: 1,
     fontSize: 12,
     width: '100%',
-    fontFamily:poppins
-
   },
   label:{
     color: '#454A65',
     marginTop: 1,
     fontSize: 12,
     width: '50%',
-    fontFamily:poppins
-
   },
   labelZ:{
     color: '#454A65',
     width: '50%',
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     marginTop: 1,
     fontSize: 13,
-    fontFamily:poppins
-
   },
   labelZZ:{
     color: '#454A65',
@@ -968,11 +864,11 @@ const styles = StyleSheet.create ({
   txt10: {
     color: '#3D3838',
     width: '60%',
+    marginBottom: 15,
     fontSize: 12,
-    fontFamily:poppins
-
   }, 
   txt20: {
+    marginBottom: 15,
     color: '#3D3838',
     width: '38%',
     fontSize: 12,
@@ -981,28 +877,21 @@ const styles = StyleSheet.create ({
     color: '#888',
     width: '100%',
     paddingTop: 3,
-    fontFamily:poppins
-
   },
   txt60: {
     color: '#3D3838',
     width: '50%',
     fontSize: 12,
-    fontFamily:poppins
-
   },
   txt61: {
     color: 'red',
     width: '50%',
-    fontSize: 12,
-    fontFamily:poppins
-
+    fontSize: 12
   },
   txt: {
     color: '#3D3838',
     fontSize: 12,
-    fontFamily:poppins
-
+    marginBottom: 15,
   },
   searchInput: {
     width: '100%',
@@ -1060,10 +949,6 @@ const styles = StyleSheet.create ({
     marginTop: -14,
   },
   locImage: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     width: 10,
     height: 10,
     width: 10,
@@ -1105,13 +990,7 @@ modal: {
   padding: 0
 },
 modalView: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-   
-   
-   
-=======
   
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -1125,12 +1004,7 @@ label1: {
   paddingLeft: 20,
 },
 forgotModalView: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-   
-   
-   
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
+
   alignSelf: 'center',
   height: 330,
   width: '90%',
@@ -1145,10 +1019,6 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-   
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
@@ -1161,10 +1031,6 @@ mLoading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-   
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: "rgba(0, 0, 0, 0.5)"
@@ -1200,10 +1066,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -1212,10 +1074,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
