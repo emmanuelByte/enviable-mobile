@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   AppState,
   View,
@@ -21,28 +21,28 @@ import {
 } from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 
-import {NavigationActions} from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapView, {PROVIDER_GOOGLE, Marker, MarkerAnimated, AnimatedRegion} from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker, MarkerAnimated, AnimatedRegion } from 'react-native-maps';
 navigator.geolocation = require('@react-native-community/geolocation');
 import MapViewDirections from 'react-native-maps-directions';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import {showLocation} from 'react-native-map-link';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { showLocation } from 'react-native-map-link';
 import RNPickerSelect from 'react-native-picker-select';
-import {Rating, AirbnbRating} from 'react-native-ratings';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
-import {SERVER_URL} from '../../config/server';
+import { SERVER_URL } from '../../config/server';
 import { MAP_API_KEY } from '../config/keys';
 import fonts, { poppins } from '../../config/fonts';
 
 export class RideOrderDetails extends Component {
   constructor(props) {
     super();
-  
+
     this.ratingCompleted = this.ratingCompleted.bind(this);
-     
+
     this.state = {
       visible: false,
       loaderVisible: false,
@@ -55,14 +55,14 @@ export class RideOrderDetails extends Component {
       rating: 0,
       vs: false,
       rateVisible: false,
-      driver:false
-      };
+      driver: false
+    };
   }
 
-   
-   
-   
-   
+
+
+
+
 
   handleBackPress = () => {
     this.props.navigation.navigate('Home');
@@ -72,12 +72,6 @@ export class RideOrderDetails extends Component {
   componentDidMount() {
     this.componentDidFocus();
 
-     
-     
-     
-     
-     
-     
   }
 
   toggleUpdate() {
@@ -97,18 +91,18 @@ export class RideOrderDetails extends Component {
   componentDidFocus = () => {
     this.getLoggedInUser();
 
-     
-      this.getOrder(this.props.route.params.orderId);
 
-    setInterval(()=>{
+    this.getOrder(this.props.route.params.orderId);
+
+    setInterval(() => {
       this.updateDriverLocation(this.props.route.params.orderId);
 
     }, 10000)
   };
 
   getDistance(origin, destination) {
-     
-     
+
+
     fetch(
       `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
       {
@@ -118,7 +112,7 @@ export class RideOrderDetails extends Component {
       .then(response => response.json())
       .then(res => {
         this.hideLoader();
-         
+
         this.setState({
           time: res.rows[0].elements[0].duration.text,
         });
@@ -140,71 +134,71 @@ export class RideOrderDetails extends Component {
               onPress: () => this.getDistance(origin, destination),
             },
           ],
-           
+
         );
         return;
       });
   }
 
-  updateDriverLocation(orderId){
+  updateDriverLocation(orderId) {
     fetch(`${SERVER_URL}/mobile/get_ride_share_order/${orderId}`, {
       method: 'GET',
     })
       .then(response => response.json())
       .then(res => {
-       
+
         if (res.success) {
-          if(res.rider.longitude != null){
+          if (res.rider.longitude != null) {
 
             var origin =
-            JSON.parse(res.rider.latitude) +
-            ',' +
-            JSON.parse(res.rider.longitude);
+              JSON.parse(res.rider.latitude) +
+              ',' +
+              JSON.parse(res.rider.longitude);
 
           }
-          else{
+          else {
             var origin =
-            JSON.parse(res.order.pickup_latitude) +
-            ',' +
-            JSON.parse(res.order.pickup_longitude);
+              JSON.parse(res.order.pickup_latitude) +
+              ',' +
+              JSON.parse(res.order.pickup_longitude);
 
           }
-        
+
           var destination =
             JSON.parse(res.order.delivery_latitude) +
             ',' +
             JSON.parse(res.order.delivery_longitude);
 
           this.getDistance(origin, destination);
-         
-          if(res.rider.longitude != null){
+
+          if (res.rider.longitude != null) {
             if (this.marker) {
               let newCoordinate = {
-                    longitude: parseFloat(res.rider.longitude), latitude: parseFloat(res.rider.latitude) 
-                  }
+                longitude: parseFloat(res.rider.longitude), latitude: parseFloat(res.rider.latitude)
+              }
               this.marker.animateMarkerToCoordinate(newCoordinate, 1000);
             }
 
             this.setState({
               order: res.order,
               rider: res.rider,
-               
-               
-               
-  
+
+
+
+
             });
-             
-             
-             
-             
-             
-             
-             
-  
-             
+
+
+
+
+
+
+
+
+
           }
-         
-        
+
+
         } else {
           Alert.alert('Error', res.error);
         }
@@ -220,14 +214,14 @@ export class RideOrderDetails extends Component {
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            {text: 'Refresh', onPress: () => this.updateDriverLocation(orderId)},
+            { text: 'Refresh', onPress: () => this.updateDriverLocation(orderId) },
           ],
-           
+
         );
       });
   }
 
-  getOrder(orderId){
+  getOrder(orderId) {
     this.showLoader();
     fetch(`${SERVER_URL}/mobile/get_ride_share_order/${orderId}`, {
       method: 'GET',
@@ -259,27 +253,27 @@ export class RideOrderDetails extends Component {
             longitudeDelta: 0.009421,
           };
           console.log(res.rider, 'res.rider');
-          if(res.rider.longitude != null){
+          if (res.rider.longitude != null) {
             this.setState({
               order: res.order,
               rider: res.rider,
               origin: origin,
               destination: destination,
-               
-  
+
+
             });
           }
-          else{
+          else {
             this.setState({
               order: res.order,
               rider: res.rider,
               origin: origin,
               destination: destination,
-  
+
             });
           }
-         
-        
+
+
         } else {
           Alert.alert('Error', res.error);
         }
@@ -295,9 +289,9 @@ export class RideOrderDetails extends Component {
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            {text: 'Refresh', onPress: () => this.getOrder(orderId)},
+            { text: 'Refresh', onPress: () => this.getOrder(orderId) },
           ],
-           
+
         );
       });
   }
@@ -345,47 +339,47 @@ export class RideOrderDetails extends Component {
     });
   }
   use() {
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     const startPoint = {
       latitude: parseFloat(this.state.order.pickup_latitude),
       longitude: parseFloat(this.state.order.pickup_longitude),
-    } 
+    }
 
     const endPoint = {
       latitude: parseFloat(this.state.order.delivery_latitude),
       longitude: parseFloat(this.state.order.delivery_longitude),
     }
 
-		const transportPlan = 'w';
-if(this.state.order.status == "Rider accepted"){
-    OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
-      console.log(res)
-    });
+    const transportPlan = 'w';
+    if (this.state.order.status == "Rider accepted") {
+      OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
+        console.log(res)
+      });
 
+    }
   }
-}
 
   changeStatus(status) {
-     
+
 
     this.showLoader();
     fetch(
@@ -401,7 +395,7 @@ if(this.state.order.status == "Rider accepted"){
         if (res.success) {
           this.getOrder(this.props.route.params.orderId);
           this.showAlert('Success', res.success);
-           
+
         } else {
           Alert.alert('Error', res.error);
         }
@@ -440,7 +434,7 @@ if(this.state.order.status == "Rider accepted"){
         <View>
           <TouchableOpacity
             style={styles.addView7}
-            onPress={() => this.setState({rateVisible: true})}>
+            onPress={() => this.setState({ rateVisible: true })}>
             <Text style={styles.est1}>Rate this driver? </Text>
           </TouchableOpacity>
         </View>
@@ -461,8 +455,8 @@ if(this.state.order.status == "Rider accepted"){
     }
   }
   rateRider() {
-    if(this.state.rating === 0){
-      Alert.alert('One more thing','Please rate your driver.');
+    if (this.state.rating === 0) {
+      Alert.alert('One more thing', 'Please rate your driver.');
       return;
     }
     this.setState({
@@ -508,7 +502,7 @@ if(this.state.order.status == "Rider accepted"){
   };
 
   render() {
-    const {visible} = this.state;
+    const { visible } = this.state;
     return (
       <View style={StyleSheet.absoluteFillObject}>
         {this.state.origin && this.state.destination && (
@@ -521,28 +515,28 @@ if(this.state.order.status == "Rider accepted"){
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
             showsUserLocation={true}
-             
-             
-             
+
+
+
           >
             <Marker coordinate={this.state.origin}></Marker>
-           {
-             this.state.driver !== false ? (
-              <MarkerAnimated
-              ref={marker => {
-                this.marker = marker;
-              }}
-              coordinate={{
-                longitude: this.state.driver.longitude,
-                latitude: this.state.driver.latitude
-              }}
-             
-              >
-                <Image style={{width:35, height:15}} source={require('../../images/car-ico.png')}/>
-              </MarkerAnimated>
-             )
-             : null
-           }
+            {
+              this.state.driver !== false ? (
+                <MarkerAnimated
+                  ref={marker => {
+                    this.marker = marker;
+                  }}
+                  coordinate={{
+                    longitude: this.state.driver.longitude,
+                    latitude: this.state.driver.latitude
+                  }}
+
+                >
+                  <Image style={{ width: 35, height: 15 }} source={require('../../images/car-ico.png')} />
+                </MarkerAnimated>
+              )
+                : null
+            }
 
             <Marker coordinate={this.state.destination}></Marker>
             <MapViewDirections
@@ -553,7 +547,7 @@ if(this.state.order.status == "Rider accepted"){
               strokeColor="brown"
               strokeWidth={3}
               apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
-               
+
 
             />
           </MapView>
@@ -580,7 +574,7 @@ if(this.state.order.status == "Rider accepted"){
                   <View style={styles.row}>
                     <View style={styles.col1}>
                       <Image
-                        source={{uri: SERVER_URL + this.state.rider.photo}}
+                        source={{ uri: SERVER_URL + this.state.rider.photo }}
                         style={styles.carImage}
                       />
                       <View style={styles.rView}>
@@ -612,14 +606,14 @@ if(this.state.order.status == "Rider accepted"){
                         style={styles.carImage}
                       />
                     </View>
-                    <View style={{marginVertical:10}}>
+                    <View style={{ marginVertical: 10 }}>
                       <Text style={styles.price}>XXXXX XXXXX</Text>
                       <Text style={styles.plate}>XXXXX</Text>
                     </View>
                   </View>
                 )}
 
-               {this.state.rider ? <TouchableOpacity
+                {this.state.rider ? <TouchableOpacity
                   onPress={() =>
                     Linking.openURL('tel:' + this.state.rider.phone1)
                   }
@@ -644,8 +638,8 @@ if(this.state.order.status == "Rider accepted"){
                     )}
                   </View>
                 </TouchableOpacity>
-    : null
-            }
+                  : null
+                }
                 <View style={styles.statusView}>
                   <Text style={styles.statusText}>
                     {this.state.order.status}
@@ -661,10 +655,10 @@ if(this.state.order.status == "Rider accepted"){
         <Modal
           isVisible={this.state.rateVisible}
           onBackdropPress={() => {
-            this.setState({rateVisible: false});
+            this.setState({ rateVisible: false });
           }}
           onBackdropPress={() => {
-            this.setState({rateVisible: false});
+            this.setState({ rateVisible: false });
           }}
           height={'100%'}
           width={'100%'}
@@ -673,7 +667,7 @@ if(this.state.order.status == "Rider accepted"){
 
             {this.state.rider && (
               <Image
-                source={{uri: SERVER_URL + this.state.rider.photo}}
+                source={{ uri: SERVER_URL + this.state.rider.photo }}
                 style={styles.rImage}
               />
             )}
@@ -690,17 +684,17 @@ if(this.state.order.status == "Rider accepted"){
               imageSize={20}
               showRating={false}
               onFinishRating={this.ratingCompleted}
-              style={{paddingVertical: 10}}
+              style={{ paddingVertical: 10 }}
             />
             <TextInput
               style={styles.input}
               onChangeText={text => {
-                this.setState({review: text});
+                this.setState({ review: text });
               }}
               underlineColorAndroid="transparent"
               placeholder={'Leave a review'}
-               
-               
+
+
               multiline={true}
               value={this.state.review}
             />
@@ -744,18 +738,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   menuImage: {
-     
-     
+
+
     marginLeft: 20,
     marginTop: 39,
   },
   map: {
     height: '100%',
     width: '100%',
-    position:"absolute",
-    top:0,
-    left:0,
-    right:0,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
   },
   input: {
     width: '90%',
@@ -763,8 +757,8 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: 'rgba(126,83,191, 0.1)',
     borderRadius: 7,
-     
-     
+
+
     alignSelf: 'center',
     marginTop: 5,
     paddingLeft: 15,
@@ -803,7 +797,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: '#8D9092',
-    fontFamily:poppins
+    fontFamily: poppins
   },
   price: {
     fontSize: 14,
@@ -815,8 +809,8 @@ const styles = StyleSheet.create({
   price2: {
     fontSize: 14,
     textAlign: 'right',
-     
-     
+
+
     marginTop: 2,
     fontFamily: fonts.poppins.regular,
 
@@ -824,17 +818,17 @@ const styles = StyleSheet.create({
   plate: {
     fontSize: 12,
     color: '#848484',
-     
-     
-    fontFamily:poppins
+
+
+    fontFamily: poppins
   },
   est: {
     width: '90%',
     alignSelf: 'center',
     marginTop: 10,
-    fontFamily:poppins,
-    fontSize:12,
-     
+    fontFamily: poppins,
+    fontSize: 12,
+
   },
   est1: {
     width: '100%',
@@ -842,9 +836,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 20,
     color: '#282828',
-     
+
     textAlign: 'right',
-    fontFamily:poppins
+    fontFamily: poppins
   },
   use: {
     color: '#0B277F',
@@ -859,18 +853,18 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   rText: {
-    fontFamily:poppins,
+    fontFamily: poppins,
     color: '#fff',
     textAlign: 'center',
     fontSize: 9,
     paddingLeft: 6,
   },
   sText: {
-     
-     
-     
+
+
+
     paddingTop: 10,
-     
+
   },
   submitButton: {
     elevation: 2,
@@ -881,7 +875,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingTop: 12,
     paddingBottom: 13,
-    fontFamily:poppins
+    fontFamily: poppins
   },
 
   submitButtonText: {
@@ -893,7 +887,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     flexDirection: 'row',
-     
+
     zIndex: 9999999999,
     marginTop: 5,
     paddingTop: 15,
@@ -917,32 +911,32 @@ const styles = StyleSheet.create({
   },
   price1: {
     fontSize: 14,
-     
+
     marginTop: 3,
     paddingLeft: 10,
   },
   cardImage: {
     width: 20,
     height: 20,
-     
+
     marginTop: 3,
   },
-   
-   
-   
-   
-   
+
+
+
+
+
 
   label1: {
     color: '#333',
     marginTop: 15,
-     
+
     textAlign: 'center',
   },
   rateModalView: {
-     
-     
-     
+
+
+
     alignSelf: 'center',
     height: 340,
     width: '90%',
@@ -953,7 +947,7 @@ const styles = StyleSheet.create({
   },
   headerText7: {
     color: '#333',
-     
+
     fontWeight: '700',
     marginTop: 5,
     fontSize: 12,
@@ -993,7 +987,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-     
+
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -1004,7 +998,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-     
+
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -1013,7 +1007,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-     
+
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
