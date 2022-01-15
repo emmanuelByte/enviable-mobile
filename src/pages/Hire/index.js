@@ -108,10 +108,6 @@ class Hires extends Component {
             },
             {text: 'Refresh', onPress: () => this.getOrders()},
           ],
-<<<<<<< HEAD:src/pages/Hire/index.js
-           
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
         );
       });
   }
@@ -303,14 +299,7 @@ class Hires extends Component {
                 this.setState({location: text});
               }}
               underlineColorAndroid="transparent"
-<<<<<<< HEAD:src/pages/Hire/index.js
-               
-               
-               
-               
-=======
               
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
             />
 
             <Text style={styles.inputLabel}>From</Text>
@@ -326,10 +315,6 @@ class Hires extends Component {
                 testID="dateTimePicker"
                 value={this.state.fromDate}
                 mode={'date'}
-<<<<<<< HEAD:src/pages/Hire/index.js
-                 
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
                 display="default"
                 onChange={this.onFromChange}
               />
@@ -347,10 +332,6 @@ class Hires extends Component {
                 testID="dateTimePicker"
                 value={this.state.toDate}
                 mode={'date'}
-<<<<<<< HEAD:src/pages/Hire/index.js
-                 
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
                 display="default"
                 onChange={this.onToChange}
               />
@@ -364,10 +345,6 @@ class Hires extends Component {
                 this.setState({service: text});
               }}
               underlineColorAndroid="transparent"
-<<<<<<< HEAD:src/pages/Hire/index.js
-               
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
               multiline={true}
             />
 
@@ -421,10 +398,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 100,
     zIndex: 0,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     flexDirection: 'row',
   },
   cartImage: {
@@ -444,10 +417,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignContent: 'center',
     alignSelf: 'center',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     flexDirection: 'row',
   },
   itemView4: {
@@ -466,21 +435,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-  },
-  requestText: {
-    color: 'white',
-     
-    borderRadius: 10,
-     
-     
-=======
   },
   requestText: {
     color: 'white',
     borderRadius: 10,
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     zIndex: 10,
     fontFamily:poppins,
 
@@ -498,10 +456,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000',
     textAlign: 'right',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
   },
   item1: {
     width: '60%',
@@ -555,30 +509,15 @@ const styles = StyleSheet.create({
   },
 
   rateModalView: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-     
-=======
-
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     alignSelf: 'center',
     height: 600,
     width: '90%',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     backgroundColor: '#FFF',
     paddingTop: 18,
     paddingBottom: 38,
   },
   headerText7: {
     color: '#333',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     fontWeight: '700',
     marginTop: 5,
     marginBottom: 20,
@@ -591,10 +530,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   itemPriceText: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -620,34 +555,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   col1: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col3: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -655,10 +574,6 @@ const styles = StyleSheet.create({
   bImage1: {
     width: '100%',
     height: 220,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     overflow: 'hidden',
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
@@ -734,10 +649,6 @@ const styles = StyleSheet.create({
     fontFamily:poppins
     },
   card: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     width: '100%',
     marginBottom: 4,
     borderWidth: 1,
@@ -768,11 +679,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   segmentText: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-    fontFamily:poppins,
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     paddingRight: 10,
     marginRight: 10,
   },
@@ -788,12 +694,6 @@ const styles = StyleSheet.create({
     color: '#454A65',
     marginTop: 10,
     fontSize: 12,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-=======
-
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
   },
   labelZ: {
     color: '#454A65',
@@ -820,21 +720,11 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     color: '#454A65',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-    fontFamily:poppins,
-=======
     fontWeight: '700',
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
 
     fontSize: 12,
     width: '90%',
     alignSelf: 'center',
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
   },
   dateText: {
     paddingTop: 10,
@@ -895,10 +785,6 @@ const styles = StyleSheet.create({
     marginTop: -14,
   },
   locImage: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     width: 10,
     height: 10,
     width: 10,
@@ -940,13 +826,7 @@ const styles = StyleSheet.create({
     height:'100%',
   },
   modalView: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-     
-=======
     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -960,13 +840,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   forgotModalView: {
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-     
-     
-=======
     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -981,10 +855,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-<<<<<<< HEAD:src/pages/Hire/index.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Hires.js
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',

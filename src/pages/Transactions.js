@@ -72,10 +72,7 @@ export class Transactions extends Component {
    .then((response) => response.json())
    .then((res) => {
      
-<<<<<<< HEAD:src/pages/Transactions.js
         
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
        this.hideLoader();
        if(res.success){
           this.setState({
@@ -205,11 +202,7 @@ payWithCard(){
         this.hideLoader();
         if(res.success){
           this.showAlert("success", res.success);
-<<<<<<< HEAD:src/pages/Transactions.js
          
-=======
-        
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
           this.getTransactions()
         }else{
           this.showAlert("Error", res.error)
@@ -275,11 +268,7 @@ displayNoTrans(){
               </View>
           </LinearGradient>
         </ImageBackground>
-<<<<<<< HEAD:src/pages/Transactions.js
       
-=======
-       
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
         <Text style = {styles.headerText5}>Transactions</Text>
         <ScrollView style={styles.sView} showsVerticalScrollIndicator={false}>
           <View style={styles.cView}>
@@ -387,12 +376,8 @@ const styles = StyleSheet.create ({
   },
   header: {
     width: '100%',
-<<<<<<< HEAD:src/pages/Transactions.js
      
      
-=======
-  
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     flexDirection: 'row',
   },
   cartImage: {
@@ -415,10 +400,7 @@ const styles = StyleSheet.create ({
     marginTop: 20,
   },
   segmentText: {
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     fontSize: 12,
     paddingTop: 6,
     paddingBottom: 7,
@@ -427,10 +409,7 @@ const styles = StyleSheet.create ({
   
   },
   segmentText1: {
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     fontSize: 12,
     paddingTop: 6,
     paddingBottom: 7,
@@ -468,10 +447,7 @@ const styles = StyleSheet.create ({
     backgroundColor: '#fff',
     alignContent: 'center',
     alignSelf: 'center',
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     flexDirection: 'row',
   },
   itemView4: {
@@ -490,10 +466,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
   },
   orderNumber: {
     color: '#000'
@@ -562,10 +535,7 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
   },
   itemPriceText: {
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -598,45 +568,30 @@ const styles = StyleSheet.create ({
     width: '100%',
     height: 160,
     zIndex:0,
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     overflow: 'hidden',
     borderRadius: 20, 
     borderRadius: 20, 
   },
   
   col1: {
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     borderRadius: 18,
     textAlign: 'center',
   
   },
   col3: {
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -705,10 +660,7 @@ const styles = StyleSheet.create ({
   },
   headerText0: {
     fontSize: 17,
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     color: '#fff',
     marginTop: 29,
     textAlign: 'center',
@@ -723,10 +675,7 @@ const styles = StyleSheet.create ({
 
   },
   card: {
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     width: '100%',
     marginBottom: 4,
     
@@ -772,10 +721,7 @@ const styles = StyleSheet.create ({
     color: '#454A65',
     marginTop: 1,
     fontSize: 12,
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     textAlign: 'right'
   },
   labelZ:{
@@ -843,10 +789,7 @@ const styles = StyleSheet.create ({
     marginTop: -14,
   },
   locImage: {
-<<<<<<< HEAD:src/pages/Transactions.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
     width: 10,
     height: 10,
     width: 10,
@@ -882,10 +825,7 @@ addGradient: {
 },
 addGradient1: {
   width: '100%',
-<<<<<<< HEAD:src/pages/Transactions.js
    
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
 },
 addText1: {
   textAlign: 'center',
@@ -900,10 +840,7 @@ addGradient6: {
   borderWidth: 1,
   borderColor: '#0B277F',
   borderRadius: 8,
-<<<<<<< HEAD:src/pages/Transactions.js
    
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
   paddingTop: 7,
   marginTop: 20,
 },
@@ -919,13 +856,9 @@ modal: {
   padding: 0
 },
 modalView: {
-<<<<<<< HEAD:src/pages/Transactions.js
    
    
    
-=======
-  
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -939,13 +872,9 @@ label1: {
   paddingLeft: 20,
 },
 forgotModalView: {
-<<<<<<< HEAD:src/pages/Transactions.js
    
    
    
-=======
-
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -972,10 +901,7 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-<<<<<<< HEAD:src/pages/Transactions.js
    
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Transactions.js
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

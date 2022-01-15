@@ -521,12 +521,6 @@ const styles = StyleSheet.create ({
     alignContent: 'center',
     alignSelf: 'center', 
     padding: 10,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-     
-=======
-
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     backgroundColor: '#fff',
   },
   itemView4: {
@@ -538,33 +532,16 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-  },
-  center: {
-    alignSelf: 'center',
-     
-    marginBottom: 5,
-    flexDirection: 'row',
-     
-=======
   },
   center: {
     alignSelf: 'center',
     marginBottom: 5,
     flexDirection: 'row',
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   },
   wait: {
     color: '#252969',
     fontSize: 12,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
     paddingTop: 10,
-     
-=======
-    paddingTop: 10,
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     marginBottom: 20,
   },
   addView8: {
@@ -580,14 +557,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     backgroundColor: '#fff',
     padding: 10,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-     
-    
-     
-=======
    
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   },
   item1: {
     width: '100%',
@@ -598,12 +568,7 @@ const styles = StyleSheet.create ({
     marginLeft: 30,
     alignSelf: 'center',
     marginBottom: 10,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-     
-=======
   
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   },
   item22: {
     flexDirection: 'row',
@@ -674,10 +639,6 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     borderColor: '#0B277F',
     borderRadius: 8,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     paddingTop: 7,
     marginTop: 20,
   },
@@ -701,10 +662,6 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
   },
   itemPriceText: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -731,35 +688,19 @@ const styles = StyleSheet.create ({
     marginTop: 20,
   },
   col1: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     borderRadius: 18,
     textAlign: 'center',
   
   },
   col3: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -769,10 +710,6 @@ const styles = StyleSheet.create ({
   bImage1: {
     width: '100%',
     height: 220,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     overflow: 'hidden',
     borderBottomEndRadius: 20, 
     borderBottomStartRadius: 20, 
@@ -837,10 +774,6 @@ const styles = StyleSheet.create ({
 
   },
   card: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     width: '100%',
     marginBottom: 4,
     
@@ -871,10 +804,6 @@ const styles = StyleSheet.create ({
     marginTop: 5,
   },
   segmentText: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     paddingRight: 10,
     marginRight: 10,
   },
@@ -902,10 +831,6 @@ const styles = StyleSheet.create ({
     marginTop: 1,
     fontSize: 14,
     paddingBottom: 3,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   },
   label50:{
     color: '#454A65',
@@ -927,10 +852,6 @@ const styles = StyleSheet.create ({
     fontFamily:poppins
   },
   label88:{
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     fontWeight: 'bold',
     marginTop: 1,
     fontSize: 12,
@@ -949,10 +870,6 @@ const styles = StyleSheet.create ({
   labelZ:{
     color: '#454A65',
     width: '50%',
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     marginTop: 1,
     fontSize: 13,
     fontFamily:poppins
@@ -1060,10 +977,6 @@ const styles = StyleSheet.create ({
     marginTop: -14,
   },
   locImage: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     width: 10,
     height: 10,
     width: 10,
@@ -1105,13 +1018,7 @@ modal: {
   padding: 0
 },
 modalView: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-   
-   
-   
-=======
   
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -1125,12 +1032,6 @@ label1: {
   paddingLeft: 20,
 },
 forgotModalView: {
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-   
-   
-   
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   alignSelf: 'center',
   height: 330,
   width: '90%',
@@ -1145,10 +1046,6 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-   
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
@@ -1161,10 +1058,6 @@ mLoading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-   
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: "rgba(0, 0, 0, 0.5)"
@@ -1200,10 +1093,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -1212,10 +1101,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-<<<<<<< HEAD:src/pages/Hire/HireDetails.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/HireDetails.js
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',

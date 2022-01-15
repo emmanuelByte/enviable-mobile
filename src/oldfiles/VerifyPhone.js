@@ -22,10 +22,7 @@ export class VerifyPhone extends Component {
       phone: props.navigation.state.params.phone,
       visible1: false,
     }
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
     this.getCities();
   }
 
@@ -47,15 +44,10 @@ export class VerifyPhone extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
          
         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
        
-=======
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
-      ],
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
     );
     return true
   }
@@ -85,7 +77,6 @@ export class VerifyPhone extends Component {
   async getLoggedInUser(){
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
          
          
          
@@ -94,11 +85,6 @@ export class VerifyPhone extends Component {
          
          
          
-=======
-        this.props.navigation.navigate('Home')
-         this.setState({
-       
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
           
       }else{
         AsyncStorage.getItem('pushToken').then((value) => {
@@ -147,10 +133,7 @@ export class VerifyPhone extends Component {
    .then((res) => {
      this.hideLoader();
        
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
         
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
        if(res.success){
           this.setState({
             cities:  res.cities
@@ -172,10 +155,7 @@ export class VerifyPhone extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
         
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
      );
     });
   }
@@ -198,7 +178,6 @@ resendVerification(){
         console.log(res);
         this.hideLoader();
         if(res.success){
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
            
            
            
@@ -206,9 +185,6 @@ resendVerification(){
            
            
            
-=======
-         
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
           this.showAlert("Status", "Code Resent")
 
         }else{
@@ -220,7 +196,6 @@ resendVerification(){
 }
 
 resendVerificationThruEmail(){
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
  
   
  
@@ -247,8 +222,6 @@ resendVerificationThruEmail(){
  
  
  
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
 
 this.props.navigation.navigate('EmailRegistration', {phone: this.state.phone});
 
@@ -389,26 +362,17 @@ const styles = StyleSheet.create ({
   body: {
     minHeight: '100%',
     marginBottom: 100,
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
      
   },
   backImage: {
     width: 18,
      
-=======
-  },
-  backImage: {
-    width: 18,
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
     marginLeft: 20,
     marginTop: 60,
   },
   headerText6: {
     color: '#fff',
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
     marginTop: 20,
     width: '90%',
     alignSelf: 'center',
@@ -455,10 +419,7 @@ const styles = StyleSheet.create ({
     color: '#fff',
     width: '90%',
     alignSelf: 'center',
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
     marginTop: 10,
   },
   input: {
@@ -559,13 +520,9 @@ modal: {
   padding: 0
 },
 modalView: {
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
    
    
    
-=======
-
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -575,13 +532,9 @@ modalView: {
 
 
 forgotModalView: {
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
    
    
    
-=======
-
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -594,10 +547,7 @@ loading: {
   right: 0,
   top: 0,
   bottom: 0,
-<<<<<<< HEAD:src/oldfiles/VerifyPhone.js
    
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/VerifyPhone.js
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'

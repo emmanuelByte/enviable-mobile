@@ -635,11 +635,7 @@ const styles = StyleSheet.create({
   headerText7: {
     color: '#333',
      
-<<<<<<< HEAD:src/pages/RideShare/RidePaymentMethod.js
      
-=======
-    fontWeight: '700',
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RidePaymentMethod.js
     marginTop: 5,
     fontSize: 14,
     fontFamily:poppins

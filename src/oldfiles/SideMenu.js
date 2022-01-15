@@ -41,10 +41,7 @@ const SideMenu = props => {
                   style={styles.userImage}
                 />
 
-<<<<<<< HEAD:src/oldfiles/SideMenu.js
                
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/SideMenu.js
               </View>
               <View style={styles.topTextView}>
                 <Text style={styles.topTextName}>

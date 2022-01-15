@@ -80,7 +80,6 @@ export class RideConfirm extends Component {
 
   componentDidMount() {
      
-<<<<<<< HEAD:src/pages/RideShare/RideConfirm.js
     this.componentDidFocus();
 
      
@@ -90,15 +89,6 @@ export class RideConfirm extends Component {
      
      
      
-=======
-    console.log(this.props.navigation.state, "NAV OASDFGHJKL")
-    this.subs = [
-      this.props.navigation.addListener('didFocus', payload =>
-        this.componentDidFocus(payload),
-      ),
-    ];
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideConfirm.js
   }
 
   toggleUpdate() {

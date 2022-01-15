@@ -89,15 +89,10 @@ export class RideOrderDetails extends Component {
     Alert.alert(type, message);
   }
   componentDidFocus = () => {
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
     this.getLoggedInUser();
 
 
     this.getOrder(this.props.route.params.orderId);
-=======
-     
-      this.getOrder(this.props.navigation.state.params.orderId);
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
 
     setInterval(() => {
       this.updateDriverLocation(this.props.route.params.orderId);
@@ -106,13 +101,8 @@ export class RideOrderDetails extends Component {
   };
 
   getDistance(origin, destination) {
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
-=======
-    console.log(this.state.origin, 'sksks');
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     fetch(
       `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
       {
@@ -122,11 +112,6 @@ export class RideOrderDetails extends Component {
       .then(response => response.json())
       .then(res => {
         this.hideLoader();
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-         
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
         this.setState({
           time: res.rows[0].elements[0].duration.text,
         });
@@ -148,11 +133,6 @@ export class RideOrderDetails extends Component {
               onPress: () => this.getDistance(origin, destination),
             },
           ],
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-           
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
         );
         return;
       });
@@ -200,7 +180,6 @@ export class RideOrderDetails extends Component {
             this.setState({
               order: res.order,
               rider: res.rider,
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
 
@@ -215,22 +194,6 @@ export class RideOrderDetails extends Component {
 
 
 
-=======
-               
-               
-               
-  
-            });
-             
-             
-             
-             
-             
-             
-             
-  
-             
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
           }
 
 
@@ -251,11 +214,6 @@ export class RideOrderDetails extends Component {
             },
             { text: 'Refresh', onPress: () => this.updateDriverLocation(orderId) },
           ],
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-           
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
         );
       });
   }
@@ -298,13 +256,8 @@ export class RideOrderDetails extends Component {
               rider: res.rider,
               origin: origin,
               destination: destination,
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
-=======
-               
-  
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
             });
           }
           else {
@@ -335,11 +288,6 @@ export class RideOrderDetails extends Component {
             },
             { text: 'Refresh', onPress: () => this.getOrder(orderId) },
           ],
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-           
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
         );
       });
   }
@@ -387,7 +335,6 @@ export class RideOrderDetails extends Component {
     });
   }
   use() {
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
 
@@ -406,26 +353,6 @@ export class RideOrderDetails extends Component {
 
 
 
-=======
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
 
 
     const startPoint = {
@@ -448,11 +375,6 @@ export class RideOrderDetails extends Component {
   }
 
   changeStatus(status) {
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
 
     this.showLoader();
     fetch(
@@ -468,11 +390,6 @@ export class RideOrderDetails extends Component {
         if (res.success) {
           this.getOrder(this.props.route.params.orderId);
           this.showAlert('Success', res.success);
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-           
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
         } else {
           Alert.alert('Error', res.error);
         }
@@ -592,7 +509,6 @@ export class RideOrderDetails extends Component {
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
             showsUserLocation={true}
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
 
@@ -615,28 +531,6 @@ export class RideOrderDetails extends Component {
               )
                 : null
             }
-=======
-           
-          >
-            <Marker coordinate={this.state.origin}></Marker>
-           {
-             this.state.driver !== false ? (
-              <MarkerAnimated
-              ref={marker => {
-                this.marker = marker;
-              }}
-              coordinate={{
-                longitude: this.state.driver.longitude,
-                latitude: this.state.driver.latitude
-              }}
-             
-              >
-                <Image style={{width:35, height:15}} source={require('../../src/imgs/car-ico.png')}/>
-              </MarkerAnimated>
-             )
-             : null
-           }
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
 
             <Marker coordinate={this.state.destination}></Marker>
             <MapViewDirections
@@ -647,11 +541,6 @@ export class RideOrderDetails extends Component {
               strokeColor="brown"
               strokeWidth={3}
               apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-               
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
 
             />
           </MapView>
@@ -797,13 +686,8 @@ export class RideOrderDetails extends Component {
               }}
               underlineColorAndroid="transparent"
               placeholder={'Leave a review'}
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
-=======
-               
-               
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
               multiline={true}
               value={this.state.review}
             />
@@ -847,13 +731,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   menuImage: {
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
-=======
-     
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     marginLeft: 20,
     marginTop: 39,
   },
@@ -871,13 +750,8 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: 'rgba(126,83,191, 0.1)',
     borderRadius: 7,
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
-=======
-     
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     alignSelf: 'center',
     marginTop: 5,
     paddingLeft: 15,
@@ -928,13 +802,8 @@ const styles = StyleSheet.create({
   price2: {
     fontSize: 14,
     textAlign: 'right',
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
-=======
-     
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     marginTop: 2,
     fontFamily: fonts.poppins.regular,
 
@@ -942,27 +811,17 @@ const styles = StyleSheet.create({
   plate: {
     fontSize: 12,
     color: '#848484',
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
     fontFamily: poppins
-=======
-     
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
   },
   est: {
     width: '90%',
     alignSelf: 'center',
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
     marginTop: 10,
     fontFamily: poppins,
     fontSize: 12,
 
-=======
-    marginTop: 15,
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
   },
   est1: {
     width: '100%',
@@ -970,11 +829,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 20,
     color: '#282828',
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     textAlign: 'right',
     fontFamily: poppins
   },
@@ -998,19 +852,11 @@ const styles = StyleSheet.create({
     paddingLeft: 6,
   },
   sText: {
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
 
 
     paddingTop: 10,
 
-=======
-     
-     
-     
-    paddingTop: 10,
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
   },
   submitButton: {
     elevation: 2,
@@ -1033,11 +879,6 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     flexDirection: 'row',
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     zIndex: 9999999999,
     marginTop: 5,
     paddingTop: 15,
@@ -1061,18 +902,12 @@ const styles = StyleSheet.create({
   },
   price1: {
     fontSize: 14,
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     marginTop: 3,
     paddingLeft: 10,
   },
   cardImage: {
     width: 20,
     height: 20,
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
     marginTop: 3,
   },
@@ -1081,21 +916,10 @@ const styles = StyleSheet.create({
 
 
 
-=======
-     
-    marginTop: 3,
-  },
-   
-   
-   
-   
-   
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
 
   label1: {
     color: '#333',
     marginTop: 15,
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
 
     textAlign: 'center',
   },
@@ -1103,15 +927,6 @@ const styles = StyleSheet.create({
 
 
 
-=======
-     
-    textAlign: 'center',
-  },
-  rateModalView: {
-     
-     
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     alignSelf: 'center',
     height: 340,
     width: '90%',
@@ -1122,11 +937,6 @@ const styles = StyleSheet.create({
   },
   headerText7: {
     color: '#333',
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     fontWeight: '700',
     marginTop: 5,
     fontSize: 12,
@@ -1166,11 +976,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 9999999999999999999999999,
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -1181,11 +986,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -1194,11 +994,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-<<<<<<< HEAD:src/pages/RideShare/RideOrderDetails.js
-
-=======
-     
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/RideShare/RideOrderDetails.js
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',

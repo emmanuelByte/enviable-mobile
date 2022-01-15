@@ -10,12 +10,7 @@ import ModalFilterPicker from 'react-native-modal-filter-picker';
 export class EmailRegistration extends Component {
   constructor(props) {
     super();
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-     
-    this.state = {
-=======
      this.state = {
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
       toggleUpdate: false,
@@ -43,37 +38,11 @@ export class EmailRegistration extends Component {
   }
 
   componentWillUnmount() {
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-     
-  }
-
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-
-  componentDidMount() {
-     
-=======
    }
 
   
 
   componentDidMount() {
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
   }
 
   toggleUpdate(){
@@ -98,17 +67,7 @@ export class EmailRegistration extends Component {
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
         this.props.navigation.navigate('Home')
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-         
-         
-         
-         
-         
-         
-         
-=======
       
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
           
       }else{
         AsyncStorage.getItem('pushToken').then((value) => {
@@ -157,10 +116,6 @@ export class EmailRegistration extends Component {
    .then((res) => {
      this.hideLoader();
        
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-        
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
        if(res.success){
           this.setState({
             cities:  res.cities
@@ -182,12 +137,7 @@ export class EmailRegistration extends Component {
          },
          { text: "Refresh", onPress: () => this.getCities() }
        ],
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-        
-     );
-=======
       );
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
     });
   }
 
@@ -224,12 +174,7 @@ export class EmailRegistration extends Component {
               this.showAlert("Success", res.success);
 
 
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-               
-               
-=======
           
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
             });
           }else{
             this.showAlert("Error", res.error)
@@ -252,10 +197,6 @@ export class EmailRegistration extends Component {
       },
       body: JSON.stringify({
           email: this.state.email,
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-         
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
       })
     }).then((response) => response.json())
         .then((res) => {
@@ -317,17 +258,9 @@ onPickupSelect = (city) => {
               <Text style = {styles.label}>Enter Email Address</Text>
               <TextInput
                             style={styles.input}
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-                             
-                            onChangeText={(text) => this.setState({email: text})}
-                            underlineColorAndroid="transparent"
-                             
-                             
-=======
                              onChangeText={(text) => this.setState({email: text})}
                             underlineColorAndroid="transparent"
                           
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
                             keyboardType={'email-address'}
                           />
                           
@@ -359,19 +292,10 @@ const styles = StyleSheet.create ({
   body: {
     minHeight: '100%',
     marginBottom: 100,
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-     
-  },
-  backImage: {
-    width: 18,
-     
-    marginLeft: 20,
-=======
    },
   backImage: {
     width: 18,
      marginLeft: 20,
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
     marginTop: 40,
   },
   headerText: {
@@ -410,12 +334,7 @@ const styles = StyleSheet.create ({
     color: '#fff',
     width: '90%',
     alignSelf: 'center',
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-     
-    marginTop: 10,
-=======
      marginTop: 10,
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
   },
   input: {
     width: '90%',
@@ -450,23 +369,13 @@ const styles = StyleSheet.create ({
   },
   forgotText: {
     textAlign: 'center',
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-     
-    color: '#fff',
-=======
      color: '#fff',
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
     textAlign: 'center',
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-     
-    color: '#0B277F',
-=======
      color: '#0B277F',
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
     fontSize: 12,
   },
   createText1: {
@@ -524,11 +433,6 @@ modal: {
 },
 modalView: {
    
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-   
-   
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -538,13 +442,7 @@ modalView: {
 
 
 forgotModalView: {
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-   
-   
-   
-=======
   
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
   alignSelf: 'center',
   height: 280,
   width: '90%',
@@ -557,12 +455,7 @@ loading: {
   right: 0,
   top: 0,
   bottom: 0,
-<<<<<<< HEAD:src/oldfiles/EmailRegistration1.js
-   
-  alignItems: 'center',
-=======
    alignItems: 'center',
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/EmailRegistration1.js
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
 }

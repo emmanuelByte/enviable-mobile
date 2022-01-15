@@ -42,15 +42,10 @@ export class Welcome extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-<<<<<<< HEAD:src/oldfiles/Welcome.js
          
         { text: "Leave", onPress: () => BackHandler.exitApp() }
       ],
        
-=======
-        { text: "Leave", onPress: () => BackHandler.exitApp() }
-      ],
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
     );
     return true
   }
@@ -81,7 +76,6 @@ export class Welcome extends Component {
     await AsyncStorage.getItem('customer').then((value) => {
       if(value){
         this.props.navigation.navigate('Home')
-<<<<<<< HEAD:src/oldfiles/Welcome.js
          
          
          
@@ -89,9 +83,6 @@ export class Welcome extends Component {
          
          
          
-=======
-        
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
           
       }else{
         AsyncStorage.getItem('loginvalue').then((value) => {
@@ -125,10 +116,6 @@ export class Welcome extends Component {
       header: null
   }
 
-<<<<<<< HEAD:src/oldfiles/Welcome.js
-
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
  displayText(position, index){
    console.log(position, "pos");
    console.log(index, "index");
@@ -207,27 +194,17 @@ export class Welcome extends Component {
   render() {
     const { visible } = this.state;
     const images = [
-<<<<<<< HEAD:src/oldfiles/Welcome.js
       require('./images/a1.png'),
       require('./images/a2.png'),
       require('./images/a0.png'),
        
-=======
-      require('./imgs/a1.png'),
-      require('./imgs/a2.png'),
-      require('./imgs/a0.png'),
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
     ];
     return (
       <View style = {styles.body}>
           <StatusBar translucent={true}  backgroundColor={'#0B277F'}  />
           <ImageSlider
-<<<<<<< HEAD:src/oldfiles/Welcome.js
              
              
-=======
-       
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
             images={images}
             customSlide={({ index, item, style, width }) => (
                
@@ -241,10 +218,7 @@ export class Welcome extends Component {
                   return (
                     <TouchableOpacity
                       key={index}
-<<<<<<< HEAD:src/oldfiles/Welcome.js
                        
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
                       onPress={() => { if(position != 2) {displayText(position + 1, index + 1)}}}
                       style={styles.button}
                     >
@@ -272,12 +246,8 @@ const styles = StyleSheet.create ({
   body: {
     height: '100%',
     width: '100%',
-<<<<<<< HEAD:src/oldfiles/Welcome.js
      
      
-=======
-    
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
   },
   customSlide: {
     backgroundColor: "transparent",
@@ -291,13 +261,9 @@ const styles = StyleSheet.create ({
     bottom: 290,
     width: 300,
     height: 220,
-<<<<<<< HEAD:src/oldfiles/Welcome.js
      
     alignSelf: 'center',
      
-=======
-    alignSelf: 'center',
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
     zIndex: 0,
   },
   button: {
@@ -306,10 +272,7 @@ const styles = StyleSheet.create ({
     zIndex: 99999999,
     width: '90%',
     alignSelf: 'center',
-<<<<<<< HEAD:src/oldfiles/Welcome.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
   },
   buttonSelected: {
     zIndex: 99999999,
@@ -317,10 +280,7 @@ const styles = StyleSheet.create ({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-<<<<<<< HEAD:src/oldfiles/Welcome.js
      
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Welcome.js
   },
   buttonSelected1: {
     zIndex: 99999999,

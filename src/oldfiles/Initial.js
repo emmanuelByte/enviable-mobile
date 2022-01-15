@@ -16,13 +16,7 @@ export class Initial extends Component {
       user: false,
     }
     
-<<<<<<< HEAD:src/oldfiles/Initial.js
-     
-     
-     
-=======
    
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
   }
 
   
@@ -36,12 +30,7 @@ export class Initial extends Component {
   async getLoggedInUser(token){
     alert("jhdbnfjbdhb")
     await AsyncStorage.getItem('enviable').then((value) => {
-<<<<<<< HEAD:src/oldfiles/Initial.js
-       
-      alert(value+ 'val')
-=======
    
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
 
       if(value == null){
         this.props.navigation.navigate('PhoneRegistration')
@@ -57,10 +46,6 @@ export class Initial extends Component {
 
           }, ()=>{
 
-<<<<<<< HEAD:src/oldfiles/Initial.js
-             
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
             this.props.navigation.navigate('Home')
           
           })
@@ -68,18 +53,7 @@ export class Initial extends Component {
           this.props.navigation.navigate('VerifyPhone', {
             phone: phone
           })
-<<<<<<< HEAD:src/oldfiles/Initial.js
-           
-           
-           
-           
-           
-           
-           
-           
-=======
         
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
         }
       }, (err)=> {alert(err)})
       ;
@@ -102,10 +76,6 @@ export class Initial extends Component {
         smallIcon: "ic_notification",
         onRegister: (token) => {
           AsyncStorage.setItem('pushToken', token.token, () => {
-<<<<<<< HEAD:src/oldfiles/Initial.js
-             
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
             this.savePush(token.token,1); 
           })
         },
@@ -139,25 +109,12 @@ export class Initial extends Component {
         JSON.parse(notification.data.message).title,
         JSON.parse(notification.data.message).body,
         [
-<<<<<<< HEAD:src/oldfiles/Initial.js
-           
-           
-           
-           
-           
-           
-=======
           
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
           { text: "Check order", onPress: () => this.props.navigation.push('MerchantOrderDetails', {
             orderId: JSON.parse(notification.data.message).orderId ,
           })
          }
         ],
-<<<<<<< HEAD:src/oldfiles/Initial.js
-         
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
       );
     }
     if(JSON.parse(notification.data.message).myId == "dispatch"){
@@ -165,25 +122,11 @@ export class Initial extends Component {
         JSON.parse(notification.data.message).title,
         JSON.parse(notification.data.message).body,
         [
-<<<<<<< HEAD:src/oldfiles/Initial.js
-           
-           
-           
-           
-           
-           
-          { text: "Check order", onPress: () => this.props.navigation.push('DispatchOrderDetails', {
-=======
         { text: "Check order", onPress: () => this.props.navigation.push('DispatchOrderDetails', {
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
             orderId: JSON.parse(notification.data.message).orderId ,
           })
          }
         ],
-<<<<<<< HEAD:src/oldfiles/Initial.js
-         
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
       );
     }
     if(JSON.parse(notification.data.message).myId == "ride_share"){
@@ -191,35 +134,17 @@ export class Initial extends Component {
         JSON.parse(notification.data.message).title,
         JSON.parse(notification.data.message).body,
         [
-<<<<<<< HEAD:src/oldfiles/Initial.js
-           
-           
-           
-           
-           
-           
-          { text: "Check order", onPress: () => this.props.navigation.push('RideOrderDetails', {
-=======
          { text: "Check order", onPress: () => this.props.navigation.push('RideOrderDetails', {
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
             orderId: JSON.parse(notification.data.message).orderId ,
           })
          }
         ],
-<<<<<<< HEAD:src/oldfiles/Initial.js
-         
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
       );
     } 
 
   }
 
   savePush(token, type){
-<<<<<<< HEAD:src/oldfiles/Initial.js
-     
-=======
->>>>>>> 903f9b87122853ce6284a0e96660933e243c0ae3:src/Initial.js
     fetch(`${SERVER_URL}/mobile/save_push_token`, {
       method: 'POST',
       headers: {
