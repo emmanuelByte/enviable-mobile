@@ -46,10 +46,7 @@ export class SpecialMovementDetails extends Component {
     this.setState({
       orderId: this.props.navigation.state.params.orderId,
     }, () => {
-      // this.setState({
-      //   trn_ref: this.state.orderParam.order_number+Math.floor(1000 + Math.random() * 9000)
-      // })
-      //Alert.alert(this.state.orderId)
+
       this.getOrderDetails(this.state.orderId);
     })
   }
@@ -80,7 +77,6 @@ export class SpecialMovementDetails extends Component {
           this.setState({
             orderParam: res.special_movement,
             
-            //trn_ref: res.order_param.order_number+Math.floor(1000 + Math.random() * 9000)
           }, ()=>{
             
           });
@@ -102,16 +98,15 @@ export class SpecialMovementDetails extends Component {
          },
          { text: "Refresh", onPress: () => this.getOrderDetails() }
        ],
-       //{ cancelable: false }
      );
     });
   }
-  cancelDispatch(){
+  cancelSpecialMovement(){
     if(this.state.orderParam.status != "Pending"){
       return;
     }
     this.showLoader()
-    fetch(`${SERVER_URL}/mobile/cancel_dispatch/${this.state.orderParam.order_number}`, {
+    fetch(`${SERVER_URL}/mobile/cancel_special_movement/${this.state.orderParam.order_number}`, {
       method: 'GET'
   })
   .then((response) => response.json())
@@ -121,8 +116,6 @@ export class SpecialMovementDetails extends Component {
       if(res.success){
         this.showAlert("Info", res.success);
         this.getOrderDetails(this.state.orderParam.id)
-      }else{
-        //Alert.alert('Error', res.error);
       }
   })
   .catch((error) => {
@@ -222,13 +215,7 @@ export class SpecialMovementDetails extends Component {
           this.hideLoader();
           if(res.success){
             this.showAlert("success", res.success);
-            // this.setState(prevState => ({
-            //   orderParam: {
-            //     ...prevState.orderParam,           // copy all other key-value pairs of food object
-            //     payment_status: "Completed",
-            //     payment_method: "Pay with wallet",
-            //   }
-            // }))
+          
             this.getOrderDetails(this.state.orderParam.id)
           }else{
             this.showAlert("Error", res.error)
@@ -256,13 +243,7 @@ payWithCash(){
         this.hideLoader();
         if(res.success){
           this.showAlert("success", res.success);
-          // this.setState(prevState => ({
-          //   orderParam: {
-          //     ...prevState.orderParam,           // copy all other key-value pairs of food object
-          //     payment_status: "Completed",
-          //     payment_method: "Pay with wallet",
-          //   }
-          // }))
+       
           this.getOrderDetails(this.state.orderParam.id)
         }else{
           this.showAlert("Error", res.error)
@@ -292,13 +273,7 @@ payWithCard(){
         this.hideLoader();
         if(res.success){
           this.showAlert("success", res.success);
-          // this.setState(prevState => ({
-          //   orderParam: {
-          //     ...prevState.orderParam,           // copy all other key-value pairs of food object
-          //     payment_status: "Completed",
-          //     payment_method: "Pay with card",
-          //   }
-          // }))
+       
           this.getOrderDetails(this.state.orderParam.id)
         }else{
           this.showAlert("Error", res.error)
@@ -341,7 +316,7 @@ rateRider(){
 
   
   displayButton(){
-    if(this.state.orderParam && this.state.orderParam.payment_status == "Pending" /*&& this.state.orderParam.status == "Rider accepted"*/){
+    if(this.state.orderParam && this.state.orderParam.payment_status == "Pending" ){
       return (
         <View style={{flexDirection: 'row', width: '90%', alignSelf: 'center'}}>
         <TouchableOpacity style={styles.addView} onPress={() => this.payWithCash()}>
@@ -356,7 +331,7 @@ rateRider(){
           textStyles={styles.addText1}
           btnStyles={styles.addGradient6}
           showPayButton={true}
-           paystackKey="pk_test_9b06080a0fde87971069a48fcb91e958720cede4"
+           paystackKey="pk_live_6b3b23bc38a669799804cdc53316494a4678dcdb"
            amount={Math.floor(this.state.orderParam.delivery_fee)}
            billingEmail={this.state.customer.email}
            billingMobile={this.state.customer.phone1}
@@ -415,11 +390,7 @@ rateRider(){
           <View style={styles.cView}>
             <View style={styles.itemView4}>
                 
-              {/*this.state.orderParam && this.state.orderParam.payment_status == "Pending" && this.state.orderParam.status == "Pending" &&
-                
-                <Text style = {styles.wait}>Wait while a rider accepts your request... </Text>
-              
-              */}
+          
               <View style={styles.item31}>
                 <Text style = {styles.label60}>Tracking No</Text>
                 <Text style = {styles.txt60}>#{this.state.orderParam && this.state.orderParam.order_number}</Text>
@@ -460,10 +431,19 @@ rateRider(){
                 <Text style = {styles.txt}>{this.state.orderParam && this.state.orderParam.note}</Text>
               </View>
             </View>
-           
+              
+              {
+                this.state.orderParam.status === "Pending" ?   <TouchableOpacity style={{width:'80%', marginVertical:20, marginHorizontal:'10%'}}  onPress={() => this.cancelSpecialMovement()}>
+                <Text style={{height:50, textAlign:'center', borderRadius:10, lineHeight:40, color:'white', backgroundColor:'#0B277F'}}>Cancel Order</Text>
+              </TouchableOpacity>
+              : null
+              }
+        
           </View>
-          
+       
         </ScrollView>
+
+
         {this.state.loaderVisible &&
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
         }
@@ -487,7 +467,6 @@ const styles = StyleSheet.create ({
     backgroundColor: "#f8f8f8",
   },
   cView: {
-    //minHeight: 1200,
     width: '95%',
     alignSelf: 'center',
     marginBottom: 250,
@@ -496,7 +475,6 @@ const styles = StyleSheet.create ({
   header: {
     width: '100%',
     height: 110,
-    //backgroundColor: 'rgb(126,83,191)',
     flexDirection: 'row',
   },
   cartImage: {
@@ -527,8 +505,7 @@ const styles = StyleSheet.create ({
     alignContent: 'center',
     alignSelf: 'center', 
     padding: 10,
-    //marginRight: 20,
-    //flexDirection: 'row',
+    
     backgroundColor: '#fff',
   },
   itemView4: {
@@ -540,21 +517,16 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     marginRight: 25,
     marginLeft: 30,
-    //flexDirection: 'row',
   },
   center: {
     alignSelf: 'center',
-    //alignContent: 'center',
     marginBottom: 5,
     flexDirection: 'row',
-    //marginRight: 10,
   },
   wait: {
     color: '#252969',
     fontSize: 12,
-    //paddingLeft: 5,
     paddingTop: 10,
-    //textAlign: 'center',
     marginBottom: 20,
   },
   addView8: {
@@ -570,10 +542,7 @@ const styles = StyleSheet.create ({
     alignSelf: 'center',
     backgroundColor: '#fff',
     padding: 10,
-    //marginRight: 25,
-    //marginLeft: 30,
-    
-    //flexDirection: 'row',
+  
   },
   item1: {
     width: '100%',
@@ -584,8 +553,7 @@ const styles = StyleSheet.create ({
     marginLeft: 30,
     alignSelf: 'center',
     marginBottom: 10,
-    //padding: 10,
-    //flexDirection: 'row'
+   
   },
   item22: {
     flexDirection: 'row',
@@ -656,7 +624,6 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     borderColor: '#0B277F',
     borderRadius: 8,
-    //backgroundColor: 'green',
     paddingTop: 7,
     marginTop: 20,
   },
@@ -680,7 +647,6 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
   },
   itemPriceText: {
-    //paddingTop: 4,
     fontWeight: 'bold',
     color: '#585757',
   },
@@ -707,23 +673,23 @@ const styles = StyleSheet.create ({
     marginTop: 20,
   },
   col1: {
-    //width: '20%',
+   
     borderRadius: 18,
     textAlign: 'center',
   },
   col2: {
-    //width: '20%',
+   
     borderRadius: 18,
     textAlign: 'center',
   
   },
   col3: {
-    //width: '20%',
+   
     borderRadius: 18,
     textAlign: 'center',
   },
   col4: {
-    //width: '20%',
+   
     borderRadius: 18,
     textAlign: 'center',
   },
@@ -733,7 +699,6 @@ const styles = StyleSheet.create ({
   bImage1: {
     width: '100%',
     height: 220,
-    //opacity: 0.6,
     overflow: 'hidden',
     borderBottomEndRadius: 20, 
     borderBottomStartRadius: 20, 
@@ -797,7 +762,6 @@ const styles = StyleSheet.create ({
 
   },
   card: {
-    //flexDirection: 'row',
     width: '100%',
     marginBottom: 4,
     
@@ -828,7 +792,6 @@ const styles = StyleSheet.create ({
     marginTop: 5,
   },
   segmentText: {
-    //textAlign: 'center',
     paddingRight: 10,
     marginRight: 10,
   },
@@ -856,7 +819,6 @@ const styles = StyleSheet.create ({
     marginTop: 1,
     fontSize: 14,
     paddingBottom: 3,
-    //fontWeight: 'bold',
   },
   label50:{
     color: '#454A65',
@@ -875,7 +837,6 @@ const styles = StyleSheet.create ({
     width: '40%',
   },
   label88:{
-    //color: '#454A65',
     fontWeight: 'bold',
     marginTop: 1,
     fontSize: 12,
@@ -890,7 +851,6 @@ const styles = StyleSheet.create ({
   labelZ:{
     color: '#454A65',
     width: '50%',
-    //fontWeight: 'bold',
     marginTop: 1,
     fontSize: 13,
   },
@@ -989,7 +949,6 @@ const styles = StyleSheet.create ({
     marginTop: -14,
   },
   locImage: {
-    //marginTop: -7,
     width: 10,
     height: 10,
     width: 10,
@@ -1031,9 +990,7 @@ modal: {
   padding: 0
 },
 modalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+  
   alignSelf: 'center',
   height: 50,
   width: 100,
@@ -1047,9 +1004,7 @@ label1: {
   paddingLeft: 20,
 },
 forgotModalView: {
-  // width: '100%',
-  // height: '100%',
-  // opacity: 0.9,
+
   alignSelf: 'center',
   height: 330,
   width: '90%',
@@ -1064,7 +1019,6 @@ loading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0,0,0,0.5)'
@@ -1077,7 +1031,6 @@ mLoading: {
   top: 0,
   bottom: 0,
   zIndex: 9999999999999999999999999,
-  //height: 200,
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: "rgba(0, 0, 0, 0.5)"
@@ -1113,7 +1066,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     backgroundColor: '#EFF0F3',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
@@ -1122,7 +1074,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderColor: '#777',
-    //borderWidth: 1,
     borderRadius: 8,
     marginTop: -5,
     color: '#aaa',
