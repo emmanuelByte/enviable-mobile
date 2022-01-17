@@ -133,7 +133,7 @@ export class VerifyPhone extends Component {
     }
 
     onFinishCheckingCode(code) {
-        alert(code + "codecdcjvdbnvubc");
+        // alert(code + "codecdcjvdbnvubc");
         this.setState({ token: code })
         this.verify(code);
 
