@@ -41,7 +41,7 @@ export class Register extends Component {
     super();
     this.handleBackPress = this.handleBackPress.bind(this);
     this.registerWithGoogle = this.registerWithGoogle.bind(this);
-    this.signOut = this.signOut.bind(this);
+
     this.state = {
       radioButtons: ['Option1', 'Option2', 'Option3'],
       checked: 0,
@@ -62,23 +62,17 @@ export class Register extends Component {
       pickupLocationPlaceholder: '',
       visible1: false,
     };
-    GoogleSignin.configure();
-    this.signOut();
+   
   }
-  signOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      this.setState({user: null}); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
+ 
+  
 
   componentWillUnmount() {
     this.subs.forEach(sub => sub.remove());
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
   }
   async componentDidFocus() {
+
     Settings.initializeSDK();
     this.getLoggedInUser();
     this.getCities();
@@ -94,10 +88,8 @@ export class Register extends Component {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        //{ text: "Go to home", onPress: () => this.props.navigation.navigate('Home') },
         {text: 'Leave', onPress: () => BackHandler.exitApp()},
       ],
-      //{ cancelable: false }
     );
     return true;
   };
@@ -140,15 +132,10 @@ export class Register extends Component {
         customer: JSON.parse(value),
         phone: JSON.parse(value).phone1,
       });
-      if (value.first_name != null) {
+      
+      if(value.first_name != null) {
         this.props.navigation.navigate('Home');
-        // this.setState({
-        //   customer: JSON.parse(value)
-        // }, () => {
-        //   this.setState({
-        //     customer_id: this.state.customer.id
-        //   })
-        // });
+   
       } else {
         AsyncStorage.getItem('pushToken').then(value => {
           this.setState({
@@ -194,7 +181,6 @@ export class Register extends Component {
       .then(response => response.json())
       .then(res => {
         this.hideLoader();
-        //
         this.hideLoader();
         if (res.success) {
           this.setState({
@@ -218,13 +204,46 @@ export class Register extends Component {
             },
             {text: 'Refresh', onPress: () => this.getCities()},
           ],
-          //{ cancelable: false }
         );
       });
   }
 
+
+
+  sendVerification(email){
+    console.log(email, "this is  my emauk serbfun")
+
+    fetch(`${SERVER_URL}/mobile/resend_verify_email`, {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          email: email,
+          phone: this.state.email
+      })
+    }).then((response) => response.json())
+        .then((res) => {
+          console.log(res);
+          this.hideLoader();
+          if(res.success){
+            this.props.navigation.navigate('VerifyPhone', {
+              phone: this.state.email,
+            }) 
+          
+          }else{
+            this.showAlert("Error", res.error)
+          }
+  }).done();
+  
+  }
+
+
   register() {
+    console.log(this.state, "STATUS");
     this.showLoader();
+
     var bod = JSON.stringify({
       email: this.state.email,
       firstName: this.state.firstName,
@@ -260,26 +279,12 @@ export class Register extends Component {
       .then(response => response.json())
       .then(res => {
         console.log(res);
-        this.hideLoader();
         if (res.success) {
-          this.showAlert('success', res.success);
-          this.setState(
-            {
-              customer: res.customer,
-            },
-            () => {
-              AsyncStorage.setItem(
-                'customer',
-                JSON.stringify(res.customer),
-              ).then(() => {
-                AsyncStorage.setItem('loginvalue', this.state.email).then(
-                  () => {
-                    this.props.navigation.navigate('Home');
-                  },
-                );
-              });
-            },
-          );
+       
+          this.setState({customer: res.customer});
+          this.sendVerification(this.state.email);
+
+
         } else {
           this.showAlert('Error', res.error);
         }
@@ -408,7 +413,7 @@ export class Register extends Component {
         <ScrollView showsVerticalScrollIndicator={false}>
           <StatusBar translucent={true} backgroundColor={'#0B277F'} />
           <TouchableOpacity
-            style={styles.menuImageView}
+            style={{marginTop:20}}
             onPress={() => this.props.navigation.goBack()}>
             <Icon
               name="arrow-back"
@@ -429,7 +434,7 @@ export class Register extends Component {
                   underlineColorAndroid="transparent"
                   placeholderTextColor="#ccc"
                   value={this.state.firstName}
-                  //keyboardType={'email-address'}
+                   
                 />
               </View>
               <View style={styles.col50}>
@@ -441,7 +446,7 @@ export class Register extends Component {
                   underlineColorAndroid="transparent"
                   placeholderTextColor="#ccc"
                   value={this.state.lastName}
-                  //keyboardType={'email-address'}
+                   
                 />
               </View>
             </View>
@@ -459,18 +464,7 @@ export class Register extends Component {
                 {this.state.pickupLocationPlaceholder}
               </Text>
             </TouchableOpacity>
-            {/*
-            <Text style = {styles.label1}>Referral code (optional)</Text>
-            <TextInput
-                                    style={styles.input}
-                                    placeholder="Referral code"
-                                    onChangeText={(text) => this.setState({referralCode: text})}
-                                    underlineColorAndroid="transparent"
-                                    placeholderTextColor="#ccc" 
-                                    value={this.state.referralCode}
-                                    //keyboardType={'email-address'}
-                                  />
-              */}
+            
             <Text style={styles.label}>Email</Text>
             <TextInput
               style={styles.input}
@@ -504,18 +498,7 @@ export class Register extends Component {
               autoCapitalize="none"
               secureTextEntry={true}
             />
-            {/*
-              <Text style = {styles.label}>City</Text>
-              <TextInput
-                      style={styles.input}
-                      placeholder=""
-                      onChangeText={(text) => this.setState({city: text})}
-                      underlineColorAndroid="transparent"
-                      placeholderTextColor="#ccc" 
-                      value={this.state.lastName}
-                      //keyboardType={'email-address'}
-                    />
-                              */}
+          
             <TouchableOpacity style={styles.forgotView}>
               <Text style={styles.forgotText}>
                 By tapping continue, you agree to Enviable's{' '}
@@ -529,82 +512,9 @@ export class Register extends Component {
               style={styles.submitButton}>
               <Text style={styles.submitButtonText}>Continue</Text>
             </TouchableOpacity>
-            {/*
-              <TouchableOpacity style = {styles.forgotView} onPress={() => this.props.navigation.navigate('Login')}>
-              <Text style = {styles.createText1}>Have an account? <Text style = {styles.createText}>Login</Text></Text>
-              </TouchableOpacity>
-              */}
+           
           </View>
-          <View>
-            <View
-              style={{
-                alignSelf: 'center',
-                position: 'absolute',
-                borderBottomColor: '#FFF',
-                borderBottomWidth: 1,
-                height: '50%',
-                width: '90%',
-              }}
-            />
-            <Text
-              style={{
-                alignSelf: 'center',
-                paddingHorizontal: 5,
-                marginTop: -5,
-                color: '#fff',
-                fontSize: 12,
-                backgroundColor: '#0B277F',
-              }}>
-              OR REGISTER WITH
-            </Text>
-          </View>
-          <View style={styles.rowa}>
-            <View style={styles.facebookLogin}>
-              {/*
-                <LoginButton
-                //style = {styles.facebookLoginButton}
-                  onLoginFinished={
-                    (error, result) => {
-                      if (error) {
-                        console.log("login has error: " + error);
-                      } else if (result.isCancelled) {
-                        console.log("login is cancelled.");
-                      } else {
-                        AccessToken.getCurrentAccessToken().then(
-                          (data) => {
-                            console.log(data, 'data')
-                          }
-                        )
-                      }
-                    }
-                  }
-                  onLogoutFinished={() => console.log("logout.")}/>
-                */}
-              <TouchableOpacity onPress={() => this.registerWithFacebook()}>
-                <Image
-                  source={require('./imgs/f-icon.png')}
-                  style={styles.fImage}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.googleLogin}>
-              <TouchableOpacity onPress={() => this.registerWithGoogle()}>
-                <Image
-                  source={require('./imgs/g-icon.png')}
-                  style={styles.gImage}
-                />
-              </TouchableOpacity>
-
-              {/*
-                  <GoogleSigninButton
-                    style={{ width: '100%', height: 43, fontSize: 8,marginTop: 0, }}
-                    size={GoogleSigninButton.Size.Wide}
-                    color={GoogleSigninButton.Color.Dark}
-                    onPress={this._signIn}
-                    disabled={this.state.isSigninInProgress} />
-                */}
-            </View>
-          </View>
+         
         </ScrollView>
         {this.state.visible && (
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
@@ -623,18 +533,16 @@ const styles = StyleSheet.create({
   body: {
     minHeight: '100%',
     marginBottom: 100,
-    //backgroundColor: "#fff",
-  },
+   },
   backImage: {
     width: 18,
-    //height: 12,
-    marginLeft: 20,
+     marginLeft: 20,
     marginTop: 50,
   },
   headerText: {
     fontSize: 20,
     paddingLeft: 25,
-    marginTop: 8,
+    marginTop: 15,
     color: '#fff',
   },
   logoImage: {
@@ -727,16 +635,14 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   forgotText: {
-    //textAlign: 'center',
-    marginRight: 20,
+     marginRight: 20,
     marginLeft: 20,
     color: '#fff',
     fontSize: 12,
     marginTop: 10,
   },
   forgotText1: {
-    //textAlign: 'center',
-    //marginRight: 30,
+   
     color: '#ccc',
     fontSize: 12,
   },
@@ -794,9 +700,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   modalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+     
     alignSelf: 'center',
     height: 50,
     width: 100,
@@ -805,9 +709,7 @@ const styles = StyleSheet.create({
   },
 
   forgotModalView: {
-    // width: '100%',
-    // height: '100%',
-    // opacity: 0.9,
+    
     alignSelf: 'center',
     height: 280,
     width: '90%',
@@ -820,8 +722,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    //height: '100vh',
-    alignItems: 'center',
+     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
