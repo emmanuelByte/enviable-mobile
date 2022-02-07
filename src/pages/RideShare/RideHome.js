@@ -1,27 +1,18 @@
 import React, {Component} from 'react';
 import {
-  AppState,
   View,
   PermissionsAndroid,
   Text,
   Alert,
-  Picker,
   Image,
-  Button,
-  TextInput,
   StyleSheet,
-  ScrollView,
-  BackHandler,
   ActivityIndicator,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
-import LinearGradient from 'react-native-linear-gradient';
-import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+// import keys from '@src/config/keys';
+import {MAP_VIEW_KEY, GEO_GEOREVERSING_KEY} from '@src/config/keys';
+
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 navigator.geolocation = require('@react-native-community/geolocation');
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
@@ -29,7 +20,6 @@ import {SERVER_URL} from '../../config/server';
 import Geocoder from 'react-native-geocoding';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
-import {MAP_API_KEY} from '../config/keys'
 import fonts, { poppins } from '../../config/fonts';
 import { connect } from 'react-redux';
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -221,8 +211,8 @@ export class RideHome extends Component {
             alert('Permission Denied');
           }
         } catch (err) {
-          alert('err', err);
           console.warn(err);
+          Alert.alert('Enable Location', 'This service requires that location settings is turned on')
         }
       }
       requestLocationPermission();
@@ -279,8 +269,6 @@ export class RideHome extends Component {
           latitude: currentLatitude,
           longitude: currentLongitude,
         });
-
-
 
     }, (_)=>(_),{enableHighAccuracy:true});
   }
@@ -453,7 +441,7 @@ export class RideHome extends Component {
               mode="DRIVING"
               strokeColor="#0B277F"
               strokeWidth={3}
-              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+              apikey={MAP_VIEW_KEY}
 
                
             />
@@ -556,7 +544,7 @@ export class RideHome extends Component {
               }}
             
               query={{
-                key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
+                key: GEO_GEOREVERSING_KEY,
                 language: 'en',
               }}
               nearbyPlacesAPI="GoogleReverseGeocoding"

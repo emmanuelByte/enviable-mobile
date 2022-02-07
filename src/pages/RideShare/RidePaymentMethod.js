@@ -17,6 +17,7 @@ import {
   StatusBar,
   TouchableOpacity,
   AsyncStorage,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
@@ -29,7 +30,7 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import PaystackWebView from 'react-native-paystack-webview';
 
 import {SERVER_URL} from '../../config/server';
-import { poppins } from '../../config/fonts';
+import fonts, { poppins } from '../../config/fonts';
 
 export class RidePaymentMethod extends Component {
   constructor(props) {
@@ -51,6 +52,7 @@ export class RidePaymentMethod extends Component {
       timeValue: false,
       paymentMethod: '',
       userCards: [],
+      coupon:''
        
        
        
@@ -326,6 +328,10 @@ console.log({
     }
   }
 
+  formatCoupon = (textValue) => {
+    this.setState({ coupon: textValue.toUpperCase() });
+  }
+
   displayPayButton() {
     if (this.state.customer && this.state.userCards.length == 0) {
       return (
@@ -408,7 +414,8 @@ console.log({
   render() {
     const {visible} = this.state;
     return (
-      <View style={styles.body}>
+      <ScrollView style={styles.body}>
+      <KeyboardAvoidingView >
         <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
           <Icon
             name="arrow-back"
@@ -433,6 +440,27 @@ console.log({
             <Text style={styles.price}>Pay with cash</Text>
           </View>
         </TouchableOpacity>
+        <KeyboardAvoidingView>
+        <View style={[styles.rowCoupon]}>
+           <TextInput 
+      onChangeText={textValue => this.formatCoupon(textValue)}
+      keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'}
+      returnKeyLabel={"Send"}
+      returnKeyType={"go"}
+      
+      value={this.state.coupon} placeholder='Apply Coupon code' style={{color:'#0B277F', fontSize:12, fontFamily:poppins, height:'90%', flex:8}} placeholderTextColor="grey" />
+            <TouchableOpacity style={{flex:4,  borderRadius:10}}>
+            <Text style={{textAlign:'center',  color:'#0B277F',fontSize:10, fontFamily:fonts.poppins.bold}}>APPLY COUPON</Text>
+
+            </TouchableOpacity>
+          
+
+        </View>
+        </KeyboardAvoidingView>
+     
+
+        
+
         {this.state.loaderVisible && (
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
         )}
@@ -482,7 +510,8 @@ console.log({
               ))}
           </View>
         </Modal>
-      </View>
+      </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }
@@ -543,6 +572,20 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingTop: 15,
     paddingBottom: 15,
+  },
+  rowCoupon: {
+    width: '90%',
+    // alignContent:'center',
+    alignItems:'center',
+    flexDirection: 'row',
+    paddingLeft: 20,
+    alignSelf: 'center',
+
+    paddingHorizontal:10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginTop: 15,
+    borderColor:'#0B277F', borderWidth:1, height:60, paddingVertical:0
   },
   row4: {
     width: '100%',

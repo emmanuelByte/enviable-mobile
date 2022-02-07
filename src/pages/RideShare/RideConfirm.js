@@ -30,6 +30,7 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import {SERVER_URL} from '../../config/server';
 import {getPreciseDistance} from 'geolib';
 import { MAP_API_KEY } from '../config/keys';
+import { MAP_VIEW_KEY } from '../../config/keys';
 export class RideConfirm extends Component {
   constructor(props) {
     super();
@@ -437,7 +438,7 @@ export class RideConfirm extends Component {
               mode="DRIVING"
               strokeColor="#0B277F"
               strokeWidth={3}
-              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+              apikey={MAP_VIEW_KEY}
                
 
             />

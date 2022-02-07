@@ -1,41 +1,30 @@
 import React, { Component } from 'react';
 import {
-  AppState,
   View,
-  PermissionsAndroid,
   Linking,
   Text,
   Alert,
-  Picker,
   Image,
-  Button,
   TextInput,
   StyleSheet,
   ScrollView,
-  BackHandler,
   ActivityIndicator,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
   AsyncStorage,
 } from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 
 import { NavigationActions } from 'react-navigation';
-import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MapView, { PROVIDER_GOOGLE, Marker, MarkerAnimated, AnimatedRegion } from 'react-native-maps';
 navigator.geolocation = require('@react-native-community/geolocation');
 import MapViewDirections from 'react-native-maps-directions';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { showLocation } from 'react-native-map-link';
-import RNPickerSelect from 'react-native-picker-select';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { Rating,  } from 'react-native-ratings';
 
 import { SERVER_URL } from '../../config/server';
-import { MAP_API_KEY } from '../config/keys';
 import fonts, { poppins } from '../../config/fonts';
+import { MAP_VIEW_KEY } from '../../config/keys';
 
 export class RideOrderDetails extends Component {
   constructor(props) {
@@ -118,7 +107,7 @@ export class RideOrderDetails extends Component {
       })
       .catch(error => {
         this.hideLoader();
-        console.error(error);
+
         Alert.alert(
           'Distance error',
           'Could not get distance',
@@ -181,19 +170,7 @@ export class RideOrderDetails extends Component {
               order: res.order,
               rider: res.rider,
 
-
-
-
             });
-
-
-
-
-
-
-
-
-
           }
 
 
@@ -202,7 +179,7 @@ export class RideOrderDetails extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+
         Alert.alert(
           'Communictaion error',
           'Ensure you have an active internet connection',
@@ -225,7 +202,7 @@ export class RideOrderDetails extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res, "COUPLED WITH RIDER DATA NICE");
+
         this.hideLoader();
         if (res.success) {
           var origin =
@@ -249,7 +226,7 @@ export class RideOrderDetails extends Component {
             latitudeDelta: 0.009922,
             longitudeDelta: 0.009421,
           };
-          console.log(res.rider, 'res.rider');
+
           if (res.rider.longitude != null) {
             this.setState({
               order: res.order,
@@ -276,7 +253,7 @@ export class RideOrderDetails extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+
         Alert.alert(
           'Communictaion error',
           'Ensure you have an active internet connection',
@@ -321,7 +298,7 @@ export class RideOrderDetails extends Component {
     this.setState({
       rating: rating,
     });
-    console.log('Rating is: ' + rating);
+
   }
 
   showLoader() {
@@ -337,24 +314,6 @@ export class RideOrderDetails extends Component {
   use() {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const startPoint = {
       latitude: parseFloat(this.state.order.pickup_latitude),
       longitude: parseFloat(this.state.order.pickup_longitude),
@@ -368,7 +327,7 @@ export class RideOrderDetails extends Component {
     const transportPlan = 'w';
     if (this.state.order.status == "Rider accepted") {
       OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
-        console.log(res)
+
       });
 
     }
@@ -385,7 +344,7 @@ export class RideOrderDetails extends Component {
     )
       .then(response => response.json())
       .then(res => {
-        console.log(res, 'orders');
+
         this.hideLoader();
         if (res.success) {
           this.getOrder(this.props.route.params.orderId);
@@ -396,7 +355,7 @@ export class RideOrderDetails extends Component {
       })
       .catch(error => {
         this.hideLoader();
-        console.error(error);
+
         this.showAlert('Error', 'An unexpected error occured');
       });
   }
@@ -418,7 +377,7 @@ export class RideOrderDetails extends Component {
   }
 
   displayRatingButton() {
-    console.log(this.state.order, 'this.state.orderParam');
+
     if (
       this.state.order &&
       this.state.order.status == 'Ride completed' &&
@@ -473,7 +432,7 @@ export class RideOrderDetails extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+
         this.getOrder(this.state.order.id);
         this.hideLoader();
         if (res.success) {
@@ -540,7 +499,7 @@ export class RideOrderDetails extends Component {
               mode="DRIVING"
               strokeColor="brown"
               strokeWidth={3}
-              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+              apikey={MAP_VIEW_KEY}
 
             />
           </MapView>
