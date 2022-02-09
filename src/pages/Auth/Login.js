@@ -41,6 +41,7 @@ export class Login extends Component {
       forgotVisible: false,
       email: '',
       password: '',
+      forgotVisible_disable:false,
       email1: '',
       token: '',
     };
@@ -105,16 +106,18 @@ export class Login extends Component {
 
   async forgot() {
     this.showLoader();
+    this.setState({forgotVisible_disable: true})
     try {
       const res = await forgotPassword({email: this.state.email1});
-      this.setState({forgotVisible: false});
+      this.setState({forgotVisible: false, forgotVisible_disable:false});
       if (res.success) Alert.alert('Success', 'Password Reset Message Sent');
       else{ 
+
         this.showAlert('Error', res.error)
     };
 
     } catch (error) {    
-       
+
       console.log(error);
       this.showAlert('Error', error);
 
@@ -214,8 +217,11 @@ export class Login extends Component {
             />
             <TouchableOpacity
               onPress={() => this.forgot()}
-              style={styles.submitButton1}>
+              disabled={this.state.forgotVisible_disable}
+              style={[styles.submitButton1, { flexDirection:'row', justifyContent:'center', backgroundColor: this.state.forgotVisible_disable === true?'grey':'#0B277F'}]}>
+
               <Text style={styles.submitButtonText}>Reset password</Text>
+              {this.state.forgotVisible_disable === true?<ActivityIndicator size={"small"} color={'white'}/>: null}
             </TouchableOpacity>
           </View>
         </Modal>

@@ -10,7 +10,7 @@ export class Help extends Component {
     this.state = {
       visible: false,
       loaderVisible: false,
-      callNum: 'tel:+2348100563555',
+      callNum: '+2349031461604',
       chatVisible: false,
     }
   }
@@ -18,13 +18,13 @@ export class Help extends Component {
   async componentWillMount() {
     if (Platform.OS === 'ios') {
       this.setState({
-        callNum: 'telprompt:+2348100563038'
+        callNum: '+2349031461604'
       });
     }
     else {
       this.setState({
-        callNum: 'tel:+2348100563038'
-      });
+        callNum: '+2349031461604'
+        });
     }
 
   }
@@ -45,34 +45,32 @@ export class Help extends Component {
             <Icon name="arrow-back" size={20} color="#fff" style={styles.backImage} />
             <Text style={styles.headerText}>Help desk</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.chatView} onPress={() => this.setState({ 'chatVisible': true })}>
-            <Text style={styles.chatText}>Live chat </Text>
-          </TouchableOpacity>
+        
         </ImageBackground>
 
         <ScrollView>
           <View style={styles.bottomView}>
 
-            <View style={styles.cardView1}>
-              <View style={styles.cola}>
-                <View style={styles.d}>
-                  <Image source={require('@src/images/p.png')} style={styles.ica} />
-                </View>
-                <View style={styles.d1}>
-                  <Image source={require('@src/images/w.png')} style={styles.ica} />
-                </View>
-
+          <View style = {styles.cardView1}>
+              <View style = {styles.cola}>
+              <View style = {styles.d}>
+              <Image source = {require('@src/images/p.png')}  style = {styles.ica} />
               </View>
-              <View style={styles.colb}>
-                <TouchableOpacity onPress={() => Linking.openURL('tel:' + this.state.callNum)} style={styles.da}>
-                  <Text style={styles.fText}>+234 806 163 3555</Text>
-                  <Text style={styles.cText}>Call now</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => Linking.openURL(`whatsapp://send?phone=+2348061633555`)} style={styles.d3}>
-                  <Text style={styles.fText}>+234 806 163 3555</Text>
+              <View style = {styles.d1}>
+              <Image source = {require('@src/images/w.png')}  style = {styles.ica} />
+              </View>
+              
+              </View>
+              <View style = {styles.colb}>
+                <TouchableOpacity  onPress={()=> Linking.openURL('tel:'+this.state.callNum)} style = {styles.da}>
+                  <Text style = {styles.fText}>+234 903 146 1604</Text> 
+                  <Text style = {styles.cText}>Call now</Text>
+                </TouchableOpacity> 
+                <TouchableOpacity onPress={()=> Linking.openURL(`whatsapp://send?phone=+2349061497052`)} style = {styles.d3}>
+                <Text style={styles.fText}>+234 906 149 7052</Text>
                   <Text style={styles.cText}>Chat now</Text>
                 </TouchableOpacity>
-
+                
               </View>
             </View>
 
@@ -87,35 +85,30 @@ export class Help extends Component {
                 </View>
                 <View style={styles.colb}>
                   <View style={styles.da}>
-                    <Text style={styles.fText1} onPress={() => Linking.openURL(`mailto:help@rickreen.ng`)}>help@rickereen.ng</Text>
+                    <Text style={styles.fText1} onPress={() => Linking.openURL(`mailto:help@ets.com.ng`)}>help@ets.com.ng</Text>
                   </View>
 
                 </View>
               </View>
             </View>
-            <View style={styles.cardViewd}>
-              <Text style={styles.xText}>Social</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <View style={styles.coll}>
-                  <TouchableOpacity onPress={() => Linking.openURL(`https://www.facebook.com/102729778653133/posts/102740301985414/?app=fbl`)} style={styles.d}>
-                    <Image source={require('@src/images/f.png')} style={styles.icac} />
+            <View style = {styles.cardViewd}>
+              <Text style = {styles.xText}>Social</Text> 
+              <View style={{flexDirection: 'row'}}>
+                <View style = {styles.coll}>
+                  <TouchableOpacity onPress={() => Linking.openURL(`https://www.facebook.com/enviabletransport`)} style = {styles.d}>
+                    <Image source = {require('@src/images/f.png')}  style = {styles.icac} />
                   </TouchableOpacity>
-                </View>
-                <View style={styles.cola}>
-                  <TouchableOpacity onPress={() => Linking.openURL(`https://www.instagram.com/rickreenintegrat?r=nametag`)} style={styles.d}>
-                    <Image source={require('@src/images/i.png')} style={styles.icad} />
+               </View> 
+               <View style = {styles.cola}>
+                  <TouchableOpacity onPress={() => Linking.openURL(`https://www.instagram.com/enviable.transport?r=nametag`)} style = {styles.d}>
+                    <Image source = {require('@src/images/i.png')}  style = {styles.icad} />
                   </TouchableOpacity>
-                </View>
-                <View style={styles.cola}>
-                  <TouchableOpacity onPress={() => Linking.openURL(`https://twitter.com/RickreenS?s=09`)} style={styles.d}>
-                    <Image source={require('@src/images/t.png')} style={styles.icab} />
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.cola}>
-                 
-                </View>
+               </View> 
+               
+              
               </View>
             </View>
+         
             <Modal
               isVisible={this.state.chatVisible}
               onBackdropPress={() => {

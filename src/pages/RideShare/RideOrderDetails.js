@@ -44,7 +44,9 @@ export class RideOrderDetails extends Component {
       rating: 0,
       vs: false,
       rateVisible: false,
-      driver: false
+      driver: false,
+      coupon_percentage:0, 
+      coupon: null
     };
   }
 
@@ -82,6 +84,7 @@ export class RideOrderDetails extends Component {
 
 
     this.getOrder(this.props.route.params.orderId);
+    // this.getCoupon(this.props.route.params.orderId);
 
     setInterval(() => {
       this.updateDriverLocation(this.props.route.params.orderId);
@@ -89,9 +92,38 @@ export class RideOrderDetails extends Component {
     }, 10000)
   };
 
+
+  getCoupon(){
+
+
+    fetch(`https://api.ets.com.ng/customers/check_coupon/${this.state.coupon.toUpperCase()}/${this.state.customer.id}`, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.hideLoader();
+
+        if (res.success && res.coupon.amount >0) {
+
+          this.setState({
+            coupon_percentage: (res.coupon.amount * 100),
+            color: 'green',
+            coupon_id: res.coupon.id
+          });
+        
+          // Alert.alert('Error', res.error);
+        }
+      })
+      .catch(error => {
+        console.log('Error on ACTIVITING coupon')
+      });
+    
+
+    this.hideLoader()
+  }
+
+
   getDistance(origin, destination) {
-
-
     fetch(
       `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
       {
@@ -233,6 +265,7 @@ export class RideOrderDetails extends Component {
               rider: res.rider,
               origin: origin,
               destination: destination,
+              coupon: res.coupon
 
 
             });
@@ -243,6 +276,7 @@ export class RideOrderDetails extends Component {
               rider: res.rider,
               origin: origin,
               destination: destination,
+              coupon:res.coupon
 
             });
           }
@@ -581,12 +615,32 @@ export class RideOrderDetails extends Component {
                   </View>
                   <View style={styles.col22}>
                     {this.state.order.price && (
+                      <View>
                       <Text style={styles.price2}>
-                        Price: ₦
-                        {parseFloat(this.state.order.price)
+                        Pay: ₦
+                        {this.state.coupon?
+                          parseFloat(this.state.order.price - (this.state.order.price*this.state.coupon.discount/100) )
                           .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                          .replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                      :
+                      parseFloat(this.state.order.price)
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                      }
+                    {"\n"}
+                    <Text style={{textDecorationLine:'line-through'}}>₦{parseFloat(this.state.order.price)
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                      }</Text>
+                        {/* {} */}
+
                       </Text>
+                      <Text style={[styles.price2, {color:'green',fontSize:10}]}>
+                        {this.state.coupon ?'Coupon Discount Applied!':null}
+                        
+                      </Text>
+                      </View>
+                      
                     )}
                   </View>
                 </TouchableOpacity>
