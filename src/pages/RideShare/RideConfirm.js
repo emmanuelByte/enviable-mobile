@@ -110,37 +110,46 @@ export class RideConfirm extends Component {
 
   componentDidFocus = () => {
     this.getLoggedInUser();
-
-    this.getRiders();
+    fetch(SERVER_URL+'/app/trip_settings', {method:'GET'})
+    .then((v)=>v.json())
+    .then(v=>{
+      console.log(v, "v from prices")
+      this.getRiders();
 
      
-    const preciseDistance = this.calculatePreciseDistance(
-      this.props.route.params.origin,
-      this.props.route.params.destination,
-    );
+      const preciseDistance = this.calculatePreciseDistance(
+        this.props.route.params.origin,
+        this.props.route.params.destination,
+      );
+  
+      console.log(preciseDistance, 'preciwsedistance')
+      this.setState(
+        {
+          origin: this.props.route.params.origin,
+          destination: this.props.route.params.destination,
+          coordinateDistance: this.calculatePreciseDistance(
+            this.props.route.params.origin,
+            this.props.route.params.destination,
+          ),
+          kekePrice: (preciseDistance / 1000) * v['14']['pricePerKm'],
+          bikePrice: (preciseDistance / 1000) * v['15']['pricePerKm'],
+          carPrice: (preciseDistance / 1000) * v['13']['pricePerKm'],
+        },
+        () => {
+          var origin =
+            this.state.origin.latitude + ',' + this.state.origin.longitude;
+          var destination =
+            this.state.destination.latitude +
+            ',' +
+            this.state.destination.longitude;
+          this.getDistance(origin, destination);
+        },
+      );
 
-    this.setState(
-      {
-        origin: this.props.route.params.origin,
-        destination: this.props.route.params.destination,
-        coordinateDistance: this.calculatePreciseDistance(
-          this.props.route.params.origin,
-          this.props.route.params.destination,
-        ),
-        kekePrice: (preciseDistance / 1000) * 150,
-        bikePrice: (preciseDistance / 1000) * 100,
-        carPrice: (preciseDistance / 1000) * 250,
-      },
-      () => {
-        var origin =
-          this.state.origin.latitude + ',' + this.state.origin.longitude;
-        var destination =
-          this.state.destination.latitude +
-          ',' +
-          this.state.destination.longitude;
-        this.getDistance(origin, destination);
-      },
-    );
+
+
+    })
+ 
   };
   getRiders() {
     this.showLoader();

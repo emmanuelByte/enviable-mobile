@@ -63,11 +63,11 @@ export class Help extends Component {
               </View>
               <View style = {styles.colb}>
                 <TouchableOpacity  onPress={()=> Linking.openURL('tel:'+this.state.callNum)} style = {styles.da}>
-                  <Text style = {styles.fText}>+234 903 146 1604</Text> 
+                  <Text style = {styles.fText}>+234 906 149 7052</Text> 
                   <Text style = {styles.cText}>Call now</Text>
                 </TouchableOpacity> 
-                <TouchableOpacity onPress={()=> Linking.openURL(`whatsapp://send?phone=+2349061497052`)} style = {styles.d3}>
-                <Text style={styles.fText}>+234 906 149 7052</Text>
+                <TouchableOpacity onPress={()=> Linking.openURL(`whatsapp://send?phone=+2349031461604`)} style = {styles.d3}>
+                <Text style={styles.fText}>+234 903 146 1604</Text>
                   <Text style={styles.cText}>Chat now</Text>
                 </TouchableOpacity>
                 
