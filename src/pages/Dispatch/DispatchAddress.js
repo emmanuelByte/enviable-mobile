@@ -15,8 +15,8 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';

@@ -1,30 +1,16 @@
-import React, { Component, useState } from 'react';
+import React, {  useState } from 'react';
 import {
-  AppState,
   View,
   Text,
-  Share,
-  Alert,
+
   Image,
-  TouchableWithoutFeedback,
-  Button,
-  TextInput,
+  
   StyleSheet,
   Dimensions,
   ScrollView,
-  BackHandler,
-  ActivityIndicator,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import LinearGradient from 'react-native-linear-gradient';
-import Modal from 'react-native-modal';
-import { SERVER_URL } from '../../config/server';
-import ShadowView from 'react-native-simple-shadow-view';
+
 import Card from './Card';
 import SideBar from './SideBar';
 import { useSelector } from 'react-redux';

@@ -10,10 +10,9 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions } from 'react-navigation';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';

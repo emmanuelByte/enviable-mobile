@@ -17,7 +17,6 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
