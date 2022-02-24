@@ -37,6 +37,8 @@ export class RidePaymentMethod extends Component {
     super();
      
     this.state = {
+       coupon_status: null,
+ 
       visible: false,
       loaderVisible: false,
       loaderVisible: false,
@@ -52,13 +54,10 @@ export class RidePaymentMethod extends Component {
       timeValue: false,
       paymentMethod: '',
       userCards: [],
-      coupon:''
-       
-       
-       
-       
-       
-       
+      coupon:'',
+      color:'black',
+      coupon_id: null  
+ 
     };
     this.getLoggedInUser();
   }
@@ -182,19 +181,7 @@ export class RidePaymentMethod extends Component {
 
   submit(paymentMethod) {
     this.showLoader();
-console.log({
-  user_id: this.state.customer.id,
-  pickup_address: this.state.origin.address,
-  pickup_longitude: this.state.origin.longitude,
-  pickup_latitude: this.state.origin.latitude,
-  vehicleTypeId: this.state.vehicleTypeId,
-  delivery_address: this.state?.destination?.address,
-  delivery_longitude: this.state?.destination?.longitude,
-  delivery_latitude: this.state?.destination?.latitude,
-  paymentMethod: paymentMethod,
-  distance: this.state.distance,
-  time: this.state.time,
-}, "my data hereofj")
+
     fetch(`${SERVER_URL}/mobile/place_ride_share_order`, {
       method: 'POST',
       headers: {
@@ -213,6 +200,8 @@ console.log({
         paymentMethod: paymentMethod,
         distance: this.state.distance,
         time: this.state.time,
+        coupon_id: this.state.coupon_id
+ 
       }),
     })
       .then(response => response.json())
@@ -401,6 +390,54 @@ console.log({
     }
   }
 
+  applyCoupon(){
+    this.showLoader();
+    // alert(this.state.coupon);
+    this.setState({coupon_status:'Checking coupon validity...'});
+    console.log(`https://api.ets.com.ng/customers/check_coupon/${this.state.coupon.toUpperCase()}/${this.state.customer.id}`);
+    fetch(`https://api.ets.com.ng/customers/check_coupon/${this.state.coupon.toUpperCase()}/${this.state.customer.id}`, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.hideLoader();
+
+        if (res.success) {
+
+          this.setState({
+            coupon_status: 'Coupon Applied',
+            color: 'green',
+            coupon_id: res.coupon.id
+          });
+        } else {
+          this.setState({
+            coupon_status: 'Coupon expired',
+          });
+          // Alert.alert('Error', res.error);
+        }
+      })
+      .catch(error => {
+        console.error(error+'errorf');
+        Alert.alert(
+          'Communictaion error',
+          'Ensure you have an active internet connection',
+          [
+            {
+              text: 'Ok',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Refresh', onPress: () => this.getUserCards()},
+          ],
+           
+        );
+      });
+    
+
+    this.hideLoader()
+  }
+
+ 
   navigateToScreen = route => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route,
@@ -440,7 +477,8 @@ console.log({
             <Text style={styles.price}>Pay with cash</Text>
           </View>
         </TouchableOpacity>
-        <KeyboardAvoidingView>
+
+
         <View style={[styles.rowCoupon]}>
            <TextInput 
       onChangeText={textValue => this.formatCoupon(textValue)}
@@ -449,20 +487,26 @@ console.log({
       returnKeyType={"go"}
       
       value={this.state.coupon} placeholder='Apply Coupon code' style={{color:'#0B277F', fontSize:12, fontFamily:poppins, height:'90%', flex:8}} placeholderTextColor="grey" />
-            <TouchableOpacity style={{flex:4,  borderRadius:10}}>
+
+        <TouchableOpacity onPress={()=>this.applyCoupon()} style={{flex:4,  borderRadius:10}}>
             <Text style={{textAlign:'center',  color:'#0B277F',fontSize:10, fontFamily:fonts.poppins.bold}}>APPLY COUPON</Text>
 
             </TouchableOpacity>
-          
+         
 
         </View>
-        </KeyboardAvoidingView>
      
-
+        <Text style={{textAlign:'center', marginTop:20, color:this.state.color, }}>
+              {this.state.coupon_status}
+          </Text>
         
 
         {this.state.loaderVisible && (
-          <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
+          <View  style={styles.loading}>
+          <ActivityIndicator size="large" color="black" />
+
+          </View>
+
         )}
 
         <Modal
@@ -731,12 +775,16 @@ const styles = StyleSheet.create({
     elevation: 2,
     left: 0,
     right: 0,
+    height:'100%',
     top: 0,
     bottom: 0,
+    
+
     zIndex: 9999999999999999999999999,
      
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(1,1,1,0.5)',
+
   },
 });
