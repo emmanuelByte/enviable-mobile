@@ -24,7 +24,7 @@ import Modal from 'react-native-modal';
 import TimeAgo from 'react-native-timeago';
 import {SERVER_URL} from '../config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 import ImgToBase64 from 'react-native-image-base64';
 import { connect } from 'react-redux';
@@ -131,28 +131,6 @@ class Profile extends Component {
     Alert.alert(type, message);
   }
 
-   
-   
-   
-   
-   
-   
-   
-   
-   
-
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
    
    
    
@@ -328,13 +306,16 @@ class Profile extends Component {
   }
 
   handlePhotoSelection() {
-    launchImageLibrary({noData: true}, response => {
+    
+    launchCamera({noData: true}, response => {
       if (!response.didCancel) {
-        this.getBase64ImageFromFile(response.assets[0].uri).then(res => {
+        this.getBase64ImageFromFile(response.uri).then(res => {
           console.log('res');
-
-          this.setState({dp: `data:${response.assets[0].type};base64,${res}`});
-        });
+          this.setState({dp: `data:${response.type};base64,${res}`});
+        })
+        console.log(response, "including erroro object");
+      }else if(response.error){
+        console.log(response.error, response.errorMessage ,"error on loading camera")
       }
     });
   }
