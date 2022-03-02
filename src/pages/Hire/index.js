@@ -16,9 +16,9 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
   KeyboardAvoidingView,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';

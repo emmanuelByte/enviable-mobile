@@ -1,15 +1,12 @@
 import React, { Component  } from 'react';
-import { AppState, View,Animated, Text,Picker, Alert, Image, Linking, Button, TextInput, StyleSheet, Dimensions, ScrollView,BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity, AsyncStorage } from 'react-native';
+import { AppState, View,Animated, Text,Picker, Alert, Image, Linking, Button, TextInput, StyleSheet, Dimensions, ScrollView,BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
-import Modal from 'react-native-modal';
-import moment from "moment";
 import TimeAgo from 'react-native-timeago';
 import { SERVER_URL } from './config/server';
 import PaystackWebView from "react-native-paystack-webview";
-import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
-import RNPickerSelect from 'react-native-picker-select';
 
 
 export class SpecialMovementDetails extends Component {

@@ -134,8 +134,10 @@ android {
         applicationId "com.enviable"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+
         versionCode 13
         versionName "1.3.0"
+
     }
     splits {
         abi {

@@ -120,7 +120,7 @@ export class Register extends Component {
           }else{
             this.showAlert("Error", res.error)
           }
-  }).done();
+  }).catch(e=>console.log('Caught an error while sending verification email'));
   
   }
 

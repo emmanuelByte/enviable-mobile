@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Dimensions } from 'react-native';
+import { AppRegistry, Dimensions, StatusBar } from 'react-native';
 import { createAppContainer, createNavigationContainer } from 'react-navigation';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Button, Platform, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
@@ -50,6 +50,7 @@ import { connect } from 'react-redux';
 import { setUser } from '@src/redux/slices/userSlice';
 import Route from './Routes/Route';
 import ProtectedRoute from './Routes/ProtectedRoute';
+import { SafeAreaView } from 'react-native-safe-area-context';
 console.disableYellowBox = true;
 
 
@@ -148,11 +149,12 @@ class Main extends Component {
       
     return (
      
-        <>
+       <SafeAreaView style={{flex:1}}>
+        
          
               {this.props.user.status === false ? <Route /> : <ProtectedRoute />}           
 
-        </>
+        </SafeAreaView>
         
     )
   }

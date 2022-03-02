@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { AppState, View, Platform, Text, Alert, Image, Button, TextInput, StyleSheet, ScrollView, BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity, AsyncStorage } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { View, Text, Alert,StyleSheet, ScrollView, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
-import Modal from 'react-native-modal';
 import { SERVER_URL } from '@src/config/server';
-import ModalFilterPicker from 'react-native-modal-filter-picker';
 import CodeInput from 'react-native-code-input';
 import fonts, { poppins } from '../../config/fonts';
-import { logInUser } from '../../redux/api/userApi';
 import { connect } from 'react-redux';
 import { setUser } from '../../redux/slices/userSlice';
 

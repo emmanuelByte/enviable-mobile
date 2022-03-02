@@ -16,7 +16,6 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
   KeyboardAvoidingView,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
@@ -31,13 +30,15 @@ import PaystackWebView from 'react-native-paystack-webview';
 
 import {SERVER_URL} from '../../config/server';
 import fonts, { poppins } from '../../config/fonts';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export class RidePaymentMethod extends Component {
   constructor(props) {
     super();
      
     this.state = {
-      coupon_status: null,
+       coupon_status: null,
+ 
       visible: false,
       loaderVisible: false,
       loaderVisible: false,
@@ -56,7 +57,7 @@ export class RidePaymentMethod extends Component {
       coupon:'',
       color:'black',
       coupon_id: null  
-       
+ 
     };
     this.getLoggedInUser();
   }
@@ -200,6 +201,7 @@ export class RidePaymentMethod extends Component {
         distance: this.state.distance,
         time: this.state.time,
         coupon_id: this.state.coupon_id
+ 
       }),
     })
       .then(response => response.json())
@@ -278,7 +280,7 @@ export class RidePaymentMethod extends Component {
           },
         );
       } else {
-        this.props.navigation.navigate('Login');
+        // this.props.navigation.navigate('Login');
       }
     });
   }
@@ -435,6 +437,7 @@ export class RidePaymentMethod extends Component {
     this.hideLoader()
   }
 
+ 
   navigateToScreen = route => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route,
@@ -474,6 +477,8 @@ export class RidePaymentMethod extends Component {
             <Text style={styles.price}>Pay with cash</Text>
           </View>
         </TouchableOpacity>
+
+
         <View style={[styles.rowCoupon]}>
            <TextInput 
       onChangeText={textValue => this.formatCoupon(textValue)}
@@ -482,7 +487,8 @@ export class RidePaymentMethod extends Component {
       returnKeyType={"go"}
       
       value={this.state.coupon} placeholder='Apply Coupon code' style={{color:'#0B277F', fontSize:12, fontFamily:poppins, height:'90%', flex:8}} placeholderTextColor="grey" />
-            <TouchableOpacity onPress={()=>this.applyCoupon()} style={{flex:4,  borderRadius:10}}>
+
+        <TouchableOpacity onPress={()=>this.applyCoupon()} style={{flex:4,  borderRadius:10}}>
             <Text style={{textAlign:'center',  color:'#0B277F',fontSize:10, fontFamily:fonts.poppins.bold}}>APPLY COUPON</Text>
 
             </TouchableOpacity>

@@ -252,7 +252,7 @@ export class RideHome extends Component {
         );
       },
       error => console.log(error),
-      {enableHighAccuracy:true, maximumAge:5000}
+      {enableHighAccuracy:true,  timeout:100,}
     );
     that.watchID = Geolocation.watchPosition(position => {
       //Will give you the location on location change

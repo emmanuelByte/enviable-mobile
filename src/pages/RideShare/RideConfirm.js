@@ -16,8 +16,8 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
@@ -150,6 +150,7 @@ export class RideConfirm extends Component {
 
     })
  
+
   };
   getRiders() {
     this.showLoader();
@@ -463,6 +464,9 @@ export class RideConfirm extends Component {
         </TouchableOpacity>
         <View style={styles.infoView}>
           <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{padding:10}}>
+              <Text style={{ fontSize:10, textAlign:'center', fontWeight:'bold'}}>The price is estimated and may change by the end of the trip</Text>
+            </View>
             <TouchableOpacity
               onPress={() => this.select('13')}
               style={[{backgroundColor: this.state.bg1}, styles.row]}>
@@ -601,7 +605,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     width: '100%',
-    height: '35%',
+    height: '40%',
     alignSelf: 'center',
     paddingTop: 20,
     paddingBottom: 20,

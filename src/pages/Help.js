@@ -51,7 +51,8 @@ export class Help extends Component {
         <ScrollView>
           <View style={styles.bottomView}>
 
-          <View style = {styles.cardView1}>
+
+            <View style = {styles.cardView1}>
               <View style = {styles.cola}>
               <View style = {styles.d}>
               <Image source = {require('@src/images/p.png')}  style = {styles.ica} />
@@ -85,13 +86,16 @@ export class Help extends Component {
                 </View>
                 <View style={styles.colb}>
                   <View style={styles.da}>
+
                     <Text style={styles.fText1} onPress={() => Linking.openURL(`mailto:help@ets.com.ng`)}>help@ets.com.ng</Text>
+
                   </View>
 
                 </View>
               </View>
             </View>
-            <View style = {styles.cardViewd}>
+
+  <View style = {styles.cardViewd}>
               <Text style = {styles.xText}>Social</Text> 
               <View style={{flexDirection: 'row'}}>
                 <View style = {styles.coll}>

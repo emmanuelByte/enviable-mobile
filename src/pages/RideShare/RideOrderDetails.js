@@ -10,10 +10,9 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions } from 'react-navigation';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -44,9 +43,10 @@ export class RideOrderDetails extends Component {
       rating: 0,
       vs: false,
       rateVisible: false,
-      driver: false,
+       driver: false,
       coupon_percentage:0, 
       coupon: null
+ 
     };
   }
 
@@ -86,13 +86,14 @@ export class RideOrderDetails extends Component {
     this.getOrder(this.props.route.params.orderId);
     // this.getCoupon(this.props.route.params.orderId);
 
+
     setInterval(() => {
       this.updateDriverLocation(this.props.route.params.orderId);
 
     }, 10000)
   };
 
-
+ 
   getCoupon(){
 
 
@@ -132,6 +133,7 @@ export class RideOrderDetails extends Component {
     )
       .then(response => response.json())
       .then(res => {
+        console.log(res.rows[0].elements[0], origin, destination, "response on nmap")
         this.hideLoader();
         this.setState({
           time: res.rows[0].elements[0].duration.text,
@@ -139,7 +141,7 @@ export class RideOrderDetails extends Component {
       })
       .catch(error => {
         this.hideLoader();
-
+        console.log(error,  "Map Error");
         Alert.alert(
           'Distance error',
           'Could not get distance',
@@ -265,7 +267,8 @@ export class RideOrderDetails extends Component {
               rider: res.rider,
               origin: origin,
               destination: destination,
-              coupon: res.coupon
+               coupon: res.coupon
+ 
 
 
             });
@@ -276,7 +279,8 @@ export class RideOrderDetails extends Component {
               rider: res.rider,
               origin: origin,
               destination: destination,
-              coupon:res.coupon
+               coupon:res.coupon
+
 
             });
           }
@@ -359,12 +363,10 @@ export class RideOrderDetails extends Component {
     }
 
     const transportPlan = 'w';
-    if (this.state.order.status == "Rider accepted") {
       OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
 
       });
-
-    }
+    
   }
 
   changeStatus(status) {
@@ -552,10 +554,9 @@ export class RideOrderDetails extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
             {this.state.order && (
               <View>
-                <TouchableOpacity onPress={() => this.use()}>
+                {/* <TouchableOpacity onPress={() => this.use()}>
                   <Text style={styles.use}>Use google navigation</Text>
-
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 {this.state.rider && (
                   <View style={styles.row}>
                     <View style={styles.col1}>
@@ -615,7 +616,7 @@ export class RideOrderDetails extends Component {
                   </View>
                   <View style={styles.col22}>
                     {this.state.order.price && (
-                      <View>
+                       <View>
                       <Text style={styles.price2}>
                         Pay: ₦
                         {this.state.coupon?
@@ -641,6 +642,7 @@ export class RideOrderDetails extends Component {
                       </Text>
                       </View>
                       
+  
                     )}
                   </View>
                 </TouchableOpacity>
