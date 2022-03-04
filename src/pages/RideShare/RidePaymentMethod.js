@@ -16,7 +16,6 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
   KeyboardAvoidingView,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
@@ -31,6 +30,7 @@ import PaystackWebView from 'react-native-paystack-webview';
 
 import {SERVER_URL} from '../../config/server';
 import fonts, { poppins } from '../../config/fonts';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export class RidePaymentMethod extends Component {
   constructor(props) {
@@ -280,7 +280,7 @@ export class RidePaymentMethod extends Component {
           },
         );
       } else {
-        this.props.navigation.navigate('Login');
+        // this.props.navigation.navigate('Login');
       }
     });
   }
@@ -506,7 +506,6 @@ export class RidePaymentMethod extends Component {
           <ActivityIndicator size="large" color="black" />
 
           </View>
-
         )}
 
         <Modal
@@ -779,12 +778,10 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     
-
     zIndex: 9999999999999999999999999,
      
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(1,1,1,0.5)',
-
   },
 });

@@ -17,7 +17,6 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -77,8 +76,8 @@ navigation.push(location);
                 onPress={()=> navigate('Profile')}
                 style={styles.topRow}>
                 <View style={styles.topImageView}>
-
-                  {user.photo_base64 === null ? (
+                  {console.log(user.value.photo)}
+                  {user.value.photo === null ? (
                     <Image
                       source={require('@src/images/round-profile.png')}
                       style={styles.userImage}
@@ -86,7 +85,7 @@ navigation.push(location);
                   ) : (
                     <Image
                       source={{
-                        uri: user.value.photo_base64,
+                        uri: `${SERVER_URL}/${user.value.photo}`,
                       }}
                       style={styles.userImage}
                     />

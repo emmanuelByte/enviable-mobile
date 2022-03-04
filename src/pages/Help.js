@@ -11,7 +11,6 @@ export class Help extends Component {
       visible: false,
       loaderVisible: false,
       callNum: '+2349031461604',
-
       chatVisible: false,
     }
   }
@@ -20,14 +19,12 @@ export class Help extends Component {
     if (Platform.OS === 'ios') {
       this.setState({
         callNum: '+2349031461604'
-
       });
     }
     else {
       this.setState({
         callNum: '+2349031461604'
         });
-
     }
 
   }
@@ -49,7 +46,6 @@ export class Help extends Component {
             <Text style={styles.headerText}>Help desk</Text>
           </TouchableOpacity>
         
-
         </ImageBackground>
 
         <ScrollView>
@@ -76,7 +72,6 @@ export class Help extends Component {
                   <Text style={styles.cText}>Chat now</Text>
                 </TouchableOpacity>
                 
-
               </View>
             </View>
 
@@ -118,7 +113,6 @@ export class Help extends Component {
               </View>
             </View>
          
-
             <Modal
               isVisible={this.state.chatVisible}
               onBackdropPress={() => {

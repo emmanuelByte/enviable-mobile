@@ -17,7 +17,6 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -25,6 +24,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import {SERVER_URL} from './config/server';
 import ShadowView from 'react-native-simple-shadow-view';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;

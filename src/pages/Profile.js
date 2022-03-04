@@ -24,7 +24,7 @@ import Modal from 'react-native-modal';
 import TimeAgo from 'react-native-timeago';
 import {SERVER_URL} from '../config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 import ImgToBase64 from 'react-native-image-base64';
 import { connect } from 'react-redux';
@@ -75,11 +75,11 @@ class Profile extends Component {
       email: this.props.user.email,
       phone: this.props.user.phone1,
       customer_id: this.props.user.id,
-      dp: this.props.user.photo_base64,
+      dp: `${SERVER_URL}${this.props.user.photo}`,
       customer: this.props.user
     })
      
-     
+      console.log( `${SERVER_URL}${this.props.user.photo}`, "LOGGER")
 
   }
 
@@ -131,28 +131,6 @@ class Profile extends Component {
     Alert.alert(type, message);
   }
 
-   
-   
-   
-   
-   
-   
-   
-   
-   
-
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
    
    
    
@@ -328,13 +306,16 @@ class Profile extends Component {
   }
 
   handlePhotoSelection() {
-    launchImageLibrary({noData: true}, response => {
+    
+    launchCamera({noData: true}, response => {
       if (!response.didCancel) {
         this.getBase64ImageFromFile(response.assets[0].uri).then(res => {
           console.log('res');
-
           this.setState({dp: `data:${response.assets[0].type};base64,${res}`});
-        });
+        })
+        console.log(response, "including erroro object");
+      }else if(response.error){
+        console.log(response.error, response.errorMessage ,"error on loading camera")
       }
     });
   }

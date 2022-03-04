@@ -42,7 +42,6 @@ export class Login extends Component {
       email: '',
       password: '',
       forgotVisible_disable:false,
-
       email1: '',
       token: '',
     };
@@ -223,7 +222,6 @@ export class Login extends Component {
 
               <Text style={styles.submitButtonText}>Reset password</Text>
               {this.state.forgotVisible_disable === true?<ActivityIndicator size={"small"} color={'white'}/>: null}
-
             </TouchableOpacity>
           </View>
         </Modal>
