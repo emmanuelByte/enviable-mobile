@@ -22,14 +22,15 @@ export class VerifyPhone extends Component {
             forgotVisible: false,
             email: null,
             visible1: false,
-            token: ''
+            token: '',
+            phone: null
         }
 
     }
 
 
     componentDidMount() {
-        this.setState({ email: this.props.route.params.email });
+        this.setState({ email: this.props.route.params.email, phone:this.props.route.params.phone });
     }
 
     toggleUpdate() {
@@ -73,7 +74,7 @@ export class VerifyPhone extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                phone: this.state.email,
+                phone: this.state.phone,
             })
         }).then((response) => response.json())
             .then((res) => {
@@ -161,7 +162,7 @@ export class VerifyPhone extends Component {
                     <Text style={styles.headerText}>Verification</Text>
 
                     <View style={styles.bottomView}>
-                        <Text style={styles.label}>Enter the 5 digits code sent to your{`\n`} email at {this.state.email} </Text>
+                        <Text style={styles.label}>Enter the 5 digits code sent to your{`\n`}phone number at {this.state.phone} </Text>
                         <View style={styles.cv}>
                             <CodeInput
                                 // inputComponent={()=><TextInput/>}
@@ -171,7 +172,6 @@ export class VerifyPhone extends Component {
                                 activeColor='#081c5c'
                                 inactiveColor='#081c5c'
                                 autoFocus={false}
-                                inputPosition='center'
                                 borderType={'square'}
                                 space={25}
                                 codeLength={5}

@@ -9,6 +9,7 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 
 import Card from './Card';
@@ -75,8 +76,13 @@ export default function Dashboard(props) {
 
             </View>
           </View>
+          
         </View>
+       
       </ScrollView>
+      <TouchableOpacity onPress={()=> Linking.openURL('whatsapp://send?phone=08133629929')} style={{position:'absolute', right:0, bottom:10}}>
+            <Image style={{width:70, height:70}} source={require('@src/images/whatsapp-icon.png')}/>
+        </TouchableOpacity>
     </View>
   </>)
 }

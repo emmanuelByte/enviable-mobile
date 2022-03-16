@@ -95,11 +95,11 @@ export class Register extends Component {
     });
   }
 
-  sendVerification(email){
-    // console.log(email, "this is  my emauk serbfun")
-    this.showLoader();
+  sendVerification(email, phone){
 
-    fetch(`${SERVER_URL}/mobile/resend_verify_email`, {
+    this.showLoader();
+    // alert(email +phone);
+    fetch(`${SERVER_URL}/mobile/verify_phone`, {
       method: 'POST',
       headers: {
           'Accept': 'application/json',
@@ -107,7 +107,7 @@ export class Register extends Component {
       },
       body: JSON.stringify({
           email: email,
-          phone: this.state.email
+          phone: phone
       })
     }).then((response) => response.json())
         .then((res) => {
@@ -116,11 +116,14 @@ export class Register extends Component {
           if(res.success){
             this.props.navigation.navigate('VerifyPhone', {
               email: this.state.email,
+              phone: phone
             }) 
           }else{
-            this.showAlert("Error", res.error)
+            this.showAlert("Error", res.error);
+            // console.log(res, "error response")
           }
-  }).catch(e=>console.log('Caught an error while sending verification email'));
+  })
+  .catch(e=>console.log('Caught an error while sending verification eeeemail', e));
   
   }
 
@@ -134,7 +137,18 @@ export class Register extends Component {
    
 
     this.showLoader();
-
+    console.log({
+      email: this.state.email,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      phone: this.state.phone,
+      // cityId: this.state.cityId,
+      password: this.state.password,
+      push_token: this.state.token,
+      referralCode: this.state.referralCode,
+      user_id: this.state.customer.id,
+      device: Platform.OS});
+      
     fetch(`${SERVER_URL}/mobile/register`, {
       method: 'POST',
       headers: {
@@ -154,12 +168,16 @@ export class Register extends Component {
         device: Platform.OS,
       }),
     })
-      .then(response => response.json())
+      .then(response =>{
+        // console.log(response.text())
+        return response.json()
+      })
+      //  response.json())
       .then(res => {
         // console.log(res);
         if (res.success) {
           
-          this.sendVerification(this.state.email);
+          this.sendVerification(this.state.email, this.state.phone);
 
 
         } else {
@@ -168,7 +186,8 @@ export class Register extends Component {
         }
       }).catch(_=> {
         this.hideLoader();
-        this.showAlert('Error', _);
+        this.showAlert('Error', "Error on register");
+        console.log(_, 'error on register');
       })
       .done();
 
