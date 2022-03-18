@@ -85,9 +85,11 @@ export class Login extends Component {
         this.showAlert("error", res.error);
       }
       else if(res.customer.phone_verification === 'No'){
-        this.props.navigation.navigate('VerifyPhone', {
-          email: res.customer.email
-        })
+        // this.props.navigation.navigate('VerifyPhone', {
+        //   email: res.customer.email,
+        //   phone: res.customer.phone1
+        // })
+        this.sendVerification(res.customer.email, res.customer.phone1)
       }
       else{
          //alert("trying");
@@ -104,6 +106,39 @@ export class Login extends Component {
   
   }
 
+
+  sendVerification(email, phone){
+
+    this.showLoader();
+    // alert(email +phone);
+    //alert('sending verification');
+    fetch(`${SERVER_URL}/mobile/verify_phone`, {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          email: email,
+          phone: phone
+      })
+    }).then((response) => response.json())
+        .then((res) => {
+          console.log('verification dent', res);
+          this.hideLoader();
+          if(res.success){
+            this.props.navigation.navigate('VerifyPhone', {
+              email: email,
+              phone: phone
+            }) 
+          }else{
+            this.showAlert("Error", res.error);
+            // console.log(res, "error response")
+          }
+  })
+  .catch(e=>console.log('Caught an error while sending verification eeeemail', e));
+  
+  }
   async forgot() {
     this.showLoader();
     this.setState({forgotVisible_disable: true})

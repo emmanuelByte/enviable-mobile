@@ -238,7 +238,6 @@ export class Home extends Component {
   }
 
   displaySignin() {
-    if (this.state.customer.first_name == null) {
       return (
         <View style={styles.row1}>
           <TouchableOpacity
@@ -253,20 +252,6 @@ export class Home extends Component {
           </TouchableOpacity>
         </View>
       );
-    } else {
-      return (
-        <View style={styles.row1}>
-          <TouchableOpacity style={styles.bCol1} onPress={() => this.logout()}>
-            <Text style={styles.lText1}>Logout</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.bCol2}
-            onPress={() => this.props.navigation.navigate('Profile')}>
-            <Text style={styles.lText2}>Profile</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
   }
 
   logout() {
@@ -412,9 +397,10 @@ export class Home extends Component {
                 </View>
               </View>
             </View>
+            {/* {this.displaySignin()} */}
+
           </ScrollView>
         </View>
-        {this.displaySignin()}
 
         <Modal
           isVisible={this.state.sideMenuModalVisible}
