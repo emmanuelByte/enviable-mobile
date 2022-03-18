@@ -66,8 +66,8 @@ export class VerifyPhone extends Component {
 
     resendVerification() {
         this.showLoader();
-
-        fetch(`${SERVER_URL}/mobile/resend_verify_email`, {
+        console.log(this.state.phone,this.state.email, "resending....")
+        fetch(`${SERVER_URL}/mobile/resend_verify_phone`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -75,6 +75,7 @@ export class VerifyPhone extends Component {
             },
             body: JSON.stringify({
                 phone: this.state.phone,
+                email: this.state.email
             })
         }).then((response) => response.json())
             .then((res) => {
@@ -99,7 +100,7 @@ export class VerifyPhone extends Component {
             this.showAlert("Info", "Kindly input token");
             return;
         }
-        console.log(this.state.email, this.state.token)
+        console.log(this.state.email, code)
 
         fetch(`${SERVER_URL}/mobile/verify_token`, {
             method: 'POST',
@@ -108,7 +109,7 @@ export class VerifyPhone extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                phone: this.state.email,
+                phone: this.state.phone,
                 token: code,
                 email: this.state.email
             })

@@ -99,6 +99,7 @@ export class Register extends Component {
 
     this.showLoader();
     // alert(email +phone);
+    //alert('sending verification');
     fetch(`${SERVER_URL}/mobile/verify_phone`, {
       method: 'POST',
       headers: {
@@ -111,7 +112,7 @@ export class Register extends Component {
       })
     }).then((response) => response.json())
         .then((res) => {
-
+          console.log('verification dent', res);
           this.hideLoader();
           if(res.success){
             this.props.navigation.navigate('VerifyPhone', {
@@ -174,7 +175,7 @@ export class Register extends Component {
       })
       //  response.json())
       .then(res => {
-        // console.log(res);
+        console.log(res, "AFTER REG");
         if (res.success) {
           
           this.sendVerification(this.state.email, this.state.phone);
