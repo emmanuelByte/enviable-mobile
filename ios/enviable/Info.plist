@@ -35,6 +35,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location is required in the app to get a user's location while booking a ride or dispatch request on the app</string>
 	<key>NSPhotoLibraryUsageDescription</key>

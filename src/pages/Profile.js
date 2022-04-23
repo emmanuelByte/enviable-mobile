@@ -5,7 +5,6 @@ import {
   Text,
   Alert,
   Image,
-  TouchableWithoutFeedback,
   Button,
   TextInput,
   StyleSheet,
@@ -16,6 +15,7 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
+  ImagePickerIOS,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -75,7 +75,7 @@ class Profile extends Component {
       email: this.props.user.email,
       phone: this.props.user.phone1,
       customer_id: this.props.user.id,
-      dp: `${SERVER_URL}${this.props.user.photo}`,
+      dp: `${this.props.user.photo}`,
       customer: this.props.user
     })
      
@@ -157,37 +157,23 @@ class Profile extends Component {
     })
       .then(response => response.json())
       .then(async (res) => {
-        console.log('profile response', res, this.state.dp);
 
         this.hideLoader();
         if (res.success) {
-          console.log('respose', res.customer);
           this.showAlert('success', res.success);
 
           await AsyncStorage.setItem('customer', JSON.stringify(res.customer));
+          console.log(res, "From customer resoibse")
           this.props.dispatch(setUser({user: res.customer, status: true}));
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
            
         } else {
           this.showAlert('Error', res.error);
         }
       })
-      .done();
+      .catch(e=> {
+        this.hideLoader();
+        console.log(e, "on update profile")
+      });
   }
 
   updatePassword() {
@@ -268,17 +254,7 @@ class Profile extends Component {
           this.setState(
             {
               cities: res.cities,
-            })
-             
-             
-             
-             
-               
-               
-               
-               
-               
-            
+            })     
         }
         
       
@@ -307,15 +283,18 @@ class Profile extends Component {
 
   handlePhotoSelection() {
     
-    launchCamera({noData: true}, response => {
-      if (!response.didCancel) {
+    launchCamera({mediaType:"photo"}, (response) => {
+      if (response && (response.didCancel != undefined || response.assets !== undefined)) {
+        console.log('response image', response, response.assets, response.didCancel);
+
         this.getBase64ImageFromFile(response.assets[0].uri).then(res => {
-          console.log('res');
           this.setState({dp: `data:${response.assets[0].type};base64,${res}`});
-        })
+        });
+
         console.log(response, "including erroro object");
-      }else if(response.error){
-        console.log(response.error, response.errorMessage ,"error on loading camera")
+      }else if(response.errorCode){
+        alert(response.errorMessage + response.errorCode)
+        console.log(response.error, response ,"error on loading camera")
       }
     });
   }
@@ -381,7 +360,7 @@ class Profile extends Component {
                 ) : (
                   <Image
                     source={{
-                      uri: this.state.dp,
+                      uri: `${SERVER_URL}${this.state.dp}`,
                     }}
                     style={styles.userImage}
                   />

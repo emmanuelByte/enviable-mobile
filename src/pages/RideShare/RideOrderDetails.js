@@ -629,11 +629,13 @@ export class RideOrderDetails extends Component {
                           .replace(/\d(?=(\d{3})+\.)/g, '$&,')
                       }
                     {"\n"}
-                    <Text style={{textDecorationLine:'line-through'}}>₦{parseFloat(this.state.order.price)
+
+                    {this.state.coupon && (<Text style={{textDecorationLine:'line-through'}}>₦{parseFloat(this.state.order.price)
                           .toFixed(2)
                           .replace(/\d(?=(\d{3})+\.)/g, '$&,')
-                      }</Text>
-                        {/* {} */}
+                      }
+                    </Text>)}
+
 
                       </Text>
                       <Text style={[styles.price2, {color:'green',fontSize:10}]}>
@@ -665,9 +667,7 @@ export class RideOrderDetails extends Component {
           onBackdropPress={() => {
             this.setState({ rateVisible: false });
           }}
-          onBackdropPress={() => {
-            this.setState({ rateVisible: false });
-          }}
+          
           height={'100%'}
           width={'100%'}
           style={styles.modal}>

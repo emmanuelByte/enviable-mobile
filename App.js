@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import DBC2Exit from './src/SharedComponents/DBC2Exit';
 import { Provider } from 'react-redux';
 import store from "@src/redux/index"
+navigator.geolocation = require('@react-native-community/geolocation');
+navigator.geolocation = require('react-native-geolocation-service');
 
 import Main from './src/pages/Main';
 console.disableYellowBox = true;

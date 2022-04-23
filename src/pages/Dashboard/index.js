@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {  useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,20 +10,62 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
 
 import Card from './Card';
 import SideBar from './SideBar';
 import { useSelector } from 'react-redux';
 import fonts, { poppins } from '../../config/fonts';
+navigator.geolocation = require('@react-native-community/geolocation');
+navigator.geolocation = require('react-native-geolocation-service');
+import Geolocation from 'react-native-geolocation-service';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
 
+function callLocation() {
+       
+  if (Platform.OS === 'ios') {
+    Geolocation.requestAuthorization('whenInUse')
+      .then((result)=>{
+        if (result === 'granted') {
+          Geolocation.getCurrentPosition(()=>{});
+        }
+      })
+
+  } else {
+    async function requestLocationPermission() {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'This App needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+           
+          that.callLocation(that);
+        } else {
+          alert('Permission Denied');
+        }
+      } catch (err) {
+        console.warn(err);
+        Alert.alert('Enable Location', 'This service requires that location settings is turned on')
+      }
+    }
+    requestLocationPermission();
+  }
+ 
+}
 
 export default function Dashboard(props) {
   const [sideBar, setSideBar] = useState(false);
   const { value, status } = useSelector(state => state.user);
+
+  useEffect(()=>{
+    callLocation();
+  }, [])
 
   return (<>
     <View style={[styles.bImage1]}>
