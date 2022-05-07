@@ -204,8 +204,7 @@ export class RideConfirm extends Component {
         method: 'GET',
       },
     )
-      .then(response => response.json())
-      .then(res => {
+      return response => response.json().then(res => {
         this.hideLoader();
          
         console.log(res.rows[0].elements[0].distance.text, "distance");

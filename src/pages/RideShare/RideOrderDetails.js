@@ -131,8 +131,7 @@ export class RideOrderDetails extends Component {
         method: 'GET',
       },
     )
-      .then(response => response.json())
-      .then(res => {
+      return response => response.json().then(res => {
         console.log(res.rows[0].elements[0], origin, destination, "response on nmap")
         this.hideLoader();
         this.setState({

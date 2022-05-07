@@ -88,27 +88,12 @@ export class RideHome extends Component {
       })
       .catch(error => console.log(error,'error from mad formatteed addresz'));
   }
-
-   
-   
-   
-   
-
-   
-   
-   
-   
-
   componentDidMount() {
-    Geocoder.init('AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co');
+    Geocoder.init('AIzaSyBmqDQsJvoObwL3IjASfTiXA4LRuV4C9ss');
 
     this.getLoggedInUser();
     this.componentDidFocus();
-     
-     
-     
-     
-     
+
     this.fromRef.setAddressText(this.state.formatted_address);
     this.setState({fromAddress: this.state.formatted_address});
      
@@ -381,7 +366,7 @@ export class RideHome extends Component {
             showsUserLocation={true}
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
-            showsUserLocation={true}
+            // showsUserLocation={true}
             onMapReady={this.goToInitialRegion.bind(this)}
              
           >
@@ -474,8 +459,6 @@ export class RideHome extends Component {
 
 
             <GooglePlacesAutocomplete
-          
-             
               ref={ref=> this.fromRef = ref}
               styles={{
                 textInputContainer: {
@@ -505,46 +488,46 @@ export class RideHome extends Component {
                   color: '#444',
                 },
               }}
-              styles={{
-                textInputContainer: {
-                  borderTopWidth: 0,
-                  borderBottomWidth: 0,
-                  borderLeftWidth: 0,
-                  borderRightWidth: 0,
-                  width: '100%',
-                  height: 50,
-                  backgroundColor: '#fff',
-                  borderRadius: 7,
-                  borderColor: '#ABA7A7',
-                  borderWidth: 1,
-                  alignSelf: 'center',
-                  padding: 0,
-                },
-                listView: {
-                  height: '100%',
+              // styles={{
+              //   textInputContainer: {
+              //     borderTopWidth: 0,
+              //     borderBottomWidth: 0,
+              //     borderLeftWidth: 0,
+              //     borderRightWidth: 0,
+              //     width: '100%',
+              //     height: 50,
+              //     backgroundColor: '#fff',
+              //     borderRadius: 7,
+              //     borderColor: '#ABA7A7',
+              //     borderWidth: 1,
+              //     alignSelf: 'center',
+              //     padding: 0,
+              //   },
+              //   listView: {
+              //     height: '100%',
                    
-                  elevation: 5,
-                  zIndex: 999999,
+              //     elevation: 5,
+              //     zIndex: 999999,
                    
-                },
-                textInput: {
+              //   },
+              //   textInput: {
                    
-                  height: 46,
-                   
-                   
+              //     height: 46,
                    
                    
-                  backgroundColor: '#EFF0F3',
-                  borderRadius: 7,
                    
                    
-                  paddingLeft: 10,
-                  color: '#444',
-                },
-              }}
+              //     backgroundColor: '#EFF0F3',
+              //     borderRadius: 7,
+                   
+                   
+              //     paddingLeft: 10,
+              //     color: '#444',
+              //   },
+              // }}
             
               query={{
-                key: GEO_GEOREVERSING_KEY,
+                key: "AIzaSyBmqDQsJvoObwL3IjASfTiXA4LRuV4C9ss",
                 language: 'en',
               }}
               nearbyPlacesAPI="GoogleReverseGeocoding"
@@ -622,45 +605,45 @@ export class RideHome extends Component {
                   color: '#444',
                 },
               }}
-              styles={{
-                textInputContainer: {
-                  borderTopWidth: 0,
-                  borderBottomWidth: 0,
-                  borderLeftWidth: 0,
-                  borderRightWidth: 0,
-                  width: '100%',
-                  height: 50,
-                  backgroundColor: '#fff',
-                  borderRadius: 7,
-                  borderColor: '#ABA7A7',
-                  borderWidth: 1,
-                  alignSelf: 'center',
-                  padding: 0,
-                },
-                listView: {
-                  height: '100%',
+              // styles={{
+              //   textInputContainer: {
+              //     borderTopWidth: 0,
+              //     borderBottomWidth: 0,
+              //     borderLeftWidth: 0,
+              //     borderRightWidth: 0,
+              //     width: '100%',
+              //     height: 50,
+              //     backgroundColor: '#fff',
+              //     borderRadius: 7,
+              //     borderColor: '#ABA7A7',
+              //     borderWidth: 1,
+              //     alignSelf: 'center',
+              //     padding: 0,
+              //   },
+              //   listView: {
+              //     height: '100%',
                    
-                  elevation: 5,
-                  zIndex: 999999,
+              //     elevation: 5,
+              //     zIndex: 999999,
                    
-                },
-                textInput: {
+              //   },
+              //   textInput: {
                    
-                  height: 46,
-                   
-                   
+              //     height: 46,
                    
                    
-                  backgroundColor: '#EFF0F3',
-                  borderRadius: 7,
                    
                    
-                  paddingLeft: 10,
-                  color: '#444',
-                },
-              }}
+              //     backgroundColor: '#EFF0F3',
+              //     borderRadius: 7,
+                   
+                   
+              //     paddingLeft: 10,
+              //     color: '#444',
+              //   },
+              // }}
               query={{
-                key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
+                key: "AIzaSyBmqDQsJvoObwL3IjASfTiXA4LRuV4C9ss",
                 language: 'en',
               }}
                
