@@ -82,7 +82,7 @@ export class VerifyPhone extends Component {
                 console.log(res);
                 this.hideLoader();
                 if (res.success) {
-                    this.showAlert("Token", "Your token has been Resent. Check your email")
+                    this.showAlert("Token", "Your token has been Resent. Check your phone")
 
                 } else {
                     console.log(this.state.email)

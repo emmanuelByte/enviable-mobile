@@ -64,7 +64,7 @@ export class RideHome extends Component {
   }
   getAddress() {
      
-    console.log(this.state.latitude +" "+ this.state.longitude);
+    console.log(this.state.latitude +" "+ this.state.longitude, "lat&long");
 
     Geocoder.from({
       latitude: this.state.latitude,
@@ -532,8 +532,6 @@ export class RideHome extends Component {
               }}
               nearbyPlacesAPI="GoogleReverseGeocoding"
               getDefaultValue={() => this.state.formatted_address}
-               
-               
               placeholder={'From'}
               minLength={5}  
               autoFocus={false}

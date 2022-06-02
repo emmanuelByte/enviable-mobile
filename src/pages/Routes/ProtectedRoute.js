@@ -22,6 +22,8 @@ import HireDetails from '../Hire/HireDetails';
 import useNotificationProvider from '../../SharedComponents/useNotificationProvider';
 import { useSelector } from 'react-redux';
 import DispatchOrderDetails from '../DispatchOrders/DispatchOrderDetails';
+import InterState from '../interState/InterState';
+
 
 export default function ProtectedRoute(props){
     const Stack = createStackNavigator();
@@ -53,6 +55,9 @@ export default function ProtectedRoute(props){
       <Stack.Screen name="RideOrders" component={RideOrders} />
       <Stack.Screen name="HireDetails" component={HireDetails} />
       <Stack.Screen name="DispatchOrderDetails" component={DispatchOrderDetails} />
+      <Stack.Screen name="InterState" component={InterState} />
+
+
 
     </Stack.Navigator>  
 

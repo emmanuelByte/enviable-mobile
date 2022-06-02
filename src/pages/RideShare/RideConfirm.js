@@ -393,9 +393,7 @@ export class RideConfirm extends Component {
             followUserLocation={true}
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
-            showsUserLocation={true}
-             
-             
+            showsUserLocation={true}   
           >
           
 

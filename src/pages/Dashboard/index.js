@@ -109,14 +109,22 @@ export default function Dashboard(props) {
           <View style={styles.top}>
             <View style={styles.row}>
               <Card text={'Book A Ride'}  action={() => props.navigation.push('RideShareHome')} card_style={styles.card1} images={{ primary: require('@src/images/hb.png'), secondary: require('@src/images/t2.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
+
               <Card action={() => props.navigation.push('SpecialMovement')} text={'Hire a Car'} card_style={styles.card8} images={{ primary: require('@src/images/hc.png'), secondary: require('@src/images/t3.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
             </View>
 
             <View style={styles.row}>
               <Card action={() => props.navigation.push('Hires')} text={'Hire A Driver'} card_style={styles.card1} images={{ primary: require('@src/images/hd.png'), secondary: require('@src/images/t3.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
+
+              
+
+              <Card action={() => props.navigation.push('InterState', {type:'Inter-State'})} text={'Inter State services'} card_style={styles.card} images={{ primary: require('@src/images/inter.jpg'), secondary: require('@src/images/t3.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
+            </View>
+            {/* inter State */}
+            <View style={styles.row}>
               <Card action={() => props.navigation.push('NewDispatch', {type:'Haulage'})} text={'Haulage Services'} card_style={styles.card} images={{ primary: require('@src/images/ha.png'), secondary: require('@src/images/t1.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
 
-            </View>
+            </View> 
           </View>
           
         </View>

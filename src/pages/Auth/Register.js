@@ -124,7 +124,7 @@ export class Register extends Component {
             // console.log(res, "error response")
           }
   })
-  .catch(e=>console.log('Caught an error while sending verification eeeemail', e));
+  .catch(e=>console.log('Caught an error while sending verification email', e));
   
   }
 

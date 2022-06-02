@@ -80,7 +80,7 @@ class Profile extends Component {
     })
      
       console.log( `${SERVER_URL}${this.props.user.photo}`, "LOGGER")
-
+      // console.log(customer_id, 'user.id')
   }
 
    
@@ -332,7 +332,9 @@ class Profile extends Component {
 
     return (
       <View style={styles.body}>
-        {console.log(this.state.firstName, "user datadahnasdc")}
+        {console.log(this.state.firstName, 'user datadahnasdc')}
+        {console.log( 'customer id:',this.state.customer_id)}
+
         <StatusBar translucent={true} backgroundColor={'#0B277F'} />
         <View style={styles.header}>
           <View style={styles.sheader}>
@@ -371,10 +373,9 @@ class Profile extends Component {
             <View style={styles.topTextView}>
               <Text style={styles.topTextName}>
                 <Text style={{marginRight: 10}}>
-                  {this.props.user && this.props.user.first_name} {this.props.user && this.props.user.last_name}
-
+                  {this.props.user && this.props.user.first_name}{' '}
+                  {this.props.user && this.props.user.last_name}
                 </Text>
-
               </Text>
 
               <Text style={styles.topLocation}>
@@ -394,7 +395,6 @@ class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.firstName}
-                       
                     />
                   </View>
                   <View style={styles.col50}>
@@ -406,11 +406,10 @@ class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.lastName}
-                       
                     />
                   </View>
                 </View>
-                
+
                 <Text style={styles.label}>Email</Text>
                 <TextInput
                   style={styles.input}

@@ -197,7 +197,7 @@ export class RidePaymentMethod extends Component {
         delivery_address: this.state?.destination?.address,
         delivery_longitude: this.state?.destination?.longitude,
         delivery_latitude: this.state?.destination?.latitude,
-        paymentMethod: paymentMethod,
+        paymentMethod:paymentMethod,
         distance: this.state.distance,
         time: this.state.time,
         coupon_id: this.state.coupon_id
@@ -206,17 +206,16 @@ export class RidePaymentMethod extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        console.log(res, '2345')
         this.hideLoader();
         if (res.success) {
-          console.log(res.success);
+          console.log(res.success, "res-Succeess");
           this.setState(
             {
               orderId: res.order_id,
             },
             () => {
               this.showAlert('Success', res.success);
-
               this.props.navigation.navigate('RideOrderDetails', {
                 orderId: res.order_id,
               });
