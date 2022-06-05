@@ -126,15 +126,12 @@ export default function ModalForm({navigation, showModal, hireDriver}){
                 <Text style={styles.dateText}>
                   {moment(fromDate).format('YYYY/MM/DD')}
                 </Text>
-              </TouchableOpacity>
-
-              
+              </TouchableOpacity> 
               {showFrom && (
                 <DateTimePicker
                   testID="dateTimePicker"
                   value={fromDate}
                   mode={'date'}
-                   
                   display="default"
                   onChange={onFromChange}
                 />

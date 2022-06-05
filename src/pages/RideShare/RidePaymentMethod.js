@@ -16,7 +16,7 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
@@ -29,13 +29,16 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import PaystackWebView from 'react-native-paystack-webview';
 
 import {SERVER_URL} from '../../config/server';
-import { poppins } from '../../config/fonts';
+import fonts, { poppins } from '../../config/fonts';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export class RidePaymentMethod extends Component {
   constructor(props) {
     super();
      
     this.state = {
+       coupon_status: null,
+ 
       visible: false,
       loaderVisible: false,
       loaderVisible: false,
@@ -51,12 +54,10 @@ export class RidePaymentMethod extends Component {
       timeValue: false,
       paymentMethod: '',
       userCards: [],
-       
-       
-       
-       
-       
-       
+      coupon:'',
+      color:'black',
+      coupon_id: null  
+ 
     };
     this.getLoggedInUser();
   }
@@ -180,19 +181,7 @@ export class RidePaymentMethod extends Component {
 
   submit(paymentMethod) {
     this.showLoader();
-console.log({
-  user_id: this.state.customer.id,
-  pickup_address: this.state.origin.address,
-  pickup_longitude: this.state.origin.longitude,
-  pickup_latitude: this.state.origin.latitude,
-  vehicleTypeId: this.state.vehicleTypeId,
-  delivery_address: this.state?.destination?.address,
-  delivery_longitude: this.state?.destination?.longitude,
-  delivery_latitude: this.state?.destination?.latitude,
-  paymentMethod: paymentMethod,
-  distance: this.state.distance,
-  time: this.state.time,
-}, "my data hereofj")
+
     fetch(`${SERVER_URL}/mobile/place_ride_share_order`, {
       method: 'POST',
       headers: {
@@ -208,24 +197,25 @@ console.log({
         delivery_address: this.state?.destination?.address,
         delivery_longitude: this.state?.destination?.longitude,
         delivery_latitude: this.state?.destination?.latitude,
-        paymentMethod: paymentMethod,
+        paymentMethod:paymentMethod,
         distance: this.state.distance,
         time: this.state.time,
+        coupon_id: this.state.coupon_id
+ 
       }),
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        console.log(res, '2345')
         this.hideLoader();
         if (res.success) {
-          console.log(res.success);
+          console.log(res.success, "res-Succeess");
           this.setState(
             {
               orderId: res.order_id,
             },
             () => {
               this.showAlert('Success', res.success);
-
               this.props.navigation.navigate('RideOrderDetails', {
                 orderId: res.order_id,
               });
@@ -289,7 +279,7 @@ console.log({
           },
         );
       } else {
-        this.props.navigation.navigate('Login');
+        // this.props.navigation.navigate('Login');
       }
     });
   }
@@ -324,6 +314,10 @@ console.log({
       return;
     } else {
     }
+  }
+
+  formatCoupon = (textValue) => {
+    this.setState({ coupon: textValue.toUpperCase() });
   }
 
   displayPayButton() {
@@ -395,6 +389,54 @@ console.log({
     }
   }
 
+  applyCoupon(){
+    this.showLoader();
+    // alert(this.state.coupon);
+    this.setState({coupon_status:'Checking coupon validity...'});
+    console.log(`https://api.ets.com.ng/customers/check_coupon/${this.state.coupon.toUpperCase()}/${this.state.customer.id}`);
+    fetch(`https://api.ets.com.ng/customers/check_coupon/${this.state.coupon.toUpperCase()}/${this.state.customer.id}`, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.hideLoader();
+
+        if (res.success) {
+
+          this.setState({
+            coupon_status: 'Coupon Applied',
+            color: 'green',
+            coupon_id: res.coupon.id
+          });
+        } else {
+          this.setState({
+            coupon_status: 'Coupon expired',
+          });
+          // Alert.alert('Error', res.error);
+        }
+      })
+      .catch(error => {
+        console.error(error+'errorf');
+        Alert.alert(
+          'Communictaion error',
+          'Ensure you have an active internet connection',
+          [
+            {
+              text: 'Ok',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Refresh', onPress: () => this.getUserCards()},
+          ],
+           
+        );
+      });
+    
+
+    this.hideLoader()
+  }
+
+ 
   navigateToScreen = route => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route,
@@ -408,7 +450,8 @@ console.log({
   render() {
     const {visible} = this.state;
     return (
-      <View style={styles.body}>
+      <ScrollView style={styles.body}>
+      <KeyboardAvoidingView >
         <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
           <Icon
             name="arrow-back"
@@ -433,8 +476,35 @@ console.log({
             <Text style={styles.price}>Pay with cash</Text>
           </View>
         </TouchableOpacity>
+
+
+        <View style={[styles.rowCoupon]}>
+           <TextInput 
+      onChangeText={textValue => this.formatCoupon(textValue)}
+      keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'}
+      returnKeyLabel={"Send"}
+      returnKeyType={"go"}
+      
+      value={this.state.coupon} placeholder='Apply Coupon code' style={{color:'#0B277F', fontSize:12, fontFamily:poppins, height:'90%', flex:8}} placeholderTextColor="grey" />
+
+        <TouchableOpacity onPress={()=>this.applyCoupon()} style={{flex:4,  borderRadius:10}}>
+            <Text style={{textAlign:'center',  color:'#0B277F',fontSize:10, fontFamily:fonts.poppins.bold}}>APPLY COUPON</Text>
+
+            </TouchableOpacity>
+         
+
+        </View>
+     
+        <Text style={{textAlign:'center', marginTop:20, color:this.state.color, }}>
+              {this.state.coupon_status}
+          </Text>
+        
+
         {this.state.loaderVisible && (
-          <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
+          <View  style={styles.loading}>
+          <ActivityIndicator size="large" color="black" />
+
+          </View>
         )}
 
         <Modal
@@ -482,7 +552,8 @@ console.log({
               ))}
           </View>
         </Modal>
-      </View>
+      </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }
@@ -543,6 +614,20 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingTop: 15,
     paddingBottom: 15,
+  },
+  rowCoupon: {
+    width: '90%',
+    // alignContent:'center',
+    alignItems:'center',
+    flexDirection: 'row',
+    paddingLeft: 20,
+    alignSelf: 'center',
+
+    paddingHorizontal:10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginTop: 15,
+    borderColor:'#0B277F', borderWidth:1, height:60, paddingVertical:0
   },
   row4: {
     width: '100%',
@@ -688,12 +773,14 @@ const styles = StyleSheet.create({
     elevation: 2,
     left: 0,
     right: 0,
+    height:'100%',
     top: 0,
     bottom: 0,
+    
     zIndex: 9999999999999999999999999,
      
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(1,1,1,0.5)',
   },
 });

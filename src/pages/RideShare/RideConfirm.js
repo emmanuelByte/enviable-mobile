@@ -16,8 +16,8 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
@@ -30,6 +30,7 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import {SERVER_URL} from '../../config/server';
 import {getPreciseDistance} from 'geolib';
 import { MAP_API_KEY } from '../config/keys';
+import { MAP_VIEW_KEY } from '../../config/keys';
 export class RideConfirm extends Component {
   constructor(props) {
     super();
@@ -109,37 +110,47 @@ export class RideConfirm extends Component {
 
   componentDidFocus = () => {
     this.getLoggedInUser();
-
-    this.getRiders();
+    fetch(SERVER_URL+'/app/trip_settings', {method:'GET'})
+    .then((v)=>v.json())
+    .then(v=>{
+      console.log(v, "v from prices")
+      this.getRiders();
 
      
-    const preciseDistance = this.calculatePreciseDistance(
-      this.props.route.params.origin,
-      this.props.route.params.destination,
-    );
+      const preciseDistance = this.calculatePreciseDistance(
+        this.props.route.params.origin,
+        this.props.route.params.destination,
+      );
+  
+      console.log(preciseDistance, 'preciwsedistance')
+      this.setState(
+        {
+          origin: this.props.route.params.origin,
+          destination: this.props.route.params.destination,
+          coordinateDistance: this.calculatePreciseDistance(
+            this.props.route.params.origin,
+            this.props.route.params.destination,
+          ),
+          kekePrice: (preciseDistance / 1000) * v['14']['pricePerKm'],
+          bikePrice: (preciseDistance / 1000) * v['15']['pricePerKm'],
+          carPrice: (preciseDistance / 1000) * v['13']['pricePerKm'],
+        },
+        () => {
+          var origin =
+            this.state.origin.latitude + ',' + this.state.origin.longitude;
+          var destination =
+            this.state.destination.latitude +
+            ',' +
+            this.state.destination.longitude;
+          this.getDistance(origin, destination);
+        },
+      );
 
-    this.setState(
-      {
-        origin: this.props.route.params.origin,
-        destination: this.props.route.params.destination,
-        coordinateDistance: this.calculatePreciseDistance(
-          this.props.route.params.origin,
-          this.props.route.params.destination,
-        ),
-        kekePrice: (preciseDistance / 1000) * 150,
-        bikePrice: (preciseDistance / 1000) * 100,
-        carPrice: (preciseDistance / 1000) * 250,
-      },
-      () => {
-        var origin =
-          this.state.origin.latitude + ',' + this.state.origin.longitude;
-        var destination =
-          this.state.destination.latitude +
-          ',' +
-          this.state.destination.longitude;
-        this.getDistance(origin, destination);
-      },
-    );
+
+
+    })
+ 
+
   };
   getRiders() {
     this.showLoader();
@@ -193,8 +204,7 @@ export class RideConfirm extends Component {
         method: 'GET',
       },
     )
-      .then(response => response.json())
-      .then(res => {
+      return response => response.json().then(res => {
         this.hideLoader();
          
         console.log(res.rows[0].elements[0].distance.text, "distance");
@@ -383,9 +393,7 @@ export class RideConfirm extends Component {
             followUserLocation={true}
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
-            showsUserLocation={true}
-             
-             
+            showsUserLocation={true}   
           >
           
 
@@ -437,7 +445,7 @@ export class RideConfirm extends Component {
               mode="DRIVING"
               strokeColor="#0B277F"
               strokeWidth={3}
-              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+              apikey={MAP_VIEW_KEY}
                
 
             />
@@ -453,6 +461,9 @@ export class RideConfirm extends Component {
         </TouchableOpacity>
         <View style={styles.infoView}>
           <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{padding:10}}>
+              <Text style={{ fontSize:10, textAlign:'center', fontWeight:'bold'}}>The price is estimated and may change by the end of the trip</Text>
+            </View>
             <TouchableOpacity
               onPress={() => this.select('13')}
               style={[{backgroundColor: this.state.bg1}, styles.row]}>
@@ -591,7 +602,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     width: '100%',
-    height: '35%',
+    height: '40%',
     alignSelf: 'center',
     paddingTop: 20,
     paddingBottom: 20,

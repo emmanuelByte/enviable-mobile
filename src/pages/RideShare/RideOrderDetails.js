@@ -1,41 +1,29 @@
 import React, { Component } from 'react';
 import {
-  AppState,
   View,
-  PermissionsAndroid,
   Linking,
   Text,
   Alert,
-  Picker,
   Image,
-  Button,
   TextInput,
   StyleSheet,
   ScrollView,
-  BackHandler,
   ActivityIndicator,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions } from 'react-navigation';
-import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MapView, { PROVIDER_GOOGLE, Marker, MarkerAnimated, AnimatedRegion } from 'react-native-maps';
 navigator.geolocation = require('@react-native-community/geolocation');
 import MapViewDirections from 'react-native-maps-directions';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { showLocation } from 'react-native-map-link';
-import RNPickerSelect from 'react-native-picker-select';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { Rating,  } from 'react-native-ratings';
 
 import { SERVER_URL } from '../../config/server';
-import { MAP_API_KEY } from '../config/keys';
 import fonts, { poppins } from '../../config/fonts';
+import { MAP_VIEW_KEY } from '../../config/keys';
 
 export class RideOrderDetails extends Component {
   constructor(props) {
@@ -55,7 +43,10 @@ export class RideOrderDetails extends Component {
       rating: 0,
       vs: false,
       rateVisible: false,
-      driver: false
+       driver: false,
+      coupon_percentage:0, 
+      coupon: null
+ 
     };
   }
 
@@ -93,6 +84,8 @@ export class RideOrderDetails extends Component {
 
 
     this.getOrder(this.props.route.params.orderId);
+    // this.getCoupon(this.props.route.params.orderId);
+
 
     setInterval(() => {
       this.updateDriverLocation(this.props.route.params.orderId);
@@ -100,17 +93,46 @@ export class RideOrderDetails extends Component {
     }, 10000)
   };
 
+ 
+  getCoupon(){
+
+
+    fetch(`https://api.ets.com.ng/customers/check_coupon/${this.state.coupon.toUpperCase()}/${this.state.customer.id}`, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.hideLoader();
+
+        if (res.success && res.coupon.amount >0) {
+
+          this.setState({
+            coupon_percentage: (res.coupon.amount * 100),
+            color: 'green',
+            coupon_id: res.coupon.id
+          });
+        
+          // Alert.alert('Error', res.error);
+        }
+      })
+      .catch(error => {
+        console.log('Error on ACTIVITING coupon')
+      });
+    
+
+    this.hideLoader()
+  }
+
+
   getDistance(origin, destination) {
-
-
     fetch(
       `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co`,
       {
         method: 'GET',
       },
     )
-      .then(response => response.json())
-      .then(res => {
+      return response => response.json().then(res => {
+        console.log(res.rows[0].elements[0], origin, destination, "response on nmap")
         this.hideLoader();
         this.setState({
           time: res.rows[0].elements[0].duration.text,
@@ -118,7 +140,7 @@ export class RideOrderDetails extends Component {
       })
       .catch(error => {
         this.hideLoader();
-        console.error(error);
+        console.log(error,  "Map Error");
         Alert.alert(
           'Distance error',
           'Could not get distance',
@@ -181,19 +203,7 @@ export class RideOrderDetails extends Component {
               order: res.order,
               rider: res.rider,
 
-
-
-
             });
-
-
-
-
-
-
-
-
-
           }
 
 
@@ -202,7 +212,7 @@ export class RideOrderDetails extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+
         Alert.alert(
           'Communictaion error',
           'Ensure you have an active internet connection',
@@ -225,7 +235,7 @@ export class RideOrderDetails extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res, "COUPLED WITH RIDER DATA NICE");
+
         this.hideLoader();
         if (res.success) {
           var origin =
@@ -249,13 +259,15 @@ export class RideOrderDetails extends Component {
             latitudeDelta: 0.009922,
             longitudeDelta: 0.009421,
           };
-          console.log(res.rider, 'res.rider');
+
           if (res.rider.longitude != null) {
             this.setState({
               order: res.order,
               rider: res.rider,
               origin: origin,
               destination: destination,
+               coupon: res.coupon
+ 
 
 
             });
@@ -266,6 +278,8 @@ export class RideOrderDetails extends Component {
               rider: res.rider,
               origin: origin,
               destination: destination,
+               coupon:res.coupon
+
 
             });
           }
@@ -276,7 +290,7 @@ export class RideOrderDetails extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+
         Alert.alert(
           'Communictaion error',
           'Ensure you have an active internet connection',
@@ -321,7 +335,7 @@ export class RideOrderDetails extends Component {
     this.setState({
       rating: rating,
     });
-    console.log('Rating is: ' + rating);
+
   }
 
   showLoader() {
@@ -337,24 +351,6 @@ export class RideOrderDetails extends Component {
   use() {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const startPoint = {
       latitude: parseFloat(this.state.order.pickup_latitude),
       longitude: parseFloat(this.state.order.pickup_longitude),
@@ -366,12 +362,10 @@ export class RideOrderDetails extends Component {
     }
 
     const transportPlan = 'w';
-    if (this.state.order.status == "Rider accepted") {
       OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
-        console.log(res)
-      });
 
-    }
+      });
+    
   }
 
   changeStatus(status) {
@@ -385,7 +379,7 @@ export class RideOrderDetails extends Component {
     )
       .then(response => response.json())
       .then(res => {
-        console.log(res, 'orders');
+
         this.hideLoader();
         if (res.success) {
           this.getOrder(this.props.route.params.orderId);
@@ -396,7 +390,7 @@ export class RideOrderDetails extends Component {
       })
       .catch(error => {
         this.hideLoader();
-        console.error(error);
+
         this.showAlert('Error', 'An unexpected error occured');
       });
   }
@@ -418,7 +412,7 @@ export class RideOrderDetails extends Component {
   }
 
   displayRatingButton() {
-    console.log(this.state.order, 'this.state.orderParam');
+
     if (
       this.state.order &&
       this.state.order.status == 'Ride completed' &&
@@ -473,7 +467,7 @@ export class RideOrderDetails extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+
         this.getOrder(this.state.order.id);
         this.hideLoader();
         if (res.success) {
@@ -540,7 +534,7 @@ export class RideOrderDetails extends Component {
               mode="DRIVING"
               strokeColor="brown"
               strokeWidth={3}
-              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+              apikey={MAP_VIEW_KEY}
 
             />
           </MapView>
@@ -559,10 +553,9 @@ export class RideOrderDetails extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
             {this.state.order && (
               <View>
-                <TouchableOpacity onPress={() => this.use()}>
+                {/* <TouchableOpacity onPress={() => this.use()}>
                   <Text style={styles.use}>Use google navigation</Text>
-
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 {this.state.rider && (
                   <View style={styles.row}>
                     <View style={styles.col1}>
@@ -622,12 +615,35 @@ export class RideOrderDetails extends Component {
                   </View>
                   <View style={styles.col22}>
                     {this.state.order.price && (
+                       <View>
                       <Text style={styles.price2}>
-                        Price: ₦
-                        {parseFloat(this.state.order.price)
+                        Pay: ₦
+                        {this.state.coupon?
+                          parseFloat(this.state.order.price - (this.state.order.price*this.state.coupon.discount/100) )
                           .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                          .replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                      :
+                      parseFloat(this.state.order.price)
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                      }
+                    {"\n"}
+
+                    {this.state.coupon && (<Text style={{textDecorationLine:'line-through'}}>₦{parseFloat(this.state.order.price)
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                      }
+                    </Text>)}
+
+
                       </Text>
+                      <Text style={[styles.price2, {color:'green',fontSize:10}]}>
+                        {this.state.coupon ?'Coupon Discount Applied!':null}
+                        
+                      </Text>
+                      </View>
+                      
+  
                     )}
                   </View>
                 </TouchableOpacity>
@@ -650,9 +666,7 @@ export class RideOrderDetails extends Component {
           onBackdropPress={() => {
             this.setState({ rateVisible: false });
           }}
-          onBackdropPress={() => {
-            this.setState({ rateVisible: false });
-          }}
+          
           height={'100%'}
           width={'100%'}
           style={styles.modal}>

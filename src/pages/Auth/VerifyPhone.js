@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { AppState, View, Platform, Text, Alert, Image, Button, TextInput, StyleSheet, ScrollView, BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity, AsyncStorage } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { View, Text, Alert,StyleSheet, ScrollView, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
-import Modal from 'react-native-modal';
 import { SERVER_URL } from '@src/config/server';
-import ModalFilterPicker from 'react-native-modal-filter-picker';
 import CodeInput from 'react-native-code-input';
 import fonts, { poppins } from '../../config/fonts';
-import { logInUser } from '../../redux/api/userApi';
 import { connect } from 'react-redux';
 import { setUser } from '../../redux/slices/userSlice';
 
@@ -25,14 +22,15 @@ export class VerifyPhone extends Component {
             forgotVisible: false,
             email: null,
             visible1: false,
-            token: ''
+            token: '',
+            phone: null
         }
 
     }
 
 
     componentDidMount() {
-        this.setState({ email: this.props.route.params.email });
+        this.setState({ email: this.props.route.params.email, phone:this.props.route.params.phone });
     }
 
     toggleUpdate() {
@@ -68,22 +66,23 @@ export class VerifyPhone extends Component {
 
     resendVerification() {
         this.showLoader();
-
-        fetch(`${SERVER_URL}/mobile/resend_verify_email`, {
+        console.log(this.state.phone,this.state.email, "resending....")
+        fetch(`${SERVER_URL}/mobile/resend_verify_phone`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                phone: this.state.email,
+                phone: this.state.phone,
+                email: this.state.email
             })
         }).then((response) => response.json())
             .then((res) => {
                 console.log(res);
                 this.hideLoader();
                 if (res.success) {
-                    this.showAlert("Token", "Your token has been Resent. Check your email")
+                    this.showAlert("Token", "Your token has been Resent. Check your phone")
 
                 } else {
                     console.log(this.state.email)
@@ -101,7 +100,7 @@ export class VerifyPhone extends Component {
             this.showAlert("Info", "Kindly input token");
             return;
         }
-        console.log(this.state.email, this.state.token)
+        console.log(this.state.email, code)
 
         fetch(`${SERVER_URL}/mobile/verify_token`, {
             method: 'POST',
@@ -110,7 +109,7 @@ export class VerifyPhone extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                phone: this.state.email,
+                phone: this.state.phone,
                 token: code,
                 email: this.state.email
             })
@@ -164,7 +163,7 @@ export class VerifyPhone extends Component {
                     <Text style={styles.headerText}>Verification</Text>
 
                     <View style={styles.bottomView}>
-                        <Text style={styles.label}>Enter the 5 digits code sent to your{`\n`} email at {this.state.email} </Text>
+                        <Text style={styles.label}>Enter the 5 digits code sent to your{`\n`}phone number at {this.state.phone} </Text>
                         <View style={styles.cv}>
                             <CodeInput
                                 // inputComponent={()=><TextInput/>}
@@ -174,7 +173,6 @@ export class VerifyPhone extends Component {
                                 activeColor='#081c5c'
                                 inactiveColor='#081c5c'
                                 autoFocus={false}
-                                inputPosition='center'
                                 borderType={'square'}
                                 space={25}
                                 codeLength={5}

@@ -1,27 +1,18 @@
 import React, {Component} from 'react';
 import {
-  AppState,
   View,
   PermissionsAndroid,
   Text,
   Alert,
-  Picker,
   Image,
-  Button,
-  TextInput,
   StyleSheet,
-  ScrollView,
-  BackHandler,
   ActivityIndicator,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
-import LinearGradient from 'react-native-linear-gradient';
-import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+// import keys from '@src/config/keys';
+import {MAP_VIEW_KEY, GEO_GEOREVERSING_KEY} from '@src/config/keys';
+
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 navigator.geolocation = require('@react-native-community/geolocation');
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
@@ -29,7 +20,6 @@ import {SERVER_URL} from '../../config/server';
 import Geocoder from 'react-native-geocoding';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
-import {MAP_API_KEY} from '../config/keys'
 import fonts, { poppins } from '../../config/fonts';
 import { connect } from 'react-redux';
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -74,7 +64,7 @@ export class RideHome extends Component {
   }
   getAddress() {
      
-    console.log(this.state.latitude +" "+ this.state.longitude);
+    console.log(this.state.latitude +" "+ this.state.longitude, "lat&long");
 
     Geocoder.from({
       latitude: this.state.latitude,
@@ -98,27 +88,12 @@ export class RideHome extends Component {
       })
       .catch(error => console.log(error,'error from mad formatteed addresz'));
   }
-
-   
-   
-   
-   
-
-   
-   
-   
-   
-
   componentDidMount() {
-    Geocoder.init('AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co');
+    Geocoder.init('AIzaSyBmqDQsJvoObwL3IjASfTiXA4LRuV4C9ss');
 
     this.getLoggedInUser();
     this.componentDidFocus();
-     
-     
-     
-     
-     
+
     this.fromRef.setAddressText(this.state.formatted_address);
     this.setState({fromAddress: this.state.formatted_address});
      
@@ -221,8 +196,8 @@ export class RideHome extends Component {
             alert('Permission Denied');
           }
         } catch (err) {
-          alert('err', err);
           console.warn(err);
+          Alert.alert('Enable Location', 'This service requires that location settings is turned on')
         }
       }
       requestLocationPermission();
@@ -262,7 +237,7 @@ export class RideHome extends Component {
         );
       },
       error => console.log(error),
-      {enableHighAccuracy:true, maximumAge:5000}
+      {enableHighAccuracy:true,  timeout:100,}
     );
     that.watchID = Geolocation.watchPosition(position => {
       //Will give you the location on location change
@@ -279,8 +254,6 @@ export class RideHome extends Component {
           latitude: currentLatitude,
           longitude: currentLongitude,
         });
-
-
 
     }, (_)=>(_),{enableHighAccuracy:true});
   }
@@ -393,7 +366,7 @@ export class RideHome extends Component {
             showsUserLocation={true}
             ref={ref => (this.mapView = ref)}
             zoomEnabled={true}
-            showsUserLocation={true}
+            // showsUserLocation={true}
             onMapReady={this.goToInitialRegion.bind(this)}
              
           >
@@ -453,7 +426,7 @@ export class RideHome extends Component {
               mode="DRIVING"
               strokeColor="#0B277F"
               strokeWidth={3}
-              apikey={'AIzaSyAyQQRwdgd4UZd1U1FqAgpRTEBWnRMYz3A'}
+              apikey={MAP_VIEW_KEY}
 
                
             />
@@ -486,8 +459,6 @@ export class RideHome extends Component {
 
 
             <GooglePlacesAutocomplete
-          
-             
               ref={ref=> this.fromRef = ref}
               styles={{
                 textInputContainer: {
@@ -517,52 +488,50 @@ export class RideHome extends Component {
                   color: '#444',
                 },
               }}
-              styles={{
-                textInputContainer: {
-                  borderTopWidth: 0,
-                  borderBottomWidth: 0,
-                  borderLeftWidth: 0,
-                  borderRightWidth: 0,
-                  width: '100%',
-                  height: 50,
-                  backgroundColor: '#fff',
-                  borderRadius: 7,
-                  borderColor: '#ABA7A7',
-                  borderWidth: 1,
-                  alignSelf: 'center',
-                  padding: 0,
-                },
-                listView: {
-                  height: '100%',
+              // styles={{
+              //   textInputContainer: {
+              //     borderTopWidth: 0,
+              //     borderBottomWidth: 0,
+              //     borderLeftWidth: 0,
+              //     borderRightWidth: 0,
+              //     width: '100%',
+              //     height: 50,
+              //     backgroundColor: '#fff',
+              //     borderRadius: 7,
+              //     borderColor: '#ABA7A7',
+              //     borderWidth: 1,
+              //     alignSelf: 'center',
+              //     padding: 0,
+              //   },
+              //   listView: {
+              //     height: '100%',
                    
-                  elevation: 5,
-                  zIndex: 999999,
+              //     elevation: 5,
+              //     zIndex: 999999,
                    
-                },
-                textInput: {
+              //   },
+              //   textInput: {
                    
-                  height: 46,
-                   
-                   
+              //     height: 46,
                    
                    
-                  backgroundColor: '#EFF0F3',
-                  borderRadius: 7,
                    
                    
-                  paddingLeft: 10,
-                  color: '#444',
-                },
-              }}
+              //     backgroundColor: '#EFF0F3',
+              //     borderRadius: 7,
+                   
+                   
+              //     paddingLeft: 10,
+              //     color: '#444',
+              //   },
+              // }}
             
               query={{
-                key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
+                key: "AIzaSyBmqDQsJvoObwL3IjASfTiXA4LRuV4C9ss",
                 language: 'en',
               }}
               nearbyPlacesAPI="GoogleReverseGeocoding"
               getDefaultValue={() => this.state.formatted_address}
-               
-               
               placeholder={'From'}
               minLength={5}  
               autoFocus={false}
@@ -634,45 +603,45 @@ export class RideHome extends Component {
                   color: '#444',
                 },
               }}
-              styles={{
-                textInputContainer: {
-                  borderTopWidth: 0,
-                  borderBottomWidth: 0,
-                  borderLeftWidth: 0,
-                  borderRightWidth: 0,
-                  width: '100%',
-                  height: 50,
-                  backgroundColor: '#fff',
-                  borderRadius: 7,
-                  borderColor: '#ABA7A7',
-                  borderWidth: 1,
-                  alignSelf: 'center',
-                  padding: 0,
-                },
-                listView: {
-                  height: '100%',
+              // styles={{
+              //   textInputContainer: {
+              //     borderTopWidth: 0,
+              //     borderBottomWidth: 0,
+              //     borderLeftWidth: 0,
+              //     borderRightWidth: 0,
+              //     width: '100%',
+              //     height: 50,
+              //     backgroundColor: '#fff',
+              //     borderRadius: 7,
+              //     borderColor: '#ABA7A7',
+              //     borderWidth: 1,
+              //     alignSelf: 'center',
+              //     padding: 0,
+              //   },
+              //   listView: {
+              //     height: '100%',
                    
-                  elevation: 5,
-                  zIndex: 999999,
+              //     elevation: 5,
+              //     zIndex: 999999,
                    
-                },
-                textInput: {
+              //   },
+              //   textInput: {
                    
-                  height: 46,
-                   
-                   
+              //     height: 46,
                    
                    
-                  backgroundColor: '#EFF0F3',
-                  borderRadius: 7,
                    
                    
-                  paddingLeft: 10,
-                  color: '#444',
-                },
-              }}
+              //     backgroundColor: '#EFF0F3',
+              //     borderRadius: 7,
+                   
+                   
+              //     paddingLeft: 10,
+              //     color: '#444',
+              //   },
+              // }}
               query={{
-                key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
+                key: "AIzaSyBmqDQsJvoObwL3IjASfTiXA4LRuV4C9ss",
                 language: 'en',
               }}
                

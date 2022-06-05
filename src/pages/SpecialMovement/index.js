@@ -85,9 +85,12 @@ function SpecialMovement(props) {
     setLoader(true);
 
     const payload = {
-      userId: value.id, location: data.location,
-      note: data.text, service: data.service,
-      vehicle_type: data.vehicleType, fromDate: moment(data.fromDate).format('YYYY/MM/DD'),
+      userId: value.id, 
+      location: data.location,
+      note: data.text, 
+      service: data.service,
+      vehicle_type: data.vehicleType, 
+      fromDate: moment(data.fromDate).format('YYYY/MM/DD'),
       toDate: moment(data.toDate).format('YYYY/MM/DD'),
     }
 

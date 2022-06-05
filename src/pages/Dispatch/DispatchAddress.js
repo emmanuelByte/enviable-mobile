@@ -15,8 +15,8 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationActions} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
@@ -539,290 +539,249 @@ export class DispatchAddress extends Component {
     const {visible2} = this.state;
     return (
       <View style={styles.body}>
+        <ScrollView
+          keyboardShouldPersistTaps="always"
+          listViewDisplayed={false}>
+          <>
+            <View style={styles.header}>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <Icon
+                  name="arrow-back"
+                  size={25}
+                  color="#000"
+                  style={styles.menuImage}
+                />
+              </TouchableOpacity>
+              <Text style={styles.headerText}>Dispatch info</Text>
+            </View>
+            <View style={styles.bottomView}>
+              <Text style={styles.subHead}>Vehicle information</Text>
+              <Text style={styles.label1}>Vehicle type</Text>
+              <TouchableOpacity style={[styles.input]}>
+                <RNPickerSelect
+                  placeholder=""
+                  style={pickerSelectStyles}
+                  selectedValue={this.state.vehicleTypeId}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({vehicleTypeId: itemValue})
+                  }
+                  items={this.state.vs}
+                  returnKeyType={'done'}
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.label}>How many trucks do you need?</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Quantity"
+              onChangeText={text => this.setState({quantity: text})}
+              underlineColorAndroid="transparent"
+              placeholderTextColor="#ccc"
+              value={this.state.quantity}
+              keyboardType={'numeric'}
+            />
+            <View style={styles.bottomView}>
+              <Text style={styles.subHead}>Pickup information</Text>
+              <Text style={styles.label}>City</Text>
+              {this.state.visible1 && (
+                <ModalFilterPicker
+                  style={styles.input}
+                  onSelect={this.onPickupSelect}
+                  onCancel={this.onPickupCancel}
+                  options={this.state.cities}
+                />
+              )}
+              <TouchableOpacity onPress={() => this.setState({visible1: true})}>
+                <Text style={styles.locSelect}>
+                  {this.state.pickupLocationPlaceholder}
+                </Text>
+              </TouchableOpacity>
+              <Text style={styles.label}>Pickup Address</Text>
+              <View style={{paddingTop: 1, flex: 1}}>
+                <GooglePlacesAutocomplete
+                  styles={{
+                    textInputContainer: {
+                      borderTopWidth: 0,
+                      borderBottomWidth: 0,
+                      width: '95%',
+                      alignSelf: 'center',
+                      backgroundColor: '#fff',
+                      padding: 0,
+                    },
+                    listView: {
+                      height: '100%',
+                      elevation: 5,
+                      zIndex: 999999,
+                    },
+                    textInput: {
+                      width: '85%',
+                      height: 46,
+                      backgroundColor: '#EFF0F3',
+                      borderRadius: 6,
+                      alignSelf: 'center',
+                      marginTop: 5,
+                      paddingLeft: 10,
+                      color: '#444',
+                    },
+                  }}
+                  query={{
+                    key: 'AIzaSyBmqDQsJvoObwL3IjASfTiXA4LRuV4C9ss',
+                    language: 'en',
+                  }}
+                  getDefaultValue={() => ''}
+                  placeholder=""
+                  minLength={2} // minimum length of text to search
+                  autoFocus={false}
+                  fetchDetails={true}
+                  listViewDisplayed={'auto'}
+                  textInputProps={{
+                    onFocus: () =>
+                      this.showAlert(
+                        'Info',
+                        'Kindly ensure you including your town in the address, then select form the option provided. This allow us to get an accurate coordinate of the address',
+                      ),
+                  }}
+                  onPress={(data, details) => {
+                    // 'details' is provided when fetchDetails = true
+                    console.log(data, 'data');
+                    this.setState({
+                      pickupLatitude: details.geometry.location.lat,
+                      pickupLongitude: details.geometry.location.lng,
+                      pickupAddress: data.description,
+                    });
+                  }}
+                  onFail={error => console.error(error)}
+                />
+              </View>
+              <Text style={styles.label}>Sender's name</Text>
+              <TextInput
+                style={styles.input}
+                placeholder=""
+                onChangeText={text => this.setState({senderName: text})}
+                underlineColorAndroid="transparent"
+                value={this.state.senderName}
+              />
+              <Text style={styles.label}>Sender's phone</Text>
+              <TextInput
+                style={styles.input}
+                placeholder=""
+                onChangeText={text => this.setState({senderPhone: text})}
+                underlineColorAndroid="transparent"
+                value={this.state.senderPhone}
+                minLength={11}
+                maxLength={11}
+                keyboardType={'phone-pad'}
+              />
+            </View>
 
-      <ScrollView 
-      keyboardShouldPersistTaps='always'
-      listViewDisplayed={false}
-      >
-         <>
-      <View style={styles.header}>
-      <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-        <Icon
-          name="arrow-back"
-          size={25}
-          color="#000"
-          style={styles.menuImage}
-        />
-      </TouchableOpacity>
-      <Text style={styles.headerText}>Dispatch info</Text>
-    </View>
-    <View style={styles.bottomView}>
-      <Text style={styles.subHead}>Vehicle information</Text>
-      <Text style={styles.label1}>Vehicle type</Text>
-      <TouchableOpacity style={[styles.input]}>
-        <RNPickerSelect
-          placeholder=""
-          style={pickerSelectStyles}
-          selectedValue={this.state.vehicleTypeId}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({vehicleTypeId: itemValue})
-          }
-          items={this.state.vs}
-          returnKeyType={'done'}
-        />
-     
-      </TouchableOpacity>
-    </View>
-    <Text style={styles.label}>How many trucks do you need?</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="Quantity"
-      onChangeText={text => this.setState({quantity: text})}
-      underlineColorAndroid="transparent"
-      placeholderTextColor="#ccc"
-      value={this.state.quantity}
-      keyboardType={'numeric'}
-    />
-    <View style={styles.bottomView}>
-      <Text style={styles.subHead}>Pickup information</Text>
-  
-      <Text style={styles.label}>City</Text>
-      {this.state.visible1 && (
-        <ModalFilterPicker
-          style={styles.input}
-          onSelect={this.onPickupSelect}
-          onCancel={this.onCancel}
-          options={this.state.cities}
-        />
-      )}
-      <TouchableOpacity onPress={() => this.setState({visible1: true})}>
-        <Text style={styles.locSelect}>
-          {this.state.pickupLocationPlaceholder}
-        </Text>
-      </TouchableOpacity>
-      <Text style={styles.label}>Pickup Address</Text>
-      <View style={{paddingTop: 1, flex: 1}}>
-        <GooglePlacesAutocomplete
-          styles={{
-            textInputContainer: {
-              borderTopWidth: 0,
-              borderBottomWidth: 0,
-              width: '95%',
-              alignSelf: 'center',
-              backgroundColor: '#fff',
-              padding: 0,
-            },
-            listView: {
-              height: '100%',
-              elevation: 5,
-              zIndex: 999999,
-            },
-            textInput: {
-              width: '85%',
-              height: 46,
-              backgroundColor: '#EFF0F3',
-              borderRadius: 6,
-              alignSelf: 'center',
-              marginTop: 5,
-              paddingLeft: 10,
-              color: '#444',
-            },
-          }}
-          styles={{
-            textInputContainer: {
-              borderTopWidth: 0,
-              borderBottomWidth: 0,
-              borderLeftWidth: 0,
-              borderRightWidth: 0,
-              width: '95%',
-              height: 50,
-              backgroundColor: '#fff',
-              borderRadius: 7,
-              borderColor: '#ABA7A7',
-              borderWidth: 1,
-              alignSelf: 'center',
-              padding: 0,
-            },
-            listView: {
-              height: '100%',
-              elevation: 5,
-              zIndex: 999999,
-            },
-            textInput: {
-              height: 46,
-           
-              backgroundColor: '#fff',
-              borderRadius: 7,
-              borderColor: '#ABA7A7',
-              borderWidth: 1,
-              paddingLeft: 10,
-              color: '#444',
-            },
-          }}
-          query={{
-            key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
-            language: 'en',
-          }}
-          getDefaultValue={() => ''}
-          placeholder=""
-          minLength={2} // minimum length of text to search
-          autoFocus={false}
-          fetchDetails={true}
-          listViewDisplayed={'auto'}
-          textInputProps={{
-            onFocus: () =>
-              this.showAlert(
-                'Info',
-                'Kindly ensure you including your town in the address, then select form the option provided. This allow us to get an accurate coordinate of the address',
-              ),
-          }}
+            <View style={styles.bottomView}>
+              <Text style={styles.subHead}>Delivery information</Text>
 
-          onPress={(data, details) => {
-            // 'details' is provided when fetchDetails = true
-            console.log(data, 'data');
-            this.setState({
-              pickupLatitude: details.geometry.location.lat,
-              pickupLongitude: details.geometry.location.lng,
-              pickupAddress: data.description,
-            });
-          }}
-          onFail={error => console.error(error)}
-        />
-      </View>
-      <Text style={styles.label}>Sender's name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder=""
-        onChangeText={text => this.setState({senderName: text})}
-        underlineColorAndroid="transparent"
-        value={this.state.senderName}
-      />
-      <Text style={styles.label}>Sender's phone</Text>
-      <TextInput
-        style={styles.input}
-        placeholder=""
-        onChangeText={text => this.setState({senderPhone: text})}
-        underlineColorAndroid="transparent"
-        value={this.state.senderPhone}
-        minLength={11}
-        maxLength={11}
-        keyboardType={'phone-pad'}
-      />
-    </View>
+              <Text style={styles.label}>Delivery City</Text>
+              {this.state.visible2 && (
+                <ModalFilterPicker
+                  style={styles.input}
+                  onSelect={this.onDeliverySelect}
+                  onCancel={this.onDeliveryCancel}
+                  options={this.state.cities}
+                />
+              )}
+              <TouchableOpacity onPress={() => this.setState({visible2: true})}>
+                <Text style={styles.locSelect}>
+                  {this.state.deliveryLocationPlaceholder}
+                </Text>
+              </TouchableOpacity>
+              <Text style={styles.label}>Delivery Address</Text>
+              <View style={{paddingTop: 1, flex: 1}}>
+                <GooglePlacesAutocomplete
+                  styles={{
+                    textInputContainer: {
+                      borderTopWidth: 0,
+                      borderBottomWidth: 0,
+                      borderLeftWidth: 0,
+                      borderRightWidth: 0,
+                      width: '95%',
+                      height: 50,
+                      backgroundColor: '#fff',
+                      borderRadius: 7,
+                      borderColor: '#ABA7A7',
+                      borderWidth: 1,
+                      alignSelf: 'center',
+                      padding: 0,
+                    },
+                    listView: {
+                      height: '100%',
+                      elevation: 5,
+                      zIndex: 999999,
+                    },
+                    textInput: {
+                      height: 46,
 
-    <View style={styles.bottomView}>
-      <Text style={styles.subHead}>Delivery information</Text>
+                      backgroundColor: '#fff',
+                      borderRadius: 7,
+                      borderColor: '#ABA7A7',
+                      borderWidth: 1,
+                      paddingLeft: 10,
+                      color: '#444',
+                    },
+                  }}
+                  query={{
+                    key: 'AIzaSyBmqDQsJvoObwL3IjASfTiXA4LRuV4C9ss',
+                    language: 'en',
+                  }}
+                  getDefaultValue={() => ''}
+                  placeholder=""
+                  minLength={2} // minimum length of text to search
+                  autoFocus={false}
+                  fetchDetails={true}
+                  listViewDisplayed={'auto'}
+                  onPress={(data, details) => {
+                    // 'details' is provided when fetchDetails = true
+                    console.log(data, 'data');
+                    this.setState({
+                      deliveryLatitude: details.geometry.location.lat,
+                      deliveryLongitude: details.geometry.location.lng,
+                      deliveryAddress: data.description,
+                    });
+                  }}
+                  onFail={error => console.error(error)}
+                />
+              </View>
+              <Text style={styles.label}>Receiver's name</Text>
+              <TextInput
+                style={styles.input}
+                placeholder=""
+                onChangeText={text => this.setState({receiverName: text})}
+                underlineColorAndroid="transparent"
+                value={this.state.receiverName}
+              />
+              <Text style={styles.label}>Receiver's phone</Text>
+              <TextInput
+                style={styles.input}
+                placeholder=""
+                onChangeText={text => this.setState({receiverPhone: text})}
+                underlineColorAndroid="transparent"
+                value={this.state.receiverPhone}
+                minLength={11}
+                maxLength={11}
+                keyboardType={'phone-pad'}
+              />
+            </View>
 
-      <Text style={styles.label}>Delivery City</Text>
-      {this.state.visible2 && (
-        <ModalFilterPicker
-          style={styles.input}
-          onSelect={this.onDeliverySelect}
-          onCancel={this.onDeliveryCancel}
-          options={this.state.cities}
-        />
-      )}
-      <TouchableOpacity onPress={() => this.setState({visible2: true})}>
-        <Text style={styles.locSelect}>
-          {this.state.deliveryLocationPlaceholder}
-        </Text>
-      </TouchableOpacity>
-      <Text style={styles.label}>Delivery Address</Text>
-      <View style={{paddingTop: 1, flex: 1}}>
-        <GooglePlacesAutocomplete
-          styles={{
-            textInputContainer: {
-              borderTopWidth: 0,
-              borderBottomWidth: 0,
-              borderLeftWidth: 0,
-              borderRightWidth: 0,
-              width: '95%',
-              height: 50,
-              backgroundColor: '#fff',
-              borderRadius: 7,
-              borderColor: '#ABA7A7',
-              borderWidth: 1,
-              alignSelf: 'center',
-              padding: 0,
-            },
-            listView: {
-              height: '100%',
-              elevation: 5,
-              zIndex: 999999,
-            },
-            textInput: {
-              height: 46,
-              
-              backgroundColor: '#fff',
-              borderRadius: 7,
-              borderColor: '#ABA7A7',
-              borderWidth: 1,
-              paddingLeft: 10,
-              color: '#444',
-            },
-          }}
-          query={{
-            key: 'AIzaSyCJ9Pi5fFjz3he_UkrTCiaO_g6m8Stn2Co',
-            language: 'en',
-          }}
-          getDefaultValue={() => ''}
-          placeholder=""
-          minLength={2} // minimum length of text to search
-          autoFocus={false}
-          fetchDetails={true}
-          listViewDisplayed={'auto'}
+            <TouchableOpacity
+              style={styles.addView}
+              onPress={() => this.submit()}>
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                colors={['#0B277F', '#0B277F']}
+                style={styles.addGradient}>
+                <Text style={styles.addText}>Send Order</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </>
+        </ScrollView>
 
-          onPress={(data, details) => {
-            // 'details' is provided when fetchDetails = true
-            console.log(data, 'data');
-            this.setState({
-              deliveryLatitude: details.geometry.location.lat,
-              deliveryLongitude: details.geometry.location.lng,
-              deliveryAddress: data.description,
-            });
-          }}
-          onFail={error => console.error(error)}
-        />
-      </View>
-      <Text style={styles.label}>Receiver's name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder=""
-        onChangeText={text => this.setState({receiverName: text})}
-        underlineColorAndroid="transparent"
-        value={this.state.receiverName}
-      />
-      <Text style={styles.label}>Receiver's phone</Text>
-      <TextInput
-        style={styles.input}
-        placeholder=""
-        onChangeText={text => this.setState({receiverPhone: text})}
-        underlineColorAndroid="transparent"
-        value={this.state.receiverPhone}
-        minLength={11}
-        maxLength={11}
-        keyboardType={'phone-pad'}
-      />
-    </View>
-
-    <TouchableOpacity
-      style={styles.addView}
-      onPress={() => this.submit()}>
-      <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
-        colors={['#0B277F', '#0B277F']}
-        style={styles.addGradient}>
-        <Text style={styles.addText}>Send Order</Text>
-      </LinearGradient>
-    </TouchableOpacity>
-    </>
-      </ScrollView>
-   
-
-
-       
-         
         {this.state.loaderVisible && (
           <ActivityIndicator style={styles.loading} size="small" color="#ccc" />
         )}

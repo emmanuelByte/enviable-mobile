@@ -2,4 +2,7 @@
     <string name="app_name">Enviable</string>
     <string name="facebook_app_id">385478846431091</string>
     <string name="facebook_client_token">EAAFel0m1v3MBACZAQvGzjPuPOrZBWF2lXMzSbcgxSZAzJAL9Kd6tnqv3lOcHtrM2ldZAYmZCf4JXJfMYitdXxUK0fZAqfk7hLtujE1VtmrF1mw0jzuHt98Pt4gBAb3oK6sramKzmk1hi1rvmZAiZChOHpTi04rZAf0InfE0oiQ8eBdYZAUFyHhNxUEXklxECUbbHg3Py9Y6gPCOnlEnbQqy6ZCSyBbS4X7hDubPdOKg4Mjo3pJ7iIs1YJhZCA3kd6gqCVkAZD</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
+<string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
+     <string moduleConfig="true" name="CodePushDeploymentKey">Gj3cIi-aBxEJHl9-Gk5xVrMGJ4Hy-E9-N2yQ9</string>
 </resources>

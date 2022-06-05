@@ -5,7 +5,6 @@ import {
   Text,
   Alert,
   Image,
-  TouchableWithoutFeedback,
   Button,
   TextInput,
   StyleSheet,
@@ -16,6 +15,7 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
+  ImagePickerIOS,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -24,7 +24,7 @@ import Modal from 'react-native-modal';
 import TimeAgo from 'react-native-timeago';
 import {SERVER_URL} from '../config/server';
 import ModalFilterPicker from 'react-native-modal-filter-picker';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 import ImgToBase64 from 'react-native-image-base64';
 import { connect } from 'react-redux';
@@ -75,12 +75,12 @@ class Profile extends Component {
       email: this.props.user.email,
       phone: this.props.user.phone1,
       customer_id: this.props.user.id,
-      dp: this.props.user.photo_base64,
+      dp: `${this.props.user.photo}`,
       customer: this.props.user
     })
      
-     
-
+      console.log( `${SERVER_URL}${this.props.user.photo}`, "LOGGER")
+      // console.log(customer_id, 'user.id')
   }
 
    
@@ -134,28 +134,6 @@ class Profile extends Component {
    
    
    
-   
-   
-   
-   
-   
-   
-
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
 
   updateProfile() {
     this.showLoader();
@@ -179,37 +157,23 @@ class Profile extends Component {
     })
       .then(response => response.json())
       .then(async (res) => {
-        console.log('profile response', res, this.state.dp);
 
         this.hideLoader();
         if (res.success) {
-          console.log('respose', res.customer);
           this.showAlert('success', res.success);
 
           await AsyncStorage.setItem('customer', JSON.stringify(res.customer));
+          console.log(res, "From customer resoibse")
           this.props.dispatch(setUser({user: res.customer, status: true}));
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
            
         } else {
           this.showAlert('Error', res.error);
         }
       })
-      .done();
+      .catch(e=> {
+        this.hideLoader();
+        console.log(e, "on update profile")
+      });
   }
 
   updatePassword() {
@@ -290,17 +254,7 @@ class Profile extends Component {
           this.setState(
             {
               cities: res.cities,
-            })
-             
-             
-             
-             
-               
-               
-               
-               
-               
-            
+            })     
         }
         
       
@@ -328,13 +282,19 @@ class Profile extends Component {
   }
 
   handlePhotoSelection() {
-    launchImageLibrary({noData: true}, response => {
-      if (!response.didCancel) {
-        this.getBase64ImageFromFile(response.assets[0].uri).then(res => {
-          console.log('res');
+    
+    launchCamera({mediaType:"photo"}, (response) => {
+      if (response && (response.didCancel != undefined || response.assets !== undefined)) {
+        console.log('response image', response, response.assets, response.didCancel);
 
+        this.getBase64ImageFromFile(response.assets[0].uri).then(res => {
           this.setState({dp: `data:${response.assets[0].type};base64,${res}`});
         });
+
+        console.log(response, "including erroro object");
+      }else if(response.errorCode){
+        alert(response.errorMessage + response.errorCode)
+        console.log(response.error, response ,"error on loading camera")
       }
     });
   }
@@ -372,7 +332,9 @@ class Profile extends Component {
 
     return (
       <View style={styles.body}>
-        {console.log(this.state.firstName, "user datadahnasdc")}
+        {console.log(this.state.firstName, 'user datadahnasdc')}
+        {console.log( 'customer id:',this.state.customer_id)}
+
         <StatusBar translucent={true} backgroundColor={'#0B277F'} />
         <View style={styles.header}>
           <View style={styles.sheader}>
@@ -400,7 +362,7 @@ class Profile extends Component {
                 ) : (
                   <Image
                     source={{
-                      uri: this.state.dp,
+                      uri: `${SERVER_URL}${this.state.dp}`,
                     }}
                     style={styles.userImage}
                   />
@@ -411,10 +373,9 @@ class Profile extends Component {
             <View style={styles.topTextView}>
               <Text style={styles.topTextName}>
                 <Text style={{marginRight: 10}}>
-                  {this.props.user && this.props.user.first_name} {this.props.user && this.props.user.last_name}
-
+                  {this.props.user && this.props.user.first_name}{' '}
+                  {this.props.user && this.props.user.last_name}
                 </Text>
-
               </Text>
 
               <Text style={styles.topLocation}>
@@ -434,7 +395,6 @@ class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.firstName}
-                       
                     />
                   </View>
                   <View style={styles.col50}>
@@ -446,11 +406,10 @@ class Profile extends Component {
                       underlineColorAndroid="transparent"
                       placeholderTextColor="#ccc"
                       value={this.state.lastName}
-                       
                     />
                   </View>
                 </View>
-                
+
                 <Text style={styles.label}>Email</Text>
                 <TextInput
                   style={styles.input}

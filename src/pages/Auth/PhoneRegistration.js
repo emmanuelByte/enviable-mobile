@@ -1,11 +1,9 @@
 import React, { Component  } from 'react';
-import { AppState, View, Platform, Text, Alert, Image, Button, TextInput, StyleSheet, ScrollView,BackHandler, ActivityIndicator, ImageBackground, StatusBar, TouchableOpacity, AsyncStorage } from 'react-native';
+import {  View, Text, Alert,  StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import {NavigationActions} from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
-import Modal from 'react-native-modal';
+import AsyncStorage from '@react-native-community/async-storage';
 import { SERVER_URL } from '../../config/server';
-import ModalFilterPicker from 'react-native-modal-filter-picker';
 import fonts, { poppins } from '../../config/fonts';
 import colors from '../../config/colors';
 

@@ -16,9 +16,8 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
-
+import AsyncStorage from '@react-native-community/async-storage';
 const SideMenu = props => {
    return (
     <Modal

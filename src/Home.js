@@ -17,14 +17,14 @@ import {
   ImageBackground,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import {SERVER_URL} from './config/server';
 import ShadowView from 'react-native-simple-shadow-view';
+import AsyncStorage from '@react-native-community/async-storage';
+import Geolocation from 'react-native-geolocation-service';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -52,7 +52,6 @@ export class Home extends Component {
     };
   }
 
-  async componentWillMount() {}
 
   componentWillUnmount() {
     this.subs.forEach(sub => sub.remove());
@@ -77,6 +76,59 @@ export class Home extends Component {
 
   async componentDidFocus() {
     await this.getLoggedInUser();
+
+  }
+
+  callLocation() {
+    Geolocation.getCurrentPosition(
+       
+      position => {
+        const currentLongitude = position.coords.longitude;
+        const currentLatitude = position.coords.latitude;
+        
+        var origin = {
+          latitude: currentLatitude,
+          longitude: currentLongitude,
+
+          latitudeDelta: 0.009922,
+          longitudeDelta: 0.009421,
+        };
+
+        that.setState(
+          {
+            origin: origin,
+            latitude: currentLatitude,
+            longitude: currentLongitude,
+            initialRegion: origin,
+          },
+          () => {
+            this.getAddress();
+          },
+        );
+      },
+      error => console.log(error),
+      {enableHighAccuracy:true,  timeout:100,}
+    );
+
+
+    Geolocation.watchPosition(position => {
+      //Will give you the location on location change
+      const currentLongitude = position.coords.longitude;
+      const currentLatitude = position.coords.latitude;
+
+      var origin = {
+        latitude: currentLatitude,
+        longitude: currentLongitude,
+      };
+      that.setState(
+        {
+          origin: origin,
+          latitude: currentLatitude,
+          longitude: currentLongitude,
+        });
+
+    }, (_)=>(_),{enableHighAccuracy:true})
+   
   }
 
   componentDidMount() {
@@ -238,7 +290,6 @@ export class Home extends Component {
   }
 
   displaySignin() {
-    if (this.state.customer.first_name == null) {
       return (
         <View style={styles.row1}>
           <TouchableOpacity
@@ -253,20 +304,6 @@ export class Home extends Component {
           </TouchableOpacity>
         </View>
       );
-    } else {
-      return (
-        <View style={styles.row1}>
-          <TouchableOpacity style={styles.bCol1} onPress={() => this.logout()}>
-            <Text style={styles.lText1}>Logout</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.bCol2}
-            onPress={() => this.props.navigation.navigate('Profile')}>
-            <Text style={styles.lText2}>Profile</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
   }
 
   logout() {
@@ -412,9 +449,10 @@ export class Home extends Component {
                 </View>
               </View>
             </View>
+            {/* {this.displaySignin()} */}
+
           </ScrollView>
         </View>
-        {this.displaySignin()}
 
         <Modal
           isVisible={this.state.sideMenuModalVisible}

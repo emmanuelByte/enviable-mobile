@@ -1,42 +1,71 @@
-import React, { Component, useState } from 'react';
+import React, {  useState, useEffect } from 'react';
 import {
-  AppState,
   View,
   Text,
-  Share,
-  Alert,
+
   Image,
-  TouchableWithoutFeedback,
-  Button,
-  TextInput,
+  
   StyleSheet,
   Dimensions,
   ScrollView,
-  BackHandler,
-  ActivityIndicator,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
-  AsyncStorage,
+  Linking,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import LinearGradient from 'react-native-linear-gradient';
-import Modal from 'react-native-modal';
-import { SERVER_URL } from '../../config/server';
-import ShadowView from 'react-native-simple-shadow-view';
+
 import Card from './Card';
 import SideBar from './SideBar';
 import { useSelector } from 'react-redux';
 import fonts, { poppins } from '../../config/fonts';
+navigator.geolocation = require('@react-native-community/geolocation');
+navigator.geolocation = require('react-native-geolocation-service');
+import Geolocation from 'react-native-geolocation-service';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
 
+function callLocation() {
+       
+  if (Platform.OS === 'ios') {
+    Geolocation.requestAuthorization('whenInUse')
+      .then((result)=>{
+        if (result === 'granted') {
+          Geolocation.getCurrentPosition(()=>{});
+        }
+      })
+
+  } else {
+    async function requestLocationPermission() {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'This App needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+           
+          that.callLocation(that);
+        } else {
+          alert('Permission Denied');
+        }
+      } catch (err) {
+        console.warn(err);
+        Alert.alert('Enable Location', 'This service requires that location settings is turned on')
+      }
+    }
+    requestLocationPermission();
+  }
+ 
+}
 
 export default function Dashboard(props) {
   const [sideBar, setSideBar] = useState(false);
   const { value, status } = useSelector(state => state.user);
+
+  useEffect(()=>{
+    callLocation();
+  }, [])
 
   return (<>
     <View style={[styles.bImage1]}>
@@ -80,19 +109,32 @@ export default function Dashboard(props) {
           <View style={styles.top}>
             <View style={styles.row}>
               <Card text={'Book A Ride'}  action={() => props.navigation.push('RideShareHome')} card_style={styles.card1} images={{ primary: require('@src/images/hb.png'), secondary: require('@src/images/t2.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
+
               <Card action={() => props.navigation.push('SpecialMovement')} text={'Hire a Car'} card_style={styles.card8} images={{ primary: require('@src/images/hc.png'), secondary: require('@src/images/t3.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
             </View>
 
             <View style={styles.row}>
               <Card action={() => props.navigation.push('Hires')} text={'Hire A Driver'} card_style={styles.card1} images={{ primary: require('@src/images/hd.png'), secondary: require('@src/images/t3.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
+
+              
+
+              <Card action={() => props.navigation.push('InterState', {type:'Inter-State'})} text={'Inter City services'} card_style={styles.card} images={{ primary: require('@src/images/inter.jpg'), secondary: require('@src/images/t3.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
+            </View>
+            {/* inter State */}
+            <View style={styles.row}>
               <Card action={() => props.navigation.push('NewDispatch', {type:'Haulage'})} text={'Haulage Services'} card_style={styles.card} images={{ primary: require('@src/images/ha.png'), secondary: require('@src/images/t1.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
 
-            </View>
+            </View> 
           </View>
+          
         </View>
+       
       </ScrollView>
+      <TouchableOpacity onPress={()=> Linking.openURL('whatsapp://send?phone=+2348133629929')} style={{position:'absolute', right:0, bottom:10}}>
+            <Image style={{width:70, height:70}} source={require('@src/images/whatsapp-icon.png')}/>
+        </TouchableOpacity>
     </View>
-  </>)
+  </>);
 }
 
 const styles = StyleSheet.create({
