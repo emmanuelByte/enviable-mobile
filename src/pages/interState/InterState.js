@@ -20,18 +20,16 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
-import ModalFilterPicker from 'react-native-modal-filter-picker';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {poppins} from '../../config/fonts';
 import {SERVER_URL} from '@src/config/server';
 import {get, post} from '../../utils/api';
 import {useSelector} from 'react-redux';
-import axios from "axios"
 var moment = require('moment');
 
 function InterState({navigation}) {
+  //! the useState can be handle better...coming back to clean up..!!
   const [destStates, setDestStates] = useState([]);
   const [statesId, setStatesId] = useState('');
   const [cities, setCities] = useState([]);
@@ -58,7 +56,7 @@ function InterState({navigation}) {
 
   console.log(value.id, 'wwwww');
 
-  //! get drop down destination states
+  //? get drop down destination states
 
    const fetchDestCities = async () => {
      try {
@@ -108,7 +106,7 @@ function InterState({navigation}) {
       console.log(error);
     }
   };
-  //!  get car type
+  //?  get car type
   const fetchCarType = async () => {
     try {
       const response = await fetch(
@@ -256,10 +254,6 @@ function InterState({navigation}) {
     setShowTo(false);
   };
 
-  //! Api call now
-  
-
-  
   async function processData(data) {
     // setShowModal(false);
 
@@ -310,7 +304,6 @@ function InterState({navigation}) {
         try {
           const res = await post('/mobile/book/interstate-trip', payload);
           setLoader(false);
-          // Alert.alert('Great!', response.success);
           console.log(res.data, 'XOXOXOXOXO');
           console.log(payload, 'rororor');
           const result = res.data;
@@ -339,7 +332,6 @@ function InterState({navigation}) {
             console.log(payload, 'COMFIRM');
             const result = res;
              setRequestSuccess(result);
-            //  setShowModalSubmit(true);
           } catch (error) {
              setLoader(false);
              alert("Oops! We'll fix the issue quick");
@@ -351,8 +343,7 @@ function InterState({navigation}) {
 
     
 
-  //! end of api call
-
+  //! needs to be clean up
   useEffect(() => {
     //get all states and cities
     fetchState();
@@ -426,7 +417,8 @@ function InterState({navigation}) {
               <View style={styles.item1}>
                 <Text style={styles.txt10}>Company Account</Text>
                 <Text style={styles.txt20}>
-                  {totalAmount?.data?.bank_details && totalAmount?.data?.bank_details}
+                  {totalAmount?.data?.bank_details &&
+                    totalAmount?.data?.bank_details}
                 </Text>
               </View>
               <View style={styles.item1}>
@@ -439,8 +431,7 @@ function InterState({navigation}) {
               <View style={styles.item1}>
                 <Text style={styles.txt10}>Bank</Text>
                 <Text style={styles.txt20}>
-                  {totalAmount?.data?.bank_name &&
-                    totalAmount?.data?.bank_name}
+                  {totalAmount?.data?.bank_name && totalAmount?.data?.bank_name}
                 </Text>
               </View>
               <View style={styles.item1}>
@@ -450,22 +441,27 @@ function InterState({navigation}) {
                     totalAmount?.data?.admin_phone_number}
                 </Text>
               </View>
-              <View style={styles.item1}>
+              {/* <View style={styles.item1}>
                 <Text style={styles.txt10}>Email</Text>
                 <Text style={styles.txt20}>
                   {totalAmount?.data?.admin_email &&
                     totalAmount?.data?.admin_email}
                 </Text>
-              </View>
+              </View> */}
             </View>
             <View style={styles.submit_button}>
               <TouchableOpacity
+                style={styles.btn_cancel2}
+                onPress={() => setModeSuccessful(false)}>
+                <Text style={styles.text2}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={styles.btn_ok2}
                 onPress={() => {
-                  confirmBooking()
+                  confirmBooking();
                   Alert.alert(
                     'Great!',
-                    'Your Inter city request has been received. Kindly click on the WhatsApp icon below for more info',
+                    'Your Inter city request has been received. Kindly click on the WhatsApp icon  for more info',
                     [
                       {
                         text: 'OK',
@@ -476,7 +472,7 @@ function InterState({navigation}) {
                     ],
                   );
                 }}>
-                <Text>Ok</Text>
+                <Text style={styles.text2}>OK</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -715,36 +711,6 @@ function InterState({navigation}) {
               end={{x: 1, y: 0}}
               colors={['#0B277F', '#0B277F']}
               style={styles.addGradient}>
-              {/* {setLoader && <Text style={styles.addText}>Submit</Text>}
-              {totalAmount.data &&
-                Alert.alert(
-                  'Total Trip Cost',
-                  ` From ${totalAmount?.data?.pickup_city} to ${
-                    totalAmount?.data?.dropoff_city
-                  } is  ₦${parseFloat(totalAmount?.data?.amount)
-                    .toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, '$&,')}`,
-                  [
-                    {
-                      text: 'Cancel',
-                      onPress: () => {
-                        // setShowModalSubmit(true);
-                        // processData();
-
-                        navigation.navigate('Dashboard');
-                      },
-                    },
-                    {
-                      text: 'Ok',
-                      onPress: () => {
-                        // setShowModalSubmit(true);
-                        // processData();
-
-                        navigation.navigate('Dashboard');
-                      },
-                    },
-                  ],
-                )} */}
               <Text style={styles.addText}>Submit</Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -900,10 +866,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#003366',
-    color: "#ffffff",
+    backgroundColor: '#0B277F',
+    color: '#ffffff',
+    // borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  btn_cancel2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0B277F',
     borderBottomLeftRadius: 15,
-    borderBottomRightRadius:15,
+    // borderBottomRightRadius: 15,
+  },
+  text2: {
+    color: '#ffffff',
+    fontSize: 20,
+    fontWeight: '700',
+    margin: 5,
+    textAlign: 'center',
+    fontFamily: poppins,
   },
   submitModel2: {
     width: 300,
