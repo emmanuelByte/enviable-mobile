@@ -42,6 +42,7 @@ function InterState({navigation}) {
   const [dropOffCityId, setDropOffCityId ] = useState("");
   const [loader, setLoader] = useState(false);
   const [totalAmount, setTotalAmount] = useState({});
+  const [requestSuccess, setRequestSuccess] = useState("")
 
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -51,6 +52,7 @@ function InterState({navigation}) {
   const [carType2, setCarType2] = useState([]);
   const [carTypeId, setCarTypeId] = useState('');
   const [showModalSubmit, setShowModalSubmit] = useState(false);
+  const [modelSuccessful, setModeSuccessful] = useState(false)
 
   const {value} = useSelector(state => state.user);
 
@@ -72,20 +74,21 @@ function InterState({navigation}) {
        }
      } catch (error) {
        console.log(error);
-         Alert.alert(
-           'Communictaion error',
-           'Ensure you have an active internet connection',
-           [
-             {
-               text: 'Ok',
-               onPress: () => console.log('Cancel Pressed'),
-               style: 'cancel',
-             },
-             {text: 'Refresh', onPress: () => fetchDestCities()},
-           ],
-         );
+        //  Alert.alert(
+        //    'Communictaion error',
+        //    'Ensure you have an active internet connection',
+        //    [
+        //      {
+        //        text: 'Ok',
+        //        onPress: () => console.log('Cancel Pressed'),
+        //        style: 'cancel',
+        //      },
+        //      {text: 'Refresh', onPress: () => fetchDestCities()},
+        //    ],
+        //  );
      }
    };
+   
 
 
 
@@ -134,6 +137,7 @@ function InterState({navigation}) {
        );
     }
   };
+ 
 
 
   //!get State
@@ -164,6 +168,8 @@ function InterState({navigation}) {
     }
   };
 
+  
+
  
 
 
@@ -184,6 +190,8 @@ function InterState({navigation}) {
       value: c.id,
     };
   });
+    
+
   console.log(newCities, "700")
 
   const desCities = destStates?.map(c => {
@@ -209,6 +217,7 @@ function InterState({navigation}) {
     setStatesId(stateID);
   };
   const pickupCities = (value, item) => {
+    
     const cityId = value;
     const cityName = item;
     console.log(cityId, cityName,'9999');
@@ -260,23 +269,31 @@ function InterState({navigation}) {
        statesId == '' ||
        destinationId == '' ||
        citiesId == '' ||
-       destCitiesId == ''
+       destCitiesId == '' ||
+       carTypeId === ""
      ) {
+       Alert.alert('Info', 'Kindly provide pick up city, drop off city and car category');
+       setShowModalSubmit(false);
+       return;
+     } else if (citiesId === destCitiesId) {
+       Alert.alert('Info', 'Pick up city and destination city can not be  the same');
+       setShowModalSubmit(false);
+       return;
+    //  } else if (statesId === destinationId) {
+    //    Alert.alert(
+    //      'Info',
+    //      'Pick up state and destination state  can not be the same',
+    //    );
+    //    setShowModalSubmit(false);
+    //    return;
+     } else if (fromDate === "" || toDate === "") {
        Alert.alert(
          'Info',
-         'Kindly provide pick up city and drop off city'
+         'Start date and return date is requried state',
        );
        setShowModalSubmit(false);
        return;
-     } else if (citiesId === destCitiesId){
-         Alert.alert(
-           'Info',
-         'Pick up city and drop off city cannot be same'
-         
-         )
-          setShowModalSubmit(false);
-          return;
-       } else {
+     } else {
        setLoader(true);
        const payload = {
          user_id: value.id,
@@ -286,25 +303,49 @@ function InterState({navigation}) {
          drop_off_state_id: destinationId,
          pick_up_address: citiesId,
          drop_off_address: destCitiesId,
-         car_type:carTypeId,
+         car_type: carTypeId,
          start_date: moment(fromDate).format('YYYY/MM/DD'),
          return_date: moment(toDate).format('YYYY/MM/DD'),
        };
-       try {
-         const res = await post('/mobile/book/interstate-trip', payload);
-         setLoader(false);
-         // Alert.alert('Great!', response.success);
-         console.log(res.data, 'XOXOXOXOXO');
-         console.log(payload, 'rororor');
-         const result = res.data;
-         setTotalAmount(result);
-         setShowModalSubmit(true);
-       } catch (error) {
-         setLoader(false);
-         alert("Oops! We'll fix the issue quick");
-       }
+        try {
+          const res = await post('/mobile/book/interstate-trip', payload);
+          setLoader(false);
+          // Alert.alert('Great!', response.success);
+          console.log(res.data, 'XOXOXOXOXO');
+          console.log(payload, 'rororor');
+          const result = res.data;
+          setTotalAmount(result);
+          // setShowModalSubmit(true);
+        } catch (error) {
+          setLoader(false);
+          alert("Oops! We'll fix the issue quick");
+        }
+      }
      }
-     }
+
+
+    //  confirm booking
+     const confirmBooking = async () =>{
+        setLoader(true);
+       
+      const payload = {
+        user_id : value.id,
+        inter_state_order : totalAmount?.data?.inter_state_order,
+      }
+          try {
+            const res = await post('/mobile/confirm/intercity-trip', payload);
+            setLoader(false);
+            console.log(res, 'NANAN');
+            console.log(payload, 'COMFIRM');
+            const result = res;
+             setRequestSuccess(result);
+            //  setShowModalSubmit(true);
+          } catch (error) {
+             setLoader(false);
+             alert("Oops! We'll fix the issue quick");
+            
+          }  
+  }
 
 
 
@@ -315,20 +356,133 @@ function InterState({navigation}) {
   useEffect(() => {
     //get all states and cities
     fetchState();
+    // fetchDestCities();
+    // fetchCities();
+    //car-type
+    fetchCarType();
+  }, []);
+  useEffect(() => {
+    //get all states and cities
     fetchDestCities();
     fetchCities();
     //car-type
-    fetchCarType();
   }, [statesId, destinationId]);
-  // useEffect(() => {
-  //   //get all states and cities
-  //   fetchDestCities();
-  //   fetchCities();
-  //   //car-type
-  // }, [statesId, destinationId]);
 
   return (
     <View style={styles.body}>
+      <Modal
+        visible={modelSuccessful}
+        onRequestClose={() => setModeSuccessful(false)}
+        transparent
+        animationType="slide"
+        hardwareAccelerated>
+        <View style={styles.centre_view}>
+          <View style={styles.submitModel2}>
+            <View style={styles.submit_title}>
+              <Text style={styles.subHead}>Inter city Summary</Text>
+            </View>
+            {/* <View style={styles.submit_body}>
+              <Text>Hello</Text>
+            </View> */}
+            <View style={styles.itemView}>
+              <View style={styles.item1}>
+                <Text style={styles.label10}>Pick up city</Text>
+                <Text style={styles.label20}>Drop off city</Text>
+              </View>
+              <View style={styles.item1}>
+                <Text style={styles.txt10}>
+                  {totalAmount?.data?.pickup_city &&
+                    totalAmount?.data?.pickup_city}
+                </Text>
+                <Text style={styles.txt20}>
+                  {totalAmount?.data?.dropoff_city &&
+                    totalAmount?.data?.dropoff_city}
+                </Text>
+              </View>
+              <View style={styles.item3}>
+                <Text style={styles.label90}>Vehicle type</Text>
+                <Text style={styles.txt}>
+                  {totalAmount?.data?.vehicle_type &&
+                    totalAmount?.data?.vehicle_type}
+                </Text>
+              </View>
+
+              <View style={styles.item3}>
+                <Text style={styles.label90}>Total Trip Amount</Text>
+                <Text style={styles.txt}>
+                  ₦
+                  {parseFloat(totalAmount?.data?.amount)
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                </Text>
+              </View>
+              <Text style={styles.topic}>Other information</Text>
+              <View style={styles.item1}>
+                <Text style={styles.txt10}>
+                  Ensure You copy out the Account details for payment
+                </Text>
+              </View>
+
+              <View style={styles.item1}>
+                <Text style={styles.txt10}>Company Account</Text>
+                <Text style={styles.txt20}>
+                  {totalAmount?.data?.bank_details && totalAmount?.data?.bank_details}
+                </Text>
+              </View>
+              <View style={styles.item1}>
+                <Text style={styles.txt10}>Account Number</Text>
+                <Text style={styles.txt20}>
+                  {totalAmount?.data?.account_number &&
+                    totalAmount?.data?.account_number}
+                </Text>
+              </View>
+              <View style={styles.item1}>
+                <Text style={styles.txt10}>Bank</Text>
+                <Text style={styles.txt20}>
+                  {totalAmount?.data?.bank_name &&
+                    totalAmount?.data?.bank_name}
+                </Text>
+              </View>
+              <View style={styles.item1}>
+                <Text style={styles.txt10}>Contact Person</Text>
+                <Text style={styles.txt20}>
+                  {totalAmount?.data?.admin_phone_number &&
+                    totalAmount?.data?.admin_phone_number}
+                </Text>
+              </View>
+              <View style={styles.item1}>
+                <Text style={styles.txt10}>Email</Text>
+                <Text style={styles.txt20}>
+                  {totalAmount?.data?.admin_email &&
+                    totalAmount?.data?.admin_email}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.submit_button}>
+              <TouchableOpacity
+                style={styles.btn_ok2}
+                onPress={() => {
+                  confirmBooking()
+                  Alert.alert(
+                    'Great!',
+                    'Your Inter city request has been received. Kindly click on the WhatsApp icon below for more info',
+                    [
+                      {
+                        text: 'OK',
+                        onPress: () => {
+                          navigation.navigate('Dashboard');
+                        },
+                      },
+                    ],
+                  );
+                }}>
+                <Text>Ok</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* end of mode success */}
       <Modal
         visible={showModalSubmit}
         onRequestClose={() => setShowModalSubmit(false)}
@@ -342,7 +496,7 @@ function InterState({navigation}) {
             </View>
             <View style={styles.submit_body}>
               <Text style={styles.text}>
-                {!totalAmount?.data?.amount ? (
+                {!totalAmount?.data ? (
                   <ActivityIndicator />
                 ) : (
                   `₦${parseFloat(totalAmount?.data?.amount)
@@ -354,7 +508,7 @@ function InterState({navigation}) {
               {/* <Text style={styles.text}>N30,000</Text> */}
             </View>
             <View style={styles.submit_button}>
-              {!totalAmount?.data?.amount ? (
+              {!totalAmount?.data ? (
                 <TouchableOpacity
                   style={styles.btn_cancel}
                   onPress={() => setShowModalSubmit(false)}>
@@ -371,18 +525,19 @@ function InterState({navigation}) {
                     style={styles.btn_ok}
                     onPress={() => {
                       setShowModalSubmit(false);
-                      Alert.alert(
-                        'Great!',
-                        'Your Inter state request has been received. We will process and get back to you in few mins',
-                        [
-                          {
-                            text: 'OK',
-                            onPress: () => {
-                              navigation.navigate('Dashboard');
-                            },
-                          },
-                        ],
-                      );
+                      setModeSuccessful(true);
+                      // Alert.alert(
+                      //   'Great!',
+                      //   'Your Inter city request has been received. Kindly click on the WhatsApp icon below  to proceed',
+                      //   [
+                      //     {
+                      //       text: 'OK',
+                      //       onPress: () => {
+                      //         navigation.navigate('Dashboard');
+                      //       },
+                      //     },
+                      //   ],
+                      // );
                     }}>
                     <Text style={styles.text}>Ok</Text>
                   </TouchableOpacity>
@@ -468,7 +623,7 @@ function InterState({navigation}) {
           {/* get states drop down */}
 
           <View style={styles.bottomView}>
-            <Text style={styles.subHead}>Pick-up Detail</Text>
+            <Text style={styles.subHead}>Pick-up Details</Text>
             <Text style={styles.label1}>State</Text>
             <TouchableOpacity style={[styles.input]}>
               <RNPickerSelect
@@ -515,7 +670,7 @@ function InterState({navigation}) {
             <TouchableOpacity style={[styles.input]}>
               <RNPickerSelect
                 placeholder={{
-                  label: 'Select destination State',
+                  label: 'Select Destination State',
                   value: null,
                 }}
                 style={pickerSelectStyles}
@@ -535,7 +690,7 @@ function InterState({navigation}) {
             <TouchableOpacity style={[styles.input]}>
               <RNPickerSelect
                 placeholder={{
-                  label: 'Select destination city',
+                  label: 'Select Destination city',
                   value: null,
                 }}
                 style={pickerSelectStyles}
@@ -560,6 +715,36 @@ function InterState({navigation}) {
               end={{x: 1, y: 0}}
               colors={['#0B277F', '#0B277F']}
               style={styles.addGradient}>
+              {/* {setLoader && <Text style={styles.addText}>Submit</Text>}
+              {totalAmount.data &&
+                Alert.alert(
+                  'Total Trip Cost',
+                  ` From ${totalAmount?.data?.pickup_city} to ${
+                    totalAmount?.data?.dropoff_city
+                  } is  ₦${parseFloat(totalAmount?.data?.amount)
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, '$&,')}`,
+                  [
+                    {
+                      text: 'Cancel',
+                      onPress: () => {
+                        // setShowModalSubmit(true);
+                        // processData();
+
+                        navigation.navigate('Dashboard');
+                      },
+                    },
+                    {
+                      text: 'Ok',
+                      onPress: () => {
+                        // setShowModalSubmit(true);
+                        // processData();
+
+                        navigation.navigate('Dashboard');
+                      },
+                    },
+                  ],
+                )} */}
               <Text style={styles.addText}>Submit</Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -709,6 +894,92 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#c4c4c4',
+  },
+  // model2
+  btn_ok2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#003366',
+    color: "#ffffff",
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius:15,
+  },
+  submitModel2: {
+    width: 300,
+    height: 550,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+  },
+  // item31: {
+  //   flexDirection: 'row',
+  // },
+  // label60: {
+  //   color: '#454A65',
+  //   marginTop: 1,
+  //   fontSize: 12,
+  //   width: '40%',
+  // },
+  // txt60: {
+  //   color: '#3D3838',
+  //   width: '50%',
+  //   fontSize: 12,
+  // },
+  itemView: {
+    width: '95%',
+    marginTop: 15,
+    alignContent: 'center',
+    alignSelf: 'center',
+    padding: 10,
+
+    // backgroundColor: '#fff',
+  },
+  item1: {
+    width: '100%',
+    flexDirection: 'row',
+  },
+  label10: {
+    color: '#454A65',
+    marginTop: 1,
+    fontSize: 12,
+    width: '60%',
+  },
+  label20: {
+    color: '#454A65',
+    marginTop: 1,
+    fontSize: 12,
+    width: '38%',
+  },
+  txt10: {
+    color: '#3D3838',
+    width: '60%',
+    marginBottom: 15,
+    fontSize: 12,
+  },
+  txt20: {
+    marginBottom: 15,
+    color: '#3D3838',
+    width: '38%',
+    fontSize: 12,
+  },
+  item3: {
+    width: '100%',
+  },
+  txt: {
+    color: '#3D3838',
+    fontSize: 12,
+    marginBottom: 15,
+  },
+  txt2: {
+    color: '#3D3838',
+    fontSize: 12,
+    // marginBottom: 15,
+  },
+  label90: {
+    color: '#454A65',
+    marginTop: 1,
+    fontSize: 12,
+    width: '50%',
   },
 });
 const pickerSelectStyles = StyleSheet.create({

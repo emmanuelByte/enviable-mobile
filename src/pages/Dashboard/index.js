@@ -118,7 +118,7 @@ export default function Dashboard(props) {
 
               
 
-              <Card action={() => props.navigation.push('InterState', {type:'Inter-State'})} text={'Inter State services'} card_style={styles.card} images={{ primary: require('@src/images/inter.jpg'), secondary: require('@src/images/t3.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
+              <Card action={() => props.navigation.push('InterState', {type:'Inter-State'})} text={'Inter City services'} card_style={styles.card} images={{ primary: require('@src/images/inter.jpg'), secondary: require('@src/images/t3.png') }} image_styles={[styles.tImage2, styles.cImage1]} />
             </View>
             {/* inter State */}
             <View style={styles.row}>
